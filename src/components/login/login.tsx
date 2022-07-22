@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { setConstantValue } from 'typescript';
 import { login } from '../../services/authService';
 
 // yup : 유효성 검증 해주는 라이브러리
@@ -106,7 +105,7 @@ const Login = () => {
                 />
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                <button type="submit" className="btn btn-primary btn-block" disabled={state?.loading}>
                   {state?.loading && (
                     <span className="spinner-border spinner-border-sm"></span>
                   )}
@@ -126,3 +125,5 @@ const Login = () => {
       </div>
     );
 }
+
+export default Login;
