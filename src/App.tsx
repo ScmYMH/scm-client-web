@@ -1,14 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from "react-router-dom";
-import Login from './components/login/login';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginLoader from './components/login/LoginLoader';
 
 function App() {
   return (
-    <Routes>
-        <Route path="login" element={<Login></Login>}></Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="login" element={<LoginLoader></LoginLoader>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
