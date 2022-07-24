@@ -1,6 +1,6 @@
 import { loginRequestAsync, LOGIN_REQUEST } from './actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { loginApi, LoginInfo } from '../../api/loginApi';
+import { loginApi, LoginInfo} from '../../api/loginApi';
 
 function* loginRequestSaga(action: ReturnType<typeof loginRequestAsync.request>) {
 	try {

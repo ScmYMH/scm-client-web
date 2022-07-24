@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../modules";
 import { loginRequestAsync } from "../../modules/login/actions";
 import LoginForm from "./LoginForm";
+import LoginProfileInfo from "./LoginProfileInfo";
 
 const LoginLoader = () => {
     const { data, loading, error } = useSelector((state: RootState) => state.login.loginInfo);
@@ -20,7 +21,7 @@ const LoginLoader = () => {
             <LoginForm onSubmitLoginId={onSubmitLoginId} />
             {loading && <p style={{ textAlign: 'center' }}>로딩중..</p>}
             {error && <p style={{ textAlign: 'center' }}>에러 발생!</p>}
-            {data && console.log(data)}
+            {data && <LoginProfileInfo token={data.token} userNm={data.userNm} />}
         </>
     );
 }

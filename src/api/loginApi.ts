@@ -8,8 +8,12 @@ export async function loginApi(params : string) {
    return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
+
+// response type 정의
 export interface LoginInfo {
-    params : string;
-    loginId: string;
-    loginPw: string;
+  userNm: string;
+  params : string;
+  loginId: string;
+  loginPw: string;
+  token : string;
 }
