@@ -1,0 +1,63 @@
+.buttonAllStyle {
+    padding: 20px;
+    float: center;
+}
+
+.buttonStyle {
+    margin-right: 10px;
+    width: 110px;
+   
+}
+
+.box {
+
+    background-color: lightslategray;
+    border-radius: 2px;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    margin-top: 100px;
+    display: inline-block;
+    
+}
+
+.row {
+    display: inline-block;
+    padding-top: 100px;
+    margin: auto;
+    padding-right: 20px;
+    margin-left: 20px;
+
+    
+}
+
+.searchImg {
+    width: 30px;
+    height: 20px;
+}
+
+.sInput {
+width: 200px;
+height: 50px;
+padding-right: 20px;
+}
+
+.sButton{
+    width: 50px;
+    height:57px;
+}
+
+.tableStyle {
+    margin: 0 auto;
+    padding-top: 50px;
+    align-items: center;
+}
+
+.padding {
+    padding-top: 50px;
+}
+
+.row {
+    padding-top: 20px;
+    display: inline-block;
+}
