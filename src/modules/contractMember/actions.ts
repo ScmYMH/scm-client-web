@@ -10,4 +10,4 @@ export const getContractMemberAsync = createAsyncAction(
 	GET_CONTRACT_MEMBER,
 	GET_CONTRACT_MEMBER_SUCCESS,
 	GET_CONTRACT_MEMBER_ERROR,
-)<string, Array<ContractMemberInfo>, AxiosError>();
+)<any, Array<ContractMemberInfo>, AxiosError>();

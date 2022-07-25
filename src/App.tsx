@@ -12,8 +12,7 @@ function App() {
 	return (
 		<div className="App">
 			<Header></Header>
-			<MenuBar></MenuBar>
-
+			<CommonInfoList></CommonInfoList>
 			{/* <BrowserRouter>
 					<Routes>
 						<Route path="/ContractMember" element={<CommonInfoList></CommonInfoList>}></Route>

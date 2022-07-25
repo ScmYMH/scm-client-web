@@ -7,7 +7,7 @@ const initialState: ContractMemberState = {
 	contractMemberList: asyncState.initial(),
 };
 
-const changemanager = createReducer<ContractMemberState, ContractMemberAction>(initialState, {
+const contractmember = createReducer<ContractMemberState, ContractMemberAction>(initialState, {
 	[GET_CONTRACT_MEMBER]: (state) => ({
 		...state,
 		contractMemberList: asyncState.load(),
@@ -22,4 +22,4 @@ const changemanager = createReducer<ContractMemberState, ContractMemberAction>(i
 	}),
 });
 
-export default changemanager;
+export default contractmember;

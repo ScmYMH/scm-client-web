@@ -7,6 +7,7 @@ function* getContractMemberSaga(action: ReturnType<typeof getContractMemberAsync
 		console.log('saga 들어옴');
 		console.log('saga : action.payload', action.payload);
 		const contractmemberInfo: Array<ContractMemberInfo> = yield call(getContractMemberList, action.payload);
+
 		yield put(getContractMemberAsync.success(contractmemberInfo));
 	} catch (e: any) {
 		console.log('saga error');

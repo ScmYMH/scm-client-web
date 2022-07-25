@@ -1,26 +1,24 @@
 import { RootState } from 'modules';
 import React, { ChangeEvent, SetStateAction, useState } from 'react';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContractMemberAsync } from 'modules/contractMember/actions';
+import MenuBar from './MenuBar';
 
 const CommonInfoList = () => {
 	const { data, loading, error } = useSelector((state: RootState) => state.contractmember.contractMemberList);
 	const dispatch = useDispatch();
-	const [searchTerm, setSearchTerm] = useState('');
-
-	// useEffect(() => {
-	// 	dispatch(getContractMemberAsync.request('ghi06141'));
-	// }, []);
-
-	const search = (e: ChangeEvent<HTMLInputElement>) => {
-		dispatch(getContractMemberAsync.request(e.target.value));
+	const onSubmitMemberInfo = (loginId: any, userNm: any, delYn: any) => {
+		const params = {
+			loginId: loginId,
+			userNm: userNm,
+			delYn: delYn,
+		};
+		dispatch(getContractMemberAsync.request(params));
+		console.log('사가로 가는중 ');
 	};
-
 	return (
 		<>
-			{/* <BootstrapTable></BootstrapTable> */}
-
+			<MenuBar onSubmitMemberInfo={onSubmitMemberInfo}></MenuBar>
 			<table className="tableStyle">
 				{data && (
 					<tbody>
