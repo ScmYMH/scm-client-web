@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../modules";
 import { loginRequestAsync } from "../../modules/login/actions";
@@ -21,7 +22,7 @@ const LoginLoader = () => {
             <LoginForm onSubmitLoginId={onSubmitLoginId} />
             {loading && <p style={{ textAlign: 'center' }}>로딩중..</p>}
             {error && <p style={{ textAlign: 'center' }}>에러 발생!</p>}
-            {data && <LoginProfileInfo token={data.token} userNm={data.userNm} />}
+            {data && <LoginProfileInfo token={data.token} userId={data.userId} loginId={data.loginId} />}
         </>
     );
 }
