@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CommonInfoList = () => {
-	const { data, loading, error } = useSelector((state: RootState) => state.changemanager.commonInfoList);
+	const { data, loading, error } = useSelector((state: RootState) => state.changeManager.commonInfoList);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

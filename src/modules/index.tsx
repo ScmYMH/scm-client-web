@@ -1,10 +1,10 @@
 import { all } from '@redux-saga/core/effects';
 import { combineReducers } from 'redux';
-import changemanager from './changeManager/reducer';
+import changeManager from './changeManager/reducer';
 import { changeManagerSaga } from './changeManager/saga';
 
 const rootReducer = combineReducers({
-	changemanager,
+	changeManager,
 });
 
 // 루트 리듀서 내보내기
