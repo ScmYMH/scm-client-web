@@ -25,7 +25,7 @@ const CommonInfoList = () => {
 			<Table bordered className="tableStyle">
 				<thead>
 					<tr>
-						<th>삭제</th>
+						<th></th>
 						<th>로그인ID</th>
 						<th>사용자명</th>
 						<th>EMAIL</th>
@@ -40,7 +40,10 @@ const CommonInfoList = () => {
 					<tbody>
 						{data.map((contractmemberInfo, index) => (
 							<tr key={index} aria-rowcount={index}>
-								<th scope="row"></th>
+								<td>
+									<input type={'checkbox'}></input>
+								</td>
+
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.loginId}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.userNm}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.email}</td>
