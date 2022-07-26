@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getContractMemberAsync } from 'modules/contractMember/actions';
 import MenuBar from './MenuBar';
 import { Table } from 'reactstrap';
+import AddTable from './AddTable';
 
 const CommonInfoList = () => {
 	const { data, loading, error } = useSelector((state: RootState) => state.contractmember.contractMemberList);
@@ -54,6 +55,8 @@ const CommonInfoList = () => {
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.delYn}</td>
 							</tr>
 						))}
+
+						{/* <AddTable></AddTable> */}
 					</tbody>
 				)}
 			</Table>

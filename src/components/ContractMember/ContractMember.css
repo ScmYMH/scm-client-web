@@ -26,10 +26,9 @@
     display: inline-block;
     padding-top: 100px;
     margin: auto;
+    float: left;
     padding-right: 20px;
-    margin-left: 20px;
-
-    
+    margin-left: 20px;    
 }
 
 .searchImg {
@@ -38,7 +37,7 @@
 }
 
 .sInput {
-width: 200px;
+width: 20px;
 height: 50px;
 padding-right: 20px;
 }
@@ -58,13 +57,17 @@ padding-right: 20px;
     padding-top: 50px;
 }
 
-.row {
-    padding-top: 20px;
-    padding-left: 50px;
-    display: inline-block;
-}
+
 
 .margin {
     padding-left: 10px;
     padding-right: 10px;
+    display: inline-block;
+}
+
+.searcAll {
+    display: inline-block;
+    padding-top: 300px;
+    float: left;
+    padding-bottom: 50px;
 }

@@ -1,10 +1,11 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, useState, ChangeEvent, FormEvent, forwardRef } from 'react';
 
 import CommonInfoList from './CommonInfoList';
 import './ContractMember.css';
 import { useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form } from 'reactstrap';
+import AddTable from './AddTable';
 
 interface memberProps {
 	onSubmitMemberInfo: (loginId: string, userNm: string, delYn: string) => void;
@@ -41,59 +42,50 @@ const MenuBar = ({ onSubmitMemberInfo }: memberProps) => {
 	};
 
 	return (
-		<div className="buttonAllStyle">
-			<div>
+		<div>
+			<div className="buttonAllStyle">
 				<Form
-					className="buttonAllStyle"
 					// onClick={() => {
 					// 	setVisible(!visible);
 					// }}
 					onSubmit={onSubmit}
+					className="buttonStyle"
 				>
 					<Button type="submit" className="buttonStyle">
 						조회
 					</Button>
-					<Button className="buttonStyle">등록</Button>
-					<Button className="buttonStyle">행추가</Button>
-					<Button className="buttonStyle">행삭제</Button>
-					<Button className="buttonStyle">엑셀 EXPORT</Button>
-					<Button className="buttonStyle">삭제</Button>
-					<Button
-						className="buttonStyle"
-						onClick={() => {
-							setVisible(!visible);
-							useState(false);
-						}}
-					>
-						닫기
-					</Button>
 				</Form>
+				<Button className="buttonStyle">등록</Button>
+				<Button className="buttonStyle">행추가</Button>
+				<Button className="buttonStyle">행삭제</Button>
+				<Button className="buttonStyle">엑셀 EXPORT</Button>
+				<Button className="buttonStyle">삭제</Button>
+				<Button
+					className="buttonStyle"
+					// onClick={() => {
+					// 	setVisible(!visible);
+					// 	// useState(false);
+					// }}
+				>
+					닫기
+				</Button>
 			</div>
-			<div className="row">
-				<div className="row">
-					<p className="margin">로그인ID</p>
-					<input id="loginId" name="loginId" onChange={search} className="margin"></input>
-				</div>
-				<div className="row">
-					<p className="margin">사용자명</p>
-					<input id="userNm" name="userNm" type={'text'} onChange={search} className="margin"></input>
-				</div>
-				<div className="row">
-					<p>삭제여부</p>
-
-					<div onChange={search} className="margin">
-						<select value={selected} id="delYn" name="delYn">
-							{options.map((option) => (
-								<option key={option.value} value={option.value}>
-									{option.text}
-								</option>
-							))}
-						</select>
-					</div>
+			<div className="searcAll">
+				<span className="margin">로그인ID</span>
+				<input id="loginId" name="loginId" onChange={search}></input>
+				<span className="margin">사용자명</span>
+				<input id="userNm" name="userNm" type={'text'} onChange={search}></input>
+				<span className="margin">삭제여부</span>
+				<div onChange={search} className="margin">
+					<select className="margin" value={selected} id="delYn" name="delYn">
+						{options.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.text}
+							</option>
+						))}
+					</select>
 				</div>
 			</div>
-
-			{visible && <CommonInfoList></CommonInfoList>}
 		</div>
 	);
 };
