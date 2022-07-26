@@ -1,0 +1,10 @@
+.row {
+	display: inline-block;
+	padding-top: 20px;
+	padding-right: 20px;
+	margin-left: 20px;
+}
+
+.btn {
+	margin: 10px;
+}

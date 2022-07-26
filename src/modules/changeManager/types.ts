@@ -19,7 +19,7 @@ export interface CommonInfo {
 	cntrtNm: string; // 계약 명
 	cntrtScd: string; // 계약 상태코드
 	crePersonId: string; // 계약 담당자 ID
-	cntrtStatDate: string; // 계약 시작 일
+	cntrtStartDate: string; // 계약 시작 일
 	cntrtEndDate: string; // 계약 종료 일
 	cntrtCurrCd: string; // 계약 통화 코드
 	delYn: string; // 삭제여부

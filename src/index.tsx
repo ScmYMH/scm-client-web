@@ -7,6 +7,8 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from 'modules';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const sagaMiddleware = createSagaMiddleware();
 
