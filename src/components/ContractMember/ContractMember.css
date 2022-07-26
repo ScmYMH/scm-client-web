@@ -1,11 +1,12 @@
 .buttonAllStyle {
-    padding: 20px;
-    float: center;
+    padding-top: 100px;
+    padding-right: 20px;
+    float: right;
 }
 
 .buttonStyle {
-    margin-right: 10px;
-    width: 110px;
+    margin-right: 15px;
+    width: 130px;
    
 }
 
@@ -59,5 +60,11 @@ padding-right: 20px;
 
 .row {
     padding-top: 20px;
+    padding-left: 50px;
     display: inline-block;
+}
+
+.margin {
+    padding-left: 10px;
+    padding-right: 10px;
 }

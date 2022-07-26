@@ -3,6 +3,7 @@ import React, { ChangeEvent, SetStateAction, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContractMemberAsync } from 'modules/contractMember/actions';
 import MenuBar from './MenuBar';
+import { Table } from 'reactstrap';
 
 const CommonInfoList = () => {
 	const { data, loading, error } = useSelector((state: RootState) => state.contractmember.contractMemberList);
@@ -13,15 +14,18 @@ const CommonInfoList = () => {
 			userNm: userNm,
 			delYn: delYn,
 		};
+
 		dispatch(getContractMemberAsync.request(params));
-		console.log('사가로 가는중 ');
 	};
+
 	return (
 		<>
 			<MenuBar onSubmitMemberInfo={onSubmitMemberInfo}></MenuBar>
-			<table className="tableStyle">
-				{data && (
-					<tbody>
+
+			<Table bordered className="tableStyle">
+				<thead>
+					<tr>
+						<th>삭제</th>
 						<th>로그인ID</th>
 						<th>사용자명</th>
 						<th>EMAIL</th>
@@ -30,8 +34,13 @@ const CommonInfoList = () => {
 						<th>등록일</th>
 						<th>삭제일</th>
 						<th>삭제여부</th>
+					</tr>
+				</thead>
+				{data && (
+					<tbody>
 						{data.map((contractmemberInfo, index) => (
 							<tr key={index} aria-rowcount={index}>
+								<th scope="row"></th>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.loginId}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.userNm}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.email}</td>
@@ -44,7 +53,7 @@ const CommonInfoList = () => {
 						))}
 					</tbody>
 				)}
-			</table>
+			</Table>
 		</>
 	);
 };

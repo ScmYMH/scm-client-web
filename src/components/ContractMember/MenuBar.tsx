@@ -1,10 +1,10 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { Button, Form } from 'react-bootstrap';
+
 import CommonInfoList from './CommonInfoList';
 import './ContractMember.css';
-import { getContractMemberAsync } from 'modules/contractMember/actions';
 import { useDispatch } from 'react-redux';
-import { loadingIndicatorCSS } from 'react-select/dist/declarations/src/components/indicators';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form } from 'reactstrap';
 
 interface memberProps {
 	onSubmitMemberInfo: (loginId: string, userNm: string, delYn: string) => void;
@@ -14,6 +14,8 @@ const MenuBar = ({ onSubmitMemberInfo }: memberProps) => {
 	const [visible, setVisible] = useState(false);
 	const dispatch = useDispatch();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const toggle = () => setDropdownOpen((prevState) => !prevState);
 
 	const [member, setMember] = useState({
 		loginId: '',
@@ -67,16 +69,19 @@ const MenuBar = ({ onSubmitMemberInfo }: memberProps) => {
 					</Button>
 				</Form>
 			</div>
-			<div>
+			<div className="row">
 				<div className="row">
-					로그인ID: <input id="loginId" name="loginId" onChange={search}></input>
+					<p className="margin">로그인ID</p>
+					<input id="loginId" name="loginId" onChange={search} className="margin"></input>
 				</div>
 				<div className="row">
-					사용자명: <input id="userNm" name="userNm" type={'text'} onChange={search}></input>
+					<p className="margin">사용자명</p>
+					<input id="userNm" name="userNm" type={'text'} onChange={search} className="margin"></input>
 				</div>
 				<div className="row">
-					삭제여부:
-					<div className="row" onChange={search}>
+					<p>삭제여부</p>
+
+					<div onChange={search} className="margin">
 						<select value={selected} id="delYn" name="delYn">
 							{options.map((option) => (
 								<option key={option.value} value={option.value}>
