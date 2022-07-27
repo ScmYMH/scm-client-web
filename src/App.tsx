@@ -1,6 +1,5 @@
 import ChangeManagerScreen from 'components/changeManager/ChangeManagerScreen';
 import React from 'react';
-import './App.css';
 import Header from 'components/header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CommonInfoList from './components/ContractMember/CommonInfoList';
