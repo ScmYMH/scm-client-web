@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { AsyncState } from 'lib/reducerUtils';
+import { asyncState, AsyncState } from 'lib/reducerUtils';
 
 export type ChangeManagerAction = ActionType<typeof actions>;
 

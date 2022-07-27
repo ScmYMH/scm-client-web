@@ -2,9 +2,12 @@ import { all } from '@redux-saga/core/effects';
 import { combineReducers } from 'redux';
 import changeManager from './changeManager/reducer';
 import { changeManagerSaga } from './changeManager/saga';
+import contractmember from './contractMember/reducer';
+import { contractMemberSaga } from './contractMember/saga';
 
 const rootReducer = combineReducers({
 	changeManager,
+	contractmember,
 });
 
 // 루트 리듀서 내보내기
@@ -16,5 +19,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 // 루트 사가 만들어서 내보내주기
 export function* rootSaga() {
-	yield all([changeManagerSaga()]);
+	yield all([changeManagerSaga(), contractMemberSaga()]);
 }

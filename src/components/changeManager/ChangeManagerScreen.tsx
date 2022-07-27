@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './ChangeManagerScreen.css';
-import { Button, Col, FormGroup, Input, Label, Table } from 'reactstrap';
+import { Button, Col, FormGroup, Input, Label, Modal, Table } from 'reactstrap';
 import { getContractListAsync } from 'modules/changeManager/actions';
 import { RootState } from 'modules';
 import { ManagerChangeInfo } from 'modules/changeManager/types';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
+import SearchManager from './SearchManager';
 
 const ChangeManagerScreen = () => {
-	const [startDate, setStartDate] = useState(new Date());
 	const {
 		data: commonInfoListData,
 		loading: commonInfoListLoading,
@@ -24,11 +24,20 @@ const ChangeManagerScreen = () => {
 		reasonDesc: '',
 	});
 
-	console.log('날짜 : ', startDate);
+	const [date, setDate] = useState(new Date());
+	const [openModal, setOpenModal] = useState(false);
 
 	useEffect(() => {
 		dispatch(getContractListAsync.request('202207130004'));
 	}, []);
+
+	const dateToString = (date) => {
+		return (
+			date.getFullYear() +
+			(date.getMonth() + 1).toString().padStart(2, '0') +
+			date.getDate().toString().padStart(2, '0')
+		);
+	};
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
 		const isChecked = e.target.checked;
@@ -51,47 +60,70 @@ const ChangeManagerScreen = () => {
 			});
 		}
 	};
-
 	const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setMngChgInfo({
 			...mngChgInfo,
+			validDate: dateToString(date),
 		});
 	};
 
 	return (
-		<>
-			<div>
-				<div>현 담당자</div>
+		<div style={{ margin: 30 }}>
+			<div style={{ margin: 10 }}>
+				<span style={{ marginRight: 10 }}>현 담당자</span>
 				<input type="text"></input>
-				<Button className="btn">조회</Button>
-			</div>
-			<div>
-				<div className="row">인수 담당자</div>
+				<Button className="btn" size="sm" onClick={() => setOpenModal((openModal) => !openModal)}>
+					조회
+				</Button>
+				{openModal && (
+					<SearchManager isOpen={openModal} closeModal={() => setOpenModal((openModal) => !openModal)} />
+				)}
+				<span style={{ marginRight: 10 }}>인수 담당자</span>
 				<input type="text"></input>
-				<Button className="btn">조회</Button>
+				<Button className="btn" size="sm" onClick={() => setOpenModal((openModal) => !openModal)}>
+					조회
+				</Button>
+				{openModal && (
+					<SearchManager isOpen={openModal} closeModal={() => setOpenModal((openModal) => !openModal)} />
+				)}
 			</div>
-			<div>
-				<div>변경 발효 일자</div>
-				<DatePicker fixedHeight selected={startDate} onChange={(date: Date) => setStartDate(date)} />
+			<div style={{ display: 'flex', margin: 10, alignContent: 'center' }}>
+				<span>변경 발효 일자</span>
+				<DatePicker
+					style={{ display: 'span' }}
+					flexedHeight
+					dateFormat="yyyy-MM-dd"
+					selected={date}
+					minDate={new Date()}
+					onChange={(date: Date) => setDate(date)}
+				/>
 			</div>
-			<div className="row">
-				<FormGroup row>
-					<Label for="reasonDesc" sm={2}>
-						변경 사유
-					</Label>
-					<Col sm={10}>
-						<Input
-							id="reasonDesc"
-							name="textarea"
-							type="textarea"
-							onChange={(e) => setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })}
-						/>
-					</Col>
-				</FormGroup>
+			<div style={{ display: 'flex', margin: 10, marginTop: 20, marginBottom: 20 }}>
+				<Label for="reasonDesc" sm={2}>
+					변경 사유
+				</Label>
+				<Col sm={10}>
+					<Input
+						id="reasonDesc"
+						name="textarea"
+						type="textarea"
+						onChange={(e) => setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })}
+					/>
+				</Col>
 			</div>
-			<div style={{ margin: 30, display: 'flex', justifyContent: 'space-between' }}>
+
+			<div
+				style={{
+					margin: '10px',
+					marginTop: '30px',
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
+			>
 				<div>대상계약리스트</div>
 				<Button
+					size="sm"
 					onClick={(e) => {
 						onClickApply(e);
 					}}
@@ -99,14 +131,16 @@ const ChangeManagerScreen = () => {
 					적용
 				</Button>
 			</div>
-			<Table style={{ marginLeft: 30 }} bordered>
-				<thead>
-					<th>#</th>
-					<th>계약 ID</th>
-					<th>계약명</th>
-					<th>계약상태</th>
-					<th>계약 시작</th>
-					<th>계약 종료</th>
+			<Table bordered>
+				<thead style={{ textAlign: 'center' }}>
+					<tr>
+						<th></th>
+						<th>계약 ID</th>
+						<th>계약명</th>
+						<th>계약상태</th>
+						<th>계약 시작</th>
+						<th>계약 종료</th>
+					</tr>
 				</thead>
 				<tbody>
 					{commonInfoListData?.map((commonInfo, index) => (
@@ -142,23 +176,25 @@ const ChangeManagerScreen = () => {
 				</tbody>
 			</Table>
 
-			<div style={{ margin: 30, display: 'flex', justifyContent: 'space-between' }}>
+			<div style={{ margin: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 				<div>재할당 계약</div>
 				<div>
-					<Button>확정</Button>
-					<Button>취소</Button>
+					<Button size="sm">확정</Button>
+					<Button size="sm">취소</Button>
 				</div>
 			</div>
-			<Table style={{ marginLeft: 30 }}>
-				<thead>
-					<th></th>
-					<th>계약 ID</th>
-					<th>계약명</th>
-					<th>현담당자</th>
-					<th>인수담당자</th>
-					<th>변경발효일자</th>
-					<th>변경확정여부</th>
-					<th>변경사유</th>
+			<Table bordered>
+				<thead style={{ textAlign: 'center' }}>
+					<tr>
+						<th></th>
+						<th>계약 ID</th>
+						<th>계약명</th>
+						<th>현담당자</th>
+						<th>인수담당자</th>
+						<th>변경발효일자</th>
+						<th>변경확정여부</th>
+						<th>변경사유</th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr>
@@ -175,7 +211,7 @@ const ChangeManagerScreen = () => {
 					</tr>
 				</tbody>
 			</Table>
-		</>
+		</div>
 	);
 };
 
