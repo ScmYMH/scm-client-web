@@ -7,8 +7,8 @@ import CommonInfoList from './components/ContractMember/CommonInfoList';
 function App() {
 	return (
 		<div className="App">
-			<Header></Header>
-			<CommonInfoList></CommonInfoList>
+			{/* <Header></Header>
+			<CommonInfoList></CommonInfoList> */}
 			<BrowserRouter>
 				<Routes>
 					<Route path="/changeManager" element={<ChangeManagerScreen></ChangeManagerScreen>}></Route>

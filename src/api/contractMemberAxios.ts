@@ -5,9 +5,6 @@ export async function getContractMemberList(params: any) {
 	const response = await axios.get<ContractMemberInfo>(
 		`http://localhost:9091/contract/manager/search?loginId=${params.loginId}&userNm=${params.userNm}&delYn=${params.delYn}`,
 	);
-
-	console.log('-------------', response.data);
-
 	return response.data;
 }
 export interface ContractMemberInfo {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ChangeManagerScreen.css';
-import { Button, Col, FormGroup, Input, Label, Modal, Table } from 'reactstrap';
+import { Button, Col, Input, Label, Table } from 'reactstrap';
 import { getContractListAsync } from 'modules/changeManager/actions';
 import { RootState } from 'modules';
 import { ManagerChangeInfo } from 'modules/changeManager/types';
@@ -16,6 +16,11 @@ const ChangeManagerScreen = () => {
 	} = useSelector((state: RootState) => state.changeManager.commonInfoList);
 	const dispatch = useDispatch();
 
+	const [preActorNm, setPreActorNm] = useState('');
+	const [aftActorNm, setAftActorNm] = useState('');
+
+	const [isCurrent, setIsCurrent] = useState(true); // true면 현 담당자, false면 인수 담당자
+
 	const [mngChgInfo, setMngChgInfo] = useState<ManagerChangeInfo>({
 		cntrtId: [],
 		preActorId: '',
@@ -25,11 +30,12 @@ const ChangeManagerScreen = () => {
 	});
 
 	const [date, setDate] = useState(new Date());
+
 	const [openModal, setOpenModal] = useState(false);
 
 	useEffect(() => {
-		dispatch(getContractListAsync.request('202207130004'));
-	}, []);
+		dispatch(getContractListAsync.request(mngChgInfo.preActorId));
+	}, [mngChgInfo.preActorId]);
 
 	const dateToString = (date) => {
 		return (
@@ -39,7 +45,25 @@ const ChangeManagerScreen = () => {
 		);
 	};
 
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
+	const onClickMember = (memId: string, memNm: string) => {
+		console.log('memId: ', memId, ' memNm: ', memNm);
+		if (isCurrent) {
+			// 현 담당자인 경우
+			setPreActorNm(memNm);
+			setMngChgInfo({ ...mngChgInfo, preActorId: memId });
+		} else {
+			// 인수 담당자인 경우
+			if (memNm === preActorNm) {
+				alert('현 담당자와 같습니다. 다시 선택해 주십시오.');
+			} else {
+				setAftActorNm(memNm);
+				setMngChgInfo({ ...mngChgInfo, aftActorId: memId });
+			}
+		}
+		console.log('mngChgInfo: ', mngChgInfo);
+	};
+
+	const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
 		const isChecked = e.target.checked;
 		if (isChecked) {
 			const newCntrtId = [...mngChgInfo.cntrtId, paramCntrtId];
@@ -71,20 +95,42 @@ const ChangeManagerScreen = () => {
 		<div style={{ margin: 30 }}>
 			<div style={{ margin: 10 }}>
 				<span style={{ marginRight: 10 }}>현 담당자</span>
-				<input type="text"></input>
-				<Button className="btn" size="sm" onClick={() => setOpenModal((openModal) => !openModal)}>
+				<input type="text" value={preActorNm} onChange={(e) => setPreActorNm(e.target.value)}></input>
+				<Button
+					className="btn"
+					size="sm"
+					onClick={() => {
+						setOpenModal((openModal) => !openModal);
+						setIsCurrent(true);
+					}}
+				>
 					조회
 				</Button>
 				{openModal && (
-					<SearchManager isOpen={openModal} closeModal={() => setOpenModal((openModal) => !openModal)} />
+					<SearchManager
+						onClickMember={onClickMember}
+						isOpen={openModal}
+						closeModal={() => setOpenModal((openModal) => !openModal)}
+					/>
 				)}
 				<span style={{ marginRight: 10 }}>인수 담당자</span>
-				<input type="text"></input>
-				<Button className="btn" size="sm" onClick={() => setOpenModal((openModal) => !openModal)}>
+				<input type="text" value={aftActorNm} onChange={(e) => setAftActorNm(e.target.value)}></input>
+				<Button
+					className="btn"
+					size="sm"
+					onClick={() => {
+						setOpenModal((openModal) => !openModal);
+						setIsCurrent(false);
+					}}
+				>
 					조회
 				</Button>
 				{openModal && (
-					<SearchManager isOpen={openModal} closeModal={() => setOpenModal((openModal) => !openModal)} />
+					<SearchManager
+						onClickMember={onClickMember}
+						isOpen={openModal}
+						closeModal={() => setOpenModal((openModal) => !openModal)}
+					/>
 				)}
 			</div>
 			<div style={{ display: 'flex', margin: 10, alignContent: 'center' }}>
@@ -146,7 +192,7 @@ const ChangeManagerScreen = () => {
 					{commonInfoListData?.map((commonInfo, index) => (
 						<tr key={index}>
 							<th scope="row">
-								<Input type="checkbox" onChange={(e) => onChange(e, commonInfo.cntrtId)} />
+								<Input type="checkbox" onChange={(e) => onChangeCheckBox(e, commonInfo.cntrtId)} />
 							</th>
 							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
 								{commonInfo.cntrtId}

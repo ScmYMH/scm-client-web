@@ -1,21 +1,29 @@
 import { RootState } from 'modules';
 import { getContractMemberAsync } from 'modules/contractMember/actions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, ModalBody, ModalHeader, Table } from 'reactstrap';
 
-const SearchManager = ({ isOpen, closeModal }: { isOpen: boolean; closeModal: any }) => {
+const SearchManager = ({
+	isOpen,
+	closeModal,
+	onClickMember,
+}: {
+	isOpen: boolean;
+	closeModal: any;
+	onClickMember: any;
+}) => {
 	return (
 		<Modal isOpen={isOpen} toggle={closeModal} size="xl">
 			<ModalHeader toggle={closeModal}>계약 담당자 조회</ModalHeader>
 			<ModalBody>
-				<SearchManagerBody />
+				<SearchManagerBody onClickMember={onClickMember} closeModal={closeModal} />
 			</ModalBody>
 		</Modal>
 	);
 };
 
-const SearchManagerBody = () => {
+const SearchManagerBody = ({ onClickMember, closeModal }: { onClickMember: any; closeModal: any }) => {
 	const dispatch = useDispatch();
 
 	const {
@@ -40,6 +48,13 @@ const SearchManagerBody = () => {
 		dispatch(getContractMemberAsync.request(member));
 	};
 
+	const onSelect = (memId: string, memNm: string) => {
+		onClickMember(memId, memNm);
+		closeModal();
+	};
+
+	useEffect;
+
 	return (
 		<>
 			<div style={{ display: 'inline-block', margin: '10px', verticalAlign: 'center' }}>
@@ -60,7 +75,12 @@ const SearchManagerBody = () => {
 					onChange={(e) => setMember({ ...member, userNm: e.target.value })}
 				></input>
 				<span style={{ marginRight: '10px' }}>삭제여부</span>
-				<select style={{ marginRight: '30px' }} id="delYn" name="delYn">
+				<select
+					onChange={(e) => setMember({ ...member, delYn: e.target.value })}
+					style={{ marginRight: '30px' }}
+					id="delYn"
+					name="delYn"
+				>
 					{options.map((option) => (
 						<option key={option.value} value={option.value}>
 							{option.text}
@@ -82,21 +102,28 @@ const SearchManagerBody = () => {
 						<th>등록일</th>
 						<th>삭제일</th>
 						<th>삭제여부</th>
+						<th></th>
 					</tr>
 				</thead>
 				{contractMemberListData && (
 					<tbody>
 						{contractMemberListData.map((contractmemberInfo, index) => (
 							<tr key={index} aria-rowcount={index}>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.loginId}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.userNm}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.email}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.employeeNumber}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.deptNm}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.insDate}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.updDate}</td>
-								<td key={contractmemberInfo.loginId}>{contractmemberInfo.delYn}</td>
-								<Button>선택</Button>
+								<td>{contractmemberInfo.loginId}</td>
+								<td>{contractmemberInfo.userNm}</td>
+								<td>{contractmemberInfo.email}</td>
+								<td>{contractmemberInfo.employeeNumber}</td>
+								<td>{contractmemberInfo.deptNm}</td>
+								<td>{contractmemberInfo.insDate}</td>
+								<td>{contractmemberInfo.updDate}</td>
+								<td>{contractmemberInfo.delYn}</td>
+								<td>
+									<Button
+										onClick={() => onSelect(contractmemberInfo.userId, contractmemberInfo.userNm)}
+									>
+										선택
+									</Button>
+								</td>
 							</tr>
 						))}
 					</tbody>
