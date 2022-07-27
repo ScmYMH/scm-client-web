@@ -1,18 +1,15 @@
 import axios from 'axios';
 
-export async function getContractMemberList(loginId: string) {
-	if (loginId == '') {
-		const response = await axios.get<ContractMemberInfo>(`http://192.168.1.38:9091/contract/manager`);
-		return response.data;
-	} else {
-		const response = await axios.get<ContractMemberInfo>(
-			//`http://192.168.0.60:9091/contract/manager/name/${loginId}`,
-			`http://192.168.1.38:9091/contract/manager/id/${loginId}`,
-		);
-		return response.data;
-	}
-}
+export async function getContractMemberList(params: any) {
+	console.log('-------------', params);
+	const response = await axios.get<ContractMemberInfo>(
+		`http://localhost:9091/contract/manager/search?loginId=${params.loginId}&userNm=${params.userNm}&delYn=${params.delYn}`,
+	);
 
+	console.log('-------------', response.data);
+
+	return response.data;
+}
 export interface ContractMemberInfo {
 	userId: string;
 	loginId: string;

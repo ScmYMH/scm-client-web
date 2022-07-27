@@ -1,29 +1,32 @@
 import { RootState } from 'modules';
 import React, { ChangeEvent, SetStateAction, useState } from 'react';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContractMemberAsync } from 'modules/contractMember/actions';
+import MenuBar from './MenuBar';
+import { Table } from 'reactstrap';
+import AddTable from './AddTable';
 
 const CommonInfoList = () => {
 	const { data, loading, error } = useSelector((state: RootState) => state.contractmember.contractMemberList);
 	const dispatch = useDispatch();
-	const [searchTerm, setSearchTerm] = useState('');
+	const onSubmitMemberInfo = (loginId: any, userNm: any, delYn: any) => {
+		const params = {
+			loginId: loginId,
+			userNm: userNm,
+			delYn: delYn,
+		};
 
-	// useEffect(() => {
-	// 	dispatch(getContractMemberAsync.request('ghi06141'));
-	// }, []);
-
-	const search = (e: ChangeEvent<HTMLInputElement>) => {
-		dispatch(getContractMemberAsync.request(e.target.value));
+		dispatch(getContractMemberAsync.request(params));
 	};
 
 	return (
 		<>
-			{/* <BootstrapTable></BootstrapTable> */}
+			<MenuBar onSubmitMemberInfo={onSubmitMemberInfo}></MenuBar>
 
-			<table className="tableStyle">
-				{data && (
-					<tbody>
+			<Table bordered className="tableStyle">
+				<thead>
+					<tr>
+						<th></th>
 						<th>로그인ID</th>
 						<th>사용자명</th>
 						<th>EMAIL</th>
@@ -32,8 +35,16 @@ const CommonInfoList = () => {
 						<th>등록일</th>
 						<th>삭제일</th>
 						<th>삭제여부</th>
+					</tr>
+				</thead>
+				{data && (
+					<tbody>
 						{data.map((contractmemberInfo, index) => (
 							<tr key={index} aria-rowcount={index}>
+								<td>
+									<input type={'checkbox'}></input>
+								</td>
+
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.loginId}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.userNm}</td>
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.email}</td>
@@ -44,9 +55,11 @@ const CommonInfoList = () => {
 								<td key={contractmemberInfo.loginId}>{contractmemberInfo.delYn}</td>
 							</tr>
 						))}
+
+						{/* <AddTable></AddTable> */}
 					</tbody>
 				)}
-			</table>
+			</Table>
 		</>
 	);
 };

@@ -1,13 +1,12 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import { applyMiddleware } from 'redux';
+
 import './Header.css';
 
 const Header = () => {
 	return (
 		<div>
 			<header>
-				<img src="../../images/posco_ict_log.png" className="logo"></img>
+				<h2>계약담당자 관리</h2>
 			</header>
 		</div>
 	);
