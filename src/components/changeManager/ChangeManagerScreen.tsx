@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ChangeManagerScreen.css';
 import { Button, Col, Input, Label, Table } from 'reactstrap';
-import { getContractListAsync } from 'modules/changeManager/actions';
+import { getContractListAsync, postCntrtChgInfoAsync } from 'modules/changeManager/actions';
 import { RootState } from 'modules';
 import { ManagerChangeInfo } from 'modules/changeManager/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,12 +9,19 @@ import DatePicker from 'react-datepicker';
 import SearchManager from './SearchManager';
 
 const ChangeManagerScreen = () => {
+	const dispatch = useDispatch();
+
 	const {
 		data: commonInfoListData,
 		loading: commonInfoListLoading,
 		error: commonInfoListError,
 	} = useSelector((state: RootState) => state.changeManager.commonInfoList);
-	const dispatch = useDispatch();
+
+	const {
+		data: cntrtChangeInfoListData,
+		loading: cntrtChangeInfoListLoading,
+		error: cntrtChangeInfoListError,
+	} = useSelector((state: RootState) => state.changeManager.cntrtChangeInfoList);
 
 	const [preActorNm, setPreActorNm] = useState('');
 	const [aftActorNm, setAftActorNm] = useState('');
@@ -29,13 +36,13 @@ const ChangeManagerScreen = () => {
 		reasonDesc: '',
 	});
 
+	const [cntrtIdArray, setCntrtIdArray] = useState({
+		cntrtId: [],
+	});
+
 	const [date, setDate] = useState(new Date());
 
 	const [openModal, setOpenModal] = useState(false);
-
-	useEffect(() => {
-		dispatch(getContractListAsync.request(mngChgInfo.preActorId));
-	}, [mngChgInfo.preActorId]);
 
 	const dateToString = (date) => {
 		return (
@@ -84,12 +91,23 @@ const ChangeManagerScreen = () => {
 			});
 		}
 	};
-	const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+	const onChangeValidDate = (date: Date) => {
+		setDate(date);
 		setMngChgInfo({
 			...mngChgInfo,
 			validDate: dateToString(date),
 		});
+		console.log('date : ', dateToString(date));
 	};
+
+	const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		dispatch(postCntrtChgInfoAsync.request(mngChgInfo));
+	};
+
+	useEffect(() => {
+		if (mngChgInfo.preActorId !== '') dispatch(getContractListAsync.request(mngChgInfo.preActorId));
+	}, [mngChgInfo.preActorId]);
 
 	return (
 		<div style={{ margin: 30 }}>
@@ -141,7 +159,7 @@ const ChangeManagerScreen = () => {
 					dateFormat="yyyy-MM-dd"
 					selected={date}
 					minDate={new Date()}
-					onChange={(date: Date) => setDate(date)}
+					onChange={(date: Date) => onChangeValidDate(date)}
 				/>
 			</div>
 			<div style={{ display: 'flex', margin: 10, marginTop: 20, marginBottom: 20 }}>
@@ -194,23 +212,17 @@ const ChangeManagerScreen = () => {
 							<th scope="row">
 								<Input type="checkbox" onChange={(e) => onChangeCheckBox(e, commonInfo.cntrtId)} />
 							</th>
-							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
-								{commonInfo.cntrtId}
-							</td>
-							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
-								{commonInfo.cntrtNm}
-							</td>
-							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
-								{commonInfo.cntrtCurrCd}
-							</td>
-							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
+							<td style={{ padding: 30 }}>{commonInfo.cntrtId}</td>
+							<td style={{ padding: 30 }}>{commonInfo.cntrtNm}</td>
+							<td style={{ padding: 30 }}>{commonInfo.cntrtScd}</td>
+							<td style={{ padding: 30 }}>
 								{commonInfo.cntrtStartDate.slice(0, 4) +
 									'-' +
 									commonInfo.cntrtStartDate.slice(4, 6) +
 									'-' +
 									commonInfo.cntrtStartDate.slice(6)}
 							</td>
-							<td key={commonInfo.seqNo} style={{ padding: 30 }}>
+							<td style={{ padding: 30 }}>
 								{commonInfo.cntrtEndDate.slice(0, 4) +
 									'-' +
 									commonInfo.cntrtEndDate.slice(4, 6) +
@@ -243,18 +255,26 @@ const ChangeManagerScreen = () => {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">
-							<Input type="checkbox" />
-						</th>
-						<td style={{ padding: 30 }}>20220301000003</td>
-						<td style={{ padding: 30 }}>22년 3월 미주 수출 COA계약</td>
-						<td style={{ padding: 30 }}>김민호</td>
-						<td style={{ padding: 30 }}>임아연</td>
-						<td style={{ padding: 30 }}>2022-07-15</td>
-						<td style={{ padding: 30 }}>미확정</td>
-						<td style={{ padding: 30 }}>업무이관 및 계약부서 담당자 변경으로 인한 업무 인계</td>
-					</tr>
+					{cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
+						<tr key={index}>
+							<th scope="row">
+								<Input type="checkbox" onChange={(e) => onChangeCheckBox(e, cntrtChangeInfo.cntrtId)} />
+							</th>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtId}</td>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtNm}</td>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.preActorNm}</td>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.aftActorNm}</td>
+							<td style={{ padding: 30 }}>
+								{cntrtChangeInfo.validDate.slice(0, 4) +
+									'-' +
+									cntrtChangeInfo.validDate.slice(4, 6) +
+									'-' +
+									cntrtChangeInfo.validDate.slice(6)}
+							</td>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.cmptYn}</td>
+							<td style={{ padding: 30 }}>{cntrtChangeInfo.reasonDesc}</td>
+						</tr>
+					))}
 				</tbody>
 			</Table>
 		</div>

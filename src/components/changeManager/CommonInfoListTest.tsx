@@ -20,20 +20,10 @@ const CommonInfoListTest = () => {
 					{dataList.map((commonInfo, index) => (
 						<div key={index}>
 							<p>{index}번째</p>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtTcd}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtNm}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtScd}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.crePersonId}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtStartDate}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtEndDate}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.cntrtCurrCd}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.delYn}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.insDate}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.insTime}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.insPersonId}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.updDate}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.updTime}</div>
-							<div key={commonInfo.seqNo}>{commonInfo.updPersonId}</div>
+							<div>{commonInfo.cntrtNm}</div>
+							<div>{commonInfo.cntrtScd}</div>
+							<div>{commonInfo.cntrtStartDate}</div>
+							<div>{commonInfo.cntrtEndDate}</div>
 						</div>
 					))}
 				</div>
