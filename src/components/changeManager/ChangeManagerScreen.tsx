@@ -3,7 +3,7 @@ import './ChangeManagerScreen.css';
 import { Button, Col, Input, Label, Table } from 'reactstrap';
 import { getContractListAsync, postCntrtChgInfoAsync } from 'modules/changeManager/actions';
 import { RootState } from 'modules';
-import { ManagerChangeInfo } from 'modules/changeManager/types';
+import { CntrtChangeInfoConfirm, ManagerChangeInfo } from 'modules/changeManager/types';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import SearchManager from './SearchManager';
@@ -36,8 +36,9 @@ const ChangeManagerScreen = () => {
 		reasonDesc: '',
 	});
 
-	const [cntrtIdArray, setCntrtIdArray] = useState({
+	const [cntrtIdArray, setCntrtIdArray] = useState<CntrtChangeInfoConfirm>({
 		cntrtId: [],
+		cntrtChangeInfoList: cntrtChangeInfoListData,
 	});
 
 	const [date, setDate] = useState(new Date());
@@ -70,7 +71,7 @@ const ChangeManagerScreen = () => {
 		console.log('mngChgInfo: ', mngChgInfo);
 	};
 
-	const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
+	const onChangeCommonInfoCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
 		const isChecked = e.target.checked;
 		if (isChecked) {
 			const newCntrtId = [...mngChgInfo.cntrtId, paramCntrtId];
@@ -92,6 +93,21 @@ const ChangeManagerScreen = () => {
 		}
 	};
 
+	const onChangeCntrtChagneInfoCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
+		const isChecked = e.target.checked;
+		if (isChecked) {
+			const newCntrtId = [...cntrtIdArray.cntrtId, paramCntrtId];
+			console.log('newCntrtId: ', newCntrtId);
+			setCntrtIdArray({ ...cntrtIdArray, cntrtId: newCntrtId });
+		} else {
+			console.log('false', isChecked);
+			const index = cntrtIdArray.cntrtId.indexOf(paramCntrtId);
+			// console.log('index: ', index);
+			cntrtIdArray.cntrtId.splice(index, 1);
+			setCntrtIdArray({ ...cntrtIdArray, cntrtId: cntrtIdArray.cntrtId });
+		}
+	};
+
 	const onChangeValidDate = (date: Date) => {
 		setDate(date);
 		setMngChgInfo({
@@ -102,7 +118,17 @@ const ChangeManagerScreen = () => {
 	};
 
 	const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		dispatch(postCntrtChgInfoAsync.request(mngChgInfo));
+		if (mngChgInfo.preActorId === '') {
+			alert('현 담당자를 선택해주세요');
+		} else if (mngChgInfo.aftActorId === '') {
+			alert('인수 담당자를 선택해주세요');
+		} else if (mngChgInfo.validDate === '') {
+			alert('변경 유효 일자를 선택해주세요');
+		} else if (mngChgInfo.reasonDesc === '') {
+			alert('변경 사유를 입력하세요');
+		} else {
+			dispatch(postCntrtChgInfoAsync.request(mngChgInfo));
+		}
 	};
 
 	useEffect(() => {
@@ -210,7 +236,10 @@ const ChangeManagerScreen = () => {
 					{commonInfoListData?.map((commonInfo, index) => (
 						<tr key={index}>
 							<th scope="row">
-								<Input type="checkbox" onChange={(e) => onChangeCheckBox(e, commonInfo.cntrtId)} />
+								<Input
+									type="checkbox"
+									onChange={(e) => onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)}
+								/>
 							</th>
 							<td style={{ padding: 30 }}>{commonInfo.cntrtId}</td>
 							<td style={{ padding: 30 }}>{commonInfo.cntrtNm}</td>
@@ -258,7 +287,10 @@ const ChangeManagerScreen = () => {
 					{cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
 						<tr key={index}>
 							<th scope="row">
-								<Input type="checkbox" onChange={(e) => onChangeCheckBox(e, cntrtChangeInfo.cntrtId)} />
+								<Input
+									type="checkbox"
+									onChange={(e) => onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.cntrtId)}
+								/>
 							</th>
 							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtId}</td>
 							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtNm}</td>

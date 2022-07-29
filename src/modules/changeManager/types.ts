@@ -1,12 +1,12 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { asyncState, AsyncState } from 'lib/reducerUtils';
+import { AsyncState } from 'lib/reducerUtils';
 
 export type ChangeManagerAction = ActionType<typeof actions>;
 
 export type ChangeManagerState = {
 	commonInfoList: AsyncState<Array<CommonInfo>, Error>;
-	cntrtChangeInfoList: AsyncState<Array<CntrtChangeInfo>, Error>;
+	cntrtChangeInfoList: AsyncState<Array<CntrtChangeInfo> | null, Error>;
 	cntrtConfirmResult: AsyncState<boolean, Error>;
 	cntrtCancelResult: AsyncState<boolean, Error>;
 };
@@ -40,4 +40,9 @@ export interface CntrtChangeInfo {
 	validDate: string; // 유효 시작일 -> format 변경 (20220714 -> 7/14/22)
 	reasonDesc: string; // 변경사유 코멘트
 	cmptYn: string; // 확정 여부
+}
+
+export interface CntrtChangeInfoConfirm {
+	cntrtId: string[];
+	cntrtChangeInfoList: Array<CntrtChangeInfo> | null;
 }

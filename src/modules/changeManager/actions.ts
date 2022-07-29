@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { createAsyncAction } from 'typesafe-actions';
-import { CntrtChangeInfo, CommonInfo, ManagerChangeInfo } from './types';
+import { createStandardAction } from 'typesafe-actions/dist/deprecated/create-standard-action';
+import { CntrtChangeInfo, CntrtChangeInfoConfirm, CommonInfo, ManagerChangeInfo } from './types';
 
 // 액션 정의
 export const GET_CONTRACT_LIST = 'changeManager/GET_CONTRACT_LIST';
@@ -14,6 +15,10 @@ export const POST_CNTRT_CHG_INFO_ERROR = 'changeManager/POST_CNTRT_CHG_INFO_ERRO
 export const PUT_CNTRT_CHG_INFO = 'changeManager/PUT_CNTRT_CHG_INFO';
 export const PUT_CNTRT_CHG_INFO_SUCCESS = 'changeManager/PUT_CNTRT_CHG_INFO_SUCCESS';
 export const PUT_CNTRT_CHG_INFO_ERROR = 'changeManager/PUT_CNTRT_CHG_INFO_ERROR';
+
+export const PUT_CNTRT_CHG_INFO_CONFIRM = 'changeManager/PUT_CNTRT_CHG_INFO_CONFIRM';
+export const PUT_CNTRT_CHG_INFO_CONFIRM_SUCCESS = 'changeManager/PUT_CNTRT_CHG_INFO_CONFIRM_SUCCESS';
+export const PUT_CNTRT_CHG_INFO_CONFIRM_ERROR = 'changeManager/PUT_CNTRT_CHG_INFO_CONFIRM_ERROR';
 
 export const DELETE_CNTRT_CHG_INFO = 'changeManager/DELETE_CNTRT_CHG_INFO';
 export const DELETE_CNTRT_CHG_INFO_SUCCESS = 'changeManager/DELETE_CNTRT_CHG_INFO_SUCCESS';
@@ -35,7 +40,13 @@ export const putCntrtChgInfoAsync = createAsyncAction(
 	PUT_CNTRT_CHG_INFO,
 	PUT_CNTRT_CHG_INFO_SUCCESS,
 	PUT_CNTRT_CHG_INFO_ERROR,
-)<string[], boolean, AxiosError>();
+)<CntrtChangeInfoConfirm, boolean, AxiosError>();
+
+export const putCntrtChgInfoConfirmAsync = createAsyncAction(
+	PUT_CNTRT_CHG_INFO_CONFIRM,
+	PUT_CNTRT_CHG_INFO_CONFIRM_SUCCESS,
+	PUT_CNTRT_CHG_INFO_CONFIRM_ERROR,
+)<any, CntrtChangeInfo[] | null, AxiosError>();
 
 export const delCntrtChgInfoAsync = createAsyncAction(
 	DELETE_CNTRT_CHG_INFO,

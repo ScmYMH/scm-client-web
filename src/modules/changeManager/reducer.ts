@@ -11,6 +11,7 @@ import {
 	POST_CNTRT_CHG_INFO_ERROR,
 	POST_CNTRT_CHG_INFO_SUCCESS,
 	PUT_CNTRT_CHG_INFO,
+	PUT_CNTRT_CHG_INFO_CONFIRM_SUCCESS,
 	PUT_CNTRT_CHG_INFO_ERROR,
 	PUT_CNTRT_CHG_INFO_SUCCESS,
 } from './actions';
@@ -59,6 +60,10 @@ const changeManager = createReducer<ChangeManagerState, ChangeManagerAction>(ini
 	[PUT_CNTRT_CHG_INFO_ERROR]: (state, action) => ({
 		...state,
 		cntrtConfirmResult: asyncState.error(action.payload),
+	}),
+	[PUT_CNTRT_CHG_INFO_CONFIRM_SUCCESS]: (state, action) => ({
+		...state,
+		cntrtChangeInfoList: asyncState.success(action.payload),
 	}),
 	[DELETE_CNTRT_CHG_INFO]: (state) => ({
 		...state,

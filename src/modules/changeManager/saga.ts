@@ -7,6 +7,7 @@ import {
 	postCntrtChgInfoAsync,
 	POST_CNTRT_CHG_INFO,
 	putCntrtChgInfoAsync,
+	putCntrtChgInfoConfirmAsync,
 	PUT_CNTRT_CHG_INFO,
 } from './actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
@@ -37,8 +38,19 @@ function* postCntrtChgInfoSaga(action: ReturnType<typeof postCntrtChgInfoAsync.r
 function* putCntrtChgInfoSaga(action: ReturnType<typeof putCntrtChgInfoAsync.request>) {
 	try {
 		console.log('putCntrtChgInfoSaga : action.payload', action.payload);
-		const cntrtConfirmResult: boolean = yield call(putCntrtChgInfo, action.payload);
+		const cntrtConfirmResult: boolean = yield call(putCntrtChgInfo, action.payload.cntrtId);
 		yield put(putCntrtChgInfoAsync.success(cntrtConfirmResult));
+		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
+		if (cntrtConfirmResult) {
+			cntrtChangeInfoListTemp?.map((cntrtChangeInfo) => {
+				cntrtChangeInfo.cmptYn = '확정';
+			});
+			yield put(putCntrtChgInfoConfirmAsync.success(cntrtChangeInfoListTemp));
+			console.log(
+				'putCntrtChgInfoSaga에서 확정으로 바꾸기 :: cntrtChangeInfoListTemp : ',
+				cntrtChangeInfoListTemp,
+			);
+		}
 	} catch (e: any) {
 		console.log('putCntrtChgInfoSaga error');
 		yield put(putCntrtChgInfoAsync.failure(e));
