@@ -6,7 +6,7 @@ export type ChangeManagerAction = ActionType<typeof actions>;
 
 export type ChangeManagerState = {
 	commonInfoList: AsyncState<Array<CommonInfo>, Error>;
-	cntrtChangeInfoList: AsyncState<Array<CntrtChangeInfo> | null, Error>;
+	cntrtChangeInfoList: AsyncState<Array<CntrtChangeInfo> | any, Error>;
 	cntrtConfirmResult: AsyncState<boolean, Error>;
 	cntrtCancelResult: AsyncState<boolean, Error>;
 };
@@ -22,7 +22,7 @@ export interface CommonInfo {
 
 // postCntrtChgInfo req 타입
 export interface ManagerChangeInfo {
-	cntrtId: string[]; // 계약 ID List
+	cntrtId: Array<string>; // 계약 ID List
 	preActorId: string; // 이전 계약담당자 ID
 	aftActorId: string; // 이후 계약담당자 ID
 	validDate: string; // 유효 시작일

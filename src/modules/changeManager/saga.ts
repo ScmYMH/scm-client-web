@@ -1,6 +1,7 @@
 import { delCntrtChgInfo, getContractList, postCntrtChgInfo, putCntrtChgInfo } from 'api/changeManagerAxios';
 import {
 	delCntrtChgInfoAsync,
+	delCntrtChgInfoCancelAsync,
 	DELETE_CNTRT_CHG_INFO,
 	getContractListAsync,
 	GET_CONTRACT_LIST,
@@ -42,8 +43,12 @@ function* putCntrtChgInfoSaga(action: ReturnType<typeof putCntrtChgInfoAsync.req
 		yield put(putCntrtChgInfoAsync.success(cntrtConfirmResult));
 		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
 		if (cntrtConfirmResult) {
-			cntrtChangeInfoListTemp?.map((cntrtChangeInfo) => {
-				cntrtChangeInfo.cmptYn = '확정';
+			action.payload.cntrtId.map((cntrtId) => {
+				cntrtChangeInfoListTemp
+					?.filter((cntrtChangeInfo) => cntrtId === cntrtChangeInfo.cntrtId)
+					.map((cntrtChangeInfo) => {
+						cntrtChangeInfo.cmptYn = '확정';
+					});
 			});
 			yield put(putCntrtChgInfoConfirmAsync.success(cntrtChangeInfoListTemp));
 			console.log(
@@ -60,8 +65,46 @@ function* putCntrtChgInfoSaga(action: ReturnType<typeof putCntrtChgInfoAsync.req
 function* delCntrtChgInfoSaga(action: ReturnType<typeof delCntrtChgInfoAsync.request>) {
 	try {
 		console.log('delCntrtChgInfoSaga : action.payload', action.payload);
-		const cntrtCancelResult: boolean = yield call(delCntrtChgInfo, action.payload);
+
+		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
+		const cntrtIdArray = action.payload.cntrtId;
+
+		const seqNoArray: Array<number> = [];
+
+		cntrtIdArray.map((cntrtId) => {
+			cntrtChangeInfoListTemp
+				?.filter((cntrtChangeInfo) => cntrtId === cntrtChangeInfo.cntrtId)
+				.map((cntrtChangeInfo) => {
+					seqNoArray.push(cntrtChangeInfo.seqNo);
+				});
+		});
+		let newParam = '';
+		seqNoArray.map((seqNo) => {
+			newParam = newParam + seqNo + ',';
+		});
+		console.log('delCntrtChgInfoSaga : newParam ---- ', newParam);
+		const cntrtCancelResult: boolean = yield call(delCntrtChgInfo, newParam);
 		yield put(delCntrtChgInfoAsync.success(cntrtCancelResult));
+
+		// Redux에 있는 CntrtChgInfo 삭제
+		if (cntrtCancelResult) {
+			const newList = cntrtChangeInfoListTemp?.filter((cntrtChangeInfo) => {
+				// cntrtIdArray.find((cntrtId) => cntrtId === cntrtChangeInfo.cntrtId) ? false : true;
+				let flag = true;
+				cntrtIdArray.map((cntrtId) => {
+					if (cntrtId === cntrtChangeInfo.cntrtId) flag = false;
+				});
+				if (flag) return true;
+				else return false;
+			});
+			/// 1 2 3 4 listTemp (-- ID)
+			/// 1 3		cntrtIdArray
+
+			/// 1 -> 1,3
+
+			console.log('delCntrtChgInfoSaga : newList ---', newList);
+			yield put(delCntrtChgInfoCancelAsync.success(newList));
+		}
 	} catch (e: any) {
 		console.log('delCntrtChgInfoSaga error');
 		yield put(delCntrtChgInfoAsync.failure(e));

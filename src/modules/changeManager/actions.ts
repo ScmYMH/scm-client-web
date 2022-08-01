@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { createAsyncAction } from 'typesafe-actions';
-import { createStandardAction } from 'typesafe-actions/dist/deprecated/create-standard-action';
 import { CntrtChangeInfo, CntrtChangeInfoConfirm, CommonInfo, ManagerChangeInfo } from './types';
 
 // 액션 정의
@@ -23,6 +22,10 @@ export const PUT_CNTRT_CHG_INFO_CONFIRM_ERROR = 'changeManager/PUT_CNTRT_CHG_INF
 export const DELETE_CNTRT_CHG_INFO = 'changeManager/DELETE_CNTRT_CHG_INFO';
 export const DELETE_CNTRT_CHG_INFO_SUCCESS = 'changeManager/DELETE_CNTRT_CHG_INFO_SUCCESS';
 export const DELETE_CNTRT_CHG_INFO_ERROR = 'changeManager/DELETE_CNTRT_CHG_INFO_ERROR';
+
+export const DELETE_CNTRT_CHG_INFO_CANCEL = 'changeManager/DELETE_CNTRT_CHG_INFO_CANCEL';
+export const DELETE_CNTRT_CHG_INFO_CANCEL_SUCCESS = 'changeManager/DELETE_CNTRT_CHG_INFO_CANCEL_SUCCESS';
+export const DELETE_CNTRT_CHG_INFO_CANCEL_ERROR = 'changeManager/DELETE_CNTRT_CHG_INFO_CANCEL_ERROR';
 
 export const getContractListAsync = createAsyncAction(
 	GET_CONTRACT_LIST,
@@ -52,4 +55,10 @@ export const delCntrtChgInfoAsync = createAsyncAction(
 	DELETE_CNTRT_CHG_INFO,
 	DELETE_CNTRT_CHG_INFO_SUCCESS,
 	DELETE_CNTRT_CHG_INFO_ERROR,
-)<number, boolean, AxiosError>();
+)<CntrtChangeInfoConfirm, boolean, AxiosError>();
+
+export const delCntrtChgInfoCancelAsync = createAsyncAction(
+	DELETE_CNTRT_CHG_INFO_CANCEL,
+	DELETE_CNTRT_CHG_INFO_CANCEL_SUCCESS,
+	DELETE_CNTRT_CHG_INFO_CANCEL_ERROR,
+)<any, CntrtChangeInfo[] | undefined, AxiosError>();

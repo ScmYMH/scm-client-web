@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CntrtChangeInfo, CntrtChangeInfoConfirm, CommonInfo, ManagerChangeInfo } from 'modules/changeManager/types';
+import { CntrtChangeInfo, CommonInfo, ManagerChangeInfo } from 'modules/changeManager/types';
 
 export async function getContractList(crePersonId: string) {
 	const response = await axios.get<Array<CommonInfo>>(
@@ -21,7 +21,7 @@ export async function putCntrtChgInfo(cntrtIdArray: string[]) {
 	return response.data;
 }
 
-export async function delCntrtChgInfo(seqNo: number) {
-	const response = await axios.delete<boolean>(`http://localhost:9091/contract/manager/chginfo/${seqNo}`);
+export async function delCntrtChgInfo(seqNoParam: string) {
+	const response = await axios.delete<boolean>(`http://localhost:9091/contract/manager/chginfo/${seqNoParam}`);
 	return response.data;
 }

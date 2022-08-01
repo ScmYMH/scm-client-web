@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './ChangeManagerScreen.css';
 import { Button, Col, Input, Label, Table } from 'reactstrap';
-import { getContractListAsync, postCntrtChgInfoAsync } from 'modules/changeManager/actions';
+import {
+	delCntrtChgInfoAsync,
+	getContractListAsync,
+	postCntrtChgInfoAsync,
+	putCntrtChgInfoAsync,
+} from 'modules/changeManager/actions';
 import { RootState } from 'modules';
 import { CntrtChangeInfoConfirm, ManagerChangeInfo } from 'modules/changeManager/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +43,7 @@ const ChangeManagerScreen = () => {
 
 	const [cntrtIdArray, setCntrtIdArray] = useState<CntrtChangeInfoConfirm>({
 		cntrtId: [],
-		cntrtChangeInfoList: cntrtChangeInfoListData,
+		cntrtChangeInfoList: null,
 	});
 
 	const [date, setDate] = useState(new Date());
@@ -131,15 +136,40 @@ const ChangeManagerScreen = () => {
 		}
 	};
 
+	const onClickConfrim = () => {
+		// console.log('onClickConfirm --- cntrtChangeInfoListData: ', cntrtChangeInfoListData);
+		console.log('onClickConfirm --- cntrtIdArray.cntrtChangeInfoList : ', cntrtIdArray);
+		dispatch(putCntrtChgInfoAsync.request(cntrtIdArray));
+
+		setCntrtIdArray({ ...cntrtIdArray, cntrtId: [] });
+	};
+	console.log('================cntrtIdArray: ', cntrtIdArray);
+
+	const onClickCancel = () => {
+		console.log('onClickCancel --- cntrtIdArray.cntrtChangeInfoList : ', cntrtIdArray);
+		dispatch(delCntrtChgInfoAsync.request(cntrtIdArray));
+		setCntrtIdArray({ ...cntrtIdArray, cntrtId: [] });
+	};
+
 	useEffect(() => {
 		if (mngChgInfo.preActorId !== '') dispatch(getContractListAsync.request(mngChgInfo.preActorId));
 	}, [mngChgInfo.preActorId]);
 
+	useEffect(() => {
+		setCntrtIdArray({ ...cntrtIdArray, cntrtChangeInfoList: cntrtChangeInfoListData });
+		// console.log('useEffect cntrtChangeInfoListData --------- cntrtIdArray : ', cntrtIdArray);
+	}, [cntrtChangeInfoListData]);
+
 	return (
 		<div style={{ margin: 30 }}>
 			<div style={{ margin: 10 }}>
-				<span style={{ marginRight: 10 }}>현 담당자</span>
-				<input type="text" value={preActorNm} onChange={(e) => setPreActorNm(e.target.value)}></input>
+				<span style={{ marginRight: 100 }}>현 담당자</span>
+				<input
+					type="text"
+					value={preActorNm}
+					onChange={(e) => setPreActorNm(e.target.value)}
+					style={{ marginRight: 20 }}
+				></input>
 				<Button
 					className="btn"
 					size="sm"
@@ -157,8 +187,13 @@ const ChangeManagerScreen = () => {
 						closeModal={() => setOpenModal((openModal) => !openModal)}
 					/>
 				)}
-				<span style={{ marginRight: 10 }}>인수 담당자</span>
-				<input type="text" value={aftActorNm} onChange={(e) => setAftActorNm(e.target.value)}></input>
+				<span style={{ marginRight: 30, marginLeft: 80 }}>인수 담당자</span>
+				<input
+					type="text"
+					value={aftActorNm}
+					onChange={(e) => setAftActorNm(e.target.value)}
+					style={{ marginRight: 20 }}
+				></input>
 				<Button
 					className="btn"
 					size="sm"
@@ -178,7 +213,7 @@ const ChangeManagerScreen = () => {
 				)}
 			</div>
 			<div style={{ display: 'flex', margin: 10, alignContent: 'center' }}>
-				<span>변경 발효 일자</span>
+				<span style={{ width: '120px', marginRight: 50 }}>변경 발효 일자</span>
 				<DatePicker
 					style={{ display: 'span' }}
 					flexedHeight
@@ -188,8 +223,8 @@ const ChangeManagerScreen = () => {
 					onChange={(date: Date) => onChangeValidDate(date)}
 				/>
 			</div>
-			<div style={{ display: 'flex', margin: 10, marginTop: 20, marginBottom: 20 }}>
-				<Label for="reasonDesc" sm={2}>
+			<div style={{ display: 'flex', margin: 10, marginTop: 45, marginBottom: 20 }}>
+				<Label for="reasonDesc" sm={2} style={{ width: 155 }}>
 					변경 사유
 				</Label>
 				<Col sm={10}>
@@ -221,94 +256,116 @@ const ChangeManagerScreen = () => {
 					적용
 				</Button>
 			</div>
-			<Table bordered>
-				<thead style={{ textAlign: 'center' }}>
-					<tr>
-						<th></th>
-						<th>계약 ID</th>
-						<th>계약명</th>
-						<th>계약상태</th>
-						<th>계약 시작</th>
-						<th>계약 종료</th>
-					</tr>
-				</thead>
-				<tbody>
-					{commonInfoListData?.map((commonInfo, index) => (
-						<tr key={index}>
-							<th scope="row">
-								<Input
-									type="checkbox"
-									onChange={(e) => onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)}
-								/>
-							</th>
-							<td style={{ padding: 30 }}>{commonInfo.cntrtId}</td>
-							<td style={{ padding: 30 }}>{commonInfo.cntrtNm}</td>
-							<td style={{ padding: 30 }}>{commonInfo.cntrtScd}</td>
-							<td style={{ padding: 30 }}>
-								{commonInfo.cntrtStartDate.slice(0, 4) +
-									'-' +
-									commonInfo.cntrtStartDate.slice(4, 6) +
-									'-' +
-									commonInfo.cntrtStartDate.slice(6)}
-							</td>
-							<td style={{ padding: 30 }}>
-								{commonInfo.cntrtEndDate.slice(0, 4) +
-									'-' +
-									commonInfo.cntrtEndDate.slice(4, 6) +
-									'-' +
-									commonInfo.cntrtEndDate.slice(6)}
-							</td>
+			<div
+				style={{
+					maxHeight: '500px',
+					overflowY: 'auto',
+				}}
+			>
+				<Table bordered style={{ height: 400 }}>
+					<thead style={{ textAlign: 'center' }}>
+						<tr>
+							<th></th>
+							<th>계약 ID</th>
+							<th>계약명</th>
+							<th>계약상태</th>
+							<th>계약 시작</th>
+							<th>계약 종료</th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{commonInfoListData?.map((commonInfo, index) => (
+							<tr key={index}>
+								<th scope="row">
+									<Input
+										type="checkbox"
+										onChange={(e) => onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)}
+									/>
+								</th>
+								<td style={{ padding: 30 }}>{commonInfo.cntrtId}</td>
+								<td style={{ padding: 30 }}>{commonInfo.cntrtNm}</td>
+								<td style={{ padding: 30 }}>{commonInfo.cntrtScd}</td>
+								<td style={{ padding: 30 }}>
+									{commonInfo.cntrtStartDate.slice(0, 4) +
+										'-' +
+										commonInfo.cntrtStartDate.slice(4, 6) +
+										'-' +
+										commonInfo.cntrtStartDate.slice(6)}
+								</td>
+								<td style={{ padding: 30 }}>
+									{commonInfo.cntrtEndDate.slice(0, 4) +
+										'-' +
+										commonInfo.cntrtEndDate.slice(4, 6) +
+										'-' +
+										commonInfo.cntrtEndDate.slice(6)}
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			</div>
 
 			<div style={{ margin: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 				<div>재할당 계약</div>
 				<div>
-					<Button size="sm">확정</Button>
-					<Button size="sm">취소</Button>
+					<Button size="sm" onClick={onClickConfrim}>
+						확정
+					</Button>
+					<Button size="sm" onClick={onClickCancel}>
+						취소
+					</Button>
 				</div>
 			</div>
-			<Table bordered>
-				<thead style={{ textAlign: 'center' }}>
-					<tr>
-						<th></th>
-						<th>계약 ID</th>
-						<th>계약명</th>
-						<th>현담당자</th>
-						<th>인수담당자</th>
-						<th>변경발효일자</th>
-						<th>변경확정여부</th>
-						<th>변경사유</th>
-					</tr>
-				</thead>
-				<tbody>
-					{cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
-						<tr key={index}>
-							<th scope="row">
-								<Input
-									type="checkbox"
-									onChange={(e) => onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.cntrtId)}
-								/>
-							</th>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtId}</td>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtNm}</td>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.preActorNm}</td>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.aftActorNm}</td>
-							<td style={{ padding: 30 }}>
-								{cntrtChangeInfo.validDate.slice(0, 4) +
-									'-' +
-									cntrtChangeInfo.validDate.slice(4, 6) +
-									'-' +
-									cntrtChangeInfo.validDate.slice(6)}
-							</td>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.cmptYn}</td>
-							<td style={{ padding: 30 }}>{cntrtChangeInfo.reasonDesc}</td>
+			<div
+				style={{
+					maxHeight: '400px',
+					overflowY: 'auto',
+				}}
+			>
+				<Table bordered style={{ height: 400 }}>
+					<thead style={{ textAlign: 'center' }}>
+						<tr>
+							<th></th>
+							<th>계약 ID</th>
+							<th>계약명</th>
+							<th>현담당자</th>
+							<th>인수담당자</th>
+							<th>변경발효일자</th>
+							<th>변경확정여부</th>
+							<th>변경사유</th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
+							<tr key={index}>
+								<th scope="row">
+									{cntrtChangeInfo.cmptYn === '확정' ? null : (
+										<Input
+											type="checkbox"
+											onChange={(e) =>
+												onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.cntrtId)
+											}
+										/>
+									)}
+								</th>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtId}</td>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.cntrtNm}</td>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.preActorNm}</td>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.aftActorNm}</td>
+								<td style={{ padding: 30 }}>
+									{cntrtChangeInfo.validDate.slice(0, 4) +
+										'-' +
+										cntrtChangeInfo.validDate.slice(4, 6) +
+										'-' +
+										cntrtChangeInfo.validDate.slice(6)}
+								</td>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.cmptYn}</td>
+								<td style={{ padding: 30 }}>{cntrtChangeInfo.reasonDesc}</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			</div>
 		</div>
 	);
 };
