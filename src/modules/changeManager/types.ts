@@ -43,6 +43,6 @@ export interface CntrtChangeInfo {
 }
 
 export interface CntrtChangeInfoConfirm {
-	cntrtId: string[];
+	seqNoArray: number[];
 	cntrtChangeInfoList: Array<CntrtChangeInfo> | null;
 }

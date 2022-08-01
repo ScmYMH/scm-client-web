@@ -39,13 +39,13 @@ function* postCntrtChgInfoSaga(action: ReturnType<typeof postCntrtChgInfoAsync.r
 function* putCntrtChgInfoSaga(action: ReturnType<typeof putCntrtChgInfoAsync.request>) {
 	try {
 		console.log('putCntrtChgInfoSaga : action.payload', action.payload);
-		const cntrtConfirmResult: boolean = yield call(putCntrtChgInfo, action.payload.cntrtId);
+		const cntrtConfirmResult: boolean = yield call(putCntrtChgInfo, action.payload.seqNoArray);
 		yield put(putCntrtChgInfoAsync.success(cntrtConfirmResult));
 		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
 		if (cntrtConfirmResult) {
-			action.payload.cntrtId.map((cntrtId) => {
+			action.payload.seqNoArray.map((seqNo) => {
 				cntrtChangeInfoListTemp
-					?.filter((cntrtChangeInfo) => cntrtId === cntrtChangeInfo.cntrtId)
+					?.filter((cntrtChangeInfo) => seqNo === cntrtChangeInfo.seqNo)
 					.map((cntrtChangeInfo) => {
 						cntrtChangeInfo.cmptYn = '확정';
 					});
@@ -66,20 +66,8 @@ function* delCntrtChgInfoSaga(action: ReturnType<typeof delCntrtChgInfoAsync.req
 	try {
 		console.log('delCntrtChgInfoSaga : action.payload', action.payload);
 
-		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
-		const cntrtIdArray = action.payload.cntrtId;
-
-		const seqNoArray: Array<number> = [];
-
-		cntrtIdArray.map((cntrtId) => {
-			cntrtChangeInfoListTemp
-				?.filter((cntrtChangeInfo) => cntrtId === cntrtChangeInfo.cntrtId)
-				.map((cntrtChangeInfo) => {
-					seqNoArray.push(cntrtChangeInfo.seqNo);
-				});
-		});
 		let newParam = '';
-		seqNoArray.map((seqNo) => {
+		action.payload.seqNoArray.map((seqNo) => {
 			newParam = newParam + seqNo + ',';
 		});
 		console.log('delCntrtChgInfoSaga : newParam ---- ', newParam);
@@ -87,12 +75,13 @@ function* delCntrtChgInfoSaga(action: ReturnType<typeof delCntrtChgInfoAsync.req
 		yield put(delCntrtChgInfoAsync.success(cntrtCancelResult));
 
 		// Redux에 있는 CntrtChgInfo 삭제
+		const cntrtChangeInfoListTemp = action.payload.cntrtChangeInfoList;
 		if (cntrtCancelResult) {
 			const newList = cntrtChangeInfoListTemp?.filter((cntrtChangeInfo) => {
 				// cntrtIdArray.find((cntrtId) => cntrtId === cntrtChangeInfo.cntrtId) ? false : true;
 				let flag = true;
-				cntrtIdArray.map((cntrtId) => {
-					if (cntrtId === cntrtChangeInfo.cntrtId) flag = false;
+				action.payload.seqNoArray.map((seqNo) => {
+					if (seqNo === cntrtChangeInfo.seqNo) flag = false;
 				});
 				if (flag) return true;
 				else return false;

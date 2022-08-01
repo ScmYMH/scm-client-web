@@ -8,22 +8,46 @@ const SearchManager = ({
 	isOpen,
 	closeModal,
 	onClickMember,
+	preActorNm,
+	aftActorNm,
+	isCurrent,
 }: {
 	isOpen: boolean;
 	closeModal: any;
 	onClickMember: any;
+	preActorNm: string;
+	aftActorNm: string;
+	isCurrent: boolean;
 }) => {
 	return (
 		<Modal isOpen={isOpen} toggle={closeModal} size="xl">
 			<ModalHeader toggle={closeModal}>계약 담당자 조회</ModalHeader>
 			<ModalBody>
-				<SearchManagerBody onClickMember={onClickMember} closeModal={closeModal} />
+				<SearchManagerBody
+					onClickMember={onClickMember}
+					closeModal={closeModal}
+					preActorNm={preActorNm}
+					aftActorNm={aftActorNm}
+					isCurrent={isCurrent}
+				/>
 			</ModalBody>
 		</Modal>
 	);
 };
 
-const SearchManagerBody = ({ onClickMember, closeModal }: { onClickMember: any; closeModal: any }) => {
+const SearchManagerBody = ({
+	onClickMember,
+	closeModal,
+	preActorNm,
+	aftActorNm,
+	isCurrent,
+}: {
+	onClickMember: any;
+	closeModal: any;
+	preActorNm: string;
+	aftActorNm: string;
+	isCurrent: boolean;
+}) => {
 	const dispatch = useDispatch();
 
 	const {
@@ -53,19 +77,17 @@ const SearchManagerBody = ({ onClickMember, closeModal }: { onClickMember: any; 
 		closeModal();
 	};
 
-	useEffect;
+	useEffect(() => {
+		if (isCurrent) {
+			dispatch(getContractMemberAsync.request({ ...member, userNm: preActorNm }));
+		} else {
+			dispatch(getContractMemberAsync.request({ ...member, userNm: aftActorNm }));
+		}
+	}, []);
 
 	return (
 		<>
 			<div style={{ display: 'inline-block', margin: '10px', verticalAlign: 'center' }}>
-				<span style={{ marginRight: '10px' }}>로그인ID</span>
-				<input
-					id="loginId"
-					name="loginId"
-					type="text"
-					style={{ marginRight: '30px' }}
-					onChange={(e) => setMember({ ...member, loginId: e.target.value })}
-				></input>
 				<span style={{ marginRight: '10px' }}>사용자명</span>
 				<input
 					id="userNm"
@@ -73,6 +95,14 @@ const SearchManagerBody = ({ onClickMember, closeModal }: { onClickMember: any; 
 					type="text"
 					style={{ marginRight: '30px' }}
 					onChange={(e) => setMember({ ...member, userNm: e.target.value })}
+				></input>
+				<span style={{ marginRight: '10px' }}>로그인ID</span>
+				<input
+					id="loginId"
+					name="loginId"
+					type="text"
+					style={{ marginRight: '30px' }}
+					onChange={(e) => setMember({ ...member, loginId: e.target.value })}
 				></input>
 				<span style={{ marginRight: '10px' }}>삭제여부</span>
 				<select

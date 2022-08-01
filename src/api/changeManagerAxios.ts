@@ -16,8 +16,8 @@ export async function postCntrtChgInfo(managerChangeInfo: ManagerChangeInfo) {
 	return response.data;
 }
 
-export async function putCntrtChgInfo(cntrtIdArray: string[]) {
-	const response = await axios.put<boolean>(`http://localhost:9091/contract/manager/chginfo`, cntrtIdArray);
+export async function putCntrtChgInfo(seqNoArray: number[]) {
+	const response = await axios.put<boolean>(`http://localhost:9091/contract/manager/chginfo`, seqNoArray);
 	return response.data;
 }
 

@@ -1,25 +1,16 @@
-import ChangeManagerScreen from 'components/changeManager/ChangeManagerScreen';
-import React from 'react';
-import Header from 'components/header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import CommonInfoList from './components/ContractMember/CommonInfoList';
+import CommonInfoList from './components/contractMember/CommonInfoList';
+import ChangeManagerLoader from 'components/changeManager/ChangeManagerLoader';
 
 function App() {
 	return (
 		<div className="App">
-			{/* <Header></Header>
-			<CommonInfoList></CommonInfoList> */}
 			<BrowserRouter>
 				<Routes>
-					<Route path="/changeManager" element={<ChangeManagerScreen></ChangeManagerScreen>}></Route>
+					<Route path="/contractMember" element={<CommonInfoList></CommonInfoList>}></Route>
+					<Route path="/changeManager" element={<ChangeManagerLoader></ChangeManagerLoader>}></Route>
 				</Routes>
 			</BrowserRouter>
-
-			{/* <BrowserRouter>
-					<Routes>
-						<Route path="/ContractMember" element={<CommonInfoList></CommonInfoList>}></Route>
-					</Routes>
-				</BrowserRouter> */}
 		</div>
 	);
 }
