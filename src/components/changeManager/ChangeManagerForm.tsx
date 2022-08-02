@@ -46,6 +46,9 @@ const ChangeManagerForm = () => {
 		cntrtChangeInfoList: null,
 	});
 
+	const [allCommonInfoChecked, setAllCommonInfoChecked] = useState(false);
+	const [allCntrtChgInfoChecked, setAllCntrtChgInfoChecked] = useState(false);
+
 	const [date, setDate] = useState(new Date());
 
 	const [openPreModal, setOpenPreModal] = useState(false);
@@ -100,20 +103,20 @@ const ChangeManagerForm = () => {
 	};
 
 	const onChangeCntrtChagneInfoCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramSeqNo: number) => {
-		const isChecked = e.target.checked;
-		if (isChecked) {
-			const newCntrtId = [...checkList.seqNoArray, paramSeqNo];
-			console.log('newCntrtId: ', newCntrtId);
-			setCheckList({ ...checkList, seqNoArray: newCntrtId });
-		} else {
-			console.log('false', isChecked);
+		if (checkList.seqNoArray.find((id) => id === paramSeqNo)) {
+			// 있으면 체크가 되어있다는 뜻 => 배열에서 seqNo 빼기
 			const index = checkList.seqNoArray.indexOf(paramSeqNo);
 			// console.log('index: ', index);
 			checkList.seqNoArray.splice(index, 1);
 			setCheckList({ ...checkList, seqNoArray: checkList.seqNoArray });
+		} else {
+			// 체크 안되어 있는 상태 => 배열에 체크한 seqNo 넣기
+			const newCntrtId = [...checkList.seqNoArray, paramSeqNo];
+			console.log('newCntrtId: ', newCntrtId);
+			setCheckList({ ...checkList, seqNoArray: newCntrtId });
 		}
 	};
-
+	console.log('checkList ------------------------------>', checkList);
 	const onChangeValidDate = (date: Date) => {
 		setDate(date);
 		setMngChgInfo({
@@ -273,6 +276,10 @@ const ChangeManagerForm = () => {
 					<Table bordered style={{ height: 80 }}>
 						<thead style={{ textAlign: 'center' }}>
 							<tr className="table-secondary">
+								<th>
+									{' '}
+									<Input type="checkbox" />
+								</th>
 								<th></th>
 								<th>계약 ID</th>
 								<th>계약명</th>
@@ -343,7 +350,10 @@ const ChangeManagerForm = () => {
 					<Table bordered style={{ height: 100 }}>
 						<thead style={{ textAlign: 'center' }}>
 							<tr className="table-secondary">
-								<th></th>
+								<th>
+									{' '}
+									<Input type="checkbox" />
+								</th>
 								<th>계약 ID</th>
 								<th>계약명</th>
 								<th>현담당자</th>
@@ -360,8 +370,16 @@ const ChangeManagerForm = () => {
 										{cntrtChangeInfo.cmptYn === '확정' ? null : (
 											<Input
 												type="checkbox"
+												// onChange={(e) =>
+												// 	onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
+												// }
 												onChange={(e) =>
 													onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
+												}
+												checked={
+													checkList.seqNoArray.find((id) => id == cntrtChangeInfo.seqNo)
+														? true
+														: false
 												}
 											/>
 										)}
