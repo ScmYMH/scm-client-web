@@ -12,7 +12,6 @@ export async function getTariffInfoListApi(params: any) {
   const response = await axios.get<TariffInfo>(
     `http://localhost:9999/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`
   );
-  console.log(response.data);
   return response.data;
 }
 

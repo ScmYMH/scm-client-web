@@ -16,6 +16,9 @@ import {
 import DatePicker from "react-datepicker";
 import { useSelector } from "react-redux";
 import { RootState } from "modules";
+import { NonceProvider } from "react-select";
+import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
+import ContractChangeInfoModal from "./ContractChangeInfoModal";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -31,7 +34,8 @@ const ContractCoaInfoForm = ({
   tariffData,
 }: onSubmitContractInfoProps) => {
   const [date, setDate] = useState(new Date());
-  const [flag, setFlag] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [contractChangeInfoModal, setContractChangeInfoModal] = useState(false);
 
   const [params, setParmas] = useState({
     cntrtId: "",
@@ -39,6 +43,7 @@ const ContractCoaInfoForm = ({
     insDate: "",
     cdvMeaning: "",
   });
+
   const [tariffInfoConditon, setTariffInfoConditon] = useState({
     cntrtId: "",
     svcNm: "",
@@ -80,6 +85,7 @@ const ContractCoaInfoForm = ({
   const onSubmitContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitContractCoaInfo(params);
+    tariffData.data = [];
   };
 
   const onChangeValidDate = (date: Date) => {
@@ -90,13 +96,6 @@ const ContractCoaInfoForm = ({
     });
   };
 
-  // const clickRow = (id) => {
-  //   setTariffInfoConditon({
-  //     ...tariffInfoConditon,
-  //     cntrtId: id,
-  //   });
-  //   onSubmitTariffInfo(tariffInfoConditon);
-  // };
   return (
     <>
       <div style={{ margin: 30 }}>
@@ -108,12 +107,56 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <Form onSubmit={onSubmitContractInfo} className="ContractInfoForm">
+          <Form
+            style={{ margin: 3 }}
+            onSubmit={onSubmitContractInfo}
+            className="ContractInfoForm"
+          >
             <Button size="sm">조회</Button>
           </Form>
-          <Button size="sm">신규등록</Button>
-          <Button size="sm">계약수정</Button>
-          <Button size="sm">계약복사</Button>
+          <Button
+            style={{ margin: 3 }}
+            className="btn"
+            size="sm"
+            onClick={() => {
+              setOpenModal((openModal) => !openModal);
+            }}
+          >
+            신규등록
+          </Button>
+          {openModal && (
+            <ContractCoaRegisterModal
+              isOpen={openModal}
+              closeModal={() => setOpenModal((openModal) => !openModal)}
+            />
+          )}
+          <Button style={{ margin: 3 }} size="sm">
+            계약수정
+          </Button>
+          <Button style={{ margin: 3 }} size="sm">
+            계약복사
+          </Button>
+          <Button
+            style={{ margin: 3 }}
+            size="sm"
+            onClick={() => {
+              setContractChangeInfoModal(
+                (contractChangeInfoModal) => !contractChangeInfoModal
+              );
+            }}
+          >
+            계약변경이력
+          </Button>
+          {contractChangeInfoModal && (
+            <ContractChangeInfoModal
+              isOpen={contractChangeInfoModal}
+              closeModal={() =>
+                setContractChangeInfoModal(
+                  (contractChangeInfoModal) => !contractChangeInfoModal
+                )
+              }
+            />
+          )}
         </div>
         <Table bordered>
           <tr>
@@ -210,57 +253,62 @@ const ContractCoaInfoForm = ({
         >
           <div>계약목록</div>
         </div>
-        <Table striped hover bordered>
-          <thead style={{ textAlign: "center" }}>
-            <tr>
-              <th style={{ paddingBottom: 25 }} rowSpan={2}>
-                계약명
-              </th>
-              <th style={{ paddingBottom: 25 }} rowSpan={2}>
-                계약상태
-              </th>
-              <th colSpan={2}>기간</th>
-              <th style={{ paddingBottom: 25 }} rowSpan={2}>
-                담당자
-              </th>
-              <th style={{ paddingBottom: 25 }} rowSpan={2}>
-                계약 ID
-              </th>
-            </tr>
-            <tr>
-              <th>시작</th>
-              <th>마감</th>
-            </tr>
-          </thead>
-          <tbody>
-            <>
-              {contractInfodata?.map((data, index) => (
-                <tr
-                  key={index}
-                  aria-rowcount={index}
-                  onMouseDown={(e) => {
-                    setTariffInfoConditon({
-                      ...tariffInfoConditon,
-                      cntrtId: data.cntrt_id,
-                    });
-                    console.log(tariffInfoConditon);
-                  }}
-                  onClick={() => {
-                    onSubmitTariffInfo(tariffInfoConditon);
-                  }}
-                >
-                  <td style={{ padding: 30 }}>{data.cntrt_nm}</td>
-                  <td style={{ padding: 30 }}>{data.cd_v_meaning}</td>
-                  <td style={{ padding: 30 }}>{data.cntrt_start_date}</td>
-                  <td style={{ padding: 30 }}>{data.cntrt_end_date}</td>
-                  <td style={{ padding: 30 }}>{data.user_nm}</td>
-                  <td style={{ padding: 30 }}>{data.cntrt_id}</td>
-                </tr>
-              ))}
-            </>
-          </tbody>
-        </Table>
-
+        <div
+          style={{
+            maxHeight: "400px",
+            overflowY: "auto",
+          }}
+        >
+          <Table striped hover bordered>
+            <thead style={{ textAlign: "center" }}>
+              <tr>
+                <th style={{ paddingBottom: 25 }} rowSpan={2}>
+                  계약명
+                </th>
+                <th style={{ paddingBottom: 25 }} rowSpan={2}>
+                  계약상태
+                </th>
+                <th colSpan={2}>기간</th>
+                <th style={{ paddingBottom: 25 }} rowSpan={2}>
+                  담당자
+                </th>
+                <th style={{ paddingBottom: 25 }} rowSpan={2}>
+                  계약 ID
+                </th>
+              </tr>
+              <tr>
+                <th>시작</th>
+                <th>마감</th>
+              </tr>
+            </thead>
+            <tbody>
+              <>
+                {contractInfodata?.map((data, index) => (
+                  <tr
+                    key={index}
+                    aria-rowcount={index}
+                    onMouseDown={(e) => {
+                      setTariffInfoConditon({
+                        ...tariffInfoConditon,
+                        cntrtId: data.cntrt_id,
+                      });
+                    }}
+                    onClick={() => {
+                      onSubmitTariffInfo(tariffInfoConditon);
+                    }}
+                  >
+                    <td style={{ padding: 30 }}>{data.cntrt_nm}</td>
+                    <td style={{ padding: 30 }}>{data.cd_v_meaning}</td>
+                    <td style={{ padding: 30 }}>{data.cntrt_start_date}</td>
+                    <td style={{ padding: 30 }}>{data.cntrt_end_date}</td>
+                    <td style={{ padding: 30 }}>{data.user_nm}</td>
+                    <td style={{ padding: 30 }}>{data.cntrt_id}</td>
+                  </tr>
+                ))}
+              </>
+            </tbody>
+          </Table>
+        </div>
         <div
           style={{
             margin: "10px",
@@ -271,36 +319,43 @@ const ContractCoaInfoForm = ({
         >
           <div>타리프 정보</div>
         </div>
-        <Table striped hover bordered>
-          <thead style={{ textAlign: "center" }}>
-            <tr>
-              <th></th>
-              <th>타리프 ID</th>
-              <th>타리프설명</th>
-              <th>사업유형</th>
-              <th>서비스유형</th>
-              <th>상세서비스유형</th>
-              <th>등록일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <>
-              {tariffData.data?.map((data, index) => (
-                <tr key={index} aria-rowcount={index}>
-                  <th scope="row">
-                    <Input type="checkbox" />
-                  </th>
-                  <td style={{ padding: 30 }}>{data.trff_nm}</td>
-                  <td style={{ padding: 30 }}>{data.trff_desc}</td>
-                  <td style={{ padding: 30 }}>{data.biz_nm}</td>
-                  <td style={{ padding: 30 }}>{data.svc_nm}</td>
-                  <td style={{ padding: 30 }}>{data.detl_svc_nm}</td>
-                  <td style={{ padding: 30 }}>{data.ins_date}</td>
-                </tr>
-              ))}
-            </>
-          </tbody>
-        </Table>
+        <div
+          style={{
+            maxHeight: "400px",
+            overflowY: "auto",
+          }}
+        >
+          <Table striped hover bordered>
+            <thead style={{ textAlign: "center" }}>
+              <tr>
+                <th></th>
+                <th>타리프 ID</th>
+                <th>타리프설명</th>
+                <th>사업유형</th>
+                <th>서비스유형</th>
+                <th>상세서비스유형</th>
+                <th>등록일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <>
+                {tariffData.data?.map((data, index) => (
+                  <tr key={index} aria-rowcount={index}>
+                    <th scope="row">
+                      <Input type="checkbox" />
+                    </th>
+                    <td style={{ padding: 30 }}>{data.trff_nm}</td>
+                    <td style={{ padding: 30 }}>{data.trff_desc}</td>
+                    <td style={{ padding: 30 }}>{data.biz_nm}</td>
+                    <td style={{ padding: 30 }}>{data.svc_nm}</td>
+                    <td style={{ padding: 30 }}>{data.detl_svc_nm}</td>
+                    <td style={{ padding: 30 }}>{data.ins_date}</td>
+                  </tr>
+                ))}
+              </>
+            </tbody>
+          </Table>
+        </div>
       </div>
     </>
   );

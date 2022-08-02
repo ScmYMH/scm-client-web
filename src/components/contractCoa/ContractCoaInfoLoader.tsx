@@ -1,3 +1,4 @@
+import Header from "components/header/Header";
 import { contractInfoAsync, tariffInfoAsync } from "modules/contractCoa/action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ const ContractCoaInfoLoader = () => {
 
   return (
     <>
+      <Header />
       <ContractCoaInfoForm
         onSubmitContractCoaInfo={onSubmitContractCoaInfo}
         onSubmitTariffInfo={onSubmitTariffInfo}

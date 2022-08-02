@@ -6,7 +6,6 @@ import ContractCoaInfoLoader from "components/contractCoa/ContractCoaInfoLoader"
 function App() {
   return (
     <>
-      <Header></Header>
       <BrowserRouter>
         <Routes>
           <Route
