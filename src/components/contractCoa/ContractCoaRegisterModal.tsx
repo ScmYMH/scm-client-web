@@ -123,16 +123,10 @@ const ContractCoaRegisterModal = ({
           </tr>
         </Table>
         <hr></hr>
+
         <Table bordered>
           <thead>타리프 정보</thead>
           <tbody>
-            <tr>
-              <Input
-                style={{ backgroundColor: "blue", color: "white" }}
-                type="button"
-                value="추가"
-              ></Input>
-            </tr>
             <tr>
               <th>일련번호</th>
               <th>타리프 ID</th>
@@ -151,6 +145,16 @@ const ContractCoaRegisterModal = ({
             </tr>
           </tbody>
         </Table>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "50px",
+            color: "white",
+          }}
+        >
+          <Input type="button" value="추가"></Input>
+        </div>
       </ModalBody>
     </Modal>
   );
