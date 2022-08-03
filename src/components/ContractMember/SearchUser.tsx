@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalHeader, Table } from 'reactstrap';
+import { Button, Input, Modal, ModalBody, ModalHeader, Table } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
 import { useState, useEffect } from 'react';
@@ -66,30 +66,37 @@ const SearchUserBody = ({
 
 	return (
 		<>
-			<div style={{ display: 'inline-block', margin: '10px', verticalAlign: 'center' }}>
-				<span style={{ marginRight: '10px' }}>로그인ID</span>
-				<input
-					id="loginId"
-					name="loginId"
-					type="text"
-					style={{ marginRight: '30px' }}
-					onChange={(e) => setUser({ ...user, loginId: e.target.value })}
-				></input>
-				<span style={{ marginRight: '10px' }}>사용자명</span>
-				<input
-					id="userNm"
-					name="userNm"
-					type="text"
-					style={{ marginRight: '30px' }}
-					onChange={(e) => setUser({ ...user, userNm: e.target.value })}
-				></input>
-				<Button className="btn" size="sm" onClick={onSubmitUserInfo}>
-					조회
-				</Button>
-			</div>
+			<Table bordered size="sm" style={{ width: 800, marginLeft: 35 }}>
+				<tr>
+					<td style={{ backgroundColor: 'grey' }}>사용자명</td>
+					<td>
+						<Input
+							id="userNm"
+							name="userNm"
+							type="text"
+							style={{ marginRight: '30px' }}
+							onChange={(e) => setUser({ ...user, userNm: e.target.value })}
+						></Input>
+					</td>
+					<td style={{ backgroundColor: 'grey' }}>로그인ID</td>
+					<td>
+						<Input
+							id="loginId"
+							name="loginId"
+							type="text"
+							style={{ marginRight: '30px' }}
+							onChange={(e) => setUser({ ...user, loginId: e.target.value })}
+						></Input>
+					</td>
+					<Button className="btn" size="sm" onClick={onSubmitUserInfo}>
+						조회
+					</Button>
+				</tr>
+			</Table>
+
 			<Table bordered className="">
 				<thead>
-					<tr className="table-secondary">
+					<tr>
 						<th>시스템사용자명</th>
 						<th>로그인ID</th>
 						<th>시스템사용자ID</th>
@@ -105,13 +112,9 @@ const SearchUserBody = ({
 							<tr key={index} aria-rowcount={index}>
 								<td key={usermemberInfo.userId}>{usermemberInfo.userNm}</td>
 								<td key={usermemberInfo.userId}>{usermemberInfo.loginId}</td>
-								<td className="textR" key={usermemberInfo.userId}>
-									{usermemberInfo.userId}
-								</td>
+								<td key={usermemberInfo.userId}>{usermemberInfo.userId}</td>
 								<td key={usermemberInfo.userId}>{usermemberInfo.email}</td>
-								<td className="textR" key={usermemberInfo.userId}>
-									{usermemberInfo.employeeNumber}
-								</td>
+								<td key={usermemberInfo.userId}>{usermemberInfo.employeeNumber}</td>
 								<td key={usermemberInfo.userId}>{usermemberInfo.deptNm}</td>
 								<td>
 									<Button onClick={() => onSelect(usermemberInfo.userId, usermemberInfo)}>
