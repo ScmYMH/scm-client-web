@@ -1,5 +1,6 @@
 import { delCntrtChgInfo, getContractList, postCntrtChgInfo, putCntrtChgInfo } from 'api/changeManagerAxios';
 import {
+	clearCntrtChgInfoListAsync,
 	delCntrtChgInfoAsync,
 	delCntrtChgInfoCancelAsync,
 	DELETE_CNTRT_CHG_INFO,
@@ -19,6 +20,7 @@ function* getContractListSaga(action: ReturnType<typeof getContractListAsync.req
 		console.log('getContractListSaga : action.payload', action.payload);
 		const commonInfo: Array<CommonInfo> = yield call(getContractList, action.payload);
 		yield put(getContractListAsync.success(commonInfo));
+		yield put(clearCntrtChgInfoListAsync.success());
 	} catch (e: any) {
 		console.log('saga error');
 		yield put(getContractListAsync.failure(e));

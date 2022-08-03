@@ -81,23 +81,22 @@ const ChangeManagerForm = () => {
 	};
 
 	const onChangeCommonInfoCheckBox = (e: React.ChangeEvent<HTMLInputElement>, paramCntrtId: string) => {
-		const isChecked = e.target.checked;
-		if (isChecked) {
-			const newCntrtId = [...mngChgInfo.cntrtId, paramCntrtId];
-			console.log('newCntrtId: ', newCntrtId);
-
-			setMngChgInfo({
-				...mngChgInfo,
-				cntrtId: newCntrtId,
-			});
-		} else {
-			console.log('false', isChecked);
+		if (mngChgInfo.cntrtId.find((id) => id === paramCntrtId)) {
+			// 있으면 체크가 되어있다는 뜻 => 배열에서 cntrtId 빼기
 			const index = mngChgInfo.cntrtId.indexOf(paramCntrtId);
 			// console.log('index: ', index);
 			mngChgInfo.cntrtId.splice(index, 1);
 			setMngChgInfo({
 				...mngChgInfo,
 				cntrtId: mngChgInfo.cntrtId,
+			});
+		} else {
+			// 체크 안되어 있는 상태 => 배열에 체크한 cntrtId 넣기
+			const newCntrtId = [...mngChgInfo.cntrtId, paramCntrtId];
+			console.log('newCntrtId: ', newCntrtId);
+			setMngChgInfo({
+				...mngChgInfo,
+				cntrtId: newCntrtId,
 			});
 		}
 	};
@@ -129,7 +128,11 @@ const ChangeManagerForm = () => {
 	const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		if (mngChgInfo.preActorId === '') {
 			alert('현 담당자를 선택해주세요');
+		} else if (preActorNm.length !== 3) {
+			alert('현 담당자를 선택해주세요');
 		} else if (mngChgInfo.aftActorId === '') {
+			alert('인수 담당자를 선택해주세요');
+		} else if (aftActorNm.length !== 3) {
 			alert('인수 담당자를 선택해주세요');
 		} else if (mngChgInfo.validDate === '') {
 			alert('변경 유효 일자를 선택해주세요');
@@ -151,12 +154,29 @@ const ChangeManagerForm = () => {
 
 	const onClickCancel = () => {
 		console.log('onClickCancel --- cntrtIdArray.cntrtChangeInfoList : ', checkList);
+		let isFail = false;
+		checkList.seqNoArray.map((seqNo) => {
+			checkList.cntrtChangeInfoList
+				?.filter((cntrtChangeInfo) => seqNo === cntrtChangeInfo.seqNo)
+				.map((cntrtChangeInfo) => {
+					if (isFail) return;
+					if (cntrtChangeInfo.cmptYn === '확정') {
+						alert('이미 확정된 계약이 포함되어 있습니다. 다시 선택해 주세요.');
+						isFail = true;
+					}
+				});
+		});
+
+		if (isFail) return;
+
 		dispatch(delCntrtChgInfoAsync.request(checkList));
 		setCheckList({ ...checkList, seqNoArray: [] });
 	};
 
 	useEffect(() => {
 		if (mngChgInfo.preActorId !== '') dispatch(getContractListAsync.request(mngChgInfo.preActorId));
+		setMngChgInfo({ ...mngChgInfo, cntrtId: [], aftActorId: '', validDate: '', reasonDesc: '' });
+		setAftActorNm('');
 	}, [mngChgInfo.preActorId]);
 
 	useEffect(() => {
@@ -243,6 +263,7 @@ const ChangeManagerForm = () => {
 							id="reasonDesc"
 							name="textarea"
 							type="textarea"
+							value={mngChgInfo.reasonDesc}
 							onChange={(e) => setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })}
 						/>
 					</Col>
@@ -276,10 +297,7 @@ const ChangeManagerForm = () => {
 					<Table bordered style={{ height: 80 }}>
 						<thead style={{ textAlign: 'center' }}>
 							<tr className="table-secondary">
-								<th style={{ width: 50 }}>
-									{' '}
-									<Input type="checkbox" />
-								</th>
+								<th style={{ width: 50 }}></th>
 								<th style={{ width: 200 }}>계약 ID</th>
 								<th>계약명</th>
 								<th>계약상태</th>
@@ -294,6 +312,9 @@ const ChangeManagerForm = () => {
 										<Input
 											type="checkbox"
 											onChange={(e) => onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)}
+											checked={
+												mngChgInfo.cntrtId.find((id) => id == commonInfo.cntrtId) ? true : false
+											}
 										/>
 									</th>
 									<td style={{ textAlign: 'right', paddingRight: 20, width: 200 }}>
@@ -349,10 +370,7 @@ const ChangeManagerForm = () => {
 					<Table bordered style={{ height: 100 }}>
 						<thead style={{ textAlign: 'center' }}>
 							<tr className="table-secondary">
-								<th style={{ width: 50 }}>
-									{' '}
-									<Input type="checkbox" />
-								</th>
+								<th style={{ width: 50 }}></th>
 								<th style={{ width: 200 }}>계약 ID</th>
 								<th style={{ width: 300 }}>계약명</th>
 								<th style={{ width: 100 }}>현담당자</th>
@@ -366,22 +384,18 @@ const ChangeManagerForm = () => {
 							{cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
 								<tr key={index}>
 									<th scope="row" style={{ textAlign: 'center', width: 50 }}>
-										{cntrtChangeInfo.cmptYn === '확정' ? null : (
-											<Input
-												type="checkbox"
-												// onChange={(e) =>
-												// 	onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
-												// }
-												onChange={(e) =>
-													onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
-												}
-												checked={
-													checkList.seqNoArray.find((id) => id == cntrtChangeInfo.seqNo)
-														? true
-														: false
-												}
-											/>
-										)}
+										<Input
+											type="checkbox"
+											// onChange={(e) =>
+											// 	onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
+											// }
+											onChange={(e) => onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)}
+											checked={
+												checkList.seqNoArray.find((id) => id == cntrtChangeInfo.seqNo)
+													? true
+													: false
+											}
+										/>
 									</th>
 									<td style={{ textAlign: 'right', paddingRight: 20, width: 200 }}>
 										{cntrtChangeInfo.cntrtId}
