@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 // import './ContractMember.css';
 import { useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Button, Form } from 'reactstrap';
+import { Button, Form, Input, Table } from 'reactstrap';
 import { postUserMemberAsync } from 'modules/contractMember/actions';
 import SearchUser from './SearchUser';
 
@@ -16,6 +16,8 @@ interface memberProps {
 	temp: string;
 	delRowForSearch: () => void;
 	onSubmitMemberDelete: () => void;
+	check: boolean;
+	checked: () => void;
 }
 
 const MenuBar = ({
@@ -25,6 +27,11 @@ const MenuBar = ({
 	setAddMember,
 	onSubmitMemberDelete,
 	delRowForSearch,
+
+	delMember,
+	temp,
+	check,
+	checked,
 }: memberProps) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const dispatch = useDispatch();
@@ -62,9 +69,11 @@ const MenuBar = ({
 		setPreActorId(userId);
 	};
 	const onSubmitUserPostInfo = () => {
-		console.log('addMEmber 값 확인 > ', addMember);
-		if (addMember.length == 0) {
-			alert('등록할 사용자를 선택해주세요 ');
+		console.log('등록 눌렀을 때 check값 확인 >>>> ', !checked);
+		if (addMember == null) {
+			alert(
+				'등록할 사용자를 선택해주세요\n\n선택 경로: 행추가 > 사용자조회 > 사용자선택 > 체크박스 선택 및 등록 ',
+			);
 		} else {
 			dispatch(postUserMemberAsync.request(addMember));
 			alert('성공적으로 등록되었습니다! ');
@@ -78,13 +87,14 @@ const MenuBar = ({
 			<div
 				style={{
 					margin: '5px',
-					marginTop: '10px',
+					marginTop: 80,
+					marginRight: 50,
 					display: 'flex',
 					justifyContent: 'flex-end',
 					alignItems: 'center',
 				}}
 			>
-				<Form onSubmit={onSubmit} onClick={() => delRowForSearch()} className="form">
+				<Form onSubmit={onSubmit} onClick={() => delRowForSearch()}>
 					<Button type="submit" className="buttonStyle" useState>
 						조회
 					</Button>
@@ -93,7 +103,6 @@ const MenuBar = ({
 					등록
 				</Button>
 				<Button
-					className="buttonStyle"
 					onClick={() => {
 						setOpenModal((openModal) => !openModal);
 					}}
@@ -110,52 +119,47 @@ const MenuBar = ({
 					></SearchUser>
 				)}
 
-				<Button className="buttonStyle" onClick={() => delRow()}>
-					행삭제
-				</Button>
-				<Button className="buttonStyle">엑셀 EXPORT</Button>
-				<Button className="buttonStyle" onClick={onSubmitMemberDelete}>
-					삭제
-				</Button>
-				<Form onSubmit={onExit} className="form">
-					<Button type="submit" className="buttonStyle">
-						닫기
-					</Button>
+				<Button onClick={() => delRow()}>행삭제</Button>
+				<Button onClick={onSubmitMemberDelete}>삭제</Button>
+				<Form onSubmit={onExit}>
+					<Button type="submit">닫기</Button>
 				</Form>
 			</div>
 			<div
 				style={{
 					margin: '10px',
 					display: 'flex',
-					justifyContent: 'flex-end',
-					alignItems: 'center',
+					justifyContent: 'flex-start',
+					alignItems: 'left',
 				}}
 			>
-				<div className="searcAll">
-					<span className="margin" style={{ padding: '10px' }}>
-						사용자명
-					</span>
-					<input id="userNm" name="userNm" type={'text'} onChange={search}></input>
-					<span className="margin" style={{ padding: '10px' }}>
-						로그인ID
-					</span>
-					<input id="loginId" name="loginId" onChange={search}></input>
-					<span className="margin" style={{ padding: '10px' }}>
-						삭제여부
-					</span>
-					<select
-						onChange={(e) => setMember({ ...member, delYn: e.target.value })}
-						style={{ marginRight: '30px' }}
-						id="delYn"
-						name="delYn"
-					>
-						{options.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.text}
-							</option>
-						))}
-					</select>
-				</div>
+				<Table bordered style={{ width: 800, marginLeft: 35 }}>
+					<tr>
+						<td style={{ backgroundColor: 'grey' }}>사용자명</td>
+						<td>
+							<Input id="userNm" name="userNm" type={'text'} onChange={search}></Input>
+						</td>
+						<td style={{ backgroundColor: 'grey' }}>로그인ID</td>
+						<td>
+							<Input id="loginId" name="loginId" onChange={search}></Input>
+						</td>
+						<td style={{ backgroundColor: 'grey' }}>삭제여부</td>
+						<td>
+							<select
+								onChange={(e) => setMember({ ...member, delYn: e.target.value })}
+								style={{ marginRight: '30px' }}
+								id="delYn"
+								name="delYn"
+							>
+								{options.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.text}
+									</option>
+								))}
+							</select>
+						</td>
+					</tr>
+				</Table>
 			</div>
 		</>
 	);
