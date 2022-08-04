@@ -16,8 +16,7 @@ interface memberProps {
 	temp: string;
 	delRowForSearch: () => void;
 	onSubmitMemberDelete: () => void;
-	check: string;
-
+	check: boolean;
 	checked: () => void;
 }
 
@@ -28,10 +27,10 @@ const MenuBar = ({
 	setAddMember,
 	onSubmitMemberDelete,
 	delRowForSearch,
+
 	delMember,
 	temp,
 	check,
-
 	checked,
 }: memberProps) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -70,8 +69,8 @@ const MenuBar = ({
 		setPreActorId(userId);
 	};
 	const onSubmitUserPostInfo = () => {
-		console.log('temp 길이', check.length);
-		if (addMember.length == 0) {
+		console.log('등록 눌렀을 때 check값 확인 >>>> ', !checked);
+		if (addMember == null) {
 			alert(
 				'등록할 사용자를 선택해주세요\n\n선택 경로: 행추가 > 사용자조회 > 사용자선택 > 체크박스 선택 및 등록 ',
 			);

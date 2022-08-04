@@ -13,7 +13,7 @@ const CommonInfoList = () => {
 	const [delMember, setDelMem] = useState<any>('');
 	const [checked, setChecked] = useState<any>([]);
 	let temp = '';
-	let check = '';
+	let check = false;
 
 	const dispatch = useDispatch();
 	const onSubmitMemberInfo = (loginId: any, userNm: any, delYn: any) => {
@@ -32,9 +32,9 @@ const CommonInfoList = () => {
 	};
 
 	const onPostManagerCheckBox = (addMember: any) => {
-		console.log('temp 길이', check.length);
-		console.log('temp 길이', check.length);
-		check = addMember;
+		checked;
+		check = true;
+		console.log('temp 길이 (체크박스 들어왔는지 확인) >>>> ', check);
 	};
 
 	const onSubmitMemberDelete = () => {
@@ -68,7 +68,7 @@ const CommonInfoList = () => {
 				delMember={delMember}
 				temp={temp}
 				onSubmitMemberDelete={onSubmitMemberDelete}
-				checked={() => setChecked(!checked)}
+				checked={checked}
 				check={check}
 			></MenuBar>
 
