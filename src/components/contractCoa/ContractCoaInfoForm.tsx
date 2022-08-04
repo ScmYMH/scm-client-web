@@ -158,7 +158,7 @@ const ContractCoaInfoForm = ({
             />
           )}
         </div>
-        <Table bordered>
+        <Table striped hover bordered>
           <tr>
             <td>물류법인</td>
             <td>
