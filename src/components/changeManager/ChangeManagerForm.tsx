@@ -244,7 +244,7 @@ const ChangeManagerForm = () => {
 					)}
 				</div>
 				<div style={{ display: 'flex', margin: 10, alignContent: 'center' }}>
-					<span style={{ width: '120px', marginRight: 50 }}>변경 발효 일자</span>
+					<span style={{ width: '120px', marginRight: 45 }}>변경 발효 일자</span>
 					<DatePicker
 						style={{ display: 'span' }}
 						flexedHeight
@@ -258,7 +258,7 @@ const ChangeManagerForm = () => {
 					<Label for="reasonDesc" sm={2} style={{ width: 155 }}>
 						변경 사유
 					</Label>
-					<Col sm={10}>
+					<Col sm={5}>
 						<Input
 							id="reasonDesc"
 							name="textarea"
