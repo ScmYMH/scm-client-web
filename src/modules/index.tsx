@@ -1,11 +1,12 @@
 import { all } from "@redux-saga/core/effects";
 import { combineReducers } from "redux";
-import { tariffInfo, contractInfo } from "./contractCoa/reducer";
+import { baseCode, tariffInfo, contractInfo } from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
 
 const rootReducer = combineReducers({
   contractInfo,
   tariffInfo,
+  baseCode,
 });
 
 // 루트 리듀서 내보내기

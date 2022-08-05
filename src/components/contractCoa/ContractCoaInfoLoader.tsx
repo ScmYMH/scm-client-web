@@ -1,5 +1,9 @@
 import Header from "components/header/Header";
-import { contractInfoAsync, tariffInfoAsync } from "modules/contractCoa/action";
+import {
+  baseCodeAsync,
+  contractInfoAsync,
+  tariffInfoAsync,
+} from "modules/contractCoa/action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../modules";

@@ -14,11 +14,13 @@ import {
 } from "reactstrap";
 
 import DatePicker from "react-datepicker";
-import { useSelector } from "react-redux";
 import { RootState } from "modules";
 import { NonceProvider } from "react-select";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
+import { baseCodeAsync } from "modules/contractCoa/action";
+import { useDispatch, useSelector } from "react-redux";
+import { baseCode } from "modules/contractCoa/reducer";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -50,14 +52,6 @@ const ContractCoaInfoForm = ({
     detlSvcNm: "",
   });
 
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
-
   const contractStateOptions = [
     { value: "", text: "전체" },
     { value: "Termination", text: "Termination" },
@@ -77,6 +71,14 @@ const ContractCoaInfoForm = ({
     { value: "연안해송", text: "연안해송" },
     { value: "수출해송", text: "수출해송" },
   ];
+
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +
+      (date.getMonth() + 1).toString().padStart(2, "0") +
+      date.getDate().toString().padStart(2, "0")
+    );
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setParmas({ ...params, [e.target.id]: e.target.value });
@@ -124,6 +126,7 @@ const ContractCoaInfoForm = ({
           >
             신규등록
           </Button>
+
           {openModal && (
             <ContractCoaRegisterModal
               isOpen={openModal}
@@ -177,19 +180,20 @@ const ContractCoaInfoForm = ({
             </td>
             <td>계약상태</td>
             <td colSpan={2}>
-              <select
+              <Input
                 onChange={(e) =>
                   setParmas({ ...params, [e.target.id]: e.target.value })
                 }
                 id="cdvMeaning"
                 name="cdvMeaning"
+                type="select"
               >
                 {contractStateOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.text}
                   </option>
                 ))}
-              </select>
+              </Input>
             </td>
           </tr>
           <tr>
@@ -203,7 +207,7 @@ const ContractCoaInfoForm = ({
             </td>
             <td>서비스유형</td>
             <td>
-              <select
+              <Input
                 onChange={(e) =>
                   setTariffInfoConditon({
                     ...tariffInfoConditon,
@@ -212,23 +216,25 @@ const ContractCoaInfoForm = ({
                 }
                 id="svcNm"
                 name="svcNm"
+                type="select"
               >
                 {serviceOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.text}
                   </option>
                 ))}
-              </select>
+              </Input>
             </td>
             <td>상세 서비스유형</td>
             <td>
-              <select
+              <Input
                 onChange={(e) =>
                   setTariffInfoConditon({
                     ...tariffInfoConditon,
                     [e.target.id]: e.target.value,
                   })
                 }
+                type="select"
                 id="detlSvcNm"
                 name="detlSvcNm"
               >
@@ -237,7 +243,7 @@ const ContractCoaInfoForm = ({
                     {option.text}
                   </option>
                 ))}
-              </select>
+              </Input>
             </td>
           </tr>
         </Table>

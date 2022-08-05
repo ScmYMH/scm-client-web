@@ -15,6 +15,21 @@ export async function getTariffInfoListApi(params: any) {
   return response.data;
 }
 
+export async function getContractInfoDefinitionApi(params: any) {
+  const response = await axios.get<ContractInfoDefinition>(
+    `http://localhost:9999/coa/code`
+  );
+  return response.data;
+}
+
+export interface ContractInfoDefinition {
+  [x: string]: any;
+  cd_tp: string;
+  cd_tp_meaning: string;
+  cd_v: string;
+  cd_v_meaning: string;
+}
+
 export interface TariffInfo {
   trff_nm: string;
   trff_desc: string;

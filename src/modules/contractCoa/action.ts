@@ -1,4 +1,8 @@
-import { ContractInfo, TariffInfo } from "api/contractCoaAxios";
+import {
+  ContractInfo,
+  ContractInfoDefinition,
+  TariffInfo,
+} from "api/contractCoaAxios";
 import { AxiosError } from "axios";
 import { createAsyncAction } from "typesafe-actions";
 
@@ -14,6 +18,18 @@ export const GET_TARIFF_INFO_REQUEST_SUCCESS =
   "contract/GET_TARIFF_INFO_REQUEST_SUCCESS";
 export const GET_TARIFF_INFO_REQUEST_ERROR =
   "contract/GET_TARIFF_INFO_REQUEST_ERROR";
+
+export const GET_BASECODE_INFO_REQUEST = "contract/GET_BASECODE_INFO_REQUEST";
+export const GET_BASECODE_INFO_REQUEST_SUCCESS =
+  "contract/GET_BASECODE_INFO_REQUEST_SUCCESS";
+export const GET_BASECODE_INFO_REQUEST_ERROR =
+  "contract/GET_BASECODE_INFO_REQUEST_ERROR";
+
+export const baseCodeAsync = createAsyncAction(
+  GET_BASECODE_INFO_REQUEST,
+  GET_BASECODE_INFO_REQUEST_SUCCESS,
+  GET_BASECODE_INFO_REQUEST_ERROR
+)<any, ContractInfoDefinition, AxiosError>();
 
 export const contractInfoAsync = createAsyncAction(
   GET_CONTRACT_INFO_REQUEST,
