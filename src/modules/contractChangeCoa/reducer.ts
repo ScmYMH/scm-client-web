@@ -8,25 +8,25 @@ import {
 import { ContractChangeInfoAction, ContractChangeInfoState } from "./types";
 
 const initialState: ContractChangeInfoState = {
-  contractChangeInfo: asyncState.initial(),
+  contractChangeInfoList: asyncState.initial(),
 };
 
-const contractInfo = createReducer<
+const contractChangeInfo = createReducer<
   ContractChangeInfoState,
   ContractChangeInfoAction
 >(initialState, {
   [GET_COA_CHANGE_INFO]: (state) => ({
     ...state,
-    contractChangeInfo: asyncState.load(),
+    contractChangeInfoList: asyncState.load(),
   }),
   [GET_COA_CHANGE_INFO_SUCCESS]: (state, action) => ({
     ...state,
-    contractChangeInfo: asyncState.success(action.payload),
+    contractChangeInfoList: asyncState.success(action.payload),
   }),
   [GET_COA_CHANGE_INFO_ERROR]: (state, action) => ({
     ...state,
-    contractChangeInfo: asyncState.error(action.payload),
+    contractChangeInfoList: asyncState.error(action.payload),
   }),
 });
 
-export { contractInfo };
+export { contractChangeInfo };

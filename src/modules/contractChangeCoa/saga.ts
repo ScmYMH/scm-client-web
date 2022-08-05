@@ -1,14 +1,16 @@
-import { getContractInfoListApi } from "api/contractCoaAxios";
-import { ContractChangeInfo } from "api/contractCoaChangeAxios";
-import { call, put, takeLatest } from "redux-saga/effects";
 import { contractChangeInfoAsync, GET_COA_CHANGE_INFO } from "./action";
+import { call, put, takeLatest } from "redux-saga/effects";
+import {
+  ContractChangeInfo,
+  getContractChangeInfoListApi,
+} from "api/contractCoaChangeAxios";
 
-function* contractChangeInfoRequestSaga(
+function* ContractChangeInfoRequestSaga(
   action: ReturnType<typeof contractChangeInfoAsync.request>
 ) {
   try {
     const contractChangeInfo: ContractChangeInfo = yield call(
-      getContractInfoListApi,
+      getContractChangeInfoListApi,
       action.payload
     );
     yield put(contractChangeInfoAsync.success(contractChangeInfo));
@@ -17,6 +19,6 @@ function* contractChangeInfoRequestSaga(
   }
 }
 
-export function* contractInfoSaga() {
-  yield takeLatest(GET_COA_CHANGE_INFO, contractChangeInfoRequestSaga);
+export function* contractChangeInfoSaga() {
+  yield takeLatest(GET_COA_CHANGE_INFO, ContractChangeInfoRequestSaga);
 }

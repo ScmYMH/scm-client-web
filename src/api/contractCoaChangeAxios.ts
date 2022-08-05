@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export async function getContractInfoListApi() {
+export async function getContractChangeInfoListApi(params: any) {
   const response = await axios.get<ContractChangeInfo>(
     `http://localhost:9999/coaChange/info`
   );
+  console.log(response.data);
 
   return response.data;
 }

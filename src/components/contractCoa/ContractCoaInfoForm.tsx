@@ -14,11 +14,12 @@ import {
 } from "reactstrap";
 
 import DatePicker from "react-datepicker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "modules";
 import { NonceProvider } from "react-select";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
+import { contractChangeInfoAsync } from "modules/contractChangeCoa/action";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -78,6 +79,8 @@ const ContractCoaInfoForm = ({
     { value: "수출해송", text: "수출해송" },
   ];
 
+  const dispatch = useDispatch();
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setParmas({ ...params, [e.target.id]: e.target.value });
   };
@@ -95,6 +98,10 @@ const ContractCoaInfoForm = ({
       insDate: dateToString(date),
     });
   };
+
+  const changeInfoData = useSelector(
+    (state: RootState) => state.contractChangeInfo.contractChangeInfoList
+  );
 
   return (
     <>
@@ -136,9 +143,12 @@ const ContractCoaInfoForm = ({
           <Button style={{ margin: 3 }} size="sm">
             계약복사
           </Button>
+
           <Button
+            changeInfoData={changeInfoData}
             style={{ margin: 3 }}
             size="sm"
+            type="submit"
             onClick={() => {
               setContractChangeInfoModal(
                 (contractChangeInfoModal) => !contractChangeInfoModal
@@ -147,6 +157,7 @@ const ContractCoaInfoForm = ({
           >
             계약변경이력
           </Button>
+
           {contractChangeInfoModal && (
             <ContractChangeInfoModal
               isOpen={contractChangeInfoModal}
