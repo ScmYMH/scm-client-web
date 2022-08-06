@@ -57,7 +57,6 @@ const ContractCoaInfoForm = ({
       date.getDate().toString().padStart(2, "0")
     );
   };
-
   const contractStateOptions = [
     { value: "", text: "전체" },
     { value: "Termination", text: "Termination" },
