@@ -41,14 +41,14 @@ const TariffHeaderForm = () => {
       <div
         style={{
           margin: "10px",
+          marginTop: "30px",
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Button style={{ margin: 3 }} size="sm">
-          저장
-        </Button>
+        <h4>타리프 헤더정보</h4>
+        <Button size="sm">저장</Button>
       </div>
       <Table bordered>
         <tr>
