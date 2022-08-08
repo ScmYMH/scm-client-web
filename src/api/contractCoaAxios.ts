@@ -8,6 +8,17 @@ export async function getContractInfoListApi(params: any) {
   return response.data;
 }
 
+export async function insertContractInfo(params: ContractInfo) {
+  console.log("api>>>>>", params);
+  const response = await axios.post<ContractInfo>(
+    `http://localhost:9999/coa`, {
+      params
+    }
+  );
+  console.log("response.data>>", response.data);
+  return response.data;
+}
+
 export async function getTariffInfoListApi(params: any) {
   const response = await axios.get<TariffInfo>(
     `http://localhost:9999/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`

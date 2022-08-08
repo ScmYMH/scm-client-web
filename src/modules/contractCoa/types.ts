@@ -13,6 +13,11 @@ export type ContractInfoState = {
   contractInfo: AsyncState<ContractInfo, Error>;
 };
 
+export type insertContractInfoAction = ActionType<typeof actions>;
+
+export type insertContractInfoState = {
+  insertContractInfo: AsyncState<ContractInfo, Error>;
+};
 export type TariffInfoAction = ActionType<typeof actions>;
 
 export type TariffInfoState = {

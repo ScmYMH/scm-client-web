@@ -15,7 +15,7 @@ import {
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "modules";
-import { baseCodeAsync } from "modules/contractCoa/action";
+import { baseCodeAsync, insertContractCodeAsync } from "modules/contractCoa/action";
 
 interface ContractCoaRegisterModalProps {
   closeModal: any;
@@ -33,7 +33,6 @@ const ContractCoaRegisterModal = ({
     (state: RootState) => state.baseCode.baseCode
   );
   const [contractInfoParams, setContractInfoParamas] = useState({
-    cntrtId: "",
     cntrtCurrCd: "",
     cntrtNm: "",
     cntrtScd: "60",
@@ -41,6 +40,7 @@ const ContractCoaRegisterModal = ({
     cntrtEndDate: "",
     cntrtTcd: "",
     crePersonId: "", // 담당자 명
+    insPersonId: "mh.kim"
   });
 
   const dispatch = useDispatch();
@@ -49,6 +49,11 @@ const ContractCoaRegisterModal = ({
     dispatch(baseCodeAsync.request(""));
   }, []);
   console.log(contractInfoParams);
+
+  const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(insertContractCodeAsync.request(contractInfoParams));
+  };
 
   return (
     <>
@@ -65,9 +70,7 @@ const ContractCoaRegisterModal = ({
           >
             <Form
               className="ContractInfoForm"
-              onSubmit={() => {
-                console.log("test");
-              }}
+              onSubmit={onSubmitInsertContractInfo}
             >
               <Button style={{ margin: 3 }} className="btn" size="sm">
                 신규등록
@@ -107,8 +110,8 @@ const ContractCoaRegisterModal = ({
               <th>계약유형그룹코드*</th>
               <td>
                 <Input
-                  id="cntrtScd"
-                  name="cntrtScd"
+                  id="cntrtTypGcd"
+                  name="cntrtTypGcd"
                   type="select"
                   onChange={(e) =>
                     setContractInfoParamas({
@@ -192,8 +195,8 @@ const ContractCoaRegisterModal = ({
               <th>계약상태</th>
               <td>
                 <Input
-                  id="cntrtState"
-                  name="cntrtState"
+                  id="cntrtScd"
+                  name="cntrtScd"
                   type="select"
                   onChange={(e) =>
                     setContractInfoParamas({

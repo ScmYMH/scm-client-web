@@ -4,6 +4,7 @@ import {
   getContractInfoDefinitionApi,
   getContractInfoListApi,
   getTariffInfoListApi,
+  insertContractInfo,
   TariffInfo,
 } from "api/contractCoaAxios";
 import { call, put, takeLatest } from "redux-saga/effects";
@@ -13,7 +14,11 @@ import {
   GET_BASECODE_INFO_REQUEST,
   GET_CONTRACT_INFO_REQUEST,
   GET_TARIFF_INFO_REQUEST,
+  POST_CONTRACT_INFO_REQUEST,
+  POST_CONTRACT_INFO_REQUEST_SUCCESS,
+  POST_CONTRACT_INFO_REQUEST_ERROR,
   tariffInfoAsync,
+  insertContractCodeAsync
 } from "./action";
 
 function* contractInfoRequestSaga(
@@ -27,6 +32,21 @@ function* contractInfoRequestSaga(
     yield put(contractInfoAsync.success(contractInfo));
   } catch (e: any) {
     yield put(contractInfoAsync.failure(e));
+  }
+}
+
+
+function* insertContractInfoRequestSaga(
+  action: ReturnType<typeof insertContractCodeAsync.request>
+) {
+  try {
+    const postContractInfo: ContractInfo = yield call(
+      insertContractInfo,
+      action.payload
+    );
+    yield put(insertContractCodeAsync.success(postContractInfo));
+  } catch (e: any) {
+    yield put(insertContractCodeAsync.failure(e));
   }
 }
 
@@ -60,4 +80,5 @@ export function* contractInfoSaga() {
   yield takeLatest(GET_CONTRACT_INFO_REQUEST, contractInfoRequestSaga);
   yield takeLatest(GET_TARIFF_INFO_REQUEST, tariffInfoRequestSaga);
   yield takeLatest(GET_BASECODE_INFO_REQUEST, baseCodeSaga);
+  yield takeLatest(POST_CONTRACT_INFO_REQUEST, insertContractInfoRequestSaga);
 }
