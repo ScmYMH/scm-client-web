@@ -16,8 +16,7 @@ interface memberProps {
 	temp: string;
 	delRowForSearch: () => void;
 	onSubmitMemberDelete: () => void;
-	check: boolean;
-	checked: () => void;
+	checked: boolean;
 }
 
 const MenuBar = ({
@@ -27,10 +26,8 @@ const MenuBar = ({
 	setAddMember,
 	onSubmitMemberDelete,
 	delRowForSearch,
-
 	delMember,
 	temp,
-	check,
 	checked,
 }: memberProps) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -70,11 +67,11 @@ const MenuBar = ({
 	};
 	const onSubmitUserPostInfo = () => {
 		console.log('등록 눌렀을 때 check값 확인 >>>> ', !checked);
-		if (addMember == null) {
+		if (checked == false) {
 			alert(
 				'등록할 사용자를 선택해주세요\n\n선택 경로: 행추가 > 사용자조회 > 사용자선택 > 체크박스 선택 및 등록 ',
 			);
-		} else {
+		} else if (checked == true) {
 			dispatch(postUserMemberAsync.request(addMember));
 			alert('성공적으로 등록되었습니다! ');
 			delRowForSearch();

@@ -11,9 +11,8 @@ const CommonInfoList = () => {
 	const [isAdd, setIsAdd] = useState<any[]>([]);
 	const [addMember, setAddMember] = useState<any>([]);
 	const [delMember, setDelMem] = useState<any>('');
-	const [checked, setChecked] = useState<any>([]);
+	const [checked, setChecked] = useState(false);
 	let temp = '';
-	let check = false;
 
 	const dispatch = useDispatch();
 	const onSubmitMemberInfo = (loginId: any, userNm: any, delYn: any) => {
@@ -28,13 +27,6 @@ const CommonInfoList = () => {
 
 	const onChangeManagerCheckBox = (delMember: any) => {
 		temp = delMember;
-		//upcheck = delMember;
-	};
-
-	const onPostManagerCheckBox = (addMember: any) => {
-		checked;
-		check = true;
-		console.log('temp 길이 (체크박스 들어왔는지 확인) >>>> ', check);
 	};
 
 	const onSubmitMemberDelete = () => {
@@ -69,7 +61,6 @@ const CommonInfoList = () => {
 				temp={temp}
 				onSubmitMemberDelete={onSubmitMemberDelete}
 				checked={checked}
-				check={check}
 			></MenuBar>
 
 			<Table bordered style={{ width: 1600, margin: ' 0 auto', marginTop: 150, marginBottom: 50 }}>
@@ -122,10 +113,7 @@ const CommonInfoList = () => {
 							{addMember.map((data, index) => (
 								<tr key={index} aria-rowcount={index}>
 									<td>
-										<input
-											type={'checkbox'}
-											onChange={() => onPostManagerCheckBox(addMember.userid)}
-										></input>
+										<input type={'checkbox'} onChange={() => setChecked(true)}></input>
 									</td>
 									<td key={data.userId}>{data.userNm}</td>
 									<td key={data.userId}>{data.loginId}</td>
