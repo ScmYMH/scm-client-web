@@ -48,6 +48,7 @@ const ContractCoaRegisterModal = ({
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
   }, []);
+  
   console.log(contractInfoParams);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
