@@ -121,6 +121,9 @@ const MenuBar = ({
 				<Form onSubmit={onExit}>
 					<Button type="submit">닫기</Button>
 				</Form>
+				<Form action="/excel/download" method="get">
+					<Button type="submit">Excel</Button>
+				</Form>
 			</div>
 			<div
 				style={{

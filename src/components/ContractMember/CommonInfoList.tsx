@@ -2,10 +2,12 @@ import { RootState } from 'modules';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContractMemberAsync, getContractMemberAsync, postUserMemberAsync } from 'modules/contractMember/actions';
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import MenuBar from './MenuBar';
 import Header from './header/Header';
-
+import { writeXLSX } from 'xlsx';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 const CommonInfoList = () => {
 	const { data } = useSelector((state: RootState) => state.contractmember.contractMemberList);
 	const [isAdd, setIsAdd] = useState<any[]>([]);
@@ -39,6 +41,78 @@ const CommonInfoList = () => {
 		}
 	};
 
+	///엑셀 구현///
+	// const exportData = [
+	// 	{
+	// 		userId: '202207130003',
+	// 		loginId: 'ghi06141',
+	// 		userNm: '홍혜정',
+	// 		email: 'ghi06141@naver.com',
+	// 		employeeNumber: '14789',
+	// 		deptNm: '국내물류계약섹션',
+	// 		delYn: 'N',
+	// 		insDate: '20220803',
+	// 		updDate: null,
+	// 	},
+	// 	{
+	// 		userId: '202207130005',
+	// 		loginId: 'rkatkgody',
+	// 		userNm: '박다솔',
+	// 		email: 'thank@gmail.com',
+	// 		employeeNumber: '96632',
+	// 		deptNm: '국내물류계약섹션',
+	// 		delYn: 'N',
+	// 		insDate: '20220803',
+	// 		updDate: null,
+	// 	},
+	// 	{
+	// 		userId: '20453693456896',
+	// 		loginId: 'zdfs96',
+	// 		userNm: '홍정혜',
+	// 		email: 'awcef@naver.com',
+	// 		employeeNumber: '96596',
+	// 		deptNm: '해외물류계약색션',
+	// 		delYn: 'Y',
+	// 		insDate: '20220729',
+	// 		updDate: '20220731',
+	// 	},
+	// ];
+
+	const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+	const excelFileExtension = '.xlsx';
+	const excelFileName = '작성자';
+
+	const excelDownload = (excelData: any) => {
+		const ws = XLSX.utils.aoa_to_sheet([
+			['사용자ID', '로그인ID', '사용자이름', '이메일', '직번', '부서', '삭제여부', '등록일', '삭제일'],
+		]);
+		excelData.map((exportData: any) => {
+			XLSX.utils.sheet_add_aoa(
+				ws,
+				[
+					[
+						exportData.userId,
+						exportData.loginId,
+						exportData.userNm,
+						exportData.email,
+						exportData.employeeNumber,
+						exportData.deptNm,
+						exportData.delYn,
+						exportData.insDate,
+						exportData.updDate,
+					],
+				],
+				{ origin: -1 },
+			);
+			ws['!cols'] = [{ wpx: 200 }, { wpx: 200 }];
+			return false;
+		});
+		const wb: any = { Sheets: { data: ws }, SheetNames: ['data'] };
+		const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+		const excelFile = new Blob([excelButter], { type: excelFileType });
+		FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
+	};
+
 	return (
 		<>
 			<Header></Header>
@@ -46,8 +120,6 @@ const CommonInfoList = () => {
 				onSubmitMemberInfo={onSubmitMemberInfo}
 				addRow={() => setIsAdd([...addMember, {}])}
 				delRow={() => {
-					//const tmp = [...addMember];
-					//addMember.pop();
 					setIsAdd(addMember.pop());
 				}}
 				delRowForSearch={() => {
@@ -63,7 +135,13 @@ const CommonInfoList = () => {
 				checked={checked}
 			></MenuBar>
 
-			<Table bordered style={{ width: 1600, margin: ' 0 auto', marginTop: 150, marginBottom: 50 }}>
+			<button onClick={() => excelDownload(data)}>엑셀 다운로드</button>
+			<Table
+				bordered
+				style={{ width: 1600, margin: ' 0 auto', marginTop: 150, marginBottom: 50 }}
+				cellSpacing={0}
+				id="tableData"
+			>
 				<thead>
 					<tr className="table-secondary">
 						<th></th>
