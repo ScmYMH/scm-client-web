@@ -19,6 +19,7 @@ import {
   baseCodeAsync,
   insertContractCodeAsync,
 } from "modules/contractCoa/action";
+import axios from "axios";
 
 interface ContractCoaRegisterModalProps {
   closeModal: any;
@@ -36,6 +37,7 @@ const ContractCoaRegisterModal = ({
     (state: RootState) => state.baseCode.baseCode
   );
   const [contractInfoParams, setContractInfoParamas] = useState({
+    cntrtId: "",
     cntrtCurrCd: "USD",
     cntrtNm: "",
     cntrtScd: "60",
@@ -50,9 +52,20 @@ const ContractCoaRegisterModal = ({
 
   const dispatch = useDispatch();
 
+  const getContractId = async () => {
+    await axios
+      .get(`http://localhost:9990/coa/newcntrtid`)
+      .then((res)=> setContractInfoParamas({
+        ...contractInfoParams,
+        cntrtId: res.data,
+      }));
+  };
+  
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
+    getContractId();
   }, []);
+
   console.log(contractInfoParams);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
@@ -78,19 +91,17 @@ const ContractCoaRegisterModal = ({
           <div>계약 등록 화면</div>
         </ModalHeader>
         <ModalBody>
-          <div style={{}}>
             <div>
               <Form
                 className="ContractInfoForm"
                 onSubmit={onSubmitInsertContractInfo}
               >
                 계약정보
-                <Button style={{ marginLeft: "80%" }} className="btn" size="sm">
+                <Button style={{ marginLeft: "70%" }} className="btn" size="sm">
                   신규등록
                 </Button>
               </Form>
             </div>
-          </div>
           <Table bordered>
             <tr>
               <th>물류법인</th>
@@ -177,17 +188,7 @@ const ContractCoaRegisterModal = ({
             <tr>
               <th>계약 ID</th>
               <td>
-                <Input
-                  id="cntrtId"
-                  name="cntrtId"
-                  disabled
-                  onChange={(e) =>
-                    setContractInfoParamas({
-                      ...contractInfoParams,
-                      [e.target.id]: e.target.value,
-                    })
-                  }
-                />
+                <span>{contractInfoParams?.cntrtId.toString()}</span>
               </td>
               <th>담당자*</th>
               <td>
