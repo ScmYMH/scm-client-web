@@ -84,21 +84,21 @@ const CommonInfoList = () => {
 
 	const excelDownload = (excelData: any) => {
 		const ws = XLSX.utils.aoa_to_sheet([
-			['로그인ID', '사용자이름', '이메일', '직번', '부서', '삭제여부', '등록일', '삭제일'],
+			['사용자이름', '로그인ID', '이메일', '직번', '부서', '등록일', '삭제일', '삭제여부'],
 		]);
 		excelData.map((exportData: any) => {
 			XLSX.utils.sheet_add_aoa(
 				ws,
 				[
 					[
-						exportData.loginId,
 						exportData.userNm,
+						exportData.loginId,
 						exportData.email,
 						exportData.employeeNumber,
 						exportData.deptNm,
-						exportData.delYn,
 						exportData.insDate,
 						exportData.updDate,
+						exportData.delYn,
 					],
 				],
 				{ origin: -1 },
@@ -132,86 +132,92 @@ const CommonInfoList = () => {
 				temp={temp}
 				onSubmitMemberDelete={onSubmitMemberDelete}
 				checked={checked}
+				excelDownload={() => excelDownload(data)}
+				data={data}
 			></MenuBar>
-
-			<button onClick={() => excelDownload(data)}>엑셀 다운로드</button>
-			<Table
-				bordered
-				style={{ width: 1600, margin: ' 0 auto', marginTop: 150, marginBottom: 50 }}
-				cellSpacing={0}
-				id="tableData"
+			<div
+				style={{
+					maxHeight: '600px',
+					overflowY: 'auto',
+					width: 1600,
+					margin: ' 0 auto',
+					marginTop: 150,
+				}}
 			>
-				<thead>
-					<tr className="table-secondary">
-						<th></th>
-						<th>사용자명</th>
-						<th>로그인ID</th>
-						<th>EMAIL</th>
-						<th>직번</th>
-						<th>부서</th>
-						<th>등록일</th>
-						<th>삭제일</th>
-						<th>삭제여부</th>
-					</tr>
-				</thead>
-				{data && (
-					<tbody>
-						<>
-							{data.map((contractmemberInfo, index) => (
-								<tr key={index} aria-rowcount={index}>
-									<td>
-										<input
-											type={'checkbox'}
-											id={contractmemberInfo.userId}
-											onChange={() => onChangeManagerCheckBox(contractmemberInfo.userId)}
-										></input>
-									</td>
-									<td key={contractmemberInfo.userId}>{contractmemberInfo.userNm}</td>
-									<td key={contractmemberInfo.userId}>{contractmemberInfo.loginId}</td>
-									<td key={contractmemberInfo.userId}>{contractmemberInfo.email}</td>
-									<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
-										{contractmemberInfo.employeeNumber}
-									</td>
-									<td key={contractmemberInfo.userId}>{contractmemberInfo.deptNm}</td>
-									<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
-										{contractmemberInfo.insDate}
-									</td>
-									<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
-										{contractmemberInfo.updDate}
-									</td>
-									<td key={contractmemberInfo.userId}>{contractmemberInfo.delYn}</td>
-								</tr>
-							))}
+				<Table bordered cellSpacing={0} id="tableData">
+					<thead>
+						<tr className="table-secondary">
+							<th></th>
+							<th>사용자명</th>
+							<th>로그인ID</th>
+							<th>EMAIL</th>
+							<th>직번</th>
+							<th>부서</th>
+							<th>등록일</th>
+							<th>삭제일</th>
+							<th>삭제여부</th>
+						</tr>
+					</thead>
 
-							{/* {isAdd.map((i) => (
+					{data && (
+						<tbody>
+							<>
+								{data.map((contractmemberInfo, index) => (
+									<tr key={index} aria-rowcount={index}>
+										<td>
+											<input
+												type={'checkbox'}
+												id={contractmemberInfo.userId}
+												onChange={() => onChangeManagerCheckBox(contractmemberInfo.userId)}
+											></input>
+										</td>
+										<td key={contractmemberInfo.userId}>{contractmemberInfo.userNm}</td>
+										<td key={contractmemberInfo.userId}>{contractmemberInfo.loginId}</td>
+										<td key={contractmemberInfo.userId}>{contractmemberInfo.email}</td>
+										<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
+											{contractmemberInfo.employeeNumber}
+										</td>
+										<td key={contractmemberInfo.userId}>{contractmemberInfo.deptNm}</td>
+										<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
+											{contractmemberInfo.insDate}
+										</td>
+										<td style={{ textAlign: 'right' }} key={contractmemberInfo.userId}>
+											{contractmemberInfo.updDate}
+										</td>
+										<td key={contractmemberInfo.userId}>{contractmemberInfo.delYn}</td>
+									</tr>
+								))}
+
+								{/* {isAdd.map((i) => (
 								<AddTable />
 							))} */}
 
-							{addMember.map((data, index) => (
-								<tr key={index} aria-rowcount={index}>
-									<td>
-										<input type={'checkbox'} onChange={() => setChecked(true)}></input>
-									</td>
-									<td key={data.userId}>{data.userNm}</td>
-									<td key={data.userId}>{data.loginId}</td>
-									<td key={data.userId}>{data.email}</td>
-									<td style={{ textAlign: 'right' }} key={data.userId}>
-										{data.employeeNumber}
-									</td>
-									<td key={data.userId}>{data.deptNm}</td>
-									<td style={{ textAlign: 'right' }} key={data.userId}>
-										{data.insDate}
-									</td>
-									<td style={{ textAlign: 'right' }} key={data.userId}>
-										{data.updDate}
-									</td>
-									<td key={data.userId}>{data.delYn}</td>
-								</tr>
-							))}
-						</>
-					</tbody>
-				)}
-			</Table>
+								{addMember.map((data, index) => (
+									<tr key={index} aria-rowcount={index}>
+										<td>
+											<input type={'checkbox'} onChange={() => setChecked(true)}></input>
+										</td>
+										<td key={data.userId}>{data.userNm}</td>
+										<td key={data.userId}>{data.loginId}</td>
+										<td key={data.userId}>{data.email}</td>
+										<td style={{ textAlign: 'right' }} key={data.userId}>
+											{data.employeeNumber}
+										</td>
+										<td key={data.userId}>{data.deptNm}</td>
+										<td style={{ textAlign: 'right' }} key={data.userId}>
+											{data.insDate}
+										</td>
+										<td style={{ textAlign: 'right' }} key={data.userId}>
+											{data.updDate}
+										</td>
+										<td key={data.userId}>{data.delYn}</td>
+									</tr>
+								))}
+							</>
+						</tbody>
+					)}
+				</Table>
+			</div>
 		</>
 	);
 };
