@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getContractInfoListApi(params: any) {
   const response = await axios.get<ContractInfo>(
-    `http://localhost:9990/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
+    `http://localhost:9999/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
   );
 
   return response.data;
@@ -11,7 +11,7 @@ export async function getContractInfoListApi(params: any) {
 export async function insertContractInfo(params: ContractInfo) {
   console.log("api>>>>>", params);
   const response = await axios.post<ContractInfo>(
-    `http://localhost:9990/coa`,
+    `http://localhost:9999/coa`,
     params
   );
   console.log("response.data>>", response.data);
@@ -20,14 +20,14 @@ export async function insertContractInfo(params: ContractInfo) {
 
 export async function getTariffInfoListApi(params: any) {
   const response = await axios.get<TariffInfo>(
-    `http://localhost:9990/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`
+    `http://localhost:9999/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`
   );
   return response.data;
 }
 
 export async function getContractInfoDefinitionApi(params: any) {
   const response = await axios.get<ContractInfoDefinition>(
-    `http://localhost:9990/coa/code`
+    `http://localhost:9999/coa/code`
   );
   return response.data;
 }
