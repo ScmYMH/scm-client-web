@@ -2,8 +2,9 @@ import React from "react";
 import Header from "components/header/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ContractCoaInfoLoader from "components/contractCoa/ContractCoaInfoLoader";
-import LoginLoader from './components/login/LoginLoader';
-
+import LoginLoader from "./components/login/LoginLoader";
+import CommonInfoList from "components/ContractMember/CommonInfoList";
+import ChangeManagerLoader from "components/changeManager/ChangeManagerLoader";
 function App() {
   return (
     <>
@@ -13,8 +14,15 @@ function App() {
             path="/"
             element={<ContractCoaInfoLoader></ContractCoaInfoLoader>}
           ></Route>
-                  <Route path="login" element={<LoginLoader></LoginLoader>}></Route>
-
+          <Route path="login" element={<LoginLoader></LoginLoader>}></Route>
+          <Route
+            path="/contractMember"
+            element={<CommonInfoList></CommonInfoList>}
+          ></Route>
+          <Route
+            path="/changeManager"
+            element={<ChangeManagerLoader></ChangeManagerLoader>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
