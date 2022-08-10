@@ -84,14 +84,13 @@ const CommonInfoList = () => {
 
 	const excelDownload = (excelData: any) => {
 		const ws = XLSX.utils.aoa_to_sheet([
-			['사용자ID', '로그인ID', '사용자이름', '이메일', '직번', '부서', '삭제여부', '등록일', '삭제일'],
+			['로그인ID', '사용자이름', '이메일', '직번', '부서', '삭제여부', '등록일', '삭제일'],
 		]);
 		excelData.map((exportData: any) => {
 			XLSX.utils.sheet_add_aoa(
 				ws,
 				[
 					[
-						exportData.userId,
 						exportData.loginId,
 						exportData.userNm,
 						exportData.email,
