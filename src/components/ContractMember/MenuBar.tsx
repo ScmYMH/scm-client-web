@@ -17,6 +17,8 @@ interface memberProps {
 	delRowForSearch: () => void;
 	onSubmitMemberDelete: () => void;
 	checked: boolean;
+	excelDownload: () => void;
+	data: any;
 }
 
 const MenuBar = ({
@@ -29,6 +31,8 @@ const MenuBar = ({
 	delMember,
 	temp,
 	checked,
+	excelDownload,
+	data,
 }: memberProps) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const dispatch = useDispatch();
@@ -117,6 +121,9 @@ const MenuBar = ({
 				)}
 
 				<Button onClick={() => delRow()}>행삭제</Button>
+				<Button type="submit" onClick={() => excelDownload()}>
+					엑셀 Export
+				</Button>
 				<Button onClick={onSubmitMemberDelete}>삭제</Button>
 				<Form onSubmit={onExit}>
 					<Button type="submit">닫기</Button>
