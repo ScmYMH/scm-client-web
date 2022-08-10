@@ -21,9 +21,9 @@ export async function postTariffInfo(tariffInfoParam: TariffInfoParam) {
   return response.data;
 }
 
-export async function getDestInfo(params: any) {
+export async function getDestInfo() {
   const response = await axios.get<DestInfoParam>(
-    `http://localhost:9092/contract/tariff/searchNode?nodeCd=${params.nodeCd}&nodeDesc=${params.nodeDesc}&nationNm=${params.nationNm}`
+    `http://localhost:9092/contract/tariff/searchNode`
   );
   return response.data;
 }

@@ -1,6 +1,6 @@
 import { RootState } from "modules";
 import { getDestInfoAsync } from "modules/tariff/actions";
-import { DestInfoParam } from "modules/tariff/types";
+import { DestInfo, DestInfoParam } from "modules/tariff/types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, ModalBody, ModalHeader, Table } from "reactstrap";
@@ -20,7 +20,7 @@ const SearchManager = ({
 }) => {
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="xl">
-      <ModalHeader toggle={closeModal}>계약 담당자 조회</ModalHeader>
+      <ModalHeader toggle={closeModal}>목적지 조회</ModalHeader>
       <ModalBody>
         <SearchManagerBody
           closeModal={closeModal}
@@ -52,14 +52,17 @@ const SearchManagerBody = ({
     error: destInfoListError,
   } = useSelector((state: RootState) => state.tariff.destInfoList);
 
+  const [destInfoState, setDestInfoState] = useState(destInfoListData);
+
   const [nodeInfo, setNodeInfo] = useState<DestInfoParam>({
     nodeCd: "",
     nodeDesc: "",
     nationNm: "",
+    nationCd: "",
   });
 
   const onSubmitNodeInfo = () => {
-    dispatch(getDestInfoAsync.request(nodeInfo));
+    dispatch(getDestInfoAsync.request());
   };
 
   const onSelect = (nodeCd: string, nodeDesc: string) => {
@@ -68,25 +71,11 @@ const SearchManagerBody = ({
   };
 
   useEffect(() => {
-    // if (whatNode === "departCond") {
-    //   // 출발지 cond 선택하는 경우
-    //   dispatch(
-    //     getContractMemberAsync.request({
-    //       ...nodeInfo,
-    //       nodeDesc: nodeNm.departNodeNm,
-    //     })
-    //   );
-    // } else if (whatNode === "arrivalCond") {
-    //   // 도착지 cond 선택하는 경우
-    //   dispatch(
-    //     getContractMemberAsync.request({
-    //       ...nodeInfo,
-    //       nodeDesc: nodeNm.arrivalNodeNm,
-    //     })
-    //   );
-    // }
-    dispatch(getDestInfoAsync.request(nodeInfo));
+    dispatch(getDestInfoAsync.request());
   }, []);
+  useEffect(() => {
+    setDestInfoState(destInfoListData);
+  }, [destInfoListData]);
 
   return (
     <>
@@ -97,54 +86,66 @@ const SearchManagerBody = ({
           verticalAlign: "center",
         }}
       >
-        <span style={{ marginRight: "10px" }}>노드명</span>
+        <span style={{ marginRight: "10px" }}>목적지명</span>
         <input
           id="nodeDesc"
           name="nodeDesc"
           type="text"
-          style={{ marginRight: "30px" }}
+          style={{ width: "170px", marginRight: "20Px" }}
           onChange={(e) =>
             setNodeInfo({ ...nodeInfo, nodeDesc: e.target.value })
           }
         ></input>
-        <span style={{ marginRight: "10px" }}>노드코드</span>
+        <span style={{ marginRight: "10px" }}>목적지코드</span>
         <input
           id="nodeCd"
           name="nodeCd"
           type="text"
-          style={{ marginRight: "30px" }}
+          style={{ width: "150px", marginRight: "20px" }}
           onChange={(e) => setNodeInfo({ ...nodeInfo, nodeCd: e.target.value })}
         ></input>
-        <span style={{ marginRight: "10px" }}>국가</span>
+        <span style={{ marginRight: "10px" }}>국가명</span>
         <input
-          id="nationCd"
-          name="nationCd"
+          id="nationNm"
+          name="nationNm"
           type="text"
-          style={{ marginRight: "30px" }}
+          style={{ width: "170px", marginRight: "20px" }}
           onChange={(e) =>
             setNodeInfo({ ...nodeInfo, nationNm: e.target.value })
           }
         ></input>
-        <Button className="btn" size="sm" onClick={onSubmitNodeInfo}>
+        <span style={{ marginRight: "10px" }}>국가코드</span>
+        <input
+          id="nationCd"
+          name="nationCd"
+          type="text"
+          style={{ width: "150px", marginRight: "40px" }}
+          onChange={(e) =>
+            setNodeInfo({ ...nodeInfo, nationCd: e.target.value })
+          }
+        ></input>
+        <Button className="btn" onClick={onSubmitNodeInfo} size="sm">
           조회
         </Button>
       </div>
       <Table bordered className="tableStyle">
         <thead>
           <tr>
-            <th>노드코드</th>
-            <th>노드명</th>
-            <th>국가</th>
+            <th>목적지코드</th>
+            <th>목적지명</th>
+            <th>국가코드</th>
+            <th>국가명</th>
             <th></th>
           </tr>
         </thead>
-        {destInfoListData && (
+        {destInfoState && (
           <tbody>
-            {destInfoListData.map((destInfo, index) => (
+            {destInfoState.map((destInfo, index) => (
               <tr key={index} aria-rowcount={index}>
                 <td>{destInfo.nodeCd}</td>
                 <td>{destInfo.nodeDesc}</td>
                 <td>{destInfo.nationNm}</td>
+                <td>{destInfo.nationCd}</td>
                 <td>
                   <Button
                     size="sm"

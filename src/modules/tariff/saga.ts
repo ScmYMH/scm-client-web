@@ -46,11 +46,7 @@ function* postTariffInfoSaga(
 
 function* getDestInfoSaga(action: ReturnType<typeof getDestInfoAsync.request>) {
   try {
-    console.log("getDestInfoSaga ---- action.payload: ", action.payload);
-    const destInfoList: Array<DestInfo> = yield call(
-      getDestInfo,
-      action.payload
-    );
+    const destInfoList: Array<DestInfo> = yield call(getDestInfo);
     yield put(getDestInfoAsync.success(destInfoList));
   } catch (e: any) {
     console.log("getDestInfoSaga error");

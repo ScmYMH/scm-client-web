@@ -16,7 +16,7 @@ const SearchManager = ({
 }) => {
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="xl">
-      <ModalHeader toggle={closeModal}>계약 담당자 조회</ModalHeader>
+      <ModalHeader toggle={closeModal}>물류비계정 조회</ModalHeader>
       <ModalBody>
         <SearchManagerBody closeModal={closeModal} onClickLcc={onClickLcc} />
       </ModalBody>

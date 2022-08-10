@@ -45,7 +45,7 @@ export const getDestInfoAsync = createAsyncAction(
   GET_DEST_INFO,
   GET_DEST_INFO_SUCCESS,
   GET_DEST_INFO_ERROR
-)<DestInfoParam, Array<DestInfo>, AxiosError>();
+)<undefined, Array<DestInfo>, AxiosError>();
 
 export const getLccInfoAsync = createAsyncAction(
   GET_LCC_INFO,

@@ -57,12 +57,14 @@ export interface DestInfoParam {
   nodeCd: string;
   nodeDesc: string;
   nationNm: string;
+  nationCd: string;
 }
 
 // get destInfo res
 export interface DestInfo {
   nodeCd: string; // 목적지코드
   nodeDesc: string; // 목적지명
+  nationCd: string; // 국가명
   nationNm: string; // 국가코드
   deliveryAreaCd: string; // 대권역
   boundaryCd: string; // 소권역
