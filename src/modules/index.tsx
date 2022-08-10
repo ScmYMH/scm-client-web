@@ -10,6 +10,8 @@ import contractmember from "./contractMember/reducer";
 import { contractMemberSaga } from "./contractMember/saga";
 import usermember from "./userMember/reducer";
 import { userMemberSaga } from "./userMember/saga";
+import tariff from "./tariff/reducer";
+import { tariffSaga } from "./tariff/saga";
 
 const rootReducer = combineReducers({
   contractInfo,
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   changeManager,
   contractmember,
   usermember,
+  tariff,
 });
 
 // 루트 리듀서 내보내기
@@ -36,5 +39,6 @@ export function* rootSaga() {
     changeManagerSaga(),
     contractMemberSaga(),
     userMemberSaga(),
+    tariffSaga(),
   ]);
 }

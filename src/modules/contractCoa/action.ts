@@ -20,7 +20,6 @@ export const POST_CONTRACT_INFO_REQUEST_SUCCESS =
 export const POST_CONTRACT_INFO_REQUEST_ERROR =
   "contract/POST_CONTRACT_INFO_REQUEST_ERROR";
 
-
 // 타리프 조회
 export const GET_TARIFF_INFO_REQUEST = "contract/GET_TARIFF_INFO_REQUEST";
 export const GET_TARIFF_INFO_REQUEST_SUCCESS =
@@ -41,13 +40,11 @@ export const baseCodeAsync = createAsyncAction(
   GET_BASECODE_INFO_REQUEST_ERROR
 )<any, ContractInfoDefinition, AxiosError>();
 
-
 export const insertContractCodeAsync = createAsyncAction(
   POST_CONTRACT_INFO_REQUEST,
   POST_CONTRACT_INFO_REQUEST_SUCCESS,
   POST_CONTRACT_INFO_REQUEST_ERROR
 )<any, ContractInfo, AxiosError>();
-
 
 export const contractInfoAsync = createAsyncAction(
   GET_CONTRACT_INFO_REQUEST,

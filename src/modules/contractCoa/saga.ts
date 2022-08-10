@@ -18,7 +18,7 @@ import {
   POST_CONTRACT_INFO_REQUEST_SUCCESS,
   POST_CONTRACT_INFO_REQUEST_ERROR,
   tariffInfoAsync,
-  insertContractCodeAsync
+  insertContractCodeAsync,
 } from "./action";
 
 function* contractInfoRequestSaga(
@@ -34,7 +34,6 @@ function* contractInfoRequestSaga(
     yield put(contractInfoAsync.failure(e));
   }
 }
-
 
 function* insertContractInfoRequestSaga(
   action: ReturnType<typeof insertContractCodeAsync.request>

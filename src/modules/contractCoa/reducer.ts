@@ -50,23 +50,23 @@ const insertContractinitialState: insertContractInfoState = {
   insertContractInfo: asyncState.initial(),
 };
 
-const postContractInfo = createReducer<insertContractInfoState, insertContractInfoAction>(
-  insertContractinitialState,
-  {
-    [POST_CONTRACT_INFO_REQUEST]: (state) => ({
-      ...state,
-      insertContractInfo: asyncState.load(),
-    }),
-    [POST_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
-      ...state,
-      insertContractInfo: asyncState.success(action.payload),
-    }),
-    [POST_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
-      ...state,
-      insertContractInfo: asyncState.error(action.payload),
-    }),
-  }
-);
+const postContractInfo = createReducer<
+  insertContractInfoState,
+  insertContractInfoAction
+>(insertContractinitialState, {
+  [POST_CONTRACT_INFO_REQUEST]: (state) => ({
+    ...state,
+    insertContractInfo: asyncState.load(),
+  }),
+  [POST_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    insertContractInfo: asyncState.success(action.payload),
+  }),
+  [POST_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
+    ...state,
+    insertContractInfo: asyncState.error(action.payload),
+  }),
+});
 const tariffInitialState: TariffInfoState = {
   tariffInfo: asyncState.initial(),
 };
