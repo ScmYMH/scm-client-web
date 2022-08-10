@@ -83,7 +83,6 @@ const ContractCoaRegisterModal = ({
     }
   };
 
-  Modal;
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
