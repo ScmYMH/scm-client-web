@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { TariffCondParam } from "modules/tariff/types";
 import SearchDestModal from "./SearchDestModal";
 import SearchLccModal from "./SearchLccModal";
+import TariffExcelModal from "./TariffExcelModal";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const LccCd = [
@@ -137,10 +138,12 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
 
   const onClickExcelImport = () => {
     console.log("ADD 버튼 클릭");
-    if (!isSave) {
-      alert("타리프 헤더정보가 없습니다");
-    }
+    // if (!isSave) {
+    //   alert("타리프 헤더정보가 없습니다");
+    // }
   };
+
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     console.log("행추가");
@@ -235,10 +238,19 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 <Button
                   size="sm"
                   style={{ marginLeft: 10 }}
-                  onClick={onClickExcelImport}
+                  onClick={() => {
+                    onClickExcelImport;
+                    setOpenModal((openModal) => !openModal);
+                  }}
                 >
                   Add
                 </Button>
+                {openModal && (
+                  <TariffExcelModal
+                    isOpen={openModal}
+                    closeModal={() => setOpenModal((openModal) => !openModal)}
+                  ></TariffExcelModal>
+                )}
               </div>
             </Row>
           </Col>
