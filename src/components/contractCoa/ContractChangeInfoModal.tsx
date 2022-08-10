@@ -36,7 +36,7 @@ const ContractChangeInfoModal = ({
           <Table bordered>
             <thead>
               <tr>
-                <th>일련번호법인</th>
+                <th>일련번호</th>
                 <th>수정사유</th>
                 <th>수정일시</th>
                 <th>수정자 명</th>
