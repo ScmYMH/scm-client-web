@@ -62,7 +62,18 @@ const SearchManagerBody = ({
   });
 
   const onSubmitNodeInfo = () => {
-    dispatch(getDestInfoAsync.request());
+    if (destInfoListData !== null) {
+      const temp = destInfoListData.filter((destInfo) => {
+        if (
+          destInfo.nodeCd.includes(nodeInfo.nodeCd) &&
+          destInfo.nodeDesc.includes(nodeInfo.nodeDesc) &&
+          destInfo.nationCd.includes(nodeInfo.nationCd) &&
+          destInfo.nationNm.includes(nodeInfo.nationNm)
+        )
+          return true;
+      });
+      setDestInfoState(temp);
+    }
   };
 
   const onSelect = (nodeCd: string, nodeDesc: string) => {
@@ -133,8 +144,8 @@ const SearchManagerBody = ({
           <tr>
             <th>목적지코드</th>
             <th>목적지명</th>
-            <th>국가코드</th>
             <th>국가명</th>
+            <th>국가코드</th>
             <th></th>
           </tr>
         </thead>
