@@ -1,267 +1,207 @@
-import { Button, Col, Input, Row, Table } from "reactstrap";
-import { HiSearch } from "react-icons/hi";
-import { useEffect } from "react";
+import { RootState } from "modules";
+import { postTariffInfoAsync } from "modules/tariff/actions";
+import { TariffInfoParam } from "modules/tariff/types";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Input, Table } from "reactstrap";
 
-const TariffInfoForm = () => {
-  const LccCd = [
+const TariffInfoForm = ({ isSaveTrue }: { isSaveTrue: () => void }) => {
+  const dispatch = useDispatch();
+
+  const {
+    data: tariffInfoData,
+    loading: tariffInfoLoading,
+    error: tariffInfoError,
+  } = useSelector((state: RootState) => state.tariff.tariffInfo);
+
+  const [params, setParams] = useState<TariffInfoParam>({
+    cntrtId: "20220501000003", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
+    trffNm: "", // 타리프 NM
+    trffDesc: "", // 타리프 설명
+    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
+    arApCcd: "", // 매출매입구분코드
+    svcTcd: "", // 서비스유형코드
+    detlSvcTcd: "", // 상세서비스유형
+  });
+
+  const bizTcdLov = [
     { value: "", text: "" },
-    { value: "10A1", text: "10A1" },
-    { value: "10D1", text: "10D1" },
+    { value: "EX", text: "수출" },
+    { value: "LD", text: "역내판매운송" },
   ];
 
-  const tarrifInfoListData = [
-    {
-      departCd: "KORKANT01",
-      departDesc: "광양제철소",
-      arrivalCd: "IDNBLWP01", // 도착지코드
-      arrivalDesc: "BELAWAN", // 도착지명
-      lccCd: "10D1", // 물류비계정
-      subLccCd: "105", // 세부물류비
-      lccCdNm: "국제해송비 (COA)(제품)", // 세부물류비설명
-      cntrtCurrCd: "USD", // 계약통화
-      payCurrCd: "USD", // 지불통화
-      tariffItemCd: "Y-일반", // 품종명
-      cost: "58.2", // 단가
-      unitCd: "TON", // 계산단위
-      incoCd: "6A1", // 인도조건
-      condId: "", // 조건ID
-      condNm: "", // 조건명
-    },
+  const arApCcdLov = [
+    { value: "", text: "" },
+    { value: "AR", text: "매출" },
+    { value: "AP", text: "매입" },
   ];
 
-  const addNewLine = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log("addNewLine");
-    tarrifInfoListData.push({
-      departCd: "",
-      departDesc: "",
-      arrivalCd: "", // 도착지코드
-      arrivalDesc: "", // 도착지명
-      lccCd: "", // 물류비계정
-      subLccCd: "", // 세부물류비
-      lccCdNm: "", // 세부물류비설명
-      cntrtCurrCd: "", // 계약통화
-      payCurrCd: "", // 지불통화
-      tariffItemCd: "", // 품종명
-      cost: "", // 단가
-      unitCd: "", // 계산단위
-      incoCd: "", // 인도조건
-      condId: "", // 조건ID
-      condNm: "", // 조건명
-    });
+  const svcTcdLov = [
+    { value: "", text: "" },
+    { value: "ROAD", text: "공로운송" },
+    { value: "VSL", text: "해상운송" },
+  ];
+
+  const detlSvcTcdLov = [
+    { value: "", text: "" },
+    { value: "ICV", text: "ICV-국제해송(COA)" },
+    { value: "NTR", text: "NTR-일반공로운송(주문기준)" },
+  ];
+
+  const onClickHeaderSave = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (params.bizTcd === "") {
+      alert("사업지역을 선택해주세요");
+    } else if (params.arApCcd === "") {
+      alert("매입/매출을 선택해주세요");
+    } else if (params.trffDesc === "") {
+      alert("타리프 설명을 기입해주세요");
+    } else if (params.svcTcd === "") {
+      alert("서비스유형을 선택해주세요");
+    } else if (params.detlSvcTcd === "") {
+      alert("상세 서비스유형을 선택해주세요");
+    } else {
+      const data = {
+        ...params,
+        trffNm:
+          "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
+      };
+      setParams(data);
+      dispatch(postTariffInfoAsync.request(data));
+      isSaveTrue();
+    }
   };
 
-  useEffect(() => {
-    console.log("행추가");
-    console.log("tarrifInfoListData : ", tarrifInfoListData);
-  }, [tarrifInfoListData]);
-
   return (
-    <>
-      <div style={{ marginLeft: 20, marginRight: 20 }}>
-        <Row style={{ marginTop: 50 }}>
-          <Col>
-            <h4 style={{ marginTop: 10 }}>타리프 정보</h4>
-          </Col>
-          <Col>
-            <Row>
-              <div
-                style={{
-                  margin: "3px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Button size="sm" style={{ marginLeft: "10px" }}>
-                  조회
-                </Button>
-                <Button size="sm" style={{ marginLeft: "10px" }}>
-                  복사
-                </Button>
-                <Button
-                  size="sm"
-                  style={{ marginLeft: "10px" }}
-                  onClick={(e) => {
-                    addNewLine(e);
-                  }}
-                >
-                  행추가
-                </Button>
-                <Button size="sm" style={{ marginLeft: "10px" }}>
-                  행삭제
-                </Button>
-              </div>
-              <div
-                style={{
-                  margin: "3px",
-                  marginBottom: "10px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Button size="sm" style={{ marginLeft: 10 }}>
-                  조건등록
-                </Button>
-                <Button size="sm" style={{ marginLeft: 10 }}>
-                  저장
-                </Button>
-                <Button size="sm" style={{ marginLeft: 10 }}>
-                  삭제
-                </Button>
-                <Button size="sm" style={{ marginLeft: 10 }}>
-                  엑셀 Export
-                </Button>
-              </div>
-            </Row>
-          </Col>
-        </Row>
-        <Table bordered>
-          <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
-              유효기간
-            </th>
-            <td colSpan={2}>
-              <Input
-                type="date"
-                style={{
-                  boxShadow: "none",
-                  width: 230,
-                  display: "inline-block",
-                }}
-              ></Input>
-            </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
-              출발지
-            </th>
-
-            <td colSpan={2}>
-              <div style={{ padding: 3 }}>
-                <Input
-                  type="text"
-                  value={"팝업"}
-                  id="departures"
-                  style={{
-                    boxShadow: "none",
-                    width: 230,
-                    display: "inline-block",
-                  }}
-                ></Input>
-                <HiSearch
-                  style={{ marginLeft: 10, cursor: "pointer" }}
-                ></HiSearch>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
-              물류비계정
-            </th>
-            <td colSpan={2}>
-              <select id="LccCd" name="LccCd" style={{ width: 230 }}>
-                {LccCd.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
-              </select>
-            </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
-              도착지
-            </th>
-            <td colSpan={2}>
-              <div style={{ padding: 3 }}>
-                <Input
-                  type="text"
-                  value={"팝업"}
-                  id="arrivals"
-                  style={{
-                    boxShadow: "none",
-                    width: 230,
-                    display: "inline-block",
-                  }}
-                ></Input>
-                <HiSearch
-                  style={{ marginLeft: 10, cursor: "pointer" }}
-                ></HiSearch>
-              </div>
-            </td>
-          </tr>
-        </Table>
-        <div
-          style={{
-            maxHeight: "210px",
-            overflowY: "auto",
-            marginTop: 20,
+    <div style={{ marginLeft: 20, marginRight: 20 }}>
+      <div
+        style={{
+          margin: "10px",
+          marginTop: "30px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h4>타리프 헤더정보</h4>
+        <Button
+          size="sm"
+          onClick={(e) => {
+            onClickHeaderSave(e);
           }}
         >
-          <Table bordered style={{ height: 30 }}>
-            <thead style={{ textAlign: "center" }}>
-              <tr className="table-secondary">
-                <th style={{ width: 50 }}></th>
-                <th style={{ width: 70 }}>출발지코드</th>
-                <th style={{ width: 90 }}>출발지명</th>
-                <th style={{ width: 70 }}>도착지코드</th>
-                <th style={{ width: 90 }}>도착지명</th>
-                <th style={{ width: 80 }}>물류비계정</th>
-                <th style={{ width: 80 }}>세부물류비</th>
-                <th style={{ width: 180 }}>세부물류비설명</th>
-                <th style={{ width: 70 }}>계약통화</th>
-                <th style={{ width: 70 }}>지불통화</th>
-                <th style={{ width: 70 }}>품종명</th>
-                <th style={{ width: 70 }}>단가</th>
-                <th style={{ width: 70 }}>계산단위</th>
-                <th style={{ width: 70 }}>인도조건</th>
-                <th style={{ width: 70 }}>조건ID</th>
-                <th style={{ width: 70 }}>조건명</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tarrifInfoListData?.map((tarrifInfo, index) => (
-                <tr key={index}>
-                  <th scope="row" style={{ textAlign: "center", width: 50 }}>
-                    <Input
-                      type="checkbox"
-                      // onChange={(e) =>
-                      //   onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)
-                      // }
-                      // checked={
-                      //   mngChgInfo.cntrtId.find(
-                      //     (id) => id == commonInfo.cntrtId
-                      //   )
-                      //     ? true
-                      //     : false
-                      // }
-                    />
-                  </th>
-                  <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 70 }}
-                  >
-                    {tarrifInfo.departCd}
-                  </td>
-                  <td style={{ width: 90 }}>{tarrifInfo.departDesc}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.arrivalCd}</td>
-                  <td style={{ width: 90 }}>{tarrifInfo.arrivalDesc}</td>
-                  <td style={{ width: 80 }}>{tarrifInfo.lccCd}</td>
-                  <td style={{ width: 80 }}>{tarrifInfo.subLccCd}</td>
-                  <td style={{ width: 180 }}>{tarrifInfo.lccCdNm}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.cntrtCurrCd}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.payCurrCd}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.tariffItemCd}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.cost}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.unitCd}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.incoCd}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.condId}</td>
-                  <td style={{ width: 70 }}>{tarrifInfo.condNm}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+          저장
+        </Button>
       </div>
-    </>
+      <Table bordered>
+        <tr>
+          <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            타리프 ID
+          </th>
+          <td colSpan={2}>{params.trffNm}</td>
+          <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            사업지역
+          </th>
+          <td colSpan={2}>
+            <select
+              onChange={(e) =>
+                setParams({ ...params, [e.target.id]: e.target.value })
+              }
+              id="bizTcd"
+              name="bizTcd"
+              style={{ width: 230, borderWidth: "0 0px" }}
+              value={params.bizTcd}
+            >
+              {bizTcdLov.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </select>
+          </td>
+          <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            매입/매출
+          </th>
+          <td colSpan={2}>
+            <select
+              onChange={(e) =>
+                setParams({ ...params, [e.target.id]: e.target.value })
+              }
+              id="arApCcd"
+              name="arApCcd"
+              style={{ width: 230 }}
+              value={params.arApCcd}
+            >
+              {arApCcdLov.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            타리프설명
+          </th>
+          <td colSpan={2}>
+            <Input
+              type="text"
+              value={params.trffDesc}
+              onChange={(e) =>
+                setParams({ ...params, [e.target.id]: e.target.value })
+              }
+              id="trffDesc"
+              style={{ boxShadow: "none" }}
+            ></Input>
+          </td>
+          <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            서비스유형
+          </th>
+          <td colSpan={2}>
+            <select
+              onChange={(e) =>
+                setParams({ ...params, [e.target.id]: e.target.value })
+              }
+              id="svcTcd"
+              name="svcTcd"
+              style={{ width: 230 }}
+              value={params.svcTcd}
+            >
+              {svcTcdLov.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </select>
+          </td>
+          <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            상세 서비스유형
+          </th>
+          <td colSpan={2}>
+            <select
+              onChange={(e) =>
+                setParams({
+                  ...params,
+                  [e.target.id]: e.target.value.slice(0, 3),
+                })
+              }
+              id="detlSvcTcd"
+              name="detlSvcTcd"
+              style={{ width: 230 }}
+              value={params.detlSvcTcd}
+            >
+              {detlSvcTcdLov.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </select>
+          </td>
+        </tr>
+      </Table>
+    </div>
   );
 };
 

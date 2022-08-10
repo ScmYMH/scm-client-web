@@ -1,13 +1,20 @@
 import Header from "./Header";
-import TariffHeaderForm from "./TariffHeaderForm";
+import { useEffect, useState } from "react";
+import TariffCondHForm from "./TariffCondHForm";
 import TariffInfoForm from "./TariffInfoForm";
 
 const TariffLoader = () => {
+  const [isSave, setIsSave] = useState(false);
+
+  useEffect(() => {
+    setIsSave(false);
+  }, []); // 모달창 띄울때마다 isSave false로 바꿔주기
+
   return (
     <>
       <Header></Header>
-      <TariffHeaderForm></TariffHeaderForm>
-      <TariffInfoForm></TariffInfoForm>
+      <TariffInfoForm isSaveTrue={() => setIsSave(true)}></TariffInfoForm>
+      <TariffCondHForm isSave={isSave}></TariffCondHForm>
     </>
   );
 };
