@@ -2,13 +2,16 @@ import { all } from "@redux-saga/core/effects";
 import { combineReducers } from "redux";
 import { tariffInfo, contractInfo } from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
+import { excelImportSaga } from "./importExcel/saga";
 import tariff from "./tariff/reducer";
 import { tariffSaga } from "./tariff/saga";
+import excelImportDataInfo from "./importExcel/reducer";
 
 const rootReducer = combineReducers({
   contractInfo,
   tariffInfo,
   tariff,
+  excelImportDataInfo,
 });
 
 // 루트 리듀서 내보내기
@@ -20,5 +23,5 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 // 루트 사가 만들어서 내보내주기
 export function* rootSaga() {
-  yield all([contractInfoSaga(), tariffSaga()]);
+  yield all([contractInfoSaga(), tariffSaga(), excelImportSaga()]);
 }
