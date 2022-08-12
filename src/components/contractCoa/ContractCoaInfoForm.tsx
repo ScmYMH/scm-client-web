@@ -9,6 +9,8 @@ import ContractChangeInfoModal from "./ContractChangeInfoModal";
 import { baseCodeAsync } from "modules/contractCoa/action";
 import { useDispatch, useSelector } from "react-redux";
 import { baseCode } from "modules/contractCoa/reducer";
+import TariffLoader from "components/tariffInfo/TariffLoader";
+import { TariffInfoParam } from "modules/tariff/types";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -59,6 +61,18 @@ const ContractCoaInfoForm = ({
     { value: "연안해송", text: "연안해송" },
     { value: "수출해송", text: "수출해송" },
   ];
+
+  const [openTariffModal, setOpenTariffModal] = useState(false);
+
+  const [tariffParams, setTariffParams] = useState<TariffInfoParam>({
+    cntrtId: "", // 계약 ID
+    trffNm: "", // 타리프 NM
+    trffDesc: "", // 타리프 설명
+    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
+    arApCcd: "", // 매출매입구분코드
+    svcTcd: "", // 서비스유형코드
+    detlSvcTcd: "", // 상세서비스유형
+  });
 
   const dateToString = (date) => {
     return (
@@ -342,7 +356,25 @@ const ContractCoaInfoForm = ({
             <tbody>
               <>
                 {tariffData.data?.map((data, index) => (
-                  <tr key={index} aria-rowcount={index}>
+                  <tr
+                    key={index}
+                    aria-rowcount={index}
+                    onMouseDown={(e) => {
+                      setTariffParams({
+                        ...tariffParams,
+                        cntrtId: tariffInfoConditon.cntrtId, // 계약 ID
+                        trffNm: data.trff_nm, // 타리프 NM
+                        trffDesc: data.trff_desc, // 타리프 설명
+                        bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
+                        arApCcd: "AP", // 매출매입구분코드
+                        svcTcd: data.svc_nm, // 서비스유형코드
+                        detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                      });
+                    }}
+                    onClick={() => {
+                      setOpenTariffModal((openTariffModal) => !openTariffModal);
+                    }}
+                  >
                     <th scope="row">
                       <Input type="checkbox" />
                     </th>
@@ -352,6 +384,17 @@ const ContractCoaInfoForm = ({
                     <td style={{ padding: 30 }}>{data.svc_nm}</td>
                     <td style={{ padding: 30 }}>{data.detl_svc_nm}</td>
                     <td style={{ padding: 30 }}>{data.ins_date}</td>
+                    {openTariffModal && (
+                      <TariffLoader
+                        isOpen={openTariffModal}
+                        closeModal={() =>
+                          setOpenTariffModal(
+                            (openTariffModal) => !openTariffModal
+                          )
+                        }
+                        tariffParams={tariffParams}
+                      />
+                    )}
                   </tr>
                 ))}
               </>

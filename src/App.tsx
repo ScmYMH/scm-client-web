@@ -24,7 +24,7 @@ function App() {
             path="/changeManager"
             element={<ChangeManagerLoader></ChangeManagerLoader>}
           ></Route>
-          <Route path="/tariff" element={<TariffLoader></TariffLoader>}></Route>
+          {/* <Route path="/tariff" element={<TariffLoader></TariffLoader>}></Route> */}
         </Routes>
       </BrowserRouter>
     </>
