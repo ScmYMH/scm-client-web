@@ -9,12 +9,19 @@ export async function getContractInfoListApi(params: any) {
 }
 
 export async function insertContractInfo(params: ContractInfo) {
-  console.log("api>>>>>", params);
   const response = await axios.post<ContractInfo>(
     `http://localhost:9999/coa`,
     params
   );
-  console.log("response.data>>", response.data);
+  return response.data;
+}
+
+export async function updateContractInfo(params: ContractInfo) {
+  const response = await axios.put<ContractInfo>(
+    `http://localhost:9999/coa`,
+    params
+  );
+  console.log(">>>>>>", response.data);
   return response.data;
 }
 
@@ -47,6 +54,7 @@ export interface TariffInfo {
   svc_nm: string;
   detl_svc_nm: string;
   ins_date: string;
+  detl_svc_tcd: string;
 }
 
 export interface ContractInfo {

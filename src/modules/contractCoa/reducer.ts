@@ -13,6 +13,9 @@ import {
   POST_CONTRACT_INFO_REQUEST,
   POST_CONTRACT_INFO_REQUEST_SUCCESS,
   POST_CONTRACT_INFO_REQUEST_ERROR,
+  UPDATE_CONTRACT_INFO_REQUEST,
+  UPDATE_CONTRACT_INFO_REQUEST_SUCCESS,
+  UPDATE_CONTRACT_INFO_REQUEST_ERROR,
 } from "./action";
 import {
   BaseCodeAction,
@@ -23,6 +26,8 @@ import {
   insertContractInfoState,
   TariffInfoAction,
   TariffInfoState,
+  updateContractInfoAction,
+  updateContractInfoState,
 } from "./types";
 
 const initialState: ContractInfoState = {
@@ -50,23 +55,46 @@ const insertContractinitialState: insertContractInfoState = {
   insertContractInfo: asyncState.initial(),
 };
 
-const postContractInfo = createReducer<insertContractInfoState, insertContractInfoAction>(
-  insertContractinitialState,
-  {
-    [POST_CONTRACT_INFO_REQUEST]: (state) => ({
-      ...state,
-      insertContractInfo: asyncState.load(),
-    }),
-    [POST_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
-      ...state,
-      insertContractInfo: asyncState.success(action.payload),
-    }),
-    [POST_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
-      ...state,
-      insertContractInfo: asyncState.error(action.payload),
-    }),
-  }
-);
+const postContractInfo = createReducer<
+  insertContractInfoState,
+  insertContractInfoAction
+>(insertContractinitialState, {
+  [POST_CONTRACT_INFO_REQUEST]: (state) => ({
+    ...state,
+    insertContractInfo: asyncState.load(),
+  }),
+  [POST_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    insertContractInfo: asyncState.success(action.payload),
+  }),
+  [POST_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
+    ...state,
+    insertContractInfo: asyncState.error(action.payload),
+  }),
+});
+
+const updateContractinitialState: updateContractInfoState = {
+  updateContractInfo: asyncState.initial(),
+};
+
+const updateContractInfo = createReducer<
+  updateContractInfoState,
+  updateContractInfoAction
+>(updateContractinitialState, {
+  [UPDATE_CONTRACT_INFO_REQUEST]: (state) => ({
+    ...state,
+    updateContractInfo: asyncState.load(),
+  }),
+  [UPDATE_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    updateContractInfo: asyncState.success(action.payload),
+  }),
+  [UPDATE_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
+    ...state,
+    updateContractInfo: asyncState.error(action.payload),
+  }),
+});
+
 const tariffInitialState: TariffInfoState = {
   tariffInfo: asyncState.initial(),
 };
@@ -111,4 +139,10 @@ const baseCode = createReducer<BaseCodeState, BaseCodeAction>(
   }
 );
 
-export { contractInfo, tariffInfo, baseCode, postContractInfo };
+export {
+  contractInfo,
+  tariffInfo,
+  baseCode,
+  postContractInfo,
+  updateContractInfo,
+};

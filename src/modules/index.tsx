@@ -1,6 +1,11 @@
 import { all } from "@redux-saga/core/effects";
 import { combineReducers } from "redux";
-import { baseCode, tariffInfo, contractInfo } from "./contractCoa/reducer";
+import {
+  baseCode,
+  tariffInfo,
+  contractInfo,
+  updateContractInfo,
+} from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
 import login from "./login/reducer";
 import { loginSaga } from "./login/saga";
@@ -19,6 +24,7 @@ const rootReducer = combineReducers({
   changeManager,
   contractmember,
   usermember,
+  updateContractInfo,
 });
 
 // 루트 리듀서 내보내기

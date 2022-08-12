@@ -9,6 +9,7 @@ import ContractChangeInfoModal from "./ContractChangeInfoModal";
 import { baseCodeAsync } from "modules/contractCoa/action";
 import { useDispatch, useSelector } from "react-redux";
 import { baseCode } from "modules/contractCoa/reducer";
+import ContractCoaUpdateModal from "./ContractCoaUpdateModal";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -16,7 +17,11 @@ interface onSubmitContractInfoProps {
   contractInfodata: any;
   tariffData: any;
 }
-
+export interface DesignProps {
+  id: string;
+  name: string;
+  type: string;
+}
 const ContractCoaInfoForm = ({
   onSubmitContractCoaInfo,
   onSubmitTariffInfo,
@@ -26,13 +31,21 @@ const ContractCoaInfoForm = ({
   const [date, setDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [contractChangeInfoModal, setContractChangeInfoModal] = useState(false);
-
   const [params, setParmas] = useState({
     cntrtId: "",
     cntrtNm: "",
     insDate: "",
     cdvMeaning: "",
   });
+  const [updParams, setUpdParmas] = useState({
+    data: {
+      cntrtId: "",
+      cntrtNm: "",
+      insDate: "",
+      cdvMeaning: "",
+    },
+  });
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const [tariffInfoConditon, setTariffInfoConditon] = useState({
     cntrtId: "",
@@ -78,20 +91,19 @@ const ContractCoaInfoForm = ({
     tariffData.data = [];
   };
 
-  const onChangeValidDate = (date: Date) => {
-    setDate(date);
-    setParmas({
-      ...params,
-      insDate: dateToString(date),
-    });
-  };
-
   return (
     <>
-      <div style={{ margin: 30 }}>
+      <div
+        style={{
+          marginTop: 0,
+          marginRight: 30,
+          marginBottom: 15,
+          marginLeft: 30,
+        }}
+      >
         <div
           style={{
-            margin: "10px",
+            margin: "5px",
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
@@ -114,16 +126,28 @@ const ContractCoaInfoForm = ({
           >
             신규등록
           </Button>
-
           {openModal && (
             <ContractCoaRegisterModal
               isOpen={openModal}
               closeModal={() => setOpenModal((openModal) => !openModal)}
             />
           )}
-          <Button style={{ margin: 3 }} size="sm">
+          <Button
+            style={{ margin: 3 }}
+            size="sm"
+            onClick={() => {
+              setOpenModal((openModal) => !openModal);
+            }}
+          >
             계약수정
           </Button>
+          {openModal && (
+            <ContractCoaUpdateModal
+              isOpen={openModal}
+              closeModal={() => setOpenModal((openModal) => !openModal)}
+              updParams={updParams}
+            />
+          )}
           <Button style={{ margin: 3 }} size="sm">
             계약복사
           </Button>
@@ -175,7 +199,7 @@ const ContractCoaInfoForm = ({
               />
             </td>
             <td>계약상태</td>
-            <td colSpan={2}>
+            <td colSpan={3}>
               <Input
                 onChange={(e) =>
                   setParmas({ ...params, [e.target.id]: e.target.value })
@@ -243,7 +267,6 @@ const ContractCoaInfoForm = ({
             </td>
           </tr>
         </Table>
-
         <div
           style={{
             margin: "10px",
@@ -264,6 +287,7 @@ const ContractCoaInfoForm = ({
           <Table striped hover bordered>
             <thead style={{ textAlign: "center" }}>
               <tr>
+                <th style={{ paddingBottom: 25 }} rowSpan={2}></th>
                 <th style={{ paddingBottom: 25 }} rowSpan={2}>
                   계약명
                 </th>
@@ -286,22 +310,65 @@ const ContractCoaInfoForm = ({
             <tbody>
               <>
                 {contractInfodata?.map((data, index) => (
-                  <tr
-                    key={index}
-                    aria-rowcount={index}
-                    onMouseDown={(e) => {
-                      setTariffInfoConditon({
-                        ...tariffInfoConditon,
-                        cntrtId: data.cntrt_id,
-                      });
-                    }}
-                    onClick={() => {
-                      onSubmitTariffInfo(tariffInfoConditon);
-                    }}
-                  >
-                    <td style={{ padding: 30 }}>{data.cntrt_nm}</td>
-                    <td style={{ padding: 30 }}>{data.cd_v_meaning}</td>
-                    <td style={{ padding: 30 }}>{data.cntrt_start_date}</td>
+                  <tr key={index} aria-rowcount={index}>
+                    <th scope="row" style={{ textAlign: "center", width: 50 }}>
+                      <Input
+                        type="checkbox"
+                        value={data}
+                        id="cntrtId"
+                        name="cntrtId"
+                        onChange={(e) => {
+                          setIsChecked(true);
+                          // onChangeCheck(e, data.cntrt_id);
+                          setUpdParmas({
+                            ...updParams,
+                            data: data,
+                          });
+                        }}
+                      />
+                    </th>
+                    <td
+                      style={{ padding: 30 }}
+                      onMouseDown={(e) => {
+                        setTariffInfoConditon({
+                          ...tariffInfoConditon,
+                          cntrtId: data.cntrt_id,
+                        });
+                      }}
+                      onClick={() => {
+                        onSubmitTariffInfo(tariffInfoConditon);
+                      }}
+                    >
+                      {data.cntrt_nm}
+                    </td>
+                    <td
+                      style={{ padding: 30 }}
+                      onMouseDown={(e) => {
+                        setTariffInfoConditon({
+                          ...tariffInfoConditon,
+                          cntrtId: data.cntrt_id,
+                        });
+                      }}
+                      onClick={() => {
+                        onSubmitTariffInfo(tariffInfoConditon);
+                      }}
+                    >
+                      {data.cd_v_meaning}
+                    </td>
+                    <td
+                      style={{ padding: 30 }}
+                      onMouseDown={(e) => {
+                        setTariffInfoConditon({
+                          ...tariffInfoConditon,
+                          cntrtId: data.cntrt_id,
+                        });
+                      }}
+                      onClick={() => {
+                        onSubmitTariffInfo(tariffInfoConditon);
+                      }}
+                    >
+                      {data.cntrt_start_date}
+                    </td>
                     <td style={{ padding: 30 }}>{data.cntrt_end_date}</td>
                     <td style={{ padding: 30 }}>{data.user_nm}</td>
                     <td style={{ padding: 30 }}>{data.cntrt_id}</td>
@@ -350,7 +417,9 @@ const ContractCoaInfoForm = ({
                     <td style={{ padding: 30 }}>{data.trff_desc}</td>
                     <td style={{ padding: 30 }}>{data.biz_nm}</td>
                     <td style={{ padding: 30 }}>{data.svc_nm}</td>
-                    <td style={{ padding: 30 }}>{data.detl_svc_nm}</td>
+                    <td style={{ padding: 30 }}>
+                      {data.detl_svc_tcd} - {data.svc_nm}
+                    </td>
                     <td style={{ padding: 30 }}>{data.ins_date}</td>
                   </tr>
                 ))}

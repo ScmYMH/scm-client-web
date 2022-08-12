@@ -24,7 +24,8 @@ import {
 } from "modules/contractCoa/action";
 import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
-
+import { HiSearch } from "react-icons/hi";
+import SearchUser from "components/ContractMember/SearchUser";
 interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
@@ -36,6 +37,18 @@ const ContractCoaRegisterModal = ({
 }: ContractCoaRegisterModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [openModal, setOpenModal] = useState(false);
+  const [preActorId, setPreActorId] = useState("");
+  const [addMember, setAddMember] = useState<any>([]);
+
+  const onClickUser = (userId: string) => {
+    setPreActorId(userId);
+    setContractInfoParamas({
+      ...contractInfoParams,
+      crePersonId: userId,
+    });
+    console.log(contractInfoParams);
+  };
 
   const baseCodeData = useSelector(
     (state: RootState) => state.baseCode.baseCode
@@ -70,9 +83,8 @@ const ContractCoaRegisterModal = ({
     getContractId();
   }, []);
 
-  console.log(contractInfoParams);
-
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (contractInfoParams.cntrtNm == "") {
       alert("계약 명을 작성 해주세요.");
     } else if (contractInfoParams.crePersonId == "") {
@@ -84,13 +96,20 @@ const ContractCoaRegisterModal = ({
     } else {
       dispatch(insertContractCodeAsync.request(contractInfoParams));
       alert("등록이 완료되었습니다.");
+      closeModal();
     }
   };
 
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
-        <div className="modal-header">
+        <Container>
+          <ModalHeader toggle={closeModal}>
+            <ModalTitle>계약 등록</ModalTitle>
+          </ModalHeader>
+        </Container>
+        {/* <div className="modal-header">
+          <h5>계약</h5>
           <div
             style={{
               display: "flex",
@@ -104,17 +123,20 @@ const ContractCoaRegisterModal = ({
               onSubmit={onSubmitInsertContractInfo}
             >
               <Button className="btn" size="sm">
-                저장
+                신규등록
               </Button>
             </Form>
           </div>
-          <Button className="btn-close"></Button>
-        </div>
-
+          <Button
+            className="btn-close"
+            onClick={() => {
+              closeModal();
+            }}
+          ></Button>
+        </div> */}
         <ModalBody>
           <Container>
-            <div>계약정보</div>
-
+            <div style={{ margin: 4 }}>계약정보</div>
             <Table bordered>
               <tr>
                 <th>물류법인</th>
@@ -205,16 +227,42 @@ const ContractCoaRegisterModal = ({
                 </td>
                 <th>담당자*</th>
                 <td>
-                  <Input
-                    id="crePersonId"
-                    name="crePersonId"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  />
+                  <div>
+                    <Input
+                      id="crePersonId"
+                      name="crePersonId"
+                      value={addMember[0]?.userNm}
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                      readOnly
+                      style={{
+                        boxShadow: "none",
+                        width: "90%",
+                        display: "inline-block",
+                      }}
+                    />
+                    <HiSearch
+                      style={{ marginLeft: 10, cursor: "pointer" }}
+                      onClick={() => {
+                        setOpenModal((openModal) => !openModal);
+                      }}
+                    ></HiSearch>
+                    {openModal && (
+                      <SearchUser
+                        onClickUser={onClickUser}
+                        isOpen={openModal}
+                        closeModal={() =>
+                          setOpenModal((openModal) => !openModal)
+                        }
+                        addMember={addMember}
+                        setAddMember={setAddMember}
+                      ></SearchUser>
+                    )}
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -299,7 +347,7 @@ const ContractCoaRegisterModal = ({
                   >
                     {baseCodeData.data?.slice(24, 38).map((option) => (
                       <option key={option.value} value={option.cd_v}>
-                        {option.cd_v_meaning}
+                        {option.cd_v} [{option.cd_v_meaning}]
                       </option>
                     ))}
                   </Input>
@@ -309,11 +357,39 @@ const ContractCoaRegisterModal = ({
                   <Input />
                 </td>
               </tr>
+              <tr>
+                <td colSpan={4} style={{ margin: 0, padding: 0 }}>
+                  <Form
+                    className="ContractInfoForm"
+                    onSubmit={onSubmitInsertContractInfo}
+                    style={{ margin: 0, padding: 0 }}
+                  >
+                    <div
+                      style={{
+                        margin: "10px",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Button
+                        outline
+                        className="btn"
+                        size="sm"
+                        style={{ margin: 0, padding: 0, width: 50 }}
+                      >
+                        저장
+                      </Button>
+                    </div>
+                  </Form>
+                </td>
+              </tr>
             </Table>
-            <hr></hr>
+          </Container>
 
+          <Container>
             <Table bordered>
-              <thead>타리프 정보</thead>
+              <thead style={{ margin: 4 }}>타리프 정보</thead>
               <tbody>
                 <tr>
                   <th>일련번호</th>
@@ -331,17 +407,32 @@ const ContractCoaRegisterModal = ({
                   <td></td>
                   <td></td>
                 </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
               </tbody>
             </Table>
             <div
               style={{
+                margin: "10px",
                 display: "flex",
-                justifyContent: "space-between",
-                width: "50px",
-                color: "white",
+                justifyContent: "flex-end",
+                alignItems: "center",
               }}
             >
-              <Input type="button" value="추가"></Input>
+              <Button
+                outline
+                className="btn"
+                size="sm"
+                style={{ margin: 0, padding: 0, width: 50 }}
+              >
+                추가
+              </Button>
             </div>
           </Container>
         </ModalBody>
