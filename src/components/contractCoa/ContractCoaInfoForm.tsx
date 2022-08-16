@@ -10,6 +10,7 @@ import { baseCodeAsync } from "modules/contractCoa/action";
 import { useDispatch, useSelector } from "react-redux";
 import { baseCode } from "modules/contractCoa/reducer";
 import ContractCoaUpdateModal from "./ContractCoaUpdateModal";
+import ContractCoaCopyModal from "./ContractCoaCopyModal";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -29,7 +30,10 @@ const ContractCoaInfoForm = ({
   tariffData,
 }: onSubmitContractInfoProps) => {
   const [date, setDate] = useState(new Date());
-  const [openModal, setOpenModal] = useState(false);
+  const [cntrtRegisterModal, setCntrtRegisterOpenModal] = useState(false);
+  const [cntrtUpdModal, setCntrtUpdModal] = useState(false);
+  const [cntrtCopyModal, setCntrtCopyModal] = useState(false);
+
   const [contractChangeInfoModal, setContractChangeInfoModal] = useState(false);
   const [params, setParmas] = useState({
     cntrtId: "",
@@ -37,6 +41,7 @@ const ContractCoaInfoForm = ({
     insDate: "",
     cdvMeaning: "",
   });
+
   const [updParams, setUpdParmas] = useState({
     data: {
       cntrtId: "",
@@ -45,6 +50,7 @@ const ContractCoaInfoForm = ({
       cdvMeaning: "",
     },
   });
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const [tariffInfoConditon, setTariffInfoConditon] = useState({
@@ -121,36 +127,45 @@ const ContractCoaInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              setOpenModal((openModal) => !openModal);
+              setCntrtRegisterOpenModal((cntrtRegisterModal) => !cntrtRegisterModal);
             }}
           >
             신규등록
           </Button>
-          {openModal && (
+          {cntrtRegisterModal && (
             <ContractCoaRegisterModal
-              isOpen={openModal}
-              closeModal={() => setOpenModal((openModal) => !openModal)}
+              isOpen={cntrtRegisterModal}
+              closeModal={() => setCntrtRegisterOpenModal((cntrtRegisterModal) => !cntrtRegisterModal)}
             />
           )}
           <Button
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              setOpenModal((openModal) => !openModal);
+              setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
             }}
           >
             계약수정
           </Button>
-          {openModal && (
+          {cntrtUpdModal && (
             <ContractCoaUpdateModal
-              isOpen={openModal}
-              closeModal={() => setOpenModal((openModal) => !openModal)}
+              isOpen={cntrtUpdModal}
+              closeModal={() => setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal)}
               updParams={updParams}
             />
           )}
-          <Button style={{ margin: 3 }} size="sm">
+          <Button style={{ margin: 3 }} size="sm" onClick={() => {
+              setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal);
+            }}>
             계약복사
           </Button>
+          {cntrtCopyModal && (
+            <ContractCoaCopyModal
+              isOpen={cntrtCopyModal}
+              closeModal={() => setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal)}
+              updParams={updParams}
+            />
+          )}
           <Button
             style={{ margin: 3 }}
             size="sm"
