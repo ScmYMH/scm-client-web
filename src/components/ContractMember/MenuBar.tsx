@@ -88,12 +88,11 @@ const MenuBar = ({
     <>
       <div
         style={{
-          margin: "5px",
-          marginTop: 80,
           marginRight: 50,
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
+          padding: 5,
         }}
       >
         <Form onSubmit={onSubmit} onClick={() => delRowForSearch()}>
@@ -132,7 +131,6 @@ const MenuBar = ({
       </div>
       <div
         style={{
-          margin: "10px",
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "left",
@@ -140,7 +138,7 @@ const MenuBar = ({
       >
         <Table bordered style={{ width: 800, marginLeft: 35 }}>
           <tr>
-            <td style={{ backgroundColor: "grey" }}>사용자명</td>
+            <td>사용자명</td>
             <td>
               <Input
                 id="userNm"
@@ -149,17 +147,17 @@ const MenuBar = ({
                 onChange={search}
               ></Input>
             </td>
-            <td style={{ backgroundColor: "grey" }}>로그인ID</td>
+            <td>로그인ID</td>
             <td>
               <Input id="loginId" name="loginId" onChange={search}></Input>
             </td>
-            <td style={{ backgroundColor: "grey" }}>삭제여부</td>
+            <td>삭제여부</td>
             <td>
               <select
                 onChange={(e) =>
                   setMember({ ...member, delYn: e.target.value })
                 }
-                style={{ marginRight: "30px" }}
+                style={{ width: "100%" }}
                 id="delYn"
                 name="delYn"
               >

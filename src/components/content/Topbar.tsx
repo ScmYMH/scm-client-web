@@ -30,31 +30,41 @@ const Topbar = ({ toggleSidebar }: Topbar) => {
       <Button color="info" onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faAlignLeft} />
       </Button>
+
       <NavbarToggler onClick={toggleTopbar} />
-      <Collapse isOpen={topbarIsOpen} navbar>
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink tag={Link} to={"/page-1"}>
-              page 1
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={"/page-2"}>
-              page 2
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={"/page-3"}>
-              page 3
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={Link} to={"/page-4"}>
-              page 4
-            </NavLink>
-          </NavItem>
-        </Nav>
-      </Collapse>
+      <div
+        style={{
+          margin: "0",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Collapse isOpen={topbarIsOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink tag={Link} to={"/contractMember"}>
+                계약 담당자 등록
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to={"/changeManager"}>
+                계약 담당자 변경
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to={"/"}>
+                수출 COA
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to={"/login"}>
+                Login
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </div>
     </Navbar>
   );
 };

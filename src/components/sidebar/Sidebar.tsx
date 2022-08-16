@@ -30,27 +30,27 @@ const SideBar = ({ isOpen, toggle }: SideBarProps) => (
       <Nav vertical className="list-unstyled pb-3">
         <p>CONTENT</p>
         <NavItem>
+          <NavLink style={{ color: "#fff" }} tag={Link} to={"/contractMember"}>
+            {/* <FontAwesomeIcon icon={faImage} className="mr-2" /> */}
+            계약 담당자 등록
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink style={{ color: "#fff" }} tag={Link} to={"/changeManager"}>
+            {/* <FontAwesomeIcon icon={faQuestion} className="mr-2" /> */}
+            계약 담당자 변경
+          </NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink style={{ color: "#fff" }} tag={Link} to={"/"}>
             {/* <FontAwesomeIcon icon={faBriefcase} className="mr-2" /> */}
             수출 COA
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink style={{ color: "#fff" }} tag={Link} to={"/pages"}>
-            {/* <FontAwesomeIcon icon={faImage} className="mr-2" /> */}
-            Tariff
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink style={{ color: "#fff" }} tag={Link} to={"/faq"}>
-            {/* <FontAwesomeIcon icon={faQuestion} className="mr-2" /> */}
-            정산
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink style={{ color: "#fff" }} tag={Link} to={"/contact"}>
+          <NavLink style={{ color: "#fff" }} tag={Link} to={"/tariff"}>
             {/* <FontAwesomeIcon icon={faPaperPlane} className="mr-2" /> */}
-            입찰관리
+            Tariff
           </NavLink>
         </NavItem>
       </Nav>
