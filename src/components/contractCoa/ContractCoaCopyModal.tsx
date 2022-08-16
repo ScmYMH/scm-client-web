@@ -26,25 +26,38 @@ import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
+import TariffLoader from "components/tariffInfo/TariffLoader";
+import { TariffInfoParam } from "modules/tariff/types";
 
 interface ContractCoaCopyModalProps {
   closeModal: any;
   isOpen: boolean;
-  updParams:any;
+  updParams: any;
+  tariffData: any;
 }
 
 const ContractCoaCopyModal = ({
   isOpen,
   closeModal,
-  updParams
+  updParams,
+  tariffData,
 }: ContractCoaCopyModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
+  const [openTariffModal, setOpenTariffModal] = useState(false);
 
-
+  const [tariffParams, setTariffParams] = useState<TariffInfoParam>({
+    cntrtId: "", // 계약 ID
+    trffNm: "", // 타리프 NM
+    trffDesc: "", // 타리프 설명
+    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
+    arApCcd: "", // 매출매입구분코드
+    svcTcd: "", // 서비스유형코드
+    detlSvcTcd: "", // 상세서비스유형
+  });
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -89,12 +102,36 @@ const ContractCoaCopyModal = ({
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // dispatch(insertContractCodeAsync.request(contractInfoParams));
     alert("등록이 완료되었습니다.");
     closeModal();
   };
 
+  function leftPad(value) {
+    if (value >= 10) {
+      return value;
+    }
+
+    return `0${value}`;
+  }
+
+  function toStringByFormatting(source, delimiter = "-") {
+    const year = source.getFullYear();
+    const month = leftPad(source.getMonth() + 1);
+    const day = leftPad(source.getDate());
+
+    return [year, month, day].join(delimiter);
+  }
+
+  function stringToDate(date_str) {
+    const yyyyMMdd = String(date_str);
+    const sYear = yyyyMMdd.substring(0, 4);
+    const sMonth = yyyyMMdd.substring(4, 6);
+    const sDate = yyyyMMdd.substring(6, 8);
+
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
+  }
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -274,6 +311,9 @@ const ContractCoaCopyModal = ({
                       type="date"
                       id="cntrtStartDate"
                       name="cntrtStartDate"
+                      defaultValue={toStringByFormatting(
+                        stringToDate(updParams?.data.cntrt_start_date)
+                      )}
                       onChange={(e) =>
                         setContractInfoParamas({
                           ...contractInfoParams,
@@ -290,6 +330,9 @@ const ContractCoaCopyModal = ({
                       dateFormat="yyyy-MM-dd"
                       id="cntrtEndDate"
                       name="cntrtEndDate"
+                      defaultValue={toStringByFormatting(
+                        stringToDate(updParams?.data.cntrt_end_date)
+                      )}
                       onChange={(e) =>
                         setContractInfoParamas({
                           ...contractInfoParams,
@@ -360,32 +403,66 @@ const ContractCoaCopyModal = ({
 
           <Container>
             <Table bordered>
-              <thead style={{ margin: 4 }}>타리프 정보</thead>
-              <tbody>
+              <thead style={{ textAlign: "center" }}>
                 <tr>
-                  <th>일련번호</th>
+                  <th></th>
                   <th>타리프 ID</th>
-                  <th>타리프 설명</th>
-                  <th>서비스유형명</th>
-                  <th>Data Count</th>
-                  <th>LCC 갯수</th>
+                  <th>타리프설명</th>
+                  <th>사업유형</th>
+                  <th>서비스유형</th>
+                  <th>상세서비스유형</th>
+                  <th>등록일</th>
                 </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+              </thead>
+              <tbody>
+                <>
+                  {tariffData?.map((data, index) => (
+                    <tr
+                      key={index}
+                      aria-rowcount={index}
+                      onMouseDown={(e) => {
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtId: data.cntrtId, // 계약 ID
+                          trffNm: data.trff_nm, // 타리프 NM
+                          trffDesc: data.trff_desc, // 타리프 설명
+                          bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
+                          arApCcd: "AP", // 매출매입구분코드
+                          svcTcd: data.svc_nm, // 서비스유형코드
+                          detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                        });
+                      }}
+                      onClick={() => {
+                        setOpenTariffModal(
+                          (openTariffModal) => !openTariffModal
+                        );
+                      }}
+                    >
+                      <th scope="row">
+                        <Input type="checkbox" />
+                      </th>
+                      <td style={{ padding: 30 }}>{data.trff_nm}</td>
+                      <td style={{ padding: 30 }}>{data.trff_desc}</td>
+                      <td style={{ padding: 30 }}>{data.biz_nm}</td>
+                      <td style={{ padding: 30 }}>{data.svc_nm}</td>
+                      <td style={{ padding: 30 }}>
+                        {data.detl_svc_tcd} - {data.svc_nm}
+                      </td>
+                      <td style={{ padding: 30 }}>{data.ins_date}</td>
+                      {openTariffModal && (
+                        <TariffLoader
+                          isOpen={openTariffModal}
+                          closeModal={() =>
+                            setOpenTariffModal(
+                              (openTariffModal) => !openTariffModal
+                            )
+                          }
+                          tariffParams={tariffParams}
+                        />
+                      )}
+                    </tr>
+                  ))}
+                </>
               </tbody>
             </Table>
             <div

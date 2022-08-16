@@ -28,6 +28,13 @@ export const UPDATE_CONTRACT_INFO_REQUEST_SUCCESS =
 export const UPDATE_CONTRACT_INFO_REQUEST_ERROR =
   "contract/UPDATE_CONTRACT_INFO_REQUEST_ERROR";
 
+// 계약 정보 수정
+export const DEL_CONTRACT_INFO_REQUEST = "contract/DEL_CONTRACT_INFO_REQUEST";
+export const DEL_CONTRACT_INFO_REQUEST_SUCCESS =
+  "contract/DEL_CONTRACT_INFO_REQUEST_SUCCESS";
+export const DEL_CONTRACT_INFO_REQUEST_ERROR =
+  "contract/DEL_CONTRACT_INFO_REQUEST_ERROR";
+
 // 타리프 조회
 export const GET_TARIFF_INFO_REQUEST = "contract/GET_TARIFF_INFO_REQUEST";
 export const GET_TARIFF_INFO_REQUEST_SUCCESS =
@@ -58,6 +65,12 @@ export const updateContractCodeAsync = createAsyncAction(
   UPDATE_CONTRACT_INFO_REQUEST,
   UPDATE_CONTRACT_INFO_REQUEST_SUCCESS,
   UPDATE_CONTRACT_INFO_REQUEST_ERROR
+)<any, ContractInfo, AxiosError>();
+
+export const delContractCodeAsync = createAsyncAction(
+  DEL_CONTRACT_INFO_REQUEST,
+  DEL_CONTRACT_INFO_REQUEST_SUCCESS,
+  DEL_CONTRACT_INFO_REQUEST_ERROR
 )<any, ContractInfo, AxiosError>();
 
 export const contractInfoAsync = createAsyncAction(

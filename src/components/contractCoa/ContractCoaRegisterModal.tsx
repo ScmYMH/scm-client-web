@@ -108,32 +108,6 @@ const ContractCoaRegisterModal = ({
             <ModalTitle>계약 등록</ModalTitle>
           </ModalHeader>
         </Container>
-        {/* <div className="modal-header">
-          <h5>계약</h5>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "95%",
-            }}
-          >
-            <div>계약 등록 화면</div>
-            <Form
-              className="ContractInfoForm"
-              onSubmit={onSubmitInsertContractInfo}
-            >
-              <Button className="btn" size="sm">
-                신규등록
-              </Button>
-            </Form>
-          </div>
-          <Button
-            className="btn-close"
-            onClick={() => {
-              closeModal();
-            }}
-          ></Button>
-        </div> */}
         <ModalBody>
           <Container>
             <div style={{ margin: 4 }}>계약정보</div>

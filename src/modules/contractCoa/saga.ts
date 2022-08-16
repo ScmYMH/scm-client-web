@@ -1,6 +1,7 @@
 import {
   ContractInfo,
   ContractInfoDefinition,
+  deleteContractInfo,
   getContractInfoDefinitionApi,
   getContractInfoListApi,
   getTariffInfoListApi,
@@ -22,6 +23,8 @@ import {
   insertContractCodeAsync,
   UPDATE_CONTRACT_INFO_REQUEST,
   updateContractCodeAsync,
+  delContractCodeAsync,
+  DEL_CONTRACT_INFO_REQUEST,
 } from "./action";
 
 function* contractInfoRequestSaga(
@@ -66,6 +69,20 @@ function* updateContractInfoRequestSaga(
   }
 }
 
+function* delContractInfoRequestSaga(
+  action: ReturnType<typeof delContractCodeAsync.request>
+) {
+  try {
+    const delContractInfo: ContractInfo = yield call(
+      deleteContractInfo,
+      action.payload
+    );
+    yield put(delContractCodeAsync.success(delContractInfo));
+  } catch (e: any) {
+    yield put(delContractCodeAsync.failure(e));
+  }
+}
+
 function* tariffInfoRequestSaga(
   action: ReturnType<typeof tariffInfoAsync.request>
 ) {
@@ -98,4 +115,5 @@ export function* contractInfoSaga() {
   yield takeLatest(GET_BASECODE_INFO_REQUEST, baseCodeSaga);
   yield takeLatest(POST_CONTRACT_INFO_REQUEST, insertContractInfoRequestSaga);
   yield takeLatest(UPDATE_CONTRACT_INFO_REQUEST, updateContractInfoRequestSaga);
+  yield takeLatest(DEL_CONTRACT_INFO_REQUEST, delContractInfoRequestSaga);
 }

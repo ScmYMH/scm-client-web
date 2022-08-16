@@ -16,12 +16,17 @@ import {
   UPDATE_CONTRACT_INFO_REQUEST,
   UPDATE_CONTRACT_INFO_REQUEST_SUCCESS,
   UPDATE_CONTRACT_INFO_REQUEST_ERROR,
+  DEL_CONTRACT_INFO_REQUEST,
+  DEL_CONTRACT_INFO_REQUEST_SUCCESS,
+  DEL_CONTRACT_INFO_REQUEST_ERROR,
 } from "./action";
 import {
   BaseCodeAction,
   BaseCodeState,
   ContractInfoAction,
   ContractInfoState,
+  delContractInfoAction,
+  delContractInfoState,
   insertContractInfoAction,
   insertContractInfoState,
   TariffInfoAction,
@@ -95,6 +100,28 @@ const updateContractInfo = createReducer<
   }),
 });
 
+const delContractinitialState: delContractInfoState = {
+  delContractInfo: asyncState.initial(),
+};
+
+const delContractInfo = createReducer<
+  delContractInfoState,
+  delContractInfoAction
+>(delContractinitialState, {
+  [DEL_CONTRACT_INFO_REQUEST]: (state) => ({
+    ...state,
+    delContractInfo: asyncState.load(),
+  }),
+  [DEL_CONTRACT_INFO_REQUEST_SUCCESS]: (state, action) => ({
+    ...state,
+    delContractInfo: asyncState.success(action.payload),
+  }),
+  [DEL_CONTRACT_INFO_REQUEST_ERROR]: (state, action) => ({
+    ...state,
+    delContractInfo: asyncState.error(action.payload),
+  }),
+});
+
 const tariffInitialState: TariffInfoState = {
   tariffInfo: asyncState.initial(),
 };
@@ -145,4 +172,5 @@ export {
   baseCode,
   postContractInfo,
   updateContractInfo,
+  delContractInfo,
 };

@@ -17,6 +17,7 @@ import ContractCoaCopyModal from "./ContractCoaCopyModal";
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
   onSubmitTariffInfo: (params: any) => void;
+  onSubmitDelContractCoaInfo: (params: any) => void;
   contractInfodata: any;
   tariffData: any;
 }
@@ -30,6 +31,7 @@ const ContractCoaInfoForm = ({
   onSubmitTariffInfo,
   contractInfodata,
   tariffData,
+  onSubmitDelContractCoaInfo,
 }: onSubmitContractInfoProps) => {
   const [date, setDate] = useState(new Date());
   const [cntrtRegisterModal, setCntrtRegisterOpenModal] = useState(false);
@@ -111,6 +113,20 @@ const ContractCoaInfoForm = ({
     tariffData.data = [];
   };
 
+  const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
+    onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
+    alert("삭제되었습니다.");
+  };
+
+  const checkOnlyOne = (checkThis) => {
+    const checkboxes = document.getElementsByName("cntrtId") as any | null;
+
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkThis) {
+        checkboxes[i].checked = false;
+      }
+    }
+  };
   return (
     <>
       <div
@@ -141,7 +157,9 @@ const ContractCoaInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              setCntrtRegisterOpenModal((cntrtRegisterModal) => !cntrtRegisterModal);
+              setCntrtRegisterOpenModal(
+                (cntrtRegisterModal) => !cntrtRegisterModal
+              );
             }}
           >
             신규등록
@@ -149,7 +167,11 @@ const ContractCoaInfoForm = ({
           {cntrtRegisterModal && (
             <ContractCoaRegisterModal
               isOpen={cntrtRegisterModal}
-              closeModal={() => setCntrtRegisterOpenModal((cntrtRegisterModal) => !cntrtRegisterModal)}
+              closeModal={() =>
+                setCntrtRegisterOpenModal(
+                  (cntrtRegisterModal) => !cntrtRegisterModal
+                )
+              }
             />
           )}
           <Button
@@ -164,20 +186,30 @@ const ContractCoaInfoForm = ({
           {cntrtUpdModal && (
             <ContractCoaUpdateModal
               isOpen={cntrtUpdModal}
-              closeModal={() => setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal)}
+              closeModal={() =>
+                setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal)
+              }
               updParams={updParams}
+              tariffData={tariffData.data}
             />
           )}
-          <Button style={{ margin: 3 }} size="sm" onClick={() => {
+          <Button
+            style={{ margin: 3 }}
+            size="sm"
+            onClick={() => {
               setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal);
-            }}>
+            }}
+          >
             계약복사
           </Button>
           {cntrtCopyModal && (
             <ContractCoaCopyModal
               isOpen={cntrtCopyModal}
-              closeModal={() => setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal)}
+              closeModal={() =>
+                setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal)
+              }
               updParams={updParams}
+              tariffData={tariffData.data}
             />
           )}
           <Button
@@ -201,6 +233,13 @@ const ContractCoaInfoForm = ({
               }
             />
           )}
+          <Form
+            style={{ margin: 3 }}
+            className="ContractInfoForm"
+            onSubmit={onSubmitDeleteContractInfo}
+          >
+            <Button size="sm">계약 삭제</Button>
+          </Form>
         </div>
 
         <Table bordered>
@@ -347,12 +386,21 @@ const ContractCoaInfoForm = ({
                         id="cntrtId"
                         name="cntrtId"
                         onChange={(e) => {
+                          checkOnlyOne(e.target);
                           setIsChecked(true);
-                          // onChangeCheck(e, data.cntrt_id);
                           setUpdParmas({
                             ...updParams,
                             data: data,
                           });
+                        }}
+                        onMouseDown={(e) => {
+                          setTariffInfoConditon({
+                            ...tariffInfoConditon,
+                            cntrtId: data.cntrt_id,
+                          });
+                        }}
+                        onClick={() => {
+                          onSubmitTariffInfo(tariffInfoConditon);
                         }}
                       />
                     </th>

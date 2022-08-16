@@ -25,6 +25,12 @@ export type updateContractInfoState = {
   updateContractInfo: AsyncState<ContractInfo, Error>;
 };
 
+export type delContractInfoAction = ActionType<typeof actions>;
+
+export type delContractInfoState = {
+  delContractInfo: AsyncState<ContractInfo, Error>;
+};
+
 export type TariffInfoAction = ActionType<typeof actions>;
 
 export type TariffInfoState = {

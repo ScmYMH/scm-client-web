@@ -1,13 +1,16 @@
+import Sidebar from "components/sidebar/Sidebar";
 import Header from "components/header/Header";
 import {
   baseCodeAsync,
   contractInfoAsync,
+  delContractCodeAsync,
   tariffInfoAsync,
 } from "modules/contractCoa/action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../modules";
 import ContractCoaInfoForm from "./ContractCoaInfoForm";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 
 const ContractCoaInfoLoader = () => {
   const { data, loading, error } = useSelector(
@@ -23,6 +26,11 @@ const ContractCoaInfoLoader = () => {
   const onSubmitContractCoaInfo = (params: any) => {
     dispatch(contractInfoAsync.request(params));
   };
+
+  const onSubmitDelContractCoaInfo = (cntrt_id: string) => {
+    dispatch(delContractCodeAsync.request(cntrt_id));
+  };
+
   const onSubmitTariffInfo = (params: any) => {
     dispatch(tariffInfoAsync.request(params));
   };
@@ -30,12 +38,15 @@ const ContractCoaInfoLoader = () => {
   return (
     <>
       <Header />
-      <ContractCoaInfoForm
-        onSubmitContractCoaInfo={onSubmitContractCoaInfo}
-        onSubmitTariffInfo={onSubmitTariffInfo}
-        contractInfodata={data}
-        tariffData={tariffData}
-      />
+      <Card>
+        <ContractCoaInfoForm
+          onSubmitContractCoaInfo={onSubmitContractCoaInfo}
+          onSubmitTariffInfo={onSubmitTariffInfo}
+          contractInfodata={data}
+          tariffData={tariffData}
+          onSubmitDelContractCoaInfo={onSubmitDelContractCoaInfo}
+        />
+      </Card>
     </>
   );
 };

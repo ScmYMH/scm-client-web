@@ -5,6 +5,7 @@ import {
   tariffInfo,
   contractInfo,
   updateContractInfo,
+  delContractInfo,
 } from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
 import login from "./login/reducer";
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   usermember,
   tariff,
   updateContractInfo,
+  delContractInfo,
 });
 
 // 루트 리듀서 내보내기

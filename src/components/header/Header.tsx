@@ -8,21 +8,21 @@ const Header = () => {
       <header>
         <div
           style={{
-            marginTop: 10,
-            marginRight: 30,
+            marginTop: 0,
+            marginRight: 0,
             marginBottom: 0,
-            marginLeft: 30,
+            marginLeft: 0,
           }}
         >
           <div
             style={{
-              marginBottom: "0",
+              margin: "0",
               display: "flex",
               justifyContent: "flex-start",
               alignItems: "center",
             }}
           >
-            <h1>계약 등록</h1>
+            <h5>계약 등록</h5>
           </div>
         </div>
       </header>

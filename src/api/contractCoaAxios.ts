@@ -21,7 +21,15 @@ export async function updateContractInfo(params: ContractInfo) {
     `http://localhost:9999/coa`,
     params
   );
-  console.log(">>>>>>", response.data);
+  return response.data;
+}
+
+export async function deleteContractInfo(cntrtId: ContractInfo) {
+  console.log("deleteContractInfo>>>>>>", cntrtId);
+  const response = await axios.put<ContractInfo>(
+    `http://localhost:9999/coa/${cntrtId}`
+  );
+  console.log("deleteContractInfo>>>>>>", response.data);
   return response.data;
 }
 
@@ -63,6 +71,6 @@ export interface ContractInfo {
   cntrt_start_date: string;
   cntrt_end_date: string;
   user_nm: string;
-  cntrt_id: string;
+  cntrt_id: string | null;
   ins_date: string;
 }
