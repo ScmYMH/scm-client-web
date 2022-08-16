@@ -20,13 +20,14 @@ export async function postExcelImport(params: any[]) {
   let postData: any = [];
   postData = params;
   const paramsData = `{
-    ${JSON.stringify(postData)}
+    "data":
+      ${JSON.stringify(postData)}
   }`;
 
   console.log("params 확인 >>> ", params);
   const response = await axios.post<Array<ExcelImportData>>(
     `http://localhost:9999/contract/tariff/import/`,
-    params[0]
+    JSON.parse(paramsData)
   );
   return response.data;
 }
