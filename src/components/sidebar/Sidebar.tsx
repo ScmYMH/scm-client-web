@@ -21,13 +21,13 @@ interface SideBarProps {
 const SideBar = ({ isOpen, toggle }: SideBarProps) => (
   <div
     className={classNames("sidebar", { "is-open": isOpen })}
-    style={{ backgroundColor: "#fff" }}
+    style={{ backgroundColor: "#d1d8e0" }}
   >
-    <div className="sidebar-header">
+    <div className="sidebar-header" style={{ backgroundColor: "#d1d8e0" }}>
       <span color="green" onClick={toggle}>
         &times;
       </span>
-      <h3 style={{ color: "#black" }}>POSCO ICT</h3>
+      <h3 style={{ color: "#192a56" }}>POSCO ICT</h3>
     </div>
     <div className="side-menu">
       <Nav
@@ -37,10 +37,20 @@ const SideBar = ({ isOpen, toggle }: SideBarProps) => (
         fill
         className="list-unstyled pb-3 justified"
       >
-        <p>CONTENT</p>
+        <p
+          style={{
+            color: "#192a56",
+            marginBottom: "70px",
+            fontWeight: "bold",
+          }}
+        ></p>
         <NavItem>
           <NavLink
-            style={{ color: "black", marginBottom: "70px" }}
+            style={{
+              color: "#192a56",
+              marginBottom: "70px",
+              fontWeight: "bold",
+            }}
             tag={Link}
             to={"/"}
           >
@@ -50,7 +60,11 @@ const SideBar = ({ isOpen, toggle }: SideBarProps) => (
         </NavItem>
         <NavItem>
           <NavLink
-            style={{ color: "black", marginBottom: "70px" }}
+            style={{
+              color: "#192a56",
+              fontWeight: "bold",
+              marginBottom: "70px",
+            }}
             tag={Link}
             to={"/changeManager"}
           >
@@ -60,7 +74,7 @@ const SideBar = ({ isOpen, toggle }: SideBarProps) => (
         </NavItem>
         <NavItem>
           <NavLink
-            style={{ color: "black", marginBottom: "70px" }}
+            style={{ color: "black", marginBottom: "70px", fontWeight: "bold" }}
             tag={Link}
             to={"/contractMember"}
           >
@@ -70,7 +84,11 @@ const SideBar = ({ isOpen, toggle }: SideBarProps) => (
         </NavItem>
         <NavItem>
           <NavLink
-            style={{ color: "black", marginBottom: "100px" }}
+            style={{
+              color: "black",
+              marginBottom: "100px",
+              fontWeight: "bold",
+            }}
             tag={Link}
             to={"/tariff"}
           >
