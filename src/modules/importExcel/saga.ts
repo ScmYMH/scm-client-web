@@ -1,8 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { postTariffExcelImportAsync, POST_EXCEL_DATA } from "./action";
 import { ExcelImportData, postExcelImport } from "api/excelImportAxios";
-import { getContractInfoListApi } from "api/contractCoaAxios";
-
 function* excelImportRequestSaga(
   action: ReturnType<typeof postTariffExcelImportAsync.request>
 ) {
