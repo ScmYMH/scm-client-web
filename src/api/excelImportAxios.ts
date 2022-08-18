@@ -48,3 +48,14 @@ export interface ExcelImportData {
   cal_unit_cd: string;
   lcc_cd_desc: string;
 }
+
+export interface ValidationCheckData {
+  del_yn: String;
+  arr_cd: String;
+  lcc_Cd: String;
+  sub_lcc_cd: String;
+  cntrt_curr_cd: String;
+  pay_curr_cd: String;
+  prod_gcd: String;
+  trff_stat_date: String;
+}
