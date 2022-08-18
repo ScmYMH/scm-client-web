@@ -9,6 +9,7 @@ import TariffLoader from "components/tariffInfo/TariffLoader";
 import SideBar from "components/sidebar/Sidebar";
 import Content from "components/content/Content";
 import "./App.css";
+import Sidenav from "components/sidebar/Sidenav";
 function App() {
   const [sidebarIsOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
@@ -17,31 +18,13 @@ function App() {
     <>
       <BrowserRouter>
         <div className="App wrapper">
-          <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen} />
+          <Sidenav />
           <Content
             toggleSidebar={toggleSidebar}
             sidebarIsOpen={sidebarIsOpen}
           />
         </div>
       </BrowserRouter>
-      {/* <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<ContractCoaInfoLoader></ContractCoaInfoLoader>}
-          ></Route>
-          <Route path="login" element={<LoginLoader></LoginLoader>}></Route>
-          <Route
-            path="/contractMember"
-            element={<CommonInfoList></CommonInfoList>}
-          ></Route>
-          <Route
-            path="/changeManager"
-            element={<ChangeManagerLoader></ChangeManagerLoader>}
-          ></Route>
-          {/* <Route path="/tariff" element={<TariffLoader></TariffLoader>}></Route> */}
-      {/* </Routes> */}
-      {/* </BrowserRouter> */}
     </>
   );
 }

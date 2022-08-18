@@ -19,10 +19,9 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
     fluid
     className={classNames("content", { "is-open": sidebarIsOpen })}
   >
-    <Topbar toggleSidebar={toggleSidebar} />
     <Routes>
       <Route
-        path="/"
+        path="/coa"
         element={<ContractCoaInfoLoader></ContractCoaInfoLoader>}
       ></Route>
       <Route path="login" element={<LoginLoader></LoginLoader>}></Route>
