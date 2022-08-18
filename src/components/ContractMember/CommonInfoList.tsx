@@ -112,12 +112,14 @@ const CommonInfoList = () => {
                 alignItems: "center",
               }}
             >
-              <h5>계약 담당자 등록</h5>
+              <h5 style={{ fontWeight: "bold", color: "#003366" }}>
+                ● 계약 담당자 등록
+              </h5>
             </div>
           </div>
         </header>
       </div>
-      <Card>
+      <Card style={{ minHeight: "900px" }}>
         <MenuBar
           onSubmitMemberInfo={onSubmitMemberInfo}
           addRow={() => setIsAdd([...addMember, {}])}
@@ -142,16 +144,32 @@ const CommonInfoList = () => {
         ></MenuBar>
         <div
           style={{
-            maxHeight: "600px",
+            marginTop: "30px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginLeft: "30px",
+            marginBottom: "10px",
+          }}
+        >
+          <div style={{ fontWeight: "bold", color: "#003366" }}>
+            ◎ 계약 담당자 목록
+          </div>
+        </div>
+
+        <div
+          style={{
+            maxHeight: "400px",
             overflowY: "auto",
-            width: 1600,
-            margin: " 0 auto",
-            marginTop: 150,
-            marginBottom: 50,
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "left",
+            marginLeft: 30,
+            marginRight: 30,
           }}
         >
           <Table bordered>
-            <thead>
+            <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th></th>
                 <th>사용자명</th>

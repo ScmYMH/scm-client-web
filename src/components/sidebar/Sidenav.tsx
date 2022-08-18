@@ -15,6 +15,7 @@ import {
   FiLogOut,
   FiArrowLeftCircle,
   FiArrowRightCircle,
+  FiArrowRight,
 } from "react-icons/fi";
 import { RiPencilLine } from "react-icons/ri";
 import { BiCog } from "react-icons/bi";
@@ -23,6 +24,7 @@ import { GiAbstract050 } from "react-icons/gi";
 //sidebar css from react-pro-sidebar module
 import "react-pro-sidebar/dist/css/styles.css";
 import { Link } from "react-router-dom";
+import { HiMenu } from "react-icons/hi";
 const Sidenav = () => {
   //menuCollapse state using useState hook
   const [menuCollapse, setMenuCollapse] = useState(false);
@@ -35,33 +37,52 @@ const Sidenav = () => {
     <>
       <div id="header">
         {/* collapsed props to change menu size using menucollapse state */}
-        <ProSidebar collapsed={menuCollapse}>
-          <SidebarHeader>
+        <ProSidebar
+          collapsed={menuCollapse}
+          style={{ backgroundColor: "#333333" }}
+        >
+          <SidebarHeader style={{ backgroundColor: "#333333" }}>
             <div className="closemenu" onClick={menuIconClick}>
               {/* changing menu collapse icon on click */}
-              {menuCollapse ? <FiArrowRightCircle /> : <FiArrowLeftCircle />}
+              {menuCollapse ? (
+                <FiArrowRightCircle />
+              ) : (
+                <>
+                  <img
+                    src="../../images/포스코ict로고_흰색버전_2.png"
+                    style={{ width: 200 }}
+                  ></img>
+                  <FiArrowLeftCircle />
+                </>
+              )}
             </div>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent style={{ backgroundColor: "#333333" }}>
             <Menu iconShape="square">
-              <MenuItem active={true} icon={<FiHome />}>
-                <Link to="/coa">운송 계약 등록</Link>
+              <MenuItem style={{ fontWeight: "bold" }}>
+                계약 관리
+                <MenuItem active={true} icon={<FiHome />}>
+                  <Link to="/coa">운송 계약 등록</Link>
+                </MenuItem>
+                <MenuItem icon={<FaList />}>
+                  <Link to="/contractMember">계약 담당자 등록</Link>
+                </MenuItem>
+                <MenuItem icon={<FaRegHeart />}>
+                  <Link to="/changeManager">계약 담당자 변경</Link>
+                </MenuItem>
+                <MenuItem icon={<RiPencilLine />}>
+                  <Link to="/">타리프</Link>
+                </MenuItem>
               </MenuItem>
-              <MenuItem icon={<FaList />}>
-                <Link to="/contractMember">계약 담당자 등록</Link>
-              </MenuItem>
-              <MenuItem icon={<FaRegHeart />}>
-                <Link to="/changeManager">계약 담당자 변경</Link>
-              </MenuItem>
-              <MenuItem icon={<RiPencilLine />}>
-                <Link to="/">타리프</Link>
-              </MenuItem>
-              <MenuItem icon={<BiCog />}>
-                <Link to="/">정산</Link>
+              <MenuItem style={{ fontWeight: "bold" }}>
+                정산 관리
+                <MenuItem icon={<RiPencilLine />}>
+                  <Link to="/">정산</Link>
+                </MenuItem>
               </MenuItem>
             </Menu>
           </SidebarContent>
-          <SidebarFooter>
+          <SidebarFooter style={{ backgroundColor: "#333333" }}>
             <Menu iconShape="square">
               <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
             </Menu>

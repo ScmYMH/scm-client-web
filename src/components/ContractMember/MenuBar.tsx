@@ -88,11 +88,12 @@ const MenuBar = ({
     <>
       <div
         style={{
-          marginRight: 50,
+          marginRight: 30,
           display: "flex",
           justifyContent: "flex-end",
           alignItems: "center",
           padding: 5,
+          marginTop: 30,
         }}
       >
         <Form
@@ -106,6 +107,7 @@ const MenuBar = ({
             useState
             size="sm"
             outline
+            style={{ margin: 3 }}
           >
             조회
           </Button>
@@ -147,7 +149,13 @@ const MenuBar = ({
         >
           행삭제
         </Button>
-        <Button type="submit" onClick={() => excelDownload()} size="sm" outline>
+        <Button
+          type="submit"
+          onClick={() => excelDownload()}
+          size="sm"
+          outline
+          style={{ margin: 3 }}
+        >
           엑셀 Export
         </Button>
         <Button
@@ -165,82 +173,85 @@ const MenuBar = ({
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "left",
+          marginTop: 30,
         }}
       >
-        <Table bordered style={{ width: 800, marginLeft: 35 }}>
+        <Table bordered style={{ width: 800, marginLeft: 30 }}>
           <tr>
-            <td
-              style={{
-                textAlign: "center",
-                backgroundColor: "#ced6e0",
-                margin: 1,
-              }}
-            >
-              사용자명
-            </td>
-            <td>
-              <Input
+            <tbody>
+              <td
                 style={{
-                  boxShadow: "none",
-                  borderRadius: 0,
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
                 }}
-                id="userNm"
-                name="userNm"
-                type={"text"}
-                onChange={search}
-              ></Input>
-            </td>
-            <td
-              style={{
-                textAlign: "center",
-                backgroundColor: "#ced6e0",
-                margin: 1,
-              }}
-            >
-              로그인ID
-            </td>
-            <td>
-              <Input
-                id="loginId"
-                name="loginId"
-                onChange={search}
-                style={{
-                  boxShadow: "none",
-                  borderRadius: 0,
-                }}
-              ></Input>
-            </td>
-            <td
-              style={{
-                textAlign: "center",
-                backgroundColor: "#ced6e0",
-                margin: 1,
-              }}
-            >
-              삭제여부
-            </td>
-            <td>
-              <div>
+              >
+                사용자명
+              </td>
+              <td>
                 <Input
-                  type="select"
-                  onChange={(e) =>
-                    setMember({ ...member, delYn: e.target.value })
-                  }
-                  id="delYn"
-                  name="delYn"
                   style={{
                     boxShadow: "none",
                     borderRadius: 0,
                   }}
-                >
-                  {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.text}
-                    </option>
-                  ))}
-                </Input>
-              </div>
-            </td>
+                  id="userNm"
+                  name="userNm"
+                  type={"text"}
+                  onChange={search}
+                ></Input>
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                로그인ID
+              </td>
+              <td>
+                <Input
+                  id="loginId"
+                  name="loginId"
+                  onChange={search}
+                  style={{
+                    boxShadow: "none",
+                    borderRadius: 0,
+                  }}
+                ></Input>
+              </td>
+              <td
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                삭제여부
+              </td>
+              <td>
+                <div>
+                  <Input
+                    type="select"
+                    onChange={(e) =>
+                      setMember({ ...member, delYn: e.target.value })
+                    }
+                    id="delYn"
+                    name="delYn"
+                    style={{
+                      boxShadow: "none",
+                      borderRadius: 0,
+                    }}
+                  >
+                    {options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.text}
+                      </option>
+                    ))}
+                  </Input>
+                </div>
+              </td>
+            </tbody>
           </tr>
         </Table>
       </div>
