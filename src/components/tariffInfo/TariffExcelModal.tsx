@@ -27,7 +27,6 @@ const TariffExcelModal = ({
         const worksheet = workbook.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(worksheet);
         jsonData = json;
-        console.log("파일 json 변환 확인 >>>> ", json);
       };
       reader.readAsArrayBuffer(e.target.files[0]);
     }
@@ -40,14 +39,12 @@ const TariffExcelModal = ({
   );
 
   useEffect(() => {
-    console.log(">>>>>>>>>>>>>>>", valiCheck.data);
     if (valiCheck.data != null) {
       validationCheck();
     }
   }, [valiCheck.data]);
 
   const onSubmitExcelData = () => {
-    console.log("디스패치할 때 json 값 확인 >>> ", jsonData);
     dispatch(postTariffExcelImportAsync.request(jsonData));
 
     if (valiCheck.loading == true) {
