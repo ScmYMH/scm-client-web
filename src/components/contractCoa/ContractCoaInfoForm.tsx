@@ -454,7 +454,7 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <div>계약목록</div>
+          <div>◎ 계약목록</div>
         </div>
         <div
           style={{
@@ -573,7 +573,7 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <div>타리프 정보</div>
+          <div>◎ 타리프 정보</div>
         </div>
         <div
           style={{

@@ -73,6 +73,7 @@
 		]
 	},
 	"devDependencies": {
+		"@types/file-saver": "^2.0.5",
 		"@types/react-table": "^7.7.12",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",
 		"@typescript-eslint/parser": "^5.30.7",

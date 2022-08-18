@@ -53,7 +53,7 @@ const ContractCoaInfoLoader = () => {
                 alignItems: "center",
               }}
             >
-              <h5>계약 등록</h5>
+              <h5>● 계약 등록</h5>
             </div>
           </div>
         </header>
