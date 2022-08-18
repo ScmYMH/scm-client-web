@@ -1,86 +1,73 @@
+import { ContractInfoDefinition } from "api/contractCoaAxios";
+import { AsyncState } from "lib/reducerUtils";
 import { RootState } from "modules";
-import { postTariffInfoAsync } from "modules/tariff/actions";
-import { TariffInfoParam } from "modules/tariff/types";
+import { baseCodeAsync } from "modules/contractCoa/action";
+import { postTariffHeaderAsync } from "modules/tariff/actions";
+import { CodeDefinition, TariffHeaderParam } from "modules/tariff/types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Modal, Table } from "reactstrap";
 
 const TariffInfoForm = ({
+  isSave,
   isSaveTrue,
   tariffParams,
+  codeDefList,
 }: {
+  isSave: boolean;
   isSaveTrue: () => void;
-  tariffParams: TariffInfoParam;
+  tariffParams: TariffHeaderParam;
+  codeDefList: Array<CodeDefinition> | null;
 }) => {
   const dispatch = useDispatch();
-
   const {
-    data: tariffInfoData,
-    loading: tariffInfoLoading,
-    error: tariffInfoError,
-  } = useSelector((state: RootState) => state.tariff.tariffInfo);
+    data: tariffHeaderData,
+    loading: tariffHeaderLoading,
+    error: tariffHeaderError,
+  } = useSelector((state: RootState) => state.tariff.tariffHeader);
 
-  const [params, setParams] = useState<TariffInfoParam>({
+  const [params, setParams] = useState<TariffHeaderParam>({
     cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
+    trffId: 0, // 타리프 ID
     trffNm: "", // 타리프 NM
     trffDesc: "", // 타리프 설명
     bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
     arApCcd: "", // 매출매입구분코드
     svcTcd: "", // 서비스유형코드
     detlSvcTcd: "", // 상세서비스유형
+    cntrt_end_date: "", // 유효기간
   });
-
-  const bizTcdLov = [
-    { value: "", text: "" },
-    { value: "EX", text: "수출" },
-    { value: "LD", text: "역내판매운송" },
-  ];
-
-  const arApCcdLov = [
-    { value: "", text: "" },
-    { value: "AR", text: "매출" },
-    { value: "AP", text: "매입" },
-  ];
-
-  const svcTcdLov = [
-    { value: "", text: "" },
-    { value: "ROAD", text: "공로운송" },
-    { value: "VSL", text: "해상운송" },
-  ];
-
-  const detlSvcTcdLov = [
-    { value: "", text: "" },
-    { value: "ICV", text: "ICV-국제해송(COA)" },
-    { value: "NTR", text: "NTR-일반공로운송(주문기준)" },
-  ];
 
   const onClickHeaderSave = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    if (params.bizTcd === "") {
-      alert("사업지역을 선택해주세요");
-    } else if (params.arApCcd === "") {
-      alert("매입/매출을 선택해주세요");
-    } else if (params.trffDesc === "") {
-      alert("타리프 설명을 기입해주세요");
-    } else if (params.svcTcd === "") {
-      alert("서비스유형을 선택해주세요");
-    } else if (params.detlSvcTcd === "") {
-      alert("상세 서비스유형을 선택해주세요");
+    if (isSave) {
+      alert("이미 저장되어 있는 타리프 헤더정보입니다.");
     } else {
-      const data = {
-        ...params,
-        trffNm:
-          "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
-      };
-      setParams(data);
-      dispatch(postTariffInfoAsync.request(data));
-      isSaveTrue();
+      if (params.bizTcd === "") {
+        alert("사업지역을 선택해주세요");
+      } else if (params.arApCcd === "") {
+        alert("매입/매출을 선택해주세요");
+      } else if (params.trffDesc === "") {
+        alert("타리프 설명을 기입해주세요");
+      } else if (params.svcTcd === "") {
+        alert("서비스유형을 선택해주세요");
+      } else if (params.detlSvcTcd === "") {
+        alert("상세 서비스유형을 선택해주세요");
+      } else {
+        const data = {
+          ...params,
+          trffNm:
+            "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
+        };
+        setParams(data);
+        dispatch(postTariffHeaderAsync.request(data));
+      }
     }
   };
 
   useEffect(() => {
-    if (tariffParams !== null) {
+    if (tariffParams.trffId !== 0) {
       if (tariffParams.bizTcd === "수출") {
         tariffParams.bizTcd = "EX";
       } else if (tariffParams.bizTcd === "역내판매운송") {
@@ -143,11 +130,14 @@ const TariffInfoForm = ({
                 value={params.bizTcd}
                 key={params.bizTcd}
               >
-                {bizTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "BIZ_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
             <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
@@ -163,11 +153,14 @@ const TariffInfoForm = ({
                 style={{ width: 230 }}
                 value={params.arApCcd}
               >
-                {arApCcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "AR_AP_CCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
           </tr>
@@ -199,11 +192,14 @@ const TariffInfoForm = ({
                 style={{ width: 230 }}
                 value={params.svcTcd}
               >
-                {svcTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "SVC_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
             <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
@@ -222,11 +218,14 @@ const TariffInfoForm = ({
                 style={{ width: 230 }}
                 value={params.detlSvcTcd}
               >
-                {detlSvcTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "DETL_SVC_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v + "-" + option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
           </tr>

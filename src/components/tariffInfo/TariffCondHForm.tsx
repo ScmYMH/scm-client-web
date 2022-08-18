@@ -1,100 +1,57 @@
 import { Alert, Button, Col, Input, Row, Table } from "reactstrap";
 import { HiSearch } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { TariffCondParam } from "modules/tariff/types";
+import {
+  CodeDefinition,
+  TariffCondH,
+  TariffCondParam,
+} from "modules/tariff/types";
 import SearchDestModal from "./SearchDestModal";
 import SearchLccModal from "./SearchLccModal";
 import { toEditorSettings } from "typescript";
+import { ContractInfoDefinition } from "api/contractCoaAxios";
+import { baseCodeAsync } from "modules/contractCoa/action";
+import { AsyncState } from "lib/reducerUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "modules";
+import { getTariffCondHAsync } from "modules/tariff/actions";
 
 const TariffCondHForm = ({
   isSave,
   cntrtId,
+  trffId,
+  codeDefList,
 }: {
   isSave: boolean;
   cntrtId: string;
+  trffId: number;
+  codeDefList: Array<CodeDefinition> | null;
 }) => {
+  const dispatch = useDispatch();
+
+  const {
+    data: tariffCondHListData,
+    loading: tariffCondHListLoading,
+    error: tariffCondHListError,
+  } = useSelector((state: RootState) => state.tariff.tariffCondHList);
+
+  const [checkBoxShow, setCheckBoxShow] = useState(false);
+
   const LccCdLov = [
     { value: "", text: "" },
     { value: "10A1", text: "10A1" },
     { value: "10D1", text: "10D1" },
   ];
 
-  const currCdLov = [
-    // 통화코드
-    { value: "USD", text: "USD" }, // US Dollar
-    { value: "KRW", text: "KRW" }, // Won
-    { value: "EUR", text: "EUR" }, // Euro
-    { value: "IDR", text: "IDR" }, // Rupiah
-    { value: "JPY", text: "JPY" }, // Yen
-    { value: "CAD", text: "CAD" }, // Canadian Dollar
-    { value: "CNY", text: "CNY" }, // Renminbi Yuan
-    { value: "HKD", text: "HKD" }, // H.K.Dollar
-    { value: "INR", text: "INR" }, // Rupee
-    { value: "AUD", text: "AUD" }, // Austr. Dollar
-    { value: "TWD", text: "TWD" }, // Dollar
-    { value: "BRL", text: "BRL" }, // Real
-    { value: "ZAR", text: "ZAR" }, // Rand
-  ];
+  const [trffInfoListData, setTrffInfoListData] = useState<TariffCondH>();
 
-  const trffItemCdLov = [
-    // 품좀명
-    { value: "A", text: "A-열연/냉연" },
-    { value: "B", text: "B-선재" },
-    { value: "C", text: "C-후판" },
-    { value: "Y", text: "Y-일반" },
-    { value: "Z", text: "Z-기타" },
-  ];
-
-  const unitCdLov = [
-    // 단위코드 (계산단위)
-    { value: "TON", text: "TON" }, // 톤수
-    { value: "AMT", text: "AMT" }, // 금액
-  ];
-
-  const incoCdLov = [
-    // 인도조건
-    { value: "1A1", text: "1A1" }, // 공로 (공장상차도)
-    { value: "1C1", text: "1C1" }, // 공로 (착지차상도)
-    { value: "3A1", text: "3A1" }, // 해송 (제철소 부두선상도)
-    { value: "3C1", text: "3C1" }, // 해송 (착지 부두선상도)
-    { value: "6A1", text: "6A1" }, // C & F BT(COST + FREIGHT BERTH TERM)
-    { value: "6C1", text: "6C1" }, // CIF BT(Cost, Insurance and Freight BERTH TERM)
-    { value: "7A1", text: "7A1" }, // FOB(Free On Board)
-    { value: "7B1", text: "7B1" }, // FOB ST(Free On Board STOWED)
-  ];
-
-  const [trffInfoListData, setTrffInfoListData] = useState([
-    {
-      seqNo: "1",
-      trffId: "271313",
-      cntrtId: "20220501000003",
-      departCd: "KORKANT01",
-      departDesc: "광양제철소",
-      arrivalCd: "IDNBLWP01", // 도착지코드
-      arrivalDesc: "BELAWAN", // 도착지명
-      lccCd: "10D1", // 물류비계정
-      subLccCd: "105", // 세부물류비
-      lccCdNm: "국제해송비 (COA)(제품)", // 세부물류비설명
-      trffStatDate: "20220701",
-      trffEndDate: "20220731",
-      cntrtCurrCd: "USD", // 계약통화
-      payCurrCd: "CAD", // 지불통화
-      tariffItemCd: "Y-일반", // 품종명
-      cost: "58.2", // 단가
-      unitCd: "TON", // 계산단위
-      incoCd: "6A1", // 인도조건
-      condId: "", // 조건ID
-      condNm: "", // 조건명
-    },
-  ]);
-
-  const [isAdd, setIsAdd] = useState<any[]>(trffInfoListData);
+  const [isAdd, setIsAdd] = useState<any>(tariffCondHListData);
 
   const addRow = () => {
     console.log("행추가 클릭");
     setIsAdd([...isAdd, {}]);
     console.log("isAdd : ", isAdd);
-    console.log("trffInfoListData: ", trffInfoListData);
+    console.log("tariffCondHListData: ", tariffCondHListData);
   };
 
   const [whatNode, setWhatNode] = useState("");
@@ -236,10 +193,17 @@ const TariffCondHForm = ({
   };
 
   useEffect(() => {
-    console.log("행추가");
-    console.log("trffInfoListData : ", trffInfoListData);
+    setIsAdd(tariffCondHListData);
+    console.log(tariffCondHListData);
   }, [trffInfoListData]);
 
+  useEffect(() => {
+    if (trffId !== 0) {
+      dispatch(
+        getTariffCondHAsync.request({ cntrtId: cntrtId, trffId: trffId })
+      );
+    }
+  }, []);
   return (
     <>
       <div style={{ marginLeft: 20, marginRight: 20 }}>
@@ -457,61 +421,75 @@ const TariffCondHForm = ({
         <div
           style={{
             maxHeight: "420px",
-            maxWidth: "1450px",
             overflowY: "auto",
             marginTop: 20,
           }}
         >
           <Table bordered>
-            <thead style={{ textAlign: "center", width: "2000px" }}>
-              <tr className="table-secondary" style={{ width: "2000px" }}>
-                <th rowSpan={2} style={{ width: "50px" }}></th>
-                <th rowSpan={2} style={{ width: "100px" }}>
+            <thead style={{ textAlign: "center" }}>
+              <tr className="table-secondary">
+                <th rowSpan={2} style={{ width: "1%" }}></th>
+                <th
+                  rowSpan={2}
+                  style={{ borderSpacing: "8px", verticalAlign: "middle" }}
+                >
                   출발지코드
                 </th>
-                <th rowSpan={2} style={{ width: "100px" }}>
+                <th
+                  rowSpan={2}
+                  style={{ borderSpacing: "8px", verticalAlign: "middle" }}
+                >
                   출발지명
                 </th>
-                <th rowSpan={2} style={{ width: 100 }}>
+                <th
+                  rowSpan={2}
+                  style={{ borderSpacing: "8px", verticalAlign: "middle" }}
+                >
                   도착지코드
                 </th>
-                <th rowSpan={2} style={{ width: 90 }}>
+                <th
+                  rowSpan={2}
+                  style={{ borderSpacing: "8px", verticalAlign: "middle" }}
+                >
                   도착지명
                 </th>
-                <th rowSpan={2} style={{ width: 80 }}>
+                <th rowSpan={2} style={{ width: 90, verticalAlign: "middle" }}>
                   물류비계정
                 </th>
-                <th rowSpan={2} style={{ width: 80 }}>
+                <th rowSpan={2} style={{ width: 90, verticalAlign: "middle" }}>
                   세부물류비
                 </th>
-                <th rowSpan={2} style={{ width: 160 }}>
+                <th
+                  rowSpan={2}
+                  style={{ borderSpacing: "10px", verticalAlign: "middle" }}
+                >
                   세부물류비설명
                 </th>
-                <th colSpan={2} style={{ width: 130 }}>
+                <th colSpan={2} style={{ width: 130, verticalAlign: "middle" }}>
                   유효기간
                 </th>
-                <th rowSpan={2} style={{ width: 70 }}>
+                <th rowSpan={2} style={{ width: 60, verticalAlign: "middle" }}>
                   계약통화
                 </th>
-                <th rowSpan={2} style={{ width: 70 }}>
+                <th rowSpan={2} style={{ width: 60, verticalAlign: "middle" }}>
                   지불통화
                 </th>
-                <th rowSpan={2} style={{ width: 70 }}>
+                <th rowSpan={2} style={{ width: 70, verticalAlign: "middle" }}>
                   품종명
                 </th>
-                <th rowSpan={2} style={{ width: 60 }}>
+                <th rowSpan={2} style={{ width: 60, verticalAlign: "middle" }}>
                   단가
                 </th>
-                <th rowSpan={2} style={{ width: 70 }}>
+                <th rowSpan={2} style={{ width: 70, verticalAlign: "middle" }}>
                   계산단위
                 </th>
-                <th rowSpan={2} style={{ width: 70 }}>
+                <th rowSpan={2} style={{ width: 70, verticalAlign: "middle" }}>
                   인도조건
                 </th>
-                <th rowSpan={2} style={{ width: 100 }}>
+                <th rowSpan={2} style={{ verticalAlign: "middle" }}>
                   조건ID
                 </th>
-                <th rowSpan={2} style={{ width: 100 }}>
+                <th rowSpan={2} style={{ verticalAlign: "middle" }}>
                   조건명
                 </th>
               </tr>
@@ -522,11 +500,8 @@ const TariffCondHForm = ({
             </thead>
             <tbody>
               {isAdd?.map((trffInfo, index) => (
-                <tr key={index} style={{ width: "2000px" }}>
-                  <th
-                    scope="row"
-                    style={{ textAlign: "center", width: "50px" }}
-                  >
+                <tr key={index} style={{}}>
+                  <th scope="row" style={{ textAlign: "center" }}>
                     <Input
                       type="checkbox"
                       // onChange={(e) =>
@@ -541,8 +516,8 @@ const TariffCondHForm = ({
                       // }
                     />
                   </th>
-                  <td style={{ textAlign: "center", width: "100px" }}>
-                    {trffInfo.departCd}
+                  <td style={{ textAlign: "center", borderSpacing: "8px" }}>
+                    {trffInfo.depCd}
                     <HiSearch
                       style={{ cursor: "pointer" }}
                       onClick={() => {
@@ -568,11 +543,11 @@ const TariffCondHForm = ({
                     )}
                   </td>
 
-                  <td style={{ textAlign: "center", width: "100px" }}>
-                    {trffInfo.departDesc}
+                  <td style={{ textAlign: "center", borderSpacing: "8px" }}>
+                    {trffInfo.depNm}
                   </td>
-                  <td style={{ textAlign: "center", width: 100 }}>
-                    {trffInfo.arrivalCd}
+                  <td style={{ textAlign: "center", borderSpacing: "8px" }}>
+                    {trffInfo.arrCd}
                     <HiSearch
                       style={{ cursor: "pointer" }}
                       onClick={() => {
@@ -597,10 +572,10 @@ const TariffCondHForm = ({
                       />
                     )}
                   </td>
-                  <td style={{ textAlign: "center", width: 90 }}>
-                    {trffInfo.arrivalDesc}
+                  <td style={{ textAlign: "center", borderSpacing: "8px" }}>
+                    {trffInfo.arrNm}
                   </td>
-                  <td style={{ textAlign: "right", width: 80 }}>
+                  <td style={{ textAlign: "right", width: 90 }}>
                     {trffInfo.lccCd}
                     <HiSearch
                       style={{ marginLeft: 10, cursor: "pointer" }}
@@ -618,10 +593,10 @@ const TariffCondHForm = ({
                       />
                     )}
                   </td>
-                  <td style={{ textAlign: "center", width: 80 }}>
+                  <td style={{ textAlign: "center", borderSpacing: "10px" }}>
                     {trffInfo.subLccCd}
                   </td>
-                  <td style={{ width: 160 }}>{trffInfo.lccCdNm}</td>
+                  <td style={{ width: 160 }}>{trffInfo.lccCdDesc}</td>
                   <td style={{ textAlign: "center", width: 70 }}>
                     <Input
                       id="trffStatDate"
@@ -630,14 +605,13 @@ const TariffCondHForm = ({
                       dateFormat="yyyy-MM-dd"
                       style={{
                         boxShadow: "none",
-                        width: 230,
+                        width: 150,
                       }}
                       defaultValue={toStringByFormatting(
                         stringToDate(trffInfo.trffStatDate)
                       )}
                       onChange={(e) => setTrffInfoListData}
                     ></Input>
-                    {trffInfo.trffStatDate}
                   </td>
                   <td style={{ textAlign: "center", width: 70 }}>
                     <Input
@@ -647,127 +621,144 @@ const TariffCondHForm = ({
                       dateFormat="yyyy-MM-dd"
                       style={{
                         boxShadow: "none",
-                        width: 230,
+                        width: 150,
                       }}
+                      defaultValue={toStringByFormatting(
+                        stringToDate(trffInfo.trffEndDate)
+                      )}
                     ></Input>
-                    {trffInfo.trffEndDate}
                   </td>
-                  <td style={{ textAlign: "center", width: 70 }}>
+                  <td style={{ textAlign: "center", width: 60 }}>
                     <select
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="cntrtCurrCd"
                       name="cntrtCurrCd"
                       style={{ width: 70, border: "none" }}
                       value={trffInfo.cntrtCurrCd}
                     >
-                      {currCdLov.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={""} value={""}></option>
+                      {codeDefList
+                        ?.filter((data) => data.cd_tp === "CURR_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v}
+                          </option>
+                        ))}
                     </select>
                   </td>
-                  <td style={{ textAlign: "center", width: 70 }}>
+                  <td style={{ textAlign: "center", width: 60 }}>
                     <select
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="payCurrCd"
                       name="payCurrCd"
                       style={{ width: 70, border: "none" }}
                       value={trffInfo.payCurrCd}
                     >
-                      {currCdLov.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={""} value={""}></option>
+                      {codeDefList
+                        ?.filter((data) => data.cd_tp === "CURR_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v}
+                          </option>
+                        ))}
                     </select>
                   </td>
                   <td style={{ textAlign: "center", width: 70 }}>
                     <select
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="trffItemCd"
                       name="trffItemCd"
                       style={{ width: 100, border: "none" }}
-                      value={trffInfo.tariffItemCd}
+                      value={trffInfo.prodGcd}
                     >
-                      {trffItemCdLov.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={""} value={""}></option>
+                      {codeDefList
+                        ?.filter((data) => data.cd_tp === "TRFF_ITEM_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
                     </select>
                   </td>
                   <td style={{ textAlign: "center", width: 60 }}>
                     <Input
                       type="text"
-                      value={trffInfo.cost}
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      value={trffInfo.unitPrice}
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="cost"
                       style={{ boxShadow: "none", width: 60, height: 30 }}
                     ></Input>
                   </td>
                   <td style={{ width: 70 }}>
                     <select
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="unitCd"
                       name="unitCd"
                       style={{ width: 70, border: "none" }}
-                      value={trffInfo.unitCd}
+                      value={trffInfo.calUnitCd}
                     >
-                      {unitCdLov.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={""} value={""}></option>
+                      {codeDefList
+                        ?.filter((data) => data.cd_tp === "UNIT_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v}
+                          </option>
+                        ))}
                     </select>
                   </td>
                   <td style={{ width: 70 }}>
                     <select
-                      onChange={(e) =>
-                        setTrffInfoListData({
-                          ...trffInfoListData,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
+                      // onChange={(e) =>
+                      //   setTrffInfoListData({
+                      //     ...trffInfoListData,
+                      //     [e.target.id]: e.target.value,
+                      //   })
+                      // }
                       id="incoCd"
                       name="incoCd"
                       style={{ width: 60, border: "none" }}
                       value={trffInfo.incoCd}
                     >
-                      {incoCdLov.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={""} value={""}></option>
+                      {codeDefList
+                        ?.filter((data) => data.cd_tp === "INCO_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v}
+                          </option>
+                        ))}
                     </select>
                   </td>
-                  <td style={{ width: 100 }}>{trffInfo.condId}</td>
-                  <td style={{ width: 100 }}>{trffInfo.condNm}</td>
+                  <td style={{}}>{trffInfo.condId}</td>
+                  <td style={{}}>{trffInfo.condNm}</td>
                 </tr>
               ))}
             </tbody>
@@ -779,3 +770,6 @@ const TariffCondHForm = ({
 };
 
 export default TariffCondHForm;
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}

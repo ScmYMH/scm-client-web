@@ -10,8 +10,7 @@ import { baseCodeAsync } from "modules/contractCoa/action";
 import { useDispatch, useSelector } from "react-redux";
 import { baseCode } from "modules/contractCoa/reducer";
 import TariffLoader from "components/tariffInfo/TariffLoader";
-import { TariffInfoParam } from "modules/tariff/types";
-import ContractCoaUpdateModal from "./ContractCoaUpdateModal";
+import { TariffHeaderParam } from "modules/tariff/types";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -77,14 +76,16 @@ const ContractCoaInfoForm = ({
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
 
-  const [tariffParams, setTariffParams] = useState<TariffInfoParam>({
+  const [tariffParams, setTariffParams] = useState<TariffHeaderParam>({
     cntrtId: "", // 계약 ID
+    trffId: 0, // 타리프 ID
     trffNm: "", // 타리프 NM
     trffDesc: "", // 타리프 설명
     bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
     arApCcd: "", // 매출매입구분코드
     svcTcd: "", // 서비스유형코드
     detlSvcTcd: "", // 상세서비스유형
+    cntrt_end_date: "", // 유효기간
   });
 
   const dateToString = (date) => {
@@ -155,13 +156,13 @@ const ContractCoaInfoForm = ({
           >
             계약수정
           </Button>
-          {openModal && (
+          {/* {openModal && (
             <ContractCoaUpdateModal
               isOpen={openModal}
               closeModal={() => setOpenModal((openModal) => !openModal)}
               updParams={updParams}
             />
-          )}
+          )} */}
           <Button style={{ margin: 3 }} size="sm">
             계약복사
           </Button>
@@ -430,12 +431,14 @@ const ContractCoaInfoForm = ({
                       setTariffParams({
                         ...tariffParams,
                         cntrtId: tariffInfoConditon.cntrtId, // 계약 ID
+                        trffId: data.trff_id, // 타리프 ID
                         trffNm: data.trff_nm, // 타리프 NM
                         trffDesc: data.trff_desc, // 타리프 설명
                         bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
                         arApCcd: "AP", // 매출매입구분코드
                         svcTcd: data.svc_nm, // 서비스유형코드
-                        detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                        detlSvcTcd: data.detl_svc_tcd, // 상세서비스유형
+                        cntrt_end_date: "", // 유효기간
                       });
                     }}
                     onClick={() => {
@@ -450,7 +453,7 @@ const ContractCoaInfoForm = ({
                     <td style={{ padding: 30 }}>{data.biz_nm}</td>
                     <td style={{ padding: 30 }}>{data.svc_nm}</td>
                     <td style={{ padding: 30 }}>
-                      {data.detl_svc_tcd} - {data.svc_nm}
+                      {data.detl_svc_tcd}-{data.detl_svc_nm}
                     </td>
                     <td style={{ padding: 30 }}>{data.ins_date}</td>
                     {openTariffModal && (

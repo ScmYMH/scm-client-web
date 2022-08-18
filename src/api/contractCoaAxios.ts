@@ -48,6 +48,7 @@ export interface ContractInfoDefinition {
 }
 
 export interface TariffInfo {
+  trff_id: number;
   trff_nm: string;
   trff_desc: string;
   biz_nm: string;

@@ -1,52 +1,56 @@
 import { asyncState } from "lib/reducerUtils";
 import { createReducer } from "typesafe-actions";
 import {
+  GET_CODE_DEFINITION,
+  GET_CODE_DEFINITION_ERROR,
+  GET_CODE_DEFINITION_SUCCESS,
   GET_DEST_INFO,
   GET_DEST_INFO_ERROR,
   GET_DEST_INFO_SUCCESS,
   GET_LCC_INFO,
   GET_LCC_INFO_ERROR,
   GET_LCC_INFO_SUCCESS,
-  GET_TARIFF_HEADER_COND,
-  GET_TARIFF_HEADER_COND_ERROR,
-  GET_TARIFF_HEADER_COND_SUCCESS,
-  POST_TARIFF_INFO,
-  POST_TARIFF_INFO_ERROR,
-  POST_TARIFF_INFO_SUCCESS,
+  GET_TARIFF_COND_H,
+  GET_TARIFF_COND_H_ERROR,
+  GET_TARIFF_COND_H_SUCCESS,
+  POST_TARIFF_HEADER,
+  POST_TARIFF_HEADER_ERROR,
+  POST_TARIFF_HEADER_SUCCESS,
 } from "./actions";
 import { TariffAction, TariffState } from "./types";
 
 const initialState: TariffState = {
-  tariffHeaderCond: asyncState.initial(),
-  tariffInfo: asyncState.initial(),
+  tariffHeader: asyncState.initial(),
   destInfoList: asyncState.initial(),
   lccInfoList: asyncState.initial(),
+  codeDefList: asyncState.initial(),
+  tariffCondHList: asyncState.initial(),
 };
 
 const tariff = createReducer<TariffState, TariffAction>(initialState, {
-  [GET_TARIFF_HEADER_COND]: (state) => ({
+  [POST_TARIFF_HEADER]: (state) => ({
     ...state,
-    tariffHeaderCond: asyncState.load(),
+    tariffHeader: asyncState.load(),
   }),
-  [GET_TARIFF_HEADER_COND_SUCCESS]: (state, action) => ({
+  [POST_TARIFF_HEADER_SUCCESS]: (state, action) => ({
     ...state,
-    tariffHeaderCond: asyncState.success(action.payload),
+    tariffHeader: asyncState.success(action.payload),
   }),
-  [GET_TARIFF_HEADER_COND_ERROR]: (state, action) => ({
+  [POST_TARIFF_HEADER_ERROR]: (state, action) => ({
     ...state,
-    tariffHeaderCond: asyncState.error(action.payload),
+    tariffHeader: asyncState.error(action.payload),
   }),
-  [POST_TARIFF_INFO]: (state) => ({
+  [GET_TARIFF_COND_H]: (state) => ({
     ...state,
-    tariffInfo: asyncState.load(),
+    tariffCondHList: asyncState.load(),
   }),
-  [POST_TARIFF_INFO_SUCCESS]: (state, action) => ({
+  [GET_TARIFF_COND_H_SUCCESS]: (state, action) => ({
     ...state,
-    tariffInfo: asyncState.success(action.payload),
+    tariffCondHList: asyncState.success(action.payload),
   }),
-  [POST_TARIFF_INFO_ERROR]: (state, action) => ({
+  [GET_TARIFF_COND_H_ERROR]: (state, action) => ({
     ...state,
-    tariffInfo: asyncState.error(action.payload),
+    tariffCondHList: asyncState.error(action.payload),
   }),
   [GET_DEST_INFO]: (state) => ({
     ...state,
@@ -71,6 +75,18 @@ const tariff = createReducer<TariffState, TariffAction>(initialState, {
   [GET_LCC_INFO_ERROR]: (state, action) => ({
     ...state,
     lccInfoList: asyncState.error(action.payload),
+  }),
+  [GET_CODE_DEFINITION]: (state) => ({
+    ...state,
+    codeDefList: asyncState.load(),
+  }),
+  [GET_CODE_DEFINITION_SUCCESS]: (state, action) => ({
+    ...state,
+    codeDefList: asyncState.success(action.payload),
+  }),
+  [GET_CODE_DEFINITION_ERROR]: (state, action) => ({
+    ...state,
+    codeDefList: asyncState.error(action.payload),
   }),
 });
 

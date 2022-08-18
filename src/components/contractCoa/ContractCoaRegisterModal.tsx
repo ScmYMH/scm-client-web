@@ -26,6 +26,9 @@ import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
+import TariffLoader from "components/tariffInfo/TariffLoader";
+import { TariffHeaderParam } from "modules/tariff/types";
+import { baseCode } from "modules/contractCoa/reducer";
 interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
@@ -40,6 +43,20 @@ const ContractCoaRegisterModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
+
+  const [openNewTariffModal, setNewOpenTariffModal] = useState(false);
+
+  const [tariffParams, setTariffParams] = useState<TariffHeaderParam>({
+    cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
+    trffId: 0, // 타리프 ID
+    trffNm: "", // 타리프 NM
+    trffDesc: "", // 타리프 설명
+    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
+    arApCcd: "", // 매출매입구분코드
+    svcTcd: "", // 서비스유형코드
+    detlSvcTcd: "", // 상세서비스유형
+    cntrt_end_date: "", // 유효기간
+  });
 
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
@@ -81,6 +98,18 @@ const ContractCoaRegisterModal = ({
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
     getContractId();
+    baseCodeData.data?.map((option) => {
+      console.log(
+        "cd_tp : " +
+          option.cd_tp +
+          ", cd_tp_meaning : " +
+          option.cd_tp_meaning +
+          ", cd_v : " +
+          option.cd_v +
+          ", cd_v_meaning: ",
+        option.cd_v_meaning
+      );
+    });
   }, []);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
@@ -430,9 +459,29 @@ const ContractCoaRegisterModal = ({
                 className="btn"
                 size="sm"
                 style={{ margin: 0, padding: 0, width: 50 }}
+                onClick={() => {
+                  setNewOpenTariffModal(
+                    (newOpenTariffModal) => !newOpenTariffModal
+                  );
+                  setTariffParams({
+                    ...tariffParams,
+                    cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                  });
+                }}
               >
                 추가
               </Button>
+              {openNewTariffModal && (
+                <TariffLoader
+                  isOpen={openNewTariffModal}
+                  closeModal={() =>
+                    setNewOpenTariffModal(
+                      (openNewTariffModal) => !openNewTariffModal
+                    )
+                  }
+                  tariffParams={tariffParams}
+                />
+              )}
             </div>
           </Container>
         </ModalBody>

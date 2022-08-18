@@ -1,52 +1,65 @@
 import {
-  getDestInfo,
-  getLccInfo,
-  getTariffHeaderCond,
-  postTariffInfo,
+  getCodeDefAxios,
+  getDestInfoAxios,
+  getLccInfoAxios,
+  getTariffCondHAxios,
+  postTariffHeaderAxios,
 } from "api/tariffAxios";
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
+  getCodeDefAsync,
   getDestInfoAsync,
   getLccInfoAsync,
-  getTariffHeaderCondAsync,
+  getTariffCondHAsync,
+  GET_CODE_DEFINITION,
   GET_DEST_INFO,
   GET_LCC_INFO,
-  GET_TARIFF_HEADER_COND,
-  postTariffInfoAsync,
-  POST_TARIFF_INFO,
+  GET_TARIFF_COND_H,
+  postTariffHeaderAsync,
+  POST_TARIFF_HEADER,
 } from "./actions";
-import { DestInfo, LccInfo, TariffHeaderCond, TariffInfo } from "./types";
+import {
+  CodeDefinition,
+  DestInfo,
+  LccInfo,
+  TariffCondH,
+  TariffHeader,
+} from "./types";
 
-function* getTariffHeaderCondSaga(
-  action: ReturnType<typeof getTariffHeaderCondAsync.request>
+function* postTariffHeaderSaga(
+  action: ReturnType<typeof postTariffHeaderAsync.request>
 ) {
   try {
-    console.log("getTariffHeaderCondSaga");
-    const tariffHeaderCond: TariffHeaderCond = yield call(getTariffHeaderCond);
-    yield put(getTariffHeaderCondAsync.success(tariffHeaderCond));
-  } catch (e: any) {
-    console.log("getTariffHeaderCondSaga error");
-    yield put(getTariffHeaderCondAsync.failure(e));
-  }
-}
-
-function* postTariffInfoSaga(
-  action: ReturnType<typeof postTariffInfoAsync.request>
-) {
-  try {
-    console.log("postTariffInfoSaga ----- action.payload : ", action.payload);
-    const tariffInfo: TariffInfo = yield call(postTariffInfo, action.payload);
-    yield put(postTariffInfoAsync.success(tariffInfo));
+    const tariffInfo: TariffHeader = yield call(
+      postTariffHeaderAxios,
+      action.payload
+    );
+    yield put(postTariffHeaderAsync.success(tariffInfo));
     alert("저장되었습니다");
   } catch (e: any) {
     console.log("postTariffInfoSaga error");
-    yield put(postTariffInfoAsync.failure(e));
+    yield put(postTariffHeaderAsync.failure(e));
+  }
+}
+
+function* getTariffCondHSaga(
+  action: ReturnType<typeof getTariffCondHAsync.request>
+) {
+  try {
+    const tariffCondHList: Array<TariffCondH> = yield call(
+      getTariffCondHAxios,
+      action.payload
+    );
+    yield put(getTariffCondHAsync.success(tariffCondHList));
+  } catch (e: any) {
+    console.log("getTariffCondHSaga error");
+    yield put(getTariffCondHAsync.failure(e));
   }
 }
 
 function* getDestInfoSaga(action: ReturnType<typeof getDestInfoAsync.request>) {
   try {
-    const destInfoList: Array<DestInfo> = yield call(getDestInfo);
+    const destInfoList: Array<DestInfo> = yield call(getDestInfoAxios);
     yield put(getDestInfoAsync.success(destInfoList));
   } catch (e: any) {
     console.log("getDestInfoSaga error");
@@ -56,8 +69,10 @@ function* getDestInfoSaga(action: ReturnType<typeof getDestInfoAsync.request>) {
 
 function* getLccInfoSaga(action: ReturnType<typeof getLccInfoAsync.request>) {
   try {
-    console.log("getLccInfoSaga ---- action.payload: ", action.payload);
-    const lccInfoList: Array<LccInfo> = yield call(getLccInfo, action.payload);
+    const lccInfoList: Array<LccInfo> = yield call(
+      getLccInfoAxios,
+      action.payload
+    );
     yield put(getLccInfoAsync.success(lccInfoList));
   } catch (e: any) {
     console.log("getLccInfoSaga error");
@@ -65,9 +80,22 @@ function* getLccInfoSaga(action: ReturnType<typeof getLccInfoAsync.request>) {
   }
 }
 
+function* getCodeDefSaga(action: ReturnType<typeof getCodeDefAsync.request>) {
+  try {
+    const codeDef: Array<CodeDefinition> = yield call(
+      getCodeDefAxios,
+      action.payload
+    );
+    yield put(getCodeDefAsync.success(codeDef));
+  } catch (e: any) {
+    yield put(getCodeDefAsync.failure(e));
+  }
+}
+
 export function* tariffSaga() {
-  yield takeLatest(GET_TARIFF_HEADER_COND, getTariffHeaderCondSaga);
-  yield takeLatest(POST_TARIFF_INFO, postTariffInfoSaga);
+  yield takeLatest(POST_TARIFF_HEADER, postTariffHeaderSaga);
+  yield takeLatest(GET_TARIFF_COND_H, getTariffCondHSaga);
   yield takeLatest(GET_DEST_INFO, getDestInfoSaga);
   yield takeLatest(GET_LCC_INFO, getLccInfoSaga);
+  yield takeLatest(GET_CODE_DEFINITION, getCodeDefSaga);
 }
