@@ -20,6 +20,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
     className={classNames("content", { "is-open": sidebarIsOpen })}
   >
     <Routes>
+      <Route path="/" element={<LoginLoader></LoginLoader>}></Route>
       <Route
         path="/coa"
         element={<ContractCoaInfoLoader></ContractCoaInfoLoader>}

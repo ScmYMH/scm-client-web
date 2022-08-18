@@ -26,6 +26,8 @@ import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
+import styles from "./coa.module.css";
+
 interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
@@ -111,87 +113,95 @@ const ContractCoaRegisterModal = ({
         <ModalBody>
           <Container>
             <div style={{ margin: 4 }}>계약정보</div>
-            <Table bordered>
+            <Table bordered className={styles.register_table}>
               <tr>
                 <th>물류법인</th>
                 <td>
-                  <Input
-                    id="coprId"
-                    name="coprId"
-                    type="select"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  >
-                    {baseCodeData.data?.slice(8, 9).map((option) => (
-                      <option
-                        key={option.cd_v}
-                        value={option.cd_v}
-                        selected={option.cd_v_meaning}
-                        disabled
-                      >
-                        {option.cd_v_meaning}
-                      </option>
-                    ))}
-                  </Input>
+                  <div>
+                    <Input
+                      id="coprId"
+                      name="coprId"
+                      type="select"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    >
+                      {baseCodeData.data?.slice(8, 9).map((option) => (
+                        <option
+                          key={option.cd_v}
+                          value={option.cd_v}
+                          selected={option.cd_v_meaning}
+                          disabled
+                        >
+                          {option.cd_v_meaning}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
                 </td>
                 <th>계약유형그룹코드*</th>
                 <td>
-                  <Input
-                    id="cntrtTypGcd"
-                    name="cntrtTypGcd"
-                    type="select"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  >
-                    {baseCodeData.data?.slice(10, 12).map((option) => (
-                      <option key={option.cd_v} value={option.cd_v}>
-                        {option.cd_v_meaning}
-                      </option>
-                    ))}
-                  </Input>
+                  <div>
+                    <Input
+                      id="cntrtTypGcd"
+                      name="cntrtTypGcd"
+                      type="select"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    >
+                      {baseCodeData.data?.slice(10, 12).map((option) => (
+                        <option key={option.cd_v} value={option.cd_v}>
+                          {option.cd_v_meaning}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
                 </td>
               </tr>
               <tr>
                 <th>계약명</th>
                 <td>
-                  <Input
-                    id="cntrtNm"
-                    name="cntrtNm"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  />
+                  <div>
+                    <Input
+                      id="cntrtNm"
+                      name="cntrtNm"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </td>
                 <th>계약유형코드*</th>
                 <td>
-                  <Input
-                    id="cntrtTcd"
-                    name="cntrtTcd"
-                    type="select"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  >
-                    {baseCodeData.data?.slice(12, 22).map((option) => (
-                      <option key={option.value} value={option.cd_v}>
-                        {option.cd_v_meaning}
-                      </option>
-                    ))}
-                  </Input>
+                  <div>
+                    <Input
+                      id="cntrtTcd"
+                      name="cntrtTcd"
+                      type="select"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    >
+                      {baseCodeData.data?.slice(12, 22).map((option) => (
+                        <option key={option.value} value={option.cd_v}>
+                          {option.cd_v_meaning}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -242,93 +252,103 @@ const ContractCoaRegisterModal = ({
               <tr>
                 <th>계약상태</th>
                 <td>
-                  <Input
-                    id="cntrtScd"
-                    name="cntrtScd"
-                    type="select"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  >
-                    {baseCodeData.data?.slice(0, 1).map((option) => (
-                      <option
-                        key={option.cd_v}
-                        value={option.cd_v}
-                        selected={option.cd_v_meaning}
-                        disabled
-                      >
-                        {option.cd_v_meaning}
-                      </option>
-                    ))}
-                  </Input>
+                  <div>
+                    <Input
+                      id="cntrtScd"
+                      name="cntrtScd"
+                      type="select"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    >
+                      {baseCodeData.data?.slice(0, 1).map((option) => (
+                        <option
+                          key={option.cd_v}
+                          value={option.cd_v}
+                          selected={option.cd_v_meaning}
+                          disabled
+                        >
+                          {option.cd_v_meaning}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
                 </td>
                 <th>계약기간</th>
                 <td>
                   <div style={{ display: "inline-block" }}>
-                    <Input
-                      style={{ display: "span" }}
-                      fixedHeight
-                      dateFormat="yyyy-MM-dd"
-                      selected={startDate}
-                      selectsStart
-                      type="date"
-                      id="cntrtStartDate"
-                      name="cntrtStartDate"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value.replaceAll("-", ""),
-                        })
-                      }
-                    />
+                    <div>
+                      <Input
+                        style={{ display: "span" }}
+                        fixedHeight
+                        dateFormat="yyyy-MM-dd"
+                        selected={startDate}
+                        selectsStart
+                        type="date"
+                        id="cntrtStartDate"
+                        name="cntrtStartDate"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value.replaceAll("-", ""),
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                   <div style={{ display: "inline-block" }}>
-                    <Input
-                      type="date"
-                      style={{ display: "span" }}
-                      fixedHeight
-                      dateFormat="yyyy-MM-dd"
-                      id="cntrtEndDate"
-                      name="cntrtEndDate"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value.replaceAll("-", ""),
-                        })
-                      }
-                      selected={endDate}
-                      minDate={new Date()}
-                    />
+                    <div>
+                      <Input
+                        type="date"
+                        style={{ display: "span" }}
+                        fixedHeight
+                        dateFormat="yyyy-MM-dd"
+                        id="cntrtEndDate"
+                        name="cntrtEndDate"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value.replaceAll("-", ""),
+                          })
+                        }
+                        selected={endDate}
+                        minDate={new Date()}
+                      />
+                    </div>
                   </div>
                 </td>
               </tr>
               <tr>
                 <th>계약통화코드*</th>
                 <td>
-                  <Input
-                    id="cntrtCurrCd"
-                    name="cntrtCurrCd"
-                    type="select"
-                    onChange={(e) =>
-                      setContractInfoParamas({
-                        ...contractInfoParams,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                  >
-                    {baseCodeData.data?.slice(24, 38).map((option) => (
-                      <option key={option.value} value={option.cd_v}>
-                        {option.cd_v} [{option.cd_v_meaning}]
-                      </option>
-                    ))}
-                  </Input>
+                  <div>
+                    <Input
+                      id="cntrtCurrCd"
+                      name="cntrtCurrCd"
+                      type="select"
+                      onChange={(e) =>
+                        setContractInfoParamas({
+                          ...contractInfoParams,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                    >
+                      {baseCodeData.data?.slice(24, 38).map((option) => (
+                        <option key={option.value} value={option.cd_v}>
+                          {option.cd_v} [{option.cd_v_meaning}]
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
                 </td>
                 <th>수정사유</th>
                 <td>
-                  <Input />
+                  <div>
+                    <Input />
+                  </div>
                 </td>
               </tr>
               <tr>

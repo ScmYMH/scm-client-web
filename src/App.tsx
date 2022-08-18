@@ -6,7 +6,6 @@ import LoginLoader from "./components/login/LoginLoader";
 import CommonInfoList from "components/ContractMember/CommonInfoList";
 import ChangeManagerLoader from "components/changeManager/ChangeManagerLoader";
 import TariffLoader from "components/tariffInfo/TariffLoader";
-import SideBar from "components/sidebar/Sidebar";
 import Content from "components/content/Content";
 import "./App.css";
 import Sidenav from "components/sidebar/Sidenav";
