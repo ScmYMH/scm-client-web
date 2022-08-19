@@ -252,197 +252,199 @@ const ContractCoaInfoForm = ({
         </div>
         <div>
           <Table bordered>
-            <tr>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                물류법인
-              </td>
-              <td>
-                <span>POSCO ICT</span>
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                계약일자
-              </td>
-              <td>
-                <div>
-                  <Input
-                    type="date"
-                    style={{
-                      display: "span",
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                    flexedHeight
-                    dateFormat="MM/dd/yyyy"
-                    selected={date}
-                    id="insDate"
-                    name="insDate"
-                    onChange={(e) => {
-                      setParmas({
-                        ...params,
-                        [e.target.id]: e.target.value.replaceAll("-", ""),
-                      });
-                    }}
-                  />
-                </div>
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                계약상태
-              </td>
-              <td colSpan={3}>
-                <div>
-                  <Input
-                    onChange={(e) =>
-                      setParmas({ ...params, [e.target.id]: e.target.value })
-                    }
-                    id="cdvMeaning"
-                    name="cdvMeaning"
-                    type="select"
-                    style={{
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                  >
-                    {contractStateOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.text}
-                      </option>
-                    ))}
-                  </Input>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                계약ID
-              </td>
-              <td>
-                <div>
-                  <Input
-                    type="text"
-                    onChange={onChange}
-                    id="cntrtId"
-                    style={{
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                  ></Input>
-                </div>
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                계약명
-              </td>
-              <td>
-                <div>
-                  <Input
-                    type="text"
-                    onChange={onChange}
-                    id="cntrtNm"
-                    style={{
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                  ></Input>
-                </div>
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                서비스유형
-              </td>
-              <td>
-                <div>
-                  <Input
-                    onChange={(e) =>
-                      setTariffInfoConditon({
-                        ...tariffInfoConditon,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                    id="svcNm"
-                    name="svcNm"
-                    type="select"
-                    style={{
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                  >
-                    {serviceOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.text}
-                      </option>
-                    ))}
-                  </Input>
-                </div>
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                상세 서비스유형
-              </td>
-              <td>
-                <div>
-                  <Input
-                    onChange={(e) =>
-                      setTariffInfoConditon({
-                        ...tariffInfoConditon,
-                        [e.target.id]: e.target.value,
-                      })
-                    }
-                    type="select"
-                    id="detlSvcNm"
-                    name="detlSvcNm"
-                    style={{
-                      boxShadow: "none",
-                      borderRadius: 0,
-                    }}
-                  >
-                    {detailServiceOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.text}
-                      </option>
-                    ))}
-                  </Input>
-                </div>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  물류법인
+                </td>
+                <td>
+                  <span>POSCO ICT</span>
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  계약일자
+                </td>
+                <td>
+                  <div>
+                    <Input
+                      type="date"
+                      style={{
+                        display: "span",
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                      flexedHeight
+                      dateFormat="MM/dd/yyyy"
+                      selected={date}
+                      id="insDate"
+                      name="insDate"
+                      onChange={(e) => {
+                        setParmas({
+                          ...params,
+                          [e.target.id]: e.target.value.replaceAll("-", ""),
+                        });
+                      }}
+                    />
+                  </div>
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  계약상태
+                </td>
+                <td colSpan={3}>
+                  <div>
+                    <Input
+                      onChange={(e) =>
+                        setParmas({ ...params, [e.target.id]: e.target.value })
+                      }
+                      id="cdvMeaning"
+                      name="cdvMeaning"
+                      type="select"
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    >
+                      {contractStateOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.text}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  계약ID
+                </td>
+                <td>
+                  <div>
+                    <Input
+                      type="text"
+                      onChange={onChange}
+                      id="cntrtId"
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    ></Input>
+                  </div>
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  계약명
+                </td>
+                <td>
+                  <div>
+                    <Input
+                      type="text"
+                      onChange={onChange}
+                      id="cntrtNm"
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    ></Input>
+                  </div>
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  서비스유형
+                </td>
+                <td>
+                  <div>
+                    <Input
+                      onChange={(e) =>
+                        setTariffInfoConditon({
+                          ...tariffInfoConditon,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                      id="svcNm"
+                      name="svcNm"
+                      type="select"
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    >
+                      {serviceOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.text}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                >
+                  상세 서비스유형
+                </td>
+                <td>
+                  <div>
+                    <Input
+                      onChange={(e) =>
+                        setTariffInfoConditon({
+                          ...tariffInfoConditon,
+                          [e.target.id]: e.target.value,
+                        })
+                      }
+                      type="select"
+                      id="detlSvcNm"
+                      name="detlSvcNm"
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    >
+                      {detailServiceOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.text}
+                        </option>
+                      ))}
+                    </Input>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </Table>
         </div>
         <div
@@ -454,7 +456,7 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <div>◎ 계약목록</div>
+          <div style={{ fontWeight: "bold", color: "#003366" }}>◎ 계약목록</div>
         </div>
         <div
           style={{
@@ -464,7 +466,7 @@ const ContractCoaInfoForm = ({
         >
           <Table striped hover bordered>
             <thead style={{ textAlign: "center" }}>
-              <tr>
+              <tr className="table-secondary">
                 <th style={{ paddingBottom: 25 }} rowSpan={2}></th>
                 <th style={{ paddingBottom: 25 }} rowSpan={2}>
                   계약명
@@ -480,7 +482,7 @@ const ContractCoaInfoForm = ({
                   계약 ID
                 </th>
               </tr>
-              <tr>
+              <tr className="table-secondary">
                 <th>시작</th>
                 <th>마감</th>
               </tr>
@@ -573,7 +575,9 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <div>◎ 타리프 정보</div>
+          <div style={{ fontWeight: "bold", color: "#003366" }}>
+            ◎ 타리프 정보
+          </div>
         </div>
         <div
           style={{
@@ -583,7 +587,7 @@ const ContractCoaInfoForm = ({
         >
           <Table striped hover bordered>
             <thead style={{ textAlign: "center" }}>
-              <tr>
+              <tr className="table-secondary">
                 <th></th>
                 <th>타리프 ID</th>
                 <th>타리프설명</th>

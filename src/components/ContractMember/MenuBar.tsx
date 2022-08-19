@@ -176,7 +176,7 @@ const MenuBar = ({
           marginTop: 30,
         }}
       >
-        <Table bordered style={{ width: 800, marginLeft: 30 }}>
+        <Table bordered style={{ marginLeft: 30 }}>
           <tr>
             <tbody>
               <td

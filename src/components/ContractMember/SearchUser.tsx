@@ -1,5 +1,6 @@
 import {
   Button,
+  Container,
   Input,
   Modal,
   ModalBody,
@@ -27,6 +28,7 @@ const SearchUser = ({
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="xl">
       <ModalHeader toggle={closeModal}>사용자 정보 조회</ModalHeader>
+
       <ModalBody>
         <SearchUserBody
           addMember={addMember}
@@ -72,37 +74,64 @@ const SearchUserBody = ({
 
   return (
     <>
-      <Table bordered size="sm" style={{ width: 800, marginLeft: 35 }}>
-        <tr>
-          <td style={{ backgroundColor: "grey" }}>사용자명</td>
-          <td>
-            <Input
-              id="userNm"
-              name="userNm"
-              type="text"
-              style={{ marginRight: "30px" }}
-              onChange={(e) => setUser({ ...user, userNm: e.target.value })}
-            ></Input>
-          </td>
-          <td style={{ backgroundColor: "grey" }}>로그인ID</td>
-          <td>
-            <Input
-              id="loginId"
-              name="loginId"
-              type="text"
-              style={{ marginRight: "30px" }}
-              onChange={(e) => setUser({ ...user, loginId: e.target.value })}
-            ></Input>
-          </td>
-          <Button className="btn" size="sm" onClick={onSubmitUserInfo}>
-            조회
-          </Button>
-        </tr>
-      </Table>
+      <div>
+        <Table bordered size="sm" style={{ display: "inline" }}>
+          <tbody>
+            <tr>
+              <td
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  marginTop: 1,
+                }}
+              >
+                사용자명
+              </td>
+              <td>
+                <Input
+                  id="userNm"
+                  name="userNm"
+                  type="text"
+                  style={{ marginRight: "30px" }}
+                  onChange={(e) => setUser({ ...user, userNm: e.target.value })}
+                ></Input>
+              </td>
 
-      <Table bordered className="">
-        <thead>
-          <tr>
+              <td
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                로그인ID
+              </td>
+              <td>
+                <Input
+                  id="loginId"
+                  name="loginId"
+                  type="text"
+                  style={{ marginRight: "30px" }}
+                  onChange={(e) =>
+                    setUser({ ...user, loginId: e.target.value })
+                  }
+                ></Input>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+        <Button
+          onClick={onSubmitUserInfo}
+          outline
+          style={{ margin: 5, float: "right" }}
+        >
+          조회
+        </Button>
+      </div>
+
+      <Table bordered style={{ marginTop: 20 }}>
+        <thead style={{ textAlign: "center" }}>
+          <tr className="table-secondary">
             <th>시스템사용자명</th>
             <th>로그인ID</th>
             <th>시스템사용자ID</th>
@@ -116,14 +145,66 @@ const SearchUserBody = ({
           <tbody>
             {userMemberListData.map((usermemberInfo, index) => (
               <tr key={index} aria-rowcount={index}>
-                <td key={usermemberInfo.userId}>{usermemberInfo.userNm}</td>
-                <td key={usermemberInfo.userId}>{usermemberInfo.loginId}</td>
-                <td key={usermemberInfo.userId}>{usermemberInfo.userId}</td>
-                <td key={usermemberInfo.userId}>{usermemberInfo.email}</td>
-                <td key={usermemberInfo.userId}>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
+                  {usermemberInfo.userNm}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
+                  {usermemberInfo.loginId}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
+                  {usermemberInfo.userId}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
+                  {usermemberInfo.email}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
                   {usermemberInfo.employeeNumber}
                 </td>
-                <td key={usermemberInfo.userId}>{usermemberInfo.deptNm}</td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#ced6e0",
+                    margin: 1,
+                  }}
+                  key={usermemberInfo.userId}
+                >
+                  {usermemberInfo.deptNm}
+                </td>
                 <td>
                   <Button
                     onClick={() =>
