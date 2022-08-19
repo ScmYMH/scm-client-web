@@ -114,278 +114,386 @@ const ContractCoaRegisterModal = ({
           <Container>
             <div style={{ margin: 4 }}>계약정보</div>
             <Table bordered className={styles.register_table}>
-              <tr>
-                <th>물류법인</th>
-                <td>
-                  <div>
-                    <Input
-                      id="coprId"
-                      name="coprId"
-                      type="select"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    >
-                      {baseCodeData.data?.slice(8, 9).map((option) => (
-                        <option
-                          key={option.cd_v}
-                          value={option.cd_v}
-                          selected={option.cd_v_meaning}
-                          disabled
-                        >
-                          {option.cd_v_meaning}
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
-                </td>
-                <th>계약유형그룹코드*</th>
-                <td>
-                  <div>
-                    <Input
-                      id="cntrtTypGcd"
-                      name="cntrtTypGcd"
-                      type="select"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    >
-                      {baseCodeData.data?.slice(10, 12).map((option) => (
-                        <option key={option.cd_v} value={option.cd_v}>
-                          {option.cd_v_meaning}
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>계약명</th>
-                <td>
-                  <div>
-                    <Input
-                      id="cntrtNm"
-                      name="cntrtNm"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </td>
-                <th>계약유형코드*</th>
-                <td>
-                  <div>
-                    <Input
-                      id="cntrtTcd"
-                      name="cntrtTcd"
-                      type="select"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    >
-                      {baseCodeData.data?.slice(12, 22).map((option) => (
-                        <option key={option.value} value={option.cd_v}>
-                          {option.cd_v_meaning}
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>계약 ID</th>
-                <td>
-                  <span>{contractInfoParams?.cntrtId.toString()}</span>
-                </td>
-                <th>담당자*</th>
-                <td>
-                  <div>
-                    <Input
-                      id="crePersonId"
-                      name="crePersonId"
-                      value={addMember[0]?.userNm}
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                      readOnly
-                      style={{
-                        boxShadow: "none",
-                        width: "90%",
-                        display: "inline-block",
-                      }}
-                    />
-                    <HiSearch
-                      style={{ marginLeft: 10, cursor: "pointer" }}
-                      onClick={() => {
-                        setOpenModal((openModal) => !openModal);
-                      }}
-                    ></HiSearch>
-                    {openModal && (
-                      <SearchUser
-                        onClickUser={onClickUser}
-                        isOpen={openModal}
-                        closeModal={() =>
-                          setOpenModal((openModal) => !openModal)
-                        }
-                        addMember={addMember}
-                        setAddMember={setAddMember}
-                      ></SearchUser>
-                    )}
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>계약상태</th>
-                <td>
-                  <div>
-                    <Input
-                      id="cntrtScd"
-                      name="cntrtScd"
-                      type="select"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    >
-                      {baseCodeData.data?.slice(0, 1).map((option) => (
-                        <option
-                          key={option.cd_v}
-                          value={option.cd_v}
-                          selected={option.cd_v_meaning}
-                          disabled
-                        >
-                          {option.cd_v_meaning}
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
-                </td>
-                <th>계약기간</th>
-                <td>
-                  <div style={{ display: "inline-block" }}>
-                    <div>
-                      <Input
-                        style={{ display: "span" }}
-                        fixedHeight
-                        dateFormat="yyyy-MM-dd"
-                        selected={startDate}
-                        selectsStart
-                        type="date"
-                        id="cntrtStartDate"
-                        name="cntrtStartDate"
-                        onChange={(e) =>
-                          setContractInfoParamas({
-                            ...contractInfoParams,
-                            [e.target.id]: e.target.value.replaceAll("-", ""),
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div style={{ display: "inline-block" }}>
-                    <div>
-                      <Input
-                        type="date"
-                        style={{ display: "span" }}
-                        fixedHeight
-                        dateFormat="yyyy-MM-dd"
-                        id="cntrtEndDate"
-                        name="cntrtEndDate"
-                        onChange={(e) =>
-                          setContractInfoParamas({
-                            ...contractInfoParams,
-                            [e.target.id]: e.target.value.replaceAll("-", ""),
-                          })
-                        }
-                        selected={endDate}
-                        minDate={new Date()}
-                      />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>계약통화코드*</th>
-                <td>
-                  <div>
-                    <Input
-                      id="cntrtCurrCd"
-                      name="cntrtCurrCd"
-                      type="select"
-                      onChange={(e) =>
-                        setContractInfoParamas({
-                          ...contractInfoParams,
-                          [e.target.id]: e.target.value,
-                        })
-                      }
-                    >
-                      {baseCodeData.data?.slice(24, 38).map((option) => (
-                        <option key={option.value} value={option.cd_v}>
-                          {option.cd_v} [{option.cd_v_meaning}]
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
-                </td>
-                <th>수정사유</th>
-                <td>
-                  <div>
-                    <Input />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={4} style={{ margin: 0, padding: 0 }}>
-                  <Form
-                    className="ContractInfoForm"
-                    onSubmit={onSubmitInsertContractInfo}
-                    style={{ margin: 0, padding: 0 }}
+              <tbody>
+                <tr>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
                   >
-                    <div
-                      style={{
-                        margin: "10px",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Button
-                        outline
-                        className="btn"
-                        size="sm"
-                        style={{ margin: 0, padding: 0, width: 50 }}
+                    물류법인
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        id="coprId"
+                        name="coprId"
+                        type="select"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
                       >
-                        저장
-                      </Button>
+                        {baseCodeData.data?.slice(8, 9).map((option) => (
+                          <option
+                            key={option.cd_v}
+                            value={option.cd_v}
+                            selected={option.cd_v_meaning}
+                            disabled
+                          >
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
+                      </Input>
                     </div>
-                  </Form>
-                </td>
-              </tr>
+                  </td>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약유형그룹코드*
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                        id="cntrtTypGcd"
+                        name="cntrtTypGcd"
+                        type="select"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      >
+                        {baseCodeData.data?.slice(10, 12).map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
+                      </Input>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약명
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                        id="cntrtNm"
+                        name="cntrtNm"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </td>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약유형코드*
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                        id="cntrtTcd"
+                        name="cntrtTcd"
+                        type="select"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      >
+                        {baseCodeData.data?.slice(12, 22).map((option) => (
+                          <option key={option.value} value={option.cd_v}>
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
+                      </Input>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약 ID
+                  </th>
+                  <td>
+                    <span>{contractInfoParams?.cntrtId.toString()}</span>
+                  </td>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    담당자*
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        id="crePersonId"
+                        name="crePersonId"
+                        value={addMember[0]?.userNm}
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                        readOnly
+                        style={{
+                          boxShadow: "none",
+                          width: "90%",
+                          display: "inline-block",
+
+                          borderRadius: 0,
+                        }}
+                      />
+                      <HiSearch
+                        style={{ marginLeft: 10, cursor: "pointer" }}
+                        onClick={() => {
+                          setOpenModal((openModal) => !openModal);
+                        }}
+                      ></HiSearch>
+                      {openModal && (
+                        <SearchUser
+                          onClickUser={onClickUser}
+                          isOpen={openModal}
+                          closeModal={() =>
+                            setOpenModal((openModal) => !openModal)
+                          }
+                          addMember={addMember}
+                          setAddMember={setAddMember}
+                        ></SearchUser>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약상태
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                        id="cntrtScd"
+                        name="cntrtScd"
+                        type="select"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      >
+                        {baseCodeData.data?.slice(0, 1).map((option) => (
+                          <option
+                            key={option.cd_v}
+                            value={option.cd_v}
+                            selected={option.cd_v_meaning}
+                            disabled
+                          >
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
+                      </Input>
+                    </div>
+                  </td>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약기간
+                  </th>
+                  <td>
+                    <div style={{ display: "inline-block" }}>
+                      <div>
+                        <Input
+                          style={{ display: "span" }}
+                          fixedHeight
+                          dateFormat="yyyy-MM-dd"
+                          selected={startDate}
+                          selectsStart
+                          type="date"
+                          id="cntrtStartDate"
+                          name="cntrtStartDate"
+                          onChange={(e) =>
+                            setContractInfoParamas({
+                              ...contractInfoParams,
+                              [e.target.id]: e.target.value.replaceAll("-", ""),
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div style={{ display: "inline-block" }}>
+                      <div>
+                        <Input
+                          type="date"
+                          style={{ display: "span" }}
+                          fixedHeight
+                          dateFormat="yyyy-MM-dd"
+                          id="cntrtEndDate"
+                          name="cntrtEndDate"
+                          onChange={(e) =>
+                            setContractInfoParamas({
+                              ...contractInfoParams,
+                              [e.target.id]: e.target.value.replaceAll("-", ""),
+                            })
+                          }
+                          selected={endDate}
+                          minDate={new Date()}
+                        />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    계약통화코드*
+                  </th>
+                  <td>
+                    <div>
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                        id="cntrtCurrCd"
+                        name="cntrtCurrCd"
+                        type="select"
+                        onChange={(e) =>
+                          setContractInfoParamas({
+                            ...contractInfoParams,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      >
+                        {baseCodeData.data?.slice(24, 38).map((option) => (
+                          <option key={option.value} value={option.cd_v}>
+                            {option.cd_v} [{option.cd_v_meaning}]
+                          </option>
+                        ))}
+                      </Input>
+                    </div>
+                  </td>
+                  <th
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}
+                  >
+                    수정사유
+                  </th>
+                  <td>
+                    <div>
+                      <Input />
+                    </div>
+                  </td>
+                </tr>
+                <tr></tr>
+              </tbody>
             </Table>
+
+            <Form
+              className="ContractInfoForm"
+              onSubmit={onSubmitInsertContractInfo}
+              style={{ margin: 0, padding: 0, float: "right" }}
+            >
+              <div
+                style={{
+                  margin: "10px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  float: "right",
+                }}
+              >
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                >
+                  저장
+                </Button>
+              </div>
+            </Form>
           </Container>
 
           <Container>
             <Table bordered>
               <thead style={{ margin: 4 }}>타리프 정보</thead>
-              <tbody>
-                <tr>
+              <tbody style={{ textAlign: "center" }}>
+                <tr className="table-secondary">
                   <th>일련번호</th>
                   <th>타리프 ID</th>
                   <th>타리프 설명</th>

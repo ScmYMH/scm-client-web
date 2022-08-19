@@ -24,12 +24,14 @@ const ContractChangeInfoModal = ({
       <ModalHeader toggle={closeModal}>계약 변경 이력</ModalHeader>
       <ModalBody>
         <Table bordered>
-          <tr>
-            <th>일련번호법인</th>
-            <th>수정사유</th>
-            <th>수정일시</th>
-            <th>수정자 명</th>
-          </tr>
+          <thead style={{ textAlign: "center" }}>
+            <tr className="table-secondary">
+              <th>일련번호법인</th>
+              <th>수정사유</th>
+              <th>수정일시</th>
+              <th>수정자 명</th>
+            </tr>
+          </thead>
         </Table>
       </ModalBody>
     </Modal>

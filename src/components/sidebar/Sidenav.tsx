@@ -59,9 +59,13 @@ const Sidenav = () => {
           </SidebarHeader>
           <SidebarContent style={{ backgroundColor: "#333333" }}>
             <Menu iconShape="square">
-              <MenuItem style={{ fontWeight: "bold" }}>
+              <MenuItem style={{ fontWeight: "bold", marginTop: 30 }}>
                 계약 관리
-                <MenuItem active={true} icon={<FiHome />}>
+                <MenuItem
+                  style={{ marginTop: 20 }}
+                  active={true}
+                  icon={<FiHome />}
+                >
                   <Link to="/coa">운송 계약 등록</Link>
                 </MenuItem>
                 <MenuItem icon={<FaList />}>
@@ -74,9 +78,9 @@ const Sidenav = () => {
                   <Link to="/">타리프</Link>
                 </MenuItem>
               </MenuItem>
-              <MenuItem style={{ fontWeight: "bold" }}>
+              <MenuItem style={{ fontWeight: "bold", marginTop: 30 }}>
                 정산 관리
-                <MenuItem icon={<RiPencilLine />}>
+                <MenuItem style={{ marginTop: 30 }} icon={<RiPencilLine />}>
                   <Link to="/">정산</Link>
                 </MenuItem>
               </MenuItem>

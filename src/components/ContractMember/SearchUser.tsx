@@ -92,7 +92,11 @@ const SearchUserBody = ({
                   id="userNm"
                   name="userNm"
                   type="text"
-                  style={{ marginRight: "30px" }}
+                  style={{
+                    marginRight: "30px",
+                    boxShadow: "none",
+                    borderRadius: 0,
+                  }}
                   onChange={(e) => setUser({ ...user, userNm: e.target.value })}
                 ></Input>
               </td>
@@ -111,7 +115,11 @@ const SearchUserBody = ({
                   id="loginId"
                   name="loginId"
                   type="text"
-                  style={{ marginRight: "30px" }}
+                  style={{
+                    marginRight: "30px",
+                    boxShadow: "none",
+                    borderRadius: 0,
+                  }}
                   onChange={(e) =>
                     setUser({ ...user, loginId: e.target.value })
                   }
