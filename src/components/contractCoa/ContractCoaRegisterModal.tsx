@@ -43,6 +43,9 @@ const ContractCoaRegisterModal = ({
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
 
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
+
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -63,16 +66,15 @@ const ContractCoaRegisterModal = ({
     cntrtStartDate: "",
     cntrtEndDate: "",
     cntrtTcd: "109031",
-    crePersonId: "", // 담당자 명
-    insPersonId: "mh.kim",
-    updPersonId: "202207130004",
+    crePersonId: nowUserId, // 담당자 명
+    insPersonId: nowUserId,
+    updPersonId: nowUserId,
     cntrtTypGcd: "1090",
   });
-
   const dispatch = useDispatch();
 
   const getContractId = async () => {
-    await axios.get(`http://localhost:9999/coa/newcntrtid`).then((res) =>
+    await axios.get(`http://localhost:8000/coa/newcntrtid`).then((res) =>
       setContractInfoParamas({
         ...contractInfoParams,
         cntrtId: res.data,
@@ -101,7 +103,6 @@ const ContractCoaRegisterModal = ({
       closeModal();
     }
   };
-
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -279,6 +280,7 @@ const ContractCoaRegisterModal = ({
                       <Input
                         id="crePersonId"
                         name="crePersonId"
+                        defaultValue={nowUserNm||""}
                         value={addMember[0]?.userNm}
                         onChange={(e) =>
                           setContractInfoParamas({

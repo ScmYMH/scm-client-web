@@ -5,15 +5,17 @@ type LoginProfileInfoProps = {
     loginId: string;
     token: string;
     userId: string;
+    userNm: string;
   };
   
-function LoginProfileInfo({ loginId, token, userId }: LoginProfileInfoProps) {
+function LoginProfileInfo({ loginId, token, userId, userNm }: LoginProfileInfoProps) {
     const navigate = useNavigate();
 
     useEffect(()=>{
         localStorage.setItem("loginId", loginId);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", userId);
+        localStorage.setItem("userNm", userNm);
 
         navigate("/login")
     },[]);
@@ -21,7 +23,7 @@ function LoginProfileInfo({ loginId, token, userId }: LoginProfileInfoProps) {
     return (
         <div className="LoginProfileInfo">
             <div className="profile-head">
-                <div className="userNm">loginId : {loginId}</div>
+                <div className="userNm">userNm : {userNm}</div>
                 <div className="token">token : {token}</div>
             </div>
         </div>

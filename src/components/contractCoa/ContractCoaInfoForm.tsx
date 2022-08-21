@@ -52,8 +52,12 @@ const ContractCoaInfoForm = ({
       cntrtNm: "",
       insDate: "",
       cdvMeaning: "",
+      ins_person_id:"",
+      user_nm:""
     },
   });
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -95,14 +99,6 @@ const ContractCoaInfoForm = ({
     detlSvcTcd: "", // 상세서비스유형
   });
 
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
-
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setParmas({ ...params, [e.target.id]: e.target.value });
   };
@@ -120,14 +116,13 @@ const ContractCoaInfoForm = ({
 
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName("cntrtId") as any | null;
-
+  
     for (let i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i] !== checkThis) {
         checkboxes[i].checked = false;
       }
     }
   };
-
   return (
     <>
       <div
@@ -183,7 +178,13 @@ const ContractCoaInfoForm = ({
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
+              if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+                setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
+              }
+              else {
+                alert("계약 담당자만 수정할 수 있습니다.")
+              }
+              
             }}
           >
             계약수정
@@ -192,7 +193,9 @@ const ContractCoaInfoForm = ({
             <ContractCoaUpdateModal
               isOpen={cntrtUpdModal}
               closeModal={() =>
+                {
                 setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal)
+              }
               }
               updParams={updParams}
               tariffData={tariffData.data}
@@ -512,6 +515,7 @@ const ContractCoaInfoForm = ({
                           });
                         }}
                         onClick={() => {
+                          
                           onSubmitTariffInfo(tariffInfoConditon);
                         }}
                       />
