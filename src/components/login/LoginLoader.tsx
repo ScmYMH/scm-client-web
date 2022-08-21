@@ -21,7 +21,7 @@ const LoginLoader = () => {
         <>
             <LoginForm onSubmitLoginId={onSubmitLoginId} />
             {loading && <p style={{ textAlign: 'center' }}>로딩중..</p>}
-            {error && <p style={{ textAlign: 'center' }}>에러 발생!</p>}
+            {error && alert("에러 발생!")}
             {data && <LoginProfileInfo token={data.token} userId={data.userId} userNm={data.userNm} loginId={data.loginId} />}
         </>
     );
