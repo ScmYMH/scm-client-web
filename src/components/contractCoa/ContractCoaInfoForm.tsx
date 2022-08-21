@@ -110,8 +110,15 @@ const ContractCoaInfoForm = ({
   };
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
-    onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
-    alert("삭제되었습니다.");
+    if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+      e.preventDefault();
+      onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
+      alert("삭제되었습니다.");
+    }
+    else {
+      alert("계약 담당자만 삭제 할 수 있습니다.")
+    }
+    
   };
 
   const checkOnlyOne = (checkThis) => {
@@ -184,7 +191,6 @@ const ContractCoaInfoForm = ({
               else {
                 alert("계약 담당자만 수정할 수 있습니다.")
               }
-              
             }}
           >
             계약수정
