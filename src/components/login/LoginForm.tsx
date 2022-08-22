@@ -38,6 +38,7 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "#005586",
       }}
     >
       <div
@@ -91,7 +92,11 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
               </div>
 
               <div
-                style={{ marginTop: "50px", width: "80%", textAlign: "center" }}
+                style={{
+                  marginTop: "50px",
+                  width: "100%",
+                  textAlign: "center",
+                }}
               >
                 <Button
                   className="LoginButton"
@@ -105,6 +110,7 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
                     borderRadius: "40px",
                     fontSize: "1.2em",
                     letterSpacing: "2px",
+                    backgroundColor: "#f38901",
                   }}
                 >
                   로그인
