@@ -167,6 +167,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(8, 9).map((option) => (
                           <option
@@ -202,6 +206,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(10, 12).map((option) => (
                           <option key={option.cd_v} value={option.cd_v}>
@@ -234,6 +242,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       />
                     </div>
                   </td>
@@ -258,6 +270,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(12, 22).map((option) => (
                           <option key={option.value} value={option.cd_v}>
@@ -306,6 +322,7 @@ const ContractCoaUpdateModal = ({
                         readOnly
                         style={{
                           boxShadow: "none",
+                          borderRadius: 0,
                           width: "90%",
                           display: "inline-block",
                         }}
@@ -352,6 +369,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(0, 2).map((option) => (
                           <option
@@ -378,7 +399,6 @@ const ContractCoaUpdateModal = ({
                     <div style={{ display: "inline-block" }}>
                       <div>
                         <Input
-                          style={{ display: "span" }}
                           fixedHeight
                           dateFormat="yyyy-MM-dd"
                           selected={startDate}
@@ -395,13 +415,22 @@ const ContractCoaUpdateModal = ({
                               [e.target.id]: e.target.value.replaceAll("-", ""),
                             })
                           }
+                          style={{
+                            boxShadow: "none",
+                            borderRadius: 0,
+                            display: "span",
+                          }}
                         />
                       </div>
                     </div>
                     <div style={{ display: "inline-block" }}>
                       <Input
                         type="date"
-                        style={{ display: "span" }}
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                          display: "span",
+                        }}
                         fixedHeight
                         dateFormat="yyyy-MM-dd"
                         id="cntrtEndDate"
@@ -443,6 +472,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(24, 38).map((option) => (
                           <option key={option.value} value={option.cd_v}>
@@ -473,6 +506,10 @@ const ContractCoaUpdateModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       />
                     </div>
                   </td>

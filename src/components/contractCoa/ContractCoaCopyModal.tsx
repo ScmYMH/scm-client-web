@@ -207,6 +207,10 @@ const ContractCoaCopyModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(10, 12).map((option) => (
                           <option key={option.cd_v} value={option.cd_v}>
@@ -230,6 +234,10 @@ const ContractCoaCopyModal = ({
                   <td>
                     <div>
                       <Input
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                         id="cntrtNm"
                         name="cntrtNm"
                         defaultValue={updParams.data?.cntrt_nm}
@@ -254,6 +262,10 @@ const ContractCoaCopyModal = ({
                   <td>
                     <div>
                       <Input
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                         id="cntrtTcd"
                         name="cntrtTcd"
                         type="select"
@@ -313,6 +325,7 @@ const ContractCoaCopyModal = ({
                           boxShadow: "none",
                           width: "90%",
                           display: "inline-block",
+                          borderRadius: 0,
                         }}
                       />
                       <HiSearch
@@ -357,6 +370,10 @@ const ContractCoaCopyModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(0, 1).map((option) => (
                           <option
@@ -383,7 +400,6 @@ const ContractCoaCopyModal = ({
                   <td>
                     <div style={{ display: "inline-block" }}>
                       <Input
-                        style={{ display: "span" }}
                         fixedHeight
                         dateFormat="yyyy-MM-dd"
                         selected={startDate}
@@ -400,12 +416,17 @@ const ContractCoaCopyModal = ({
                             [e.target.id]: e.target.value.replaceAll("-", ""),
                           })
                         }
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                          display: "span",
+                        }}
                       />
                     </div>
                     <div style={{ display: "inline-block" }}>
                       <Input
                         type="date"
-                        style={{ display: "span" }}
                         fixedHeight
                         dateFormat="yyyy-MM-dd"
                         id="cntrtEndDate"
@@ -419,6 +440,12 @@ const ContractCoaCopyModal = ({
                             [e.target.id]: e.target.value.replaceAll("-", ""),
                           })
                         }
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                          display: "span",
+                        }}
                         selected={endDate}
                         minDate={new Date()}
                       />
@@ -447,6 +474,10 @@ const ContractCoaCopyModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(24, 38).map((option) => (
                           <option key={option.value} value={option.cd_v}>
@@ -467,7 +498,12 @@ const ContractCoaCopyModal = ({
                   </th>
                   <td>
                     <div>
-                      <Input />
+                      <Input
+                        style={{
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                      />
                     </div>
                   </td>
                 </tr>

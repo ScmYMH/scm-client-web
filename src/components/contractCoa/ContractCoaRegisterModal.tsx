@@ -138,6 +138,11 @@ const ContractCoaRegisterModal = ({
                             [e.target.id]: e.target.value,
                           })
                         }
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
                       >
                         {baseCodeData.data?.slice(8, 9).map((option) => (
                           <option
@@ -280,7 +285,7 @@ const ContractCoaRegisterModal = ({
                       <Input
                         id="crePersonId"
                         name="crePersonId"
-                        defaultValue={nowUserNm||""}
+                        defaultValue={nowUserNm || ""}
                         value={addMember[0]?.userNm}
                         onChange={(e) =>
                           setContractInfoParamas({
@@ -371,7 +376,12 @@ const ContractCoaRegisterModal = ({
                     <div style={{ display: "inline-block" }}>
                       <div>
                         <Input
-                          style={{ display: "span" }}
+                          style={{
+                            marginRight: "30px",
+                            boxShadow: "none",
+                            borderRadius: 0,
+                            display: "span",
+                          }}
                           fixedHeight
                           dateFormat="yyyy-MM-dd"
                           selected={startDate}
@@ -392,7 +402,12 @@ const ContractCoaRegisterModal = ({
                       <div>
                         <Input
                           type="date"
-                          style={{ display: "span" }}
+                          style={{
+                            marginRight: "30px",
+                            boxShadow: "none",
+                            borderRadius: 0,
+                            display: "span",
+                          }}
                           fixedHeight
                           dateFormat="yyyy-MM-dd"
                           id="cntrtEndDate"
@@ -457,7 +472,13 @@ const ContractCoaRegisterModal = ({
                   </th>
                   <td>
                     <div>
-                      <Input />
+                      <Input
+                        style={{
+                          marginRight: "30px",
+                          boxShadow: "none",
+                          borderRadius: 0,
+                        }}
+                      />
                     </div>
                   </td>
                 </tr>

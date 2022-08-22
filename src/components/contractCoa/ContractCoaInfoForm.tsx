@@ -52,8 +52,8 @@ const ContractCoaInfoForm = ({
       cntrtNm: "",
       insDate: "",
       cdvMeaning: "",
-      ins_person_id:"",
-      user_nm:""
+      ins_person_id: "",
+      user_nm: "",
     },
   });
   const nowUserId = localStorage.getItem("userId");
@@ -110,20 +110,21 @@ const ContractCoaInfoForm = ({
   };
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
-    if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+    if (
+      nowUserId == updParams.data.ins_person_id ||
+      nowUserNm == updParams.data.user_nm
+    ) {
       e.preventDefault();
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
+    } else {
+      alert("계약 담당자만 삭제 할 수 있습니다.");
     }
-    else {
-      alert("계약 담당자만 삭제 할 수 있습니다.")
-    }
-    
   };
 
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName("cntrtId") as any | null;
-  
+
     for (let i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i] !== checkThis) {
         checkboxes[i].checked = false;
@@ -185,11 +186,13 @@ const ContractCoaInfoForm = ({
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+              if (
+                nowUserId == updParams.data.ins_person_id ||
+                nowUserNm == updParams.data.user_nm
+              ) {
                 setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
-              }
-              else {
-                alert("계약 담당자만 수정할 수 있습니다.")
+              } else {
+                alert("계약 담당자만 수정할 수 있습니다.");
               }
             }}
           >
@@ -198,11 +201,9 @@ const ContractCoaInfoForm = ({
           {cntrtUpdModal && (
             <ContractCoaUpdateModal
               isOpen={cntrtUpdModal}
-              closeModal={() =>
-                {
-                setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal)
-              }
-              }
+              closeModal={() => {
+                setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
+              }}
               updParams={updParams}
               tariffData={tariffData.data}
             />
@@ -469,7 +470,7 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            maxHeight: "400px",
+            maxHeight: "200px",
             overflowY: "auto",
           }}
         >
@@ -521,7 +522,6 @@ const ContractCoaInfoForm = ({
                           });
                         }}
                         onClick={() => {
-                          
                           onSubmitTariffInfo(tariffInfoConditon);
                         }}
                       />
@@ -591,7 +591,7 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            maxHeight: "400px",
+            maxHeight: "200px",
             overflowY: "auto",
           }}
         >
