@@ -9,6 +9,7 @@ import TariffLoader from "components/tariffInfo/TariffLoader";
 import Content from "components/content/Content";
 import "./App.css";
 import Sidenav from "components/sidebar/Sidenav";
+import HeaderPict from "components/header/HeaderPict";
 function App() {
   const [sidebarIsOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <div className="App wrapper">
           <Sidenav />
+
           <Content
             toggleSidebar={toggleSidebar}
             sidebarIsOpen={sidebarIsOpen}
