@@ -33,7 +33,6 @@ const ContractCoaInfoLoader = () => {
     dispatch(tariffInfoAsync.request(params));
   };
 
-
   return (
     <>
       <div>
@@ -61,7 +60,7 @@ const ContractCoaInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card>
+      <Card style={{ minHeight: "900px" }}>
         <ContractCoaInfoForm
           onSubmitContractCoaInfo={onSubmitContractCoaInfo}
           onSubmitTariffInfo={onSubmitTariffInfo}

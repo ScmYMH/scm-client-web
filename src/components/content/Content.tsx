@@ -8,6 +8,7 @@ import TariffLoader from "components/tariffInfo/TariffLoader";
 import Topbar from "./Topbar";
 import { Route, Routes } from "react-router";
 import LoginLoader from "components/login/LoginLoader";
+import HeaderPict from "components/header/HeaderPict";
 
 interface ContentProps {
   sidebarIsOpen: any;
@@ -19,6 +20,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
     fluid
     className={classNames("content", { "is-open": sidebarIsOpen })}
   >
+    <HeaderPict />
     <Routes>
       <Route path="/" element={<LoginLoader></LoginLoader>}></Route>
       <Route
