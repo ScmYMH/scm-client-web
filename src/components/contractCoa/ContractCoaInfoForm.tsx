@@ -110,11 +110,9 @@ const ContractCoaInfoForm = ({
   };
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
-    if (
-      nowUserId == updParams.data.ins_person_id ||
-      nowUserNm == updParams.data.user_nm
-    ) {
-      e.preventDefault();
+
+    e.preventDefault();
+    if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
     } else {
@@ -186,13 +184,15 @@ const ContractCoaInfoForm = ({
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              if (
-                nowUserId == updParams.data.ins_person_id ||
-                nowUserNm == updParams.data.user_nm
-              ) {
-                setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
-              } else {
-                alert("계약 담당자만 수정할 수 있습니다.");
+              if(isChecked === true){
+                if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+                  setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
+                }
+                else {
+                  alert("계약 담당자만 수정할 수 있습니다.");
+                }
+              }else{
+                alert("수정하고자 하는 계약을 체크 해주세요.");
               }
             }}
           >
