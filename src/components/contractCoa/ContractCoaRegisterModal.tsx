@@ -74,7 +74,7 @@ const ContractCoaRegisterModal = ({
   const dispatch = useDispatch();
 
   const getContractId = async () => {
-    await axios.get(`http://localhost:8000/coa/newcntrtid`).then((res) =>
+    await axios.get(`http://3.37.155.50:8000/coa/newcntrtid`).then((res) =>
       setContractInfoParamas({
         ...contractInfoParams,
         cntrtId: res.data,
