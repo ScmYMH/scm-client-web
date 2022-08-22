@@ -110,9 +110,11 @@ const ContractCoaInfoForm = ({
   };
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
-    if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+    if (
+      nowUserId == updParams.data.ins_person_id ||
+      nowUserNm == updParams.data.user_nm
+    ) {
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
     } else {
@@ -133,10 +135,11 @@ const ContractCoaInfoForm = ({
     <>
       <div
         style={{
-          marginTop: 0,
+          marginTop: 30,
           marginRight: 30,
           marginBottom: 15,
           marginLeft: 30,
+          height: 800,
         }}
       >
         <div
@@ -184,14 +187,16 @@ const ContractCoaInfoForm = ({
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              if(isChecked === true){
-                if((nowUserId==updParams.data.ins_person_id) || (nowUserNm==updParams.data.user_nm) ){
+              if (isChecked === true) {
+                if (
+                  nowUserId == updParams.data.ins_person_id ||
+                  nowUserNm == updParams.data.user_nm
+                ) {
                   setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
-                }
-                else {
+                } else {
                   alert("계약 담당자만 수정할 수 있습니다.");
                 }
-              }else{
+              } else {
                 alert("수정하고자 하는 계약을 체크 해주세요.");
               }
             }}
@@ -260,7 +265,7 @@ const ContractCoaInfoForm = ({
             </Button>
           </Form>
         </div>
-        <div>
+        <div style={{ marginTop: 30 }}>
           <Table bordered>
             <tbody>
               <tr>

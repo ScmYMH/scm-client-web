@@ -100,7 +100,7 @@ const Sidenav = () => {
             </Menu>
           </SidebarContent>
           <SidebarFooter style={{ backgroundColor: "white" }}>
-            <Menu iconShape="square">
+            <Menu>
               <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
             </Menu>
           </SidebarFooter>
