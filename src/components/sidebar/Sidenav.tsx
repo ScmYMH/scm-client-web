@@ -90,20 +90,15 @@ const Sidenav = () => {
               <hr></hr>
               <span style={{ marginLeft: 20, marginTop: 30 }}>정산 관리</span>
 
-              <MenuItem
+              {/* <MenuItem
                 style={{ marginTop: 20 }}
                 icon={<FiAlignJustify />}
                 active={true}
               >
                 <Link to="/">정산</Link>
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </SidebarContent>
-          <SidebarFooter style={{ backgroundColor: "white" }}>
-            <Menu>
-              <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
-            </Menu>
-          </SidebarFooter>
         </ProSidebar>
       </div>
     </>

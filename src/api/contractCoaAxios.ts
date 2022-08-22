@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getContractInfoListApi(params: any) {
   const response = await axios.get<ContractInfo>(
-    `http://localhost:8000/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
+    `http://3.37.155.50:8000/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
   );
 
   return response.data;
@@ -10,7 +10,7 @@ export async function getContractInfoListApi(params: any) {
 
 export async function insertContractInfo(params: ContractInfo) {
   const response = await axios.post<ContractInfo>(
-    `http://localhost:8000/coa`,
+    `http://3.37.155.50:8000/coa`,
     params
   );
   return response.data;
@@ -18,7 +18,7 @@ export async function insertContractInfo(params: ContractInfo) {
 
 export async function updateContractInfo(params: ContractInfo) {
   const response = await axios.put<ContractInfo>(
-    `http://localhost:8000/coa`,
+    `http://3.37.155.50:8000/coa`,
     params
   );
   return response.data;
@@ -27,7 +27,7 @@ export async function updateContractInfo(params: ContractInfo) {
 export async function deleteContractInfo(cntrtId: ContractInfo) {
   console.log("deleteContractInfo>>>>>>", cntrtId);
   const response = await axios.put<ContractInfo>(
-    `http://localhost:8000/coa/${cntrtId}`
+    `http://3.37.155.50:8000/coa/${cntrtId}`
   );
   console.log("deleteContractInfo>>>>>>", response.data);
   return response.data;
@@ -35,14 +35,14 @@ export async function deleteContractInfo(cntrtId: ContractInfo) {
 
 export async function getTariffInfoListApi(params: any) {
   const response = await axios.get<TariffInfo>(
-    `http://localhost:8000/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`
+    `http://3.37.155.50:8000/coa/tariff?cntrtId=${params.cntrtId}&svcNm=${params.svcNm}&detlSvcNm=${params.detlSvcNm}`
   );
   return response.data;
 }
 
 export async function getContractInfoDefinitionApi(params: any) {
   const response = await axios.get<ContractInfoDefinition>(
-    `http://localhost:8000/coa/code`
+    `http://3.37.155.50:8000/coa/code`
   );
   return response.data;
 }
