@@ -20,6 +20,10 @@ export const GET_TARIFF_COND_H = "tariff/GET_TARIFF_COND_H";
 export const GET_TARIFF_COND_H_SUCCESS = "tariff/GET_TARIFF_COND_H_SUCCESS";
 export const GET_TARIFF_COND_H_ERROR = "tariff/GET_TARIFF_COND_H_ERROR";
 
+export const RESET_TARIFF_COND_H = "tariff/RESET TARIFF_COND_H";
+export const RESET_TARIFF_COND_H_SUCCESS = "tariff/RESET TARIFF_COND_H_SUCCESS";
+export const RESET_TARIFF_COND_H_ERROR = "tariff/RESET TARIFF_COND_H_ERROR";
+
 export const GET_DEST_INFO = "tariff/GET_DEST_INFO";
 export const GET_DEST_INFO_SUCCESS = "tariff/GET_DEST_INFO_SUCCESS";
 export const GET_DEST_INFO_ERROR = "tariff/GET_DEST_INFO_ERROR";
@@ -43,6 +47,12 @@ export const getTariffCondHAsync = createAsyncAction(
   GET_TARIFF_COND_H_SUCCESS,
   GET_TARIFF_COND_H_ERROR
 )<any, Array<TariffCondH>, AxiosError>();
+
+export const resetTariffCondHAsync = createAsyncAction(
+  RESET_TARIFF_COND_H,
+  RESET_TARIFF_COND_H_SUCCESS,
+  RESET_TARIFF_COND_H_ERROR
+)<undefined, any, any>();
 
 export const getDestInfoAsync = createAsyncAction(
   GET_DEST_INFO,

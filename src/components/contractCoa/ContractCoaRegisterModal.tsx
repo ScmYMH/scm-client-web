@@ -55,7 +55,9 @@ const ContractCoaRegisterModal = ({
     arApCcd: "", // 매출매입구분코드
     svcTcd: "", // 서비스유형코드
     detlSvcTcd: "", // 상세서비스유형
-    cntrt_end_date: "", // 유효기간
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
   });
 
   const onClickUser = (userId: string) => {
@@ -466,6 +468,9 @@ const ContractCoaRegisterModal = ({
                   setTariffParams({
                     ...tariffParams,
                     cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                    cntrtStatDate: contractInfoParams.cntrtStartDate,
+                    cntrtEndDate: contractInfoParams.cntrtEndDate,
+                    cntrtCurrCd: contractInfoParams.cntrtCurrCd,
                   });
                 }}
               >
@@ -479,7 +484,13 @@ const ContractCoaRegisterModal = ({
                       (openNewTariffModal) => !openNewTariffModal
                     )
                   }
-                  tariffParams={tariffParams}
+                  tariffParams={{
+                    ...tariffParams,
+                    cntrtId: contractInfoParams.cntrtId,
+                    cntrtStatDate: contractInfoParams.cntrtStartDate,
+                    cntrtEndDate: contractInfoParams.cntrtEndDate,
+                    cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+                  }}
                 />
               )}
             </div>

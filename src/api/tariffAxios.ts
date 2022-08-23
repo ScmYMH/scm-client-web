@@ -19,6 +19,7 @@ export async function postTariffHeaderAxios(
 }
 
 export async function getTariffCondHAxios(params: any) {
+  console.log("cntrtId : ", params.cntrtId, ", trffId : ", params.trffId);
   const response = await axios.get<TariffCondH>(
     `http://localhost:9092/contract/tariff/${params.cntrtId}/${params.trffId}`
   );

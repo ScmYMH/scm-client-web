@@ -41,8 +41,7 @@ const TariffLoader = ({
         ></TariffInfoForm>
         <TariffCondHForm
           isSave={isSave}
-          cntrtId={tariffParams.cntrtId}
-          trffId={tariffParams.trffId}
+          tariffParams={tariffParams}
           codeDefList={codeDefList.data}
         ></TariffCondHForm>
       </ModalBody>

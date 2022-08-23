@@ -22,7 +22,9 @@ export interface TariffHeaderParam {
   arApCcd: string; // 매출매입구분코드
   svcTcd: string; // 서비스유형코드
   detlSvcTcd: string; // 상세서비스유형
-  cntrt_end_date: string; //유효기간
+  cntrtStatDate: string; // 계약시작일
+  cntrtEndDate: string; //계약종료일
+  cntrtCurrCd: string; // 계약 통화 코드
 }
 
 // post tariffHeader response
@@ -66,9 +68,12 @@ export interface TariffCondH {
 }
 
 export interface TariffCondParam {
+  validDate: string;
   lccCd: string;
   departNodeCd: string;
+  departNodeNm: string;
   arrivalNodeCd: string;
+  arrivalNodeNm: string;
 }
 
 // get destInfo req

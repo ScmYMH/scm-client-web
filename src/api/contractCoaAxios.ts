@@ -4,7 +4,7 @@ export async function getContractInfoListApi(params: any) {
   const response = await axios.get<ContractInfo>(
     `http://localhost:9999/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
   );
-
+  console.log("contractInfo : ", response.data);
   return response.data;
 }
 
@@ -66,4 +66,5 @@ export interface ContractInfo {
   user_nm: string;
   cntrt_id: string;
   ins_date: string;
+  cntrt_curr_cd: string;
 }

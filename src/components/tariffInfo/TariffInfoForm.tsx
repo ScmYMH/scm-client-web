@@ -35,7 +35,9 @@ const TariffInfoForm = ({
     arApCcd: "", // 매출매입구분코드
     svcTcd: "", // 서비스유형코드
     detlSvcTcd: "", // 상세서비스유형
-    cntrt_end_date: "", // 유효기간
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약통화코드
   });
 
   const onClickHeaderSave = (
@@ -62,10 +64,10 @@ const TariffInfoForm = ({
         };
         setParams(data);
         dispatch(postTariffHeaderAsync.request(data));
+        isSaveTrue();
       }
     }
   };
-
   useEffect(() => {
     if (tariffParams.trffId !== 0) {
       if (tariffParams.bizTcd === "수출") {
@@ -85,6 +87,14 @@ const TariffInfoForm = ({
       }
       setParams(tariffParams);
       isSaveTrue();
+    } else {
+      setParams({
+        ...params,
+        cntrtId: tariffParams.cntrtId,
+        cntrtStatDate: tariffParams.cntrtStatDate,
+        cntrtEndDate: tariffParams.cntrtEndDate,
+        cntrtCurrCd: tariffParams.cntrtCurrCd,
+      });
     }
   }, []);
 
@@ -112,11 +122,13 @@ const TariffInfoForm = ({
         </div>
         <Table bordered>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingLeft: 10 }}>
               타리프 ID
             </th>
-            <td colSpan={2}>{params.trffNm}</td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <td colSpan={2} style={{ height: 50, paddingLeft: 7 }}>
+              {params.trffNm}
+            </td>
+            <th colSpan={1} style={{ paddingRight: 10 }}>
               사업유형
             </th>
             <td colSpan={2}>
@@ -165,21 +177,23 @@ const TariffInfoForm = ({
             </td>
           </tr>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingLeft: 10 }}>
               타리프설명
             </th>
             <td colSpan={2}>
-              <Input
-                type="text"
-                value={params.trffDesc}
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
-                id="trffDesc"
-                style={{ boxShadow: "none" }}
-              ></Input>
+              <div style={{ padding: 3, paddingLeft: 0, width: 350 }}>
+                <Input
+                  type="text"
+                  value={params.trffDesc}
+                  onChange={(e) =>
+                    setParams({ ...params, [e.target.id]: e.target.value })
+                  }
+                  id="trffDesc"
+                  style={{ boxShadow: "none" }}
+                ></Input>
+              </div>
             </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingRight: 10 }}>
               서비스유형
             </th>
             <td colSpan={2}>

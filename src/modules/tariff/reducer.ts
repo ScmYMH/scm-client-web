@@ -16,6 +16,7 @@ import {
   POST_TARIFF_HEADER,
   POST_TARIFF_HEADER_ERROR,
   POST_TARIFF_HEADER_SUCCESS,
+  RESET_TARIFF_COND_H_SUCCESS,
 } from "./actions";
 import { TariffAction, TariffState } from "./types";
 
@@ -51,6 +52,10 @@ const tariff = createReducer<TariffState, TariffAction>(initialState, {
   [GET_TARIFF_COND_H_ERROR]: (state, action) => ({
     ...state,
     tariffCondHList: asyncState.error(action.payload),
+  }),
+  [RESET_TARIFF_COND_H_SUCCESS]: (state, action) => ({
+    ...state,
+    tariffCondHList: asyncState.success(action.payload),
   }),
   [GET_DEST_INFO]: (state) => ({
     ...state,

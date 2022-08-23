@@ -85,9 +85,10 @@ const ContractCoaInfoForm = ({
     arApCcd: "", // 매출매입구분코드
     svcTcd: "", // 서비스유형코드
     detlSvcTcd: "", // 상세서비스유형
-    cntrt_end_date: "", // 유효기간
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
   });
-
   const dateToString = (date) => {
     return (
       date.getFullYear() +
@@ -219,9 +220,9 @@ const ContractCoaInfoForm = ({
                 onChange={(e) =>
                   setParmas({ ...params, [e.target.id]: e.target.value })
                 }
+                type="select"
                 id="cdvMeaning"
                 name="cdvMeaning"
-                type="select"
               >
                 {contractStateOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -249,9 +250,9 @@ const ContractCoaInfoForm = ({
                     [e.target.id]: e.target.value,
                   })
                 }
+                type="select"
                 id="svcNm"
                 name="svcNm"
-                type="select"
               >
                 {serviceOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -349,6 +350,12 @@ const ContractCoaInfoForm = ({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
                         });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
+                        });
                       }}
                       onClick={() => {
                         onSubmitTariffInfo(tariffInfoConditon);
@@ -363,6 +370,12 @@ const ContractCoaInfoForm = ({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
                         });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
+                        });
                       }}
                       onClick={() => {
                         onSubmitTariffInfo(tariffInfoConditon);
@@ -376,6 +389,12 @@ const ContractCoaInfoForm = ({
                         setTariffInfoConditon({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
+                        });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
                         });
                       }}
                       onClick={() => {
@@ -438,7 +457,6 @@ const ContractCoaInfoForm = ({
                         arApCcd: "AP", // 매출매입구분코드
                         svcTcd: data.svc_nm, // 서비스유형코드
                         detlSvcTcd: data.detl_svc_tcd, // 상세서비스유형
-                        cntrt_end_date: "", // 유효기간
                       });
                     }}
                     onClick={() => {

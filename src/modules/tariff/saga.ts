@@ -5,7 +5,7 @@ import {
   getTariffCondHAxios,
   postTariffHeaderAxios,
 } from "api/tariffAxios";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
   getCodeDefAsync,
   getDestInfoAsync,
@@ -17,6 +17,8 @@ import {
   GET_TARIFF_COND_H,
   postTariffHeaderAsync,
   POST_TARIFF_HEADER,
+  resetTariffCondHAsync,
+  RESET_TARIFF_COND_H,
 } from "./actions";
 import {
   CodeDefinition,
@@ -54,6 +56,17 @@ function* getTariffCondHSaga(
   } catch (e: any) {
     console.log("getTariffCondHSaga error");
     yield put(getTariffCondHAsync.failure(e));
+  }
+}
+
+function* resetTariffCondHSaga(
+  action: ReturnType<typeof resetTariffCondHAsync.request>
+) {
+  try {
+    const tariffCondHList: Array<TariffCondH> = [];
+    yield put(resetTariffCondHAsync.success(tariffCondHList));
+  } catch (e: any) {
+    yield put(resetTariffCondHAsync.failure(e));
   }
 }
 
@@ -95,6 +108,7 @@ function* getCodeDefSaga(action: ReturnType<typeof getCodeDefAsync.request>) {
 export function* tariffSaga() {
   yield takeLatest(POST_TARIFF_HEADER, postTariffHeaderSaga);
   yield takeLatest(GET_TARIFF_COND_H, getTariffCondHSaga);
+  yield takeLatest(RESET_TARIFF_COND_H, resetTariffCondHSaga);
   yield takeLatest(GET_DEST_INFO, getDestInfoSaga);
   yield takeLatest(GET_LCC_INFO, getLccInfoSaga);
   yield takeLatest(GET_CODE_DEFINITION, getCodeDefSaga);
