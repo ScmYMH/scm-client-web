@@ -34,6 +34,7 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
       className="body"
       style={{
         width: "100%",
+        padding: "0",
         height: "100vh",
         display: "flex",
         alignItems: "center",

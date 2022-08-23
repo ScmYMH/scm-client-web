@@ -20,6 +20,9 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
   <Container
     fluid
     className={classNames("content", { "is-open": sidebarIsOpen })}
+    style={{
+      padding: "0",
+    }}
   >
     <Routes>
       <Route path="/" element={<LoginLoader></LoginLoader>}></Route>
