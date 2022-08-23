@@ -113,7 +113,7 @@ const ContractCoaRegisterModal = ({
         </Container>
         <ModalBody>
           <Container>
-            <div style={{ margin: 4 }}>계약정보</div>
+            <div style={{ margin: 4 }}>◎ 계약정보</div>
             <Table bordered className={styles.register_table}>
               <tbody>
                 <tr>
@@ -514,7 +514,7 @@ const ContractCoaRegisterModal = ({
 
           <Container>
             <Table bordered>
-              <thead style={{ margin: 4 }}>타리프 정보</thead>
+              <thead style={{ margin: 4 }}>◎ 타리프 정보</thead>
               <tbody style={{ textAlign: "center" }}>
                 <tr className="table-secondary">
                   <th>일련번호</th>

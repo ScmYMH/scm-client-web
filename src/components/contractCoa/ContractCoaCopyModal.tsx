@@ -143,7 +143,7 @@ const ContractCoaCopyModal = ({
         </Container>
         <ModalBody>
           <Container>
-            <div style={{ margin: 4 }}>계약정보</div>
+            <div style={{ margin: 4 }}>◎ 계약정보</div>
             <Table bordered className={styles.register_table}>
               <tbody>
                 <tr>
