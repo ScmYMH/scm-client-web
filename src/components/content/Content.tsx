@@ -10,6 +10,7 @@ import { Route, Routes } from "react-router";
 import LoginLoader from "components/login/LoginLoader";
 import HeaderPict from "components/header/HeaderPict";
 import Sidenav from "components/sidebar/Sidenav";
+import CalculateInfoLoader from "./calculate/CalculateInfoLoader";
 
 interface ContentProps {
   sidebarIsOpen: any;
@@ -60,6 +61,18 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
             <Row style={{ marginLeft: 5 }}>
               <HeaderPict />
               <ChangeManagerLoader></ChangeManagerLoader>
+            </Row>
+          </div>
+        }
+      ></Route>
+      <Route
+        path="/calculate"
+        element={
+          <div style={{ display: "inline-flex" }}>
+            <Sidenav />
+            <Row style={{ marginLeft: 5 }}>
+              <HeaderPict />
+              <CalculateInfoLoader></CalculateInfoLoader>
             </Row>
           </div>
         }

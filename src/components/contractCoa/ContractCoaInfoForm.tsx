@@ -475,7 +475,7 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            maxHeight: "200px",
+            maxHeight: "40%",
             overflowY: "auto",
           }}
         >
@@ -590,13 +590,13 @@ const ContractCoaInfoForm = ({
             alignItems: "center",
           }}
         >
-          <div style={{ fontWeight: "bold", color: "#003366" }}>
+          <div style={{ fontWeight: "bold", color: "#003366", marginTop: 30 }}>
             ◎ 타리프 정보
           </div>
         </div>
         <div
           style={{
-            maxHeight: "200px",
+            maxHeight: "40%",
             overflowY: "auto",
           }}
         >
