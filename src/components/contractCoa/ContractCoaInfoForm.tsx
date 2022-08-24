@@ -237,6 +237,7 @@ const ContractCoaInfoForm = ({
             outline
             style={{ margin: 3 }}
             size="sm"
+            type="submit"
             onClick={() => {
               setContractChangeInfoModal(
                 (contractChangeInfoModal) => !contractChangeInfoModal
@@ -245,6 +246,7 @@ const ContractCoaInfoForm = ({
           >
             계약변경이력
           </Button>
+
           {contractChangeInfoModal && (
             <ContractChangeInfoModal
               isOpen={contractChangeInfoModal}

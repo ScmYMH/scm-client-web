@@ -8,6 +8,8 @@ import {
   delContractInfo,
 } from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
+import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
+import { contractChangeInfo } from "./contractChangeCoa/reducer";
 import login from "./login/reducer";
 import { loginSaga } from "./login/saga";
 import changeManager from "./changeManager/reducer";
@@ -30,6 +32,7 @@ const rootReducer = combineReducers({
   tariff,
   updateContractInfo,
   delContractInfo,
+  contractChangeInfo,
 });
 
 // 루트 리듀서 내보내기
@@ -48,5 +51,6 @@ export function* rootSaga() {
     contractMemberSaga(),
     userMemberSaga(),
     tariffSaga(),
+    contractChangeInfoSaga(),
   ]);
 }
