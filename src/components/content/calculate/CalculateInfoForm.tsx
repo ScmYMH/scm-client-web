@@ -22,11 +22,11 @@ const CalculateInfoForm = () => {
       >
         <Form style={{ margin: 3 }}>
           <Button size="sm" outline>
-            이거
+            정산 집계
           </Button>
         </Form>
         <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          찾았어?
+          조회
         </Button>
         <Button outline style={{ margin: 3 }} className="btn" size="sm">
           확정 취소
