@@ -10,7 +10,7 @@ import { Route, Routes } from "react-router";
 import LoginLoader from "components/login/LoginLoader";
 import HeaderPict from "components/header/HeaderPict";
 import Sidenav from "components/sidebar/Sidenav";
-import CalculateInfoLoader from "./calculate/CalculateInfoLoader";
+import CalculateInfoLoader from "components/calculate/CalculateInfoLoader";
 
 interface ContentProps {
   sidebarIsOpen: any;
