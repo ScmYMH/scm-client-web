@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { HiSearch } from "react-icons/hi";
 import { Button, Container, Form, Input, Table } from "reactstrap";
 import AccountConnModal from "./AccountConnModal";
@@ -8,10 +8,37 @@ import CalculateDetailModal from "./CalculateDetailModal";
 import CalculateLspModal from "./CalculateLspModal";
 import CalculateVslCdModal from "./CalculateVslCdModal";
 
-const CalculateInfoForm = () => {
+export interface CalculateInfoFormProps {
+  onSubmitCalculateInfo: (calSelectParams: any) => void;
+  calculateInfoData : any;
+  baseCodeData: any;
+}
+
+const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeData}: CalculateInfoFormProps) => {
   const [detailOpenModal, setDetailOpenModal] = useState(false);
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
+  const [calSelectParams, setCalSelectParams] = useState({
+    startDate: "",
+    endDate: "",
+    lspId: "",
+    vslCd: "",
+    closeNoYn: "",
+    transOrderNo: "",
+    cdVmeaning: "",
+  });
+
+
+
+  const closeNoYnOptions = [
+    { value: "", text: "ALL" },
+    { value: "N", text: "No" },
+    { value: "Y", text: "Yes" }
+  ];
+  
+  const onChangeCalInfo = (e: ChangeEvent<HTMLInputElement>) => {
+    setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
+  };
 
   const checkAccountConn = () => {
     const dialog = confirm("상신하시겠습니까?");
@@ -23,7 +50,12 @@ const CalculateInfoForm = () => {
       console.log("Data Not Saved");
     }
   };
-
+  const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
+    console.log("---------")
+    e.preventDefault();
+    onSubmitCalculateInfo(calSelectParams);
+  };
+console.log(baseCodeData);
   return (
     <div
       style={{
@@ -34,6 +66,7 @@ const CalculateInfoForm = () => {
         height: 800,
       }}
     >
+
       <div
         style={{
           display: "flex",
@@ -41,9 +74,15 @@ const CalculateInfoForm = () => {
           alignItems: "center",
         }}
       >
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          조회
-        </Button>
+        <Form
+            style={{ margin: 3 }}
+            onSubmit={onSubmitCalculateInfoList}
+            className="CalculateInfoForm"
+          >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            조회
+          </Button>
+        </Form>
         <Button outline style={{ margin: 3 }} className="btn" size="sm">
           확정 취소
         </Button>
@@ -96,8 +135,14 @@ const CalculateInfoForm = () => {
                       dateFormat="yyyy-MM-dd"
                       selectsStart
                       type="date"
-                      id="calStartDate"
-                      name="calStartDate"
+                      id="startDate"
+                      name="startDate"
+                      onChange={(e) =>
+                        setCalSelectParams({
+                          ...calSelectParams,
+                          [e.target.id]: e.target.value.replaceAll("-", ""),
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -113,9 +158,15 @@ const CalculateInfoForm = () => {
                       }}
                       fixedHeight
                       dateFormat="yyyy-MM-dd"
-                      id="calEndDate"
-                      name="calEndDate"
+                      id="endDate"
+                      name="endDate"
                       minDate={new Date()}
+                      onChange={(e) =>
+                        setCalSelectParams({
+                          ...calSelectParams,
+                          [e.target.id]: e.target.value.replaceAll("-", ""),
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -131,6 +182,7 @@ const CalculateInfoForm = () => {
               </th>
               <td>
                 <Input
+                  id="lspId"
                   readOnly
                   style={{
                     boxShadow: "none",
@@ -138,6 +190,7 @@ const CalculateInfoForm = () => {
                     display: "inline-block",
                     borderRadius: 0,
                   }}
+                  onChange={onChangeCalInfo}
                 />
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -151,6 +204,7 @@ const CalculateInfoForm = () => {
                     closeModal={() =>
                       setLspOpenModal((lspOpenModal) => !lspOpenModal)
                     }
+                    baseCodeData={baseCodeData}
                   ></CalculateLspModal>
                 )}
               </td>
@@ -168,13 +222,22 @@ const CalculateInfoForm = () => {
               <td>
                 <div>
                   <Input
+                    id="closeNoYn"
                     style={{
                       marginRight: "30px",
                       boxShadow: "none",
                       borderRadius: 0,
                     }}
                     type="select"
-                  />
+                    onChange={onChangeCalInfo}
+                  >
+                    
+                    {closeNoYnOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.text}
+                        </option>
+                      ))}
+                  </Input>
                 </div>
               </td>
               <th
@@ -188,6 +251,7 @@ const CalculateInfoForm = () => {
               </th>
               <td>
                 <Input
+                id="vslCd"
                   readOnly
                   style={{
                     boxShadow: "none",
@@ -195,6 +259,7 @@ const CalculateInfoForm = () => {
                     display: "inline-block",
                     borderRadius: 0,
                   }}
+                  onChange={onChangeCalInfo}
                 />
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -224,13 +289,27 @@ const CalculateInfoForm = () => {
               </th>
               <td>
                 <Input
+                  id="cdVmeaning"
                   style={{
                     marginRight: "30px",
                     boxShadow: "none",
                     borderRadius: 0,
                   }}
                   type="select"
-                ></Input>
+                  onChange={onChangeCalInfo}
+                >
+                  
+                  {baseCodeData.data?.slice(79, 91).map((option) => (
+                          <option
+                            key={option.cd_v}
+                            value={option.cd_v}
+                            selected={option.cd_v_meaning}
+                            disabled
+                          >
+                            {option.cd_v_meaning}
+                          </option>
+                        ))}
+                </Input>
               </td>
               <th
                 style={{
@@ -243,7 +322,9 @@ const CalculateInfoForm = () => {
               </th>
               <td>
                 <div>
-                  <Input type="text" />
+                  <Input type="text" 
+                  id="transOrderNo"
+                  onChange={onChangeCalInfo}/>
                 </div>
               </td>
             </tr>
@@ -277,6 +358,12 @@ const CalculateInfoForm = () => {
             />
           )}
         </div>
+        <div
+          style={{
+            maxHeight: "500px",
+            overflowY: "auto",
+          }}
+        >
         <Table bordered style={{ marginTop: 10 }}>
           <tbody style={{ textAlign: "center" }}>
             <tr className="table-secondary">
@@ -297,30 +384,35 @@ const CalculateInfoForm = () => {
               <th>회계연결금액</th>
               <th>AP 전표번호</th>
             </tr>
-            <tr>
-              <td>
-                <Input type="checkbox"></Input>
-              </td>
-              <td>일본</td>
-              <td>101114</td>
-              <td>신성해운(주) / Shinsung Shipping Co., Ltd.-본사</td>
-              <td>7/3/2022</td>
-              <td>4220624003</td>
-              <td>1M270</td>
-              <td>MIRAI ASTRO</td>
-              <td>
-                <Input type="checkbox"></Input>
-              </td>
-              <td>N</td>
-              <td>Y</td>
-              <td>USD</td>
-              <td>2446716</td>
-              <td>89060.46</td>
-              <td>89060.46</td>
-              <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
-            </tr>
+            <>
+            {calculateInfoData.data?.map((data, index)=>(
+              <tr key={index} aria-rowcount={index}>
+                <td>
+                  <Input type="checkbox"></Input>
+                </td>
+                <td>{data.nation_nm}</td>
+                <td>{data.lsp_id}</td>
+                <td>{data.cd_v_meaning}</td>
+                <td>날짜</td>
+                <td>{data.trans_order_no}</td>
+                <td>{data.vsl_cd}</td>
+                <td>{data.vsl_nm}</td>
+                <td>
+                  <Input type="checkbox"></Input>
+                </td>
+                <td>{data.close_no_yn}</td>
+                <td>{data.acctg_yn}</td>
+                <td>{data.clear_curr}</td>
+                <td>{data.clear_qty}</td>
+                <td>{data.clear_amt}</td>
+                <td>{data.acctg_amt}</td>
+                <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
+              </tr>
+            ))}
+            </>
           </tbody>
         </Table>
+        </div>
       </div>
     </div>
   );

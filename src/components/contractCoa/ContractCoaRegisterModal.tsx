@@ -453,7 +453,7 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.slice(24, 38).map((option) => (
+                        {baseCodeData.data?.slice(24, 37).map((option) => (
                           <option key={option.value} value={option.cd_v}>
                             {option.cd_v} [{option.cd_v_meaning}]
                           </option>

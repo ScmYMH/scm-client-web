@@ -1,7 +1,32 @@
+import { RootState } from "modules";
+import { calculateRequestAsync } from "modules/calculate/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { Card } from "reactstrap";
 import CalculateInfoForm from "./CalculateInfoForm";
+import {
+  baseCodeAsync
+} from "modules/contractCoa/action";
+import { useEffect } from "react";
 
 const CalculateInfoLoader = () => {
+  
+  const dispatch = useDispatch();
+
+  const calculateInfoData = useSelector(
+    (state: RootState) => state.calculateInfo.calculateInfo
+  );
+
+  const onSubmitCalculateInfo = (calSelectParams: any) => {
+    dispatch(calculateRequestAsync.request(calSelectParams));
+  };
+
+  const baseCodeData = useSelector(
+    (state: RootState) => state.baseCode.baseCode
+  );
+
+  useEffect(() => {
+    dispatch(baseCodeAsync.request(""));
+  }, []);
   return (
     <>
       <div>
@@ -30,7 +55,7 @@ const CalculateInfoLoader = () => {
         </header>
       </div>
       <Card style={{ minHeight: "900px" }}>
-        <CalculateInfoForm />
+        <CalculateInfoForm baseCodeData={baseCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
       </Card>
     </>
   );

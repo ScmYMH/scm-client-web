@@ -8,8 +8,6 @@ import {
   delContractInfo,
 } from "./contractCoa/reducer";
 import { contractInfoSaga } from "./contractCoa/saga";
-import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
-import { contractChangeInfo } from "./contractChangeCoa/reducer";
 import login from "./login/reducer";
 import { loginSaga } from "./login/saga";
 import changeManager from "./changeManager/reducer";
@@ -20,6 +18,10 @@ import usermember from "./userMember/reducer";
 import { userMemberSaga } from "./userMember/saga";
 import tariff from "./tariff/reducer";
 import { tariffSaga } from "./tariff/saga";
+import { calculateSaga } from "./calculate/saga";
+import calculateInfo from "./calculate/reducer";
+import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
+import { contractChangeInfo } from "./contractChangeCoa/reducer";
 
 const rootReducer = combineReducers({
   contractInfo,
@@ -32,7 +34,8 @@ const rootReducer = combineReducers({
   tariff,
   updateContractInfo,
   delContractInfo,
-  contractChangeInfo,
+  calculateInfo,
+  contractChangeInfo
 });
 
 // 루트 리듀서 내보내기
@@ -51,6 +54,7 @@ export function* rootSaga() {
     contractMemberSaga(),
     userMemberSaga(),
     tariffSaga(),
-    contractChangeInfoSaga(),
+    calculateSaga(),
+    contractChangeInfoSaga()
   ]);
 }

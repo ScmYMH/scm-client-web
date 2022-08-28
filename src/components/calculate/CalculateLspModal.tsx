@@ -31,9 +31,10 @@ import styles from "./coa.module.css";
 interface CalculateLspModalProps {
   closeModal: any;
   isOpen: boolean;
+  baseCodeData:any;
 }
 
-const CalculateLspModal = ({ isOpen, closeModal }: CalculateLspModalProps) => {
+const CalculateLspModal = ({ isOpen, closeModal, baseCodeData }: CalculateLspModalProps) => {
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -61,10 +62,32 @@ const CalculateLspModal = ({ isOpen, closeModal }: CalculateLspModalProps) => {
                   <th>아이디</th>
                   <th>이름</th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>K</td>
-                </tr>
+                  {baseCodeData
+                    ?.filter((data) => data.cd_tp === "LSP_INFO")
+                    .map((data, index) => (
+                      <tr key={index} aria-rowcount={index}>
+                        <td>
+                          <Input type="checkbox"></Input>
+                        </td>
+                        <td>{data.nation_nm}</td>
+                        <td>{data.lsp_id}</td>
+                        <td>{data.cd_v_meaning}</td>
+                        <td>날짜</td>
+                        <td>{data.trans_order_no}</td>
+                        <td>{data.vsl_cd}</td>
+                        <td>{data.vsl_nm}</td>
+                        <td>
+                          <Input type="checkbox"></Input>
+                        </td>
+                        <td>{data.close_no_yn}</td>
+                        <td>{data.acctg_yn}</td>
+                        <td>{data.clear_curr}</td>
+                        <td>{data.clear_qty}</td>
+                        <td>{data.clear_amt}</td>
+                        <td>{data.acctg_amt}</td>
+                        <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
+                      </tr>
+                    ))}
               </tbody>
             </Table>
           </Container>
