@@ -1,7 +1,6 @@
 import axios from "axios";
 export async function getCalculateInfo(calSelectParams: any) {
   console.log(calSelectParams);
-  console.log(`http://localhost:9999/calculate?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&closeNoYn=${calSelectParams.closeNoYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`);
   // Generic 을 통해 응답 데이터의 타입을 설정 할 수 있습니다.
   const response = await axios.get<CalculateInfo>(
     `http://localhost:9999/calculate?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&closeNoYn=${calSelectParams.closeNoYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
