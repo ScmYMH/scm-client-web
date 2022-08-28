@@ -156,8 +156,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -166,8 +164,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -176,8 +172,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -186,8 +180,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -196,8 +188,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -206,8 +196,6 @@ const SearchUserBody = ({
                 <td
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
                   }}
                   key={usermemberInfo.userId}
                 >
@@ -218,6 +206,7 @@ const SearchUserBody = ({
                     onClick={() =>
                       onSelect(usermemberInfo.userId, usermemberInfo)
                     }
+                    style={{ backgroundColor: "grey" }}
                   >
                     선택
                   </Button>
