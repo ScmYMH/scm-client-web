@@ -1,44 +1,39 @@
-import { ContractInfoDefinition } from "api/contractCoaAxios";
-import { AsyncState } from "lib/reducerUtils";
 import { RootState } from "modules";
-import { baseCodeAsync } from "modules/contractCoa/action";
-import { postTariffHeaderAsync } from "modules/tariff/actions";
-import { CodeDefinition, TariffHeaderParam } from "modules/tariff/types";
+import {
+  getCodeDefAsync,
+  getTariffHeaderAsync,
+  postTariffHeaderAsync,
+} from "modules/tariff/actions";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, Modal, Table } from "reactstrap";
+import { Button, Input, Table } from "reactstrap";
 
 const TariffInfoForm = ({
   isSave,
   isSaveTrue,
-  tariffParams,
-  codeDefList,
+  isSaveFalse,
 }: {
   isSave: boolean;
   isSaveTrue: () => void;
-  tariffParams: TariffHeaderParam;
-  codeDefList: Array<CodeDefinition> | null;
+  isSaveFalse: () => void;
 }) => {
   const dispatch = useDispatch();
+  const { data: codeDefList } = useSelector(
+    (state: RootState) => state.tariff.codeDefList
+  );
   const {
     data: tariffHeaderData,
     loading: tariffHeaderLoading,
     error: tariffHeaderError,
   } = useSelector((state: RootState) => state.tariff.tariffHeader);
 
-  const [params, setParams] = useState<TariffHeaderParam>({
-    cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
-    trffId: 0, // 타리프 ID
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
-    cntrtStatDate: "",
-    cntrtEndDate: "", // 유효기간
-    cntrtCurrCd: "", // 계약통화코드
-  });
+  const {
+    data: tariffParamData,
+    loading: tariffParamLoading,
+    error: tariffParamError,
+  } = useSelector((state: RootState) => state.tariff.tariffParam);
+
+  const [params, setParams] = useState<any>(tariffHeaderData);
 
   const onClickHeaderSave = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -68,35 +63,18 @@ const TariffInfoForm = ({
       }
     }
   };
+
   useEffect(() => {
-    if (tariffParams.trffId !== 0) {
-      if (tariffParams.bizTcd === "수출") {
-        tariffParams.bizTcd = "EX";
-      } else if (tariffParams.bizTcd === "역내판매운송") {
-        tariffParams.bizTcd = "LD";
-      }
-      if (tariffParams.svcTcd === "공로운송") {
-        tariffParams.svcTcd = "ROAD";
-      } else if (tariffParams.svcTcd === "해상운송") {
-        tariffParams.svcTcd = "VSL";
-      }
-      if (tariffParams.detlSvcTcd === "ICV-국제해송(COA)") {
-        tariffParams.detlSvcTcd = "ICV";
-      } else if (tariffParams.detlSvcTcd === "NTR-일반공로운송(주문기준)") {
-        tariffParams.detlSvcTcd = "NTR";
-      }
-      setParams(tariffParams);
+    dispatch(getCodeDefAsync.request(""));
+    setParams(tariffHeaderData);
+    if (tariffParamData?.trffId !== 0) {
       isSaveTrue();
-    } else {
-      setParams({
-        ...params,
-        cntrtId: tariffParams.cntrtId,
-        cntrtStatDate: tariffParams.cntrtStatDate,
-        cntrtEndDate: tariffParams.cntrtEndDate,
-        cntrtCurrCd: tariffParams.cntrtCurrCd,
-      });
     }
   }, []);
+
+  useEffect(() => {
+    setParams(tariffHeaderData);
+  }, [tariffHeaderData]);
 
   return (
     <>
@@ -126,21 +104,22 @@ const TariffInfoForm = ({
               타리프 ID
             </th>
             <td colSpan={2} style={{ height: 50, paddingLeft: 7 }}>
-              {params.trffNm}
+              {params?.trffNm}
             </td>
             <th colSpan={1} style={{ paddingRight: 10 }}>
               사업유형
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="bizTcd"
                 name="bizTcd"
                 style={{ width: 230 }}
-                value={params.bizTcd}
-                key={params.bizTcd}
+                value={params?.bizTcd}
+                key={params?.bizTcd}
               >
                 <option key={""} value={""}></option>
                 {codeDefList
@@ -157,13 +136,14 @@ const TariffInfoForm = ({
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="arApCcd"
                 name="arApCcd"
                 style={{ width: 230 }}
-                value={params.arApCcd}
+                value={params?.arApCcd}
               >
                 <option key={""} value={""}></option>
                 {codeDefList
@@ -184,10 +164,11 @@ const TariffInfoForm = ({
               <div style={{ padding: 3, paddingLeft: 0, width: 350 }}>
                 <Input
                   type="text"
-                  value={params.trffDesc}
-                  onChange={(e) =>
-                    setParams({ ...params, [e.target.id]: e.target.value })
-                  }
+                  value={params?.trffDesc}
+                  onChange={(e) => {
+                    setParams({ ...params, [e.target.id]: e.target.value });
+                    isSaveFalse();
+                  }}
                   id="trffDesc"
                   style={{ boxShadow: "none" }}
                 ></Input>
@@ -198,13 +179,14 @@ const TariffInfoForm = ({
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="svcTcd"
                 name="svcTcd"
                 style={{ width: 230 }}
-                value={params.svcTcd}
+                value={params?.svcTcd}
               >
                 <option key={""} value={""}></option>
                 {codeDefList
@@ -221,16 +203,17 @@ const TariffInfoForm = ({
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
+                onChange={(e) => {
                   setParams({
                     ...params,
                     [e.target.id]: e.target.value.slice(0, 3),
-                  })
-                }
+                  });
+                  isSaveFalse();
+                }}
                 id="detlSvcTcd"
                 name="detlSvcTcd"
                 style={{ width: 230 }}
-                value={params.detlSvcTcd}
+                value={params?.detlSvcTcd}
               >
                 <option key={""} value={""}></option>
                 {codeDefList

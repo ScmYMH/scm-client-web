@@ -1,16 +1,14 @@
-import React, { FormEvent, useState, ChangeEvent, useEffect } from "react";
+import React, { FormEvent, useState, ChangeEvent } from "react";
 import { Button, Input, Form, Table } from "reactstrap";
-
-import DatePicker from "react-datepicker";
-import { RootState } from "modules";
-import { NonceProvider } from "react-select";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
-import { baseCodeAsync } from "modules/contractCoa/action";
-import { useDispatch, useSelector } from "react-redux";
-import { baseCode } from "modules/contractCoa/reducer";
+import { useDispatch } from "react-redux";
 import TariffLoader from "components/tariffInfo/TariffLoader";
-import { TariffHeaderParam } from "modules/tariff/types";
+import {
+  getTariffHeaderAsync,
+  saveTariffParamAsync,
+} from "modules/tariff/actions";
+import { TariffParam } from "modules/tariff/types";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -29,6 +27,8 @@ const ContractCoaInfoForm = ({
   contractInfodata,
   tariffData,
 }: onSubmitContractInfoProps) => {
+  const dispatch = useDispatch();
+
   const [date, setDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [contractChangeInfoModal, setContractChangeInfoModal] = useState(false);
@@ -76,24 +76,31 @@ const ContractCoaInfoForm = ({
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
 
-  const [tariffParams, setTariffParams] = useState<TariffHeaderParam>({
+  const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID
     trffId: 0, // 타리프 ID
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
     cntrtStatDate: "",
     cntrtEndDate: "", // 유효기간
     cntrtCurrCd: "", // 계약 통화 코드
   });
+
   const dateToString = (date) => {
     return (
       date.getFullYear() +
       (date.getMonth() + 1).toString().padStart(2, "0") +
       date.getDate().toString().padStart(2, "0")
+    );
+  };
+
+  const onClickTariffModal = () => {
+    setOpenTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(saveTariffParamAsync.request(tariffParams));
+    dispatch(
+      getTariffHeaderAsync.request({
+        cntrtId: tariffParams.cntrtId,
+        trffId: tariffParams.trffId,
+      })
     );
   };
 
@@ -451,17 +458,9 @@ const ContractCoaInfoForm = ({
                         ...tariffParams,
                         cntrtId: tariffInfoConditon.cntrtId, // 계약 ID
                         trffId: data.trff_id, // 타리프 ID
-                        trffNm: data.trff_nm, // 타리프 NM
-                        trffDesc: data.trff_desc, // 타리프 설명
-                        bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
-                        arApCcd: "AP", // 매출매입구분코드
-                        svcTcd: data.svc_nm, // 서비스유형코드
-                        detlSvcTcd: data.detl_svc_tcd, // 상세서비스유형
                       });
                     }}
-                    onClick={() => {
-                      setOpenTariffModal((openTariffModal) => !openTariffModal);
-                    }}
+                    onClick={onClickTariffModal}
                   >
                     <th scope="row">
                       <Input type="checkbox" />
@@ -482,7 +481,6 @@ const ContractCoaInfoForm = ({
                             (openTariffModal) => !openTariffModal
                           )
                         }
-                        tariffParams={tariffParams}
                       />
                     )}
                   </tr>

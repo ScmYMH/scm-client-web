@@ -5,23 +5,54 @@ import {
   LccInfoParam,
   TariffCondH,
   TariffHeader,
-  TariffHeaderParam,
 } from "modules/tariff/types";
 
-export async function postTariffHeaderAxios(
-  tariffHeaderParam: TariffHeaderParam
-) {
+export async function getTariffHeaderAxios(params: any) {
+  console.log(
+    "getTariffHeaderAxios =======> cntrtId : ",
+    params.cntrtId,
+    ", tariffId : ",
+    params.trffId
+  );
+  const response = await axios.get<TariffHeader>(
+    `http://localhost:9092/contract/tariff/header/${params.cntrtId}/${params.trffId}`
+  );
+  return response.data;
+}
+
+export async function postTariffHeaderAxios(params: any) {
   const response = await axios.post<TariffHeader>(
     `http://localhost:9092/contract/tariff/header`,
-    tariffHeaderParam
+    params
   );
   return response.data;
 }
 
 export async function getTariffCondHAxios(params: any) {
-  console.log("cntrtId : ", params.cntrtId, ", trffId : ", params.trffId);
-  const response = await axios.get<TariffCondH>(
+  console.log(
+    "ㅎetTariffCondHAxios ==========> cntrtId : ",
+    params.cntrtId,
+    ", trffId : ",
+    params.trffId
+  );
+  const response = await axios.get<Array<TariffCondH>>(
     `http://localhost:9092/contract/tariff/${params.cntrtId}/${params.trffId}`
+  );
+  return response.data;
+}
+
+export async function postTariffCondHAxios(params: any) {
+  console.log("posttariffCondHAxios params : ", params);
+  const response = await axios.post<any>(
+    `http://localhost:9092/contract/tariff`,
+    params
+  );
+  return response.data;
+}
+
+export async function delTariffCondHAxios(seqNoParam: string) {
+  const response = await axios.delete<Array<TariffCondH>>(
+    `http://localhost:9092/contract/tariff/${seqNoParam}`
   );
   return response.data;
 }

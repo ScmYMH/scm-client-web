@@ -11,7 +11,6 @@ const SearchManager = ({
   onClickNode,
   departNodeNm,
   arrivalNodeNm,
-  // nodeNm
   whatNode,
 }: {
   isOpen: boolean;
@@ -19,7 +18,6 @@ const SearchManager = ({
   onClickNode: (nodeCd: string, nodeDesc: string) => void;
   departNodeNm: string;
   arrivalNodeNm: string;
-  // nodeNm: any;
   whatNode: string;
 }) => {
   return (
@@ -31,7 +29,6 @@ const SearchManager = ({
           onClickNode={onClickNode}
           departNodeNm={departNodeNm}
           arrivalNodeNm={arrivalNodeNm}
-          // nodeNm={nodeNm}
           whatNode={whatNode}
         />
       </ModalBody>
@@ -42,14 +39,12 @@ const SearchManager = ({
 const SearchManagerBody = ({
   closeModal,
   onClickNode,
-  // nodeNm,
   departNodeNm,
   arrivalNodeNm,
   whatNode,
 }: {
   closeModal: () => void;
   onClickNode: (nodeCd: string, nodeDesc: string) => void;
-  // nodeNm: any;
   departNodeNm: string;
   arrivalNodeNm: string;
   whatNode: string;

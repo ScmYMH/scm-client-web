@@ -5,6 +5,7 @@ import { ActionType } from "typesafe-actions";
 export type TariffAction = ActionType<typeof actions>;
 
 export type TariffState = {
+  tariffParam: AsyncState<TariffParam, Error>;
   tariffHeader: AsyncState<TariffHeader, Error>;
   tariffCondHList: AsyncState<Array<TariffCondH>, Error>;
   destInfoList: AsyncState<Array<DestInfo>, Error>;
@@ -13,15 +14,9 @@ export type TariffState = {
 };
 
 // post tariffHeader request
-export interface TariffHeaderParam {
+export interface TariffParam {
   cntrtId: string; // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
   trffId: number;
-  trffNm: string; // 타리프 NM
-  trffDesc: string; // 타리프 설명
-  bizTcd: string; //사업유형코드 (사업영역코드는 뭐징?)
-  arApCcd: string; // 매출매입구분코드
-  svcTcd: string; // 서비스유형코드
-  detlSvcTcd: string; // 상세서비스유형
   cntrtStatDate: string; // 계약시작일
   cntrtEndDate: string; //계약종료일
   cntrtCurrCd: string; // 계약 통화 코드
@@ -29,18 +24,14 @@ export interface TariffHeaderParam {
 
 // post tariffHeader response
 export interface TariffHeader {
-  trffId: number; // 타리프 ID
   cntrtId: string; // 계약 ID
-  svcTcd: string; // 서비스유형코드
+  trffId: number; // 타리프 ID
   trffNm: string; // 타리프 name
   trffDesc: string; // 타리프 설명
   bizTcd: string; // 사업유형코드
   arApCcd: string; // 매출매입구분코드
+  svcTcd: string; // 서비스유형코드
   detlSvcTcd: string; // 상세서비스유형코드
-  bizDivCd: string; // 사업영역코드 (null)
-  custId: string; //  거래처 ID (null)
-  corpId: string; // 법인 ID
-  delYn: string; // 삭제여부
 }
 
 // get tariffInfo response

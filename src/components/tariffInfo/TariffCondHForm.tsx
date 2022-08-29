@@ -1,36 +1,26 @@
-import { Alert, Button, Col, Input, Row, Table } from "reactstrap";
+import { Button, Col, Input, Row, Table } from "reactstrap";
 import { HiSearch } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import {
-  CodeDefinition,
-  TariffCondH,
-  TariffCondParam,
-  TariffHeaderParam,
-} from "modules/tariff/types";
+import { TariffCondH, TariffCondParam } from "modules/tariff/types";
 import SearchDestModal from "./SearchDestModal";
 import SearchLccModal from "./SearchLccModal";
-import { toEditorSettings } from "typescript";
-import { ContractInfoDefinition } from "api/contractCoaAxios";
-import { baseCodeAsync } from "modules/contractCoa/action";
-import { AsyncState } from "lib/reducerUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "modules";
 import {
+  deleteTariffCondHAsync,
+  getCodeDefAsync,
   getTariffCondHAsync,
+  postTariffCondHAsync,
   resetTariffCondHAsync,
+  saveTariffParamAsync,
 } from "modules/tariff/actions";
-import tariff from "modules/tariff/reducer";
 
-const TariffCondHForm = ({
-  isSave,
-  tariffParams,
-  codeDefList,
-}: {
-  isSave: boolean;
-  tariffParams: TariffHeaderParam;
-  codeDefList: Array<CodeDefinition> | null;
-}) => {
+const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
+
+  const { data: codeDefList } = useSelector(
+    (state: RootState) => state.tariff.codeDefList
+  );
 
   const {
     data: tariffCondHListData,
@@ -38,19 +28,38 @@ const TariffCondHForm = ({
     error: tariffCondHListError,
   } = useSelector((state: RootState) => state.tariff.tariffCondHList);
 
+  const {
+    data: tariffHeaderData,
+    loading: tariffHeaderLoading,
+    error: tariffHeaderError,
+  } = useSelector((state: RootState) => state.tariff.tariffHeader);
+
+  const {
+    data: tariffParamData,
+    loading: tariffParamLoading,
+    error: tariffParamError,
+  } = useSelector((state: RootState) => state.tariff.tariffParam);
+
+  const [trffCondHList, setTrffCondHList] = useState<Array<TariffCondH> | null>(
+    tariffCondHListData
+  );
   const LccCdLov = [
     { value: "", text: "" },
     { value: "10A1", text: "10A1" },
     { value: "10D1", text: "10D1" },
   ];
 
-  const [trffInfoListData, setTrffInfoListData] = useState<TariffCondH>();
-
   const [isAdd, setIsAdd] = useState<any>([]);
+
+  const [whatNode, setWhatNode] = useState("");
+
+  const [whatLcc, setWhatLcc] = useState("");
+
+  const [tempSeqNo, setTempSeqNo] = useState(0);
 
   const [count, setCount] = useState(0);
 
-  const [whatNode, setWhatNode] = useState("");
+  const [tariffCheckBox, setTariffCheckBox] = useState<Array<number>>([]);
 
   const [tariffCondParam, setTariffCondParam] = useState<TariffCondParam>({
     validDate: "",
@@ -74,8 +83,85 @@ const TariffCondHForm = ({
   const [openRowArrivalCdModal, setOpenRowArrivalCdModal] = useState(false);
   const [openLccModal, setOpenLccModal] = useState(false);
 
+  const onChangeTariffCheckBox = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    paramSeqNo: number
+  ) => {
+    if (tariffCheckBox.find((id) => id === paramSeqNo)) {
+      // 있으면 체크가 되어있다는 뜻 => 배열에서 seqNo 빼기
+      const index = tariffCheckBox.indexOf(paramSeqNo);
+      tariffCheckBox.splice(index, 1);
+      setTariffCheckBox(tariffCheckBox);
+    } else {
+      // 체크 안되어 있는 상태 => 배열에 체크한 seqNo 넣기
+      const newTariffCheckBox = [...tariffCheckBox, paramSeqNo];
+      setTariffCheckBox(newTariffCheckBox);
+    }
+  };
+
+  const onChangeTrffCondHValue = (e: any, seqNoParam) => {
+    const { id, value } = e.target;
+
+    const findIndex = trffCondHList?.findIndex(
+      (data) => data.seqNo === seqNoParam
+    );
+    console.log("findIndex : ", findIndex);
+
+    const newTrffCondHList = trffCondHList !== null ? [...trffCondHList] : null;
+    if (
+      findIndex !== -1 &&
+      findIndex !== undefined &&
+      newTrffCondHList !== null
+    ) {
+      if (id == "trffStatDate" || id == "trffEndDate") {
+        const newValue = value.replace(/-/g, "");
+        console.log("newValue: ", newValue);
+        newTrffCondHList[findIndex] = {
+          ...newTrffCondHList[findIndex],
+          [id]: newValue,
+        };
+      } else {
+        newTrffCondHList[findIndex] = {
+          ...newTrffCondHList[findIndex],
+          [id]: value,
+        };
+      }
+    }
+    setTrffCondHList(newTrffCondHList);
+  };
+
+  const onChangeAddRowValue = (e: any, seqNoParam) => {
+    const { id, value } = e.target;
+    console.log(
+      "onChangeAddRowValue ===========> id : ",
+      id,
+      ", value : ",
+      value
+    );
+
+    const findIndex = isAdd?.findIndex((data) => data.seqNo === seqNoParam);
+    console.log("findIndex : ", findIndex);
+
+    const newAdd = [...isAdd];
+    if (findIndex !== -1) {
+      if (id == "trffStatDate" || id == "trffEndDate") {
+        const newValue = value.replace(/-/g, "");
+        console.log("newValue : ", newValue);
+        newAdd[findIndex] = {
+          ...newAdd[findIndex],
+          [id]: newValue,
+        };
+      } else {
+        newAdd[findIndex] = {
+          ...newAdd[findIndex],
+          [id]: value,
+        };
+      }
+    }
+    setIsAdd(newAdd);
+  };
+
   const onClickNode = (nodeCd: string, nodeDesc: string) => {
-    console.log("nodeCd: ", nodeCd, " nodeDesc: ", nodeDesc);
     if (whatNode === "departCond") {
       // 출발지 cond 선택하는 경우
       // setNodeNm({ ...nodeNm, departNodeNm: nodeDesc });
@@ -93,21 +179,121 @@ const TariffCondHForm = ({
         arrivalNodeNm: nodeDesc,
       });
     } else if (whatNode === "rowDepartCode") {
-      // row에 있는 출발지 코드 선택시
+      // 기존 row에 있는 출발지 코드 선택시
+      const findIndex = trffCondHList?.findIndex(
+        (data) => data.seqNo === tempSeqNo
+      );
+
+      const newTrffCondHList =
+        trffCondHList !== null ? [...trffCondHList] : null;
+      if (
+        findIndex !== -1 &&
+        findIndex !== undefined &&
+        newTrffCondHList !== null
+      ) {
+        newTrffCondHList[findIndex] = {
+          ...newTrffCondHList[findIndex],
+          depCd: nodeCd,
+          depNm: nodeDesc,
+        };
+      }
+      setTrffCondHList(newTrffCondHList);
     } else if (whatNode === "rowArrivalCode") {
-      // row에 있는 도착지 코드 선택시
+      // 기존 row에 있는 도착지 코드 선택시
+      const findIndex = trffCondHList?.findIndex(
+        (data) => data.seqNo === tempSeqNo
+      );
+
+      const newTrffCondHList =
+        trffCondHList !== null ? [...trffCondHList] : null;
+      if (
+        findIndex !== -1 &&
+        findIndex !== undefined &&
+        newTrffCondHList !== null
+      ) {
+        newTrffCondHList[findIndex] = {
+          ...newTrffCondHList[findIndex],
+          arrCd: nodeCd,
+          arrNm: nodeDesc,
+        };
+      }
+      setTrffCondHList(newTrffCondHList);
+    } else if (whatNode === "newRowDepartCode") {
+      // 행추가 row에 있는 출발지 코드 선택시
+      const findIndex = isAdd?.findIndex((data) => data.seqNo === tempSeqNo);
+
+      const newAdd = [...isAdd];
+      if (findIndex !== -1) {
+        newAdd[findIndex] = {
+          ...newAdd[findIndex],
+          depCd: nodeCd,
+          depNm: nodeDesc,
+        };
+      }
+      setIsAdd(newAdd);
+    } else if (whatNode === "newRowArrivalCode") {
+      // 행추가 row에 있는 도착지 코드 선택시
+      const findIndex = isAdd?.findIndex((data) => data.seqNo === tempSeqNo);
+
+      const newAdd = [...isAdd];
+      if (findIndex !== -1) {
+        newAdd[findIndex] = {
+          ...newAdd[findIndex],
+          arrCd: nodeCd,
+          arrNm: nodeDesc,
+        };
+      }
+      setIsAdd(newAdd);
     }
   };
 
-  const onClickLcc = (lccCd: string, subLccCd: string, lccCdDesc: string) => {
+  const onClickLcc = (
+    lccCdParam: string,
+    subLccCdParam: string,
+    lccCdDescParam: string
+  ) => {
     console.log(
       "lccCd: ",
-      lccCd,
+      lccCdParam,
       " subLccCd: ",
-      subLccCd,
+      subLccCdParam,
       " lccCdDesc: ",
-      lccCdDesc
+      lccCdDescParam
     );
+    if (whatLcc === "rowLcc") {
+      const findIndex = trffCondHList?.findIndex(
+        (data) => data.seqNo === tempSeqNo
+      );
+
+      const newTrffCondHList =
+        trffCondHList !== null ? [...trffCondHList] : null;
+      if (
+        findIndex !== -1 &&
+        findIndex !== undefined &&
+        newTrffCondHList !== null
+      ) {
+        newTrffCondHList[findIndex] = {
+          ...newTrffCondHList[findIndex],
+          lccCd: lccCdParam,
+          subLccCd: subLccCdParam,
+          lccCdDesc: lccCdDescParam,
+        };
+      }
+      setTrffCondHList(newTrffCondHList);
+    } else if (whatLcc === "newRowLcc") {
+      const findIndex = isAdd?.findIndex((data) => data.seqNo === tempSeqNo);
+
+      const newAdd = [...isAdd];
+      if (findIndex !== -1) {
+        newAdd[findIndex] = {
+          ...newAdd[findIndex],
+          lccCd: lccCdParam,
+          subLccCd: subLccCdParam,
+          lccCdDesc: lccCdDescParam,
+        };
+      }
+      setIsAdd(newAdd);
+    }
   };
 
   const leftPad = (value) => {
@@ -133,10 +319,6 @@ const TariffCondHForm = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   };
-
-  console.log("isAdd : ", isAdd);
-  console.log("tariffCond : ", tariffCond);
-  console.log("tariffCondHListData : ", tariffCondHListData);
 
   const onClickSearch = () => {
     console.log("조회 버튼 클릭");
@@ -199,6 +381,16 @@ const TariffCondHForm = ({
     console.log("복사 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
+    } else {
+      tariffCheckBox.map((seqNo) =>
+        trffCondHList
+          ?.filter((trffCondH) => trffCondH.seqNo === seqNo)
+          .map((trff) => {
+            isAdd.push(trff);
+            setIsAdd(isAdd);
+          })
+      );
+      onClickSearch();
     }
   };
 
@@ -212,8 +404,8 @@ const TariffCondHForm = ({
         ...isAdd,
         {
           seqNo: count,
-          cntrtId: tariffParams.cntrtId, // 계약 ID
-          trffId: tariffParams.trffId, // 타리프 ID
+          cntrtId: tariffParamData?.cntrtId, // 계약 ID
+          trffId: tariffParamData?.trffId, // 타리프 ID
           depCd: "", // 출발지코드
           depNm: "", // 출발지명
           arrCd: "", // 도착지코드
@@ -221,10 +413,10 @@ const TariffCondHForm = ({
           lccCd: "", // 물류비코드
           subLccCd: "", // 세부물류비코드
           lccCdDesc: "", // 물류비코드설명
-          trffStatDate: tariffParams.cntrtStatDate, // 타리프시작일자
-          trffEndDate: tariffParams.cntrtEndDate, // 타리프종료일자
-          cntrtCurrCd: tariffParams.cntrtCurrCd, // 계약통화코드
-          payCurrCd: tariffParams.cntrtCurrCd, // 지불통화코드
+          trffStatDate: tariffParamData?.cntrtStatDate, // 타리프시작일자
+          trffEndDate: tariffParamData?.cntrtEndDate, // 타리프종료일자
+          cntrtCurrCd: tariffParamData?.cntrtCurrCd, // 계약통화코드
+          payCurrCd: tariffParamData?.cntrtCurrCd, // 지불통화코드
           prodGcd: "", // 제품그룹코드(품종명)
           incoCd: "", // 인도조건코드
           unitPrice: "", // 계약단가 (bigDecimal)
@@ -261,6 +453,14 @@ const TariffCondHForm = ({
     console.log("저장 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
+    } else {
+      dispatch(
+        postTariffCondHAsync.request({
+          trffCondHDtoList: trffCondHList,
+          addRowTrffCondHDtoList: isAdd,
+        })
+      );
+      setIsAdd([]);
     }
   };
 
@@ -268,6 +468,9 @@ const TariffCondHForm = ({
     console.log("삭제 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
+    } else {
+      console.log("타리프 정보 삭제할 seqNo array : ", tariffCheckBox);
+      dispatch(deleteTariffCondHAsync.request(tariffCheckBox));
     }
   };
 
@@ -285,30 +488,41 @@ const TariffCondHForm = ({
     }
   };
 
-  // useEffect(() => {
-  //   setIsAdd(tariffCondHListData);
-  //   console.log(tariffCondHListData);
-  // }, [tariffCondHListData]);
-
   useEffect(() => {
-    console.log("tariffParams : ", tariffParams);
+    dispatch(getCodeDefAsync.request(""));
+
+    console.log("tariffParamData : ", tariffParamData);
     const validDateTemp = toStringByFormatting(
-      stringToDate(tariffParams.cntrtEndDate)
+      stringToDate(tariffParamData?.cntrtEndDate)
     );
     setTariffCondParam({ ...tariffCondParam, validDate: validDateTemp });
-    setTariffCond({ ...tariffCond, validDate: tariffParams.cntrtEndDate });
+    if (tariffParamData?.cntrtEndDate !== undefined) {
+      setTariffCond({
+        ...tariffCond,
+        validDate: tariffParamData?.cntrtEndDate,
+      });
+    }
 
-    if (tariffParams.trffId !== 0) {
+    if (tariffParamData?.trffId !== 0) {
       dispatch(
         getTariffCondHAsync.request({
-          cntrtId: tariffParams.cntrtId,
-          trffId: tariffParams.trffId,
+          cntrtId: tariffParamData?.cntrtId,
+          trffId: tariffParamData?.trffId,
         })
       );
     } else {
       dispatch(resetTariffCondHAsync.request());
     }
   }, []);
+
+  useEffect(() => {
+    setTrffCondHList(tariffCondHListData);
+  }, [tariffCondHListData]);
+
+  useEffect(() => {
+    dispatch(resetTariffCondHAsync.request());
+  }, [tariffHeaderData]);
+
   return (
     <>
       <div style={{ marginLeft: 20, marginRight: 20 }}>
@@ -468,7 +682,6 @@ const TariffCondHForm = ({
                     onClickNode={onClickNode}
                     departNodeNm={tariffCondParam.departNodeNm}
                     arrivalNodeNm={tariffCondParam.arrivalNodeNm}
-                    // nodeNm={nodeNm}
                     whatNode={whatNode}
                   />
                 )}
@@ -540,7 +753,6 @@ const TariffCondHForm = ({
                     }
                     departNodeNm={tariffCondParam.departNodeNm}
                     arrivalNodeNm={tariffCondParam.arrivalNodeNm}
-                    // nodeNm={nodeNm}
                     whatNode={whatNode}
                   />
                 )}
@@ -614,7 +826,7 @@ const TariffCondHForm = ({
               </tr>
             </thead>
             <tbody>
-              {tariffCondHListData
+              {trffCondHList
                 ?.filter((trffInfo) => {
                   if (
                     trffInfo.lccCd.includes(tariffCond.lccCd) &&
@@ -630,16 +842,9 @@ const TariffCondHForm = ({
                     <th scope="row" style={{ textAlign: "center" }}>
                       <Input
                         type="checkbox"
-                        // onChange={(e) =>
-                        //   onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)
-                        // }
-                        // checked={
-                        //   mngChgInfo.cntrtId.find(
-                        //     (id) => id == commonInfo.cntrtId
-                        //   )
-                        //     ? true
-                        //     : false
-                        // }
+                        onChange={(e) =>
+                          onChangeTariffCheckBox(e, trffInfo.seqNo)
+                        }
                       />
                     </th>
                     <td style={{ textAlign: "center", borderSpacing: "8px" }}>
@@ -651,6 +856,7 @@ const TariffCondHForm = ({
                             (openRowDepartCdModal) => !openRowDepartCdModal
                           );
                           setWhatNode("rowDepartCode");
+                          setTempSeqNo(trffInfo.seqNo);
                         }}
                       ></HiSearch>
 
@@ -682,6 +888,7 @@ const TariffCondHForm = ({
                             (openRowArrivalCdModal) => !openRowArrivalCdModal
                           );
                           setWhatNode("rowArrivalCode");
+                          setTempSeqNo(trffInfo.seqNo);
                         }}
                       ></HiSearch>
 
@@ -709,6 +916,8 @@ const TariffCondHForm = ({
                         style={{ marginLeft: 10, cursor: "pointer" }}
                         onClick={() => {
                           setOpenLccModal((openLccModal) => !openLccModal);
+                          setTempSeqNo(trffInfo.seqNo);
+                          setWhatLcc("rowLcc");
                         }}
                       ></HiSearch>
                       {openLccModal && (
@@ -738,6 +947,9 @@ const TariffCondHForm = ({
                         defaultValue={toStringByFormatting(
                           stringToDate(trffInfo.trffStatDate)
                         )}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       ></Input>
                     </td>
                     <td style={{ textAlign: "center", width: 70 }}>
@@ -753,20 +965,20 @@ const TariffCondHForm = ({
                         defaultValue={toStringByFormatting(
                           stringToDate(trffInfo.trffEndDate)
                         )}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       ></Input>
                     </td>
                     <td style={{ textAlign: "center", width: 60 }}>
                       <select
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
                         id="cntrtCurrCd"
                         name="cntrtCurrCd"
-                        style={{ width: 70, border: "none" }}
                         value={trffInfo.cntrtCurrCd}
+                        style={{ width: 70, border: "none" }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       >
                         <option key={""} value={""}></option>
                         {codeDefList
@@ -780,16 +992,13 @@ const TariffCondHForm = ({
                     </td>
                     <td style={{ textAlign: "center", width: 60 }}>
                       <select
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
                         id="payCurrCd"
                         name="payCurrCd"
-                        style={{ width: 70, border: "none" }}
                         value={trffInfo.payCurrCd}
+                        style={{ width: 70, border: "none" }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       >
                         <option key={""} value={""}></option>
                         {codeDefList
@@ -803,16 +1012,13 @@ const TariffCondHForm = ({
                     </td>
                     <td style={{ textAlign: "center", width: 70 }}>
                       <select
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
-                        id="trffItemCd"
-                        name="trffItemCd"
-                        style={{ width: 100, border: "none" }}
+                        id="prodGcd"
+                        name="prodGcd"
                         value={trffInfo.prodGcd}
+                        style={{ width: 100, border: "none" }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       >
                         <option key={""} value={""}></option>
                         {codeDefList
@@ -826,30 +1032,25 @@ const TariffCondHForm = ({
                     </td>
                     <td style={{ textAlign: "center", width: 60 }}>
                       <Input
-                        type="text"
+                        id="unitPrice"
+                        name="unitPrice"
                         value={trffInfo.unitPrice}
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
-                        id="cost"
+                        type="text"
                         style={{ boxShadow: "none", width: 60, height: 30 }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       ></Input>
                     </td>
                     <td style={{ width: 70 }}>
                       <select
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
-                        id="unitCd"
-                        name="unitCd"
-                        style={{ width: 70, border: "none" }}
+                        id="calUnitCd"
+                        name="calUnitCd"
                         value={trffInfo.calUnitCd}
+                        style={{ width: 70, border: "none" }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       >
                         <option key={""} value={""}></option>
                         {codeDefList
@@ -863,16 +1064,13 @@ const TariffCondHForm = ({
                     </td>
                     <td style={{ width: 70 }}>
                       <select
-                        // onChange={(e) =>
-                        //   setTrffInfoListData({
-                        //     ...trffInfoListData,
-                        //     [e.target.id]: e.target.value,
-                        //   })
-                        // }
                         id="incoCd"
                         name="incoCd"
-                        style={{ width: 60, border: "none" }}
                         value={trffInfo.incoCd}
+                        style={{ width: 60, border: "none" }}
+                        onChange={(e) =>
+                          onChangeTrffCondHValue(e, trffInfo.seqNo)
+                        }
                       >
                         <option key={""} value={""}></option>
                         {codeDefList
@@ -899,7 +1097,8 @@ const TariffCondHForm = ({
                         setOpenRowDepartCdModal(
                           (openRowDepartCdModal) => !openRowDepartCdModal
                         );
-                        setWhatNode("rowDepartCode");
+                        setWhatNode("newRowDepartCode");
+                        setTempSeqNo(trffInfo.seqNo);
                       }}
                     ></HiSearch>
 
@@ -930,7 +1129,8 @@ const TariffCondHForm = ({
                         setOpenRowArrivalCdModal(
                           (openRowArrivalCdModal) => !openRowArrivalCdModal
                         );
-                        setWhatNode("rowArrivalCode");
+                        setWhatNode("newRowArrivalCode");
+                        setTempSeqNo(trffInfo.seqNo);
                       }}
                     ></HiSearch>
 
@@ -958,6 +1158,8 @@ const TariffCondHForm = ({
                       style={{ marginLeft: 10, cursor: "pointer" }}
                       onClick={() => {
                         setOpenLccModal((openLccModal) => !openLccModal);
+                        setTempSeqNo(trffInfo.seqNo);
+                        setWhatLcc("newRowLcc");
                       }}
                     ></HiSearch>
                     {openLccModal && (
@@ -987,6 +1189,7 @@ const TariffCondHForm = ({
                       defaultValue={toStringByFormatting(
                         stringToDate(trffInfo.trffStatDate)
                       )}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     ></Input>
                   </td>
                   <td style={{ textAlign: "center", width: 70 }}>
@@ -1002,20 +1205,16 @@ const TariffCondHForm = ({
                       defaultValue={toStringByFormatting(
                         stringToDate(trffInfo.trffEndDate)
                       )}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     ></Input>
                   </td>
                   <td style={{ textAlign: "center", width: 60 }}>
                     <select
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
                       id="cntrtCurrCd"
                       name="cntrtCurrCd"
-                      style={{ width: 70, border: "none" }}
                       value={trffInfo.cntrtCurrCd}
+                      style={{ width: 70, border: "none" }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
                       {codeDefList
@@ -1029,16 +1228,11 @@ const TariffCondHForm = ({
                   </td>
                   <td style={{ textAlign: "center", width: 60 }}>
                     <select
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
                       id="payCurrCd"
                       name="payCurrCd"
-                      style={{ width: 70, border: "none" }}
                       value={trffInfo.payCurrCd}
+                      style={{ width: 70, border: "none" }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
                       {codeDefList
@@ -1052,16 +1246,11 @@ const TariffCondHForm = ({
                   </td>
                   <td style={{ textAlign: "center", width: 70 }}>
                     <select
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
-                      id="trffItemCd"
-                      name="trffItemCd"
-                      style={{ width: 100, border: "none" }}
+                      id="prodGcd"
+                      name="prodGcd"
                       value={trffInfo.prodGcd}
+                      style={{ width: 100, border: "none" }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
                       {codeDefList
@@ -1075,30 +1264,21 @@ const TariffCondHForm = ({
                   </td>
                   <td style={{ textAlign: "center", width: 60 }}>
                     <Input
-                      type="text"
+                      id="unitPrice"
+                      name="unitPrice"
                       value={trffInfo.unitPrice}
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
-                      id="cost"
+                      type="text"
                       style={{ boxShadow: "none", width: 60, height: 30 }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     ></Input>
                   </td>
                   <td style={{ width: 70 }}>
                     <select
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
-                      id="unitCd"
-                      name="unitCd"
-                      style={{ width: 70, border: "none" }}
+                      id="calUnitCd"
+                      name="calUnitCd"
                       value={trffInfo.calUnitCd}
+                      style={{ width: 70, border: "none" }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
                       {codeDefList
@@ -1112,16 +1292,11 @@ const TariffCondHForm = ({
                   </td>
                   <td style={{ width: 70 }}>
                     <select
-                      // onChange={(e) =>
-                      //   setTrffInfoListData({
-                      //     ...trffInfoListData,
-                      //     [e.target.id]: e.target.value,
-                      //   })
-                      // }
                       id="incoCd"
                       name="incoCd"
-                      style={{ width: 60, border: "none" }}
                       value={trffInfo.incoCd}
+                      style={{ width: 60, border: "none" }}
+                      onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
                       {codeDefList
@@ -1146,6 +1321,3 @@ const TariffCondHForm = ({
 };
 
 export default TariffCondHForm;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}
