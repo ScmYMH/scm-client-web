@@ -15,7 +15,6 @@ export async function getVslCodeInfo(vslCd: any) {
   const response = await axios.get<VslCdInfo>(
     `http://192.168.0.65:9999/calculate/vslcode`
   );
-  console.log(response.data);
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
@@ -40,4 +39,6 @@ export interface CalculateInfo {
     clear_amt:string;
     acctg_amt:string;
     acctg_yn:string;
+    tot_gross_wt:string;
+    vsl_load_posbl_wt:string;
 }

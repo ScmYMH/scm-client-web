@@ -29,6 +29,19 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     transOrderNo: "",
     cdVmeaning: "",
   });
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const [detailParamas, setDetailParamas] = useState({
+    data: {
+      cntrtId: "",
+      cntrtNm: "",
+      insDate: "",
+      cdvMeaning: "",
+      ins_person_id: "",
+      user_nm: "",
+    },
+  });
+
   const [reqLspParam, setReqLspParam] = useState("");
 
   const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
@@ -72,7 +85,6 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
   };
-  console.log(calSelectParams);
   
   const dateToString = (date) => {
     return (
@@ -91,7 +103,16 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
 
       return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
   }
-  console.log(reqLspParam);
+  const checkOnlyOne = (checkThis) => {
+    const checkboxes = document.getElementsByName("calInfoId") as any | null;
+
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] !== checkThis) {
+        checkboxes[i].checked = false;
+      }
+    }
+  };
+  
   return (
     <div
       style={{
@@ -388,6 +409,7 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
           </Button>
           {detailOpenModal && (
             <CalculateDetailModal
+              detailParamas={detailParamas}
               calculateInfoData={calculateInfoData.data}
               isOpen={detailOpenModal}
               closeModal={() =>
@@ -426,7 +448,16 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
             {calculateInfoData.data?.map((data, index)=>(
               <tr key={index} aria-rowcount={index}>
                 <td>
-                  <Input type="checkbox"></Input>
+                  <Input type="checkbox" id="calInfoId" name="calInfoId" value={data} 
+                        onChange={(e) => {
+                          checkOnlyOne(e.target);
+                          setIsChecked(true);
+                          setDetailParamas({
+                            ...detailParamas,
+                            data: data,
+                          });
+                        }}>
+                  </Input>
                 </td>
                 <td>{data.nation_nm}</td>
                 <td>{data.lsp_id}</td>
@@ -441,7 +472,7 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
                 <td>{data.close_no_yn}</td>
                 <td>{data.acctg_yn}</td>
                 <td>{data.clear_curr}</td>
-                <td>{data.clear_qty}</td>
+                <td>{data.tot_gross_wt}</td>
                 <td>{data.clear_amt}</td>
                 <td>{data.acctg_amt}</td>
                 <td>EX-직번-220810(날찌)-SEQ(6자리)</td>

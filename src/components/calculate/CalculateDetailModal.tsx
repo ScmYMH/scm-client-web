@@ -32,14 +32,16 @@ interface CalculateDetailModalProps {
   closeModal: any;
   isOpen: boolean;
   calculateInfoData: any;
+  detailParamas: any;
 }
 
 const CalculateDetailModal = ({
   isOpen,
   closeModal,
   calculateInfoData,
+  detailParamas
 }: CalculateDetailModalProps) => {
-  console.log("calculateInfoDatacalculateInfoData", calculateInfoData)
+  console.log("detailParamas", detailParamas)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -54,21 +56,21 @@ const CalculateDetailModal = ({
               <tr>
                 <td>지시번호</td>
                 <td>
-                  <Input type="text" disabled value={4220624003}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.trans_order_no}></Input>
                 </td>
                 <td>총선적량</td>
                 <td>
-                  <Input type="text" disabled value={2446716}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.clear_qty}></Input>
                 </td>
               </tr>
               <tr>
                 <td>선박명</td>
                 <td>
-                  <Input type="text" disabled value={2500000}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.vsl_nm}></Input>
                 </td>
                 <td>기준선적량</td>
                 <td>
-                  <Input type="text" disabled value={"MIRAI ASTRO"}></Input>
+                  <Input type="text" disabled value="2500000"></Input>
                 </td>
               </tr>
               <tr>
@@ -77,10 +79,10 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={"신성해운(주) / Shinsung Shipping Co., Ltd.-본사"}
+                    value={detailParamas.data?.cd_v_meaning}
                   ></Input>
                 </td>
-                <td>선박명</td>
+                <td>기타할증</td>
                 <td>
                   <Input type="text" disabled value={"0"}></Input>
                 </td>
@@ -88,11 +90,11 @@ const CalculateDetailModal = ({
               <tr>
                 <td>해송운임</td>
                 <td>
-                  <Input type="text" disabled value={89060.46}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.clear_amt}></Input>
                 </td>
                 <td>총 운임</td>
                 <td>
-                  <Input type="text" disabled value={89060.46}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.clear_amt}></Input>
                 </td>
               </tr>
             </table>
