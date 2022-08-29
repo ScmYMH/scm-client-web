@@ -12,11 +12,13 @@ export interface CalculateInfoFormProps {
   onSubmitCalculateInfo: (calSelectParams: any) => void;
   calculateInfoData : any;
   baseCodeData: any;
+  vslCodeData: any;
 }
 
-const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeData}: CalculateInfoFormProps) => {
+const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeData, vslCodeData}: CalculateInfoFormProps) => {
   const [detailOpenModal, setDetailOpenModal] = useState(false);
   const [lspOpenModal, setLspOpenModal] = useState(false);
+  const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
@@ -27,8 +29,23 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     transOrderNo: "",
     cdVmeaning: "",
   });
+  const [reqLspParam, setReqLspParam] = useState("");
 
+  const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
+    setReqLspParam(cd_v_meaning);
+    setCalSelectParams({ ...calSelectParams, lspId: cd_v });
+    console.log(calSelectParams);
+    setLspOpenModal(false);
+  }
 
+  const [reqVslCdParam, setReqVslCdParam] = useState("");
+
+  const onClickVslCdParmas = (vsl_cd: string, vsl_nm: string) => {
+    setReqVslCdParam(vsl_nm);
+    setCalSelectParams({ ...calSelectParams, vslCd: vsl_cd });
+    console.log(calSelectParams);
+    setVslOpenModal(false);
+  }
 
   const closeNoYnOptions = [
     { value: "", text: "ALL" },
@@ -55,7 +72,26 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
   };
-console.log(baseCodeData);
+  console.log(calSelectParams);
+  
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +"/"+
+      (date.getMonth() + 1).toString().padStart(2, "0") +"/"+
+      date.getDate().toString().padStart(2, "0")
+    );
+  }
+
+  function to_date(date_str)
+  {
+      const yyyyMMdd = String(date_str);
+      const sYear = yyyyMMdd.substring(0,4);
+      const sMonth = yyyyMMdd.substring(4,6);
+      const sDate = yyyyMMdd.substring(6,8);
+
+      return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+  }
+  console.log(reqLspParam);
   return (
     <div
       style={{
@@ -66,7 +102,6 @@ console.log(baseCodeData);
         height: 800,
       }}
     >
-
       <div
         style={{
           display: "flex",
@@ -109,7 +144,7 @@ console.log(baseCodeData);
       </div>
       <div>
         <div style={{ margin: 4 }}>◎ 조회 조건</div>
-        <table className={styles.calculate_select_table}>
+        <Table bordered className={styles.calculate_select_table}>
           <tbody>
             <tr>
               <th
@@ -191,7 +226,9 @@ console.log(baseCodeData);
                     borderRadius: 0,
                   }}
                   onChange={onChangeCalInfo}
-                />
+                  value={reqLspParam}
+                >
+                </Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
                   onClick={() => {
@@ -200,6 +237,7 @@ console.log(baseCodeData);
                 ></HiSearch>
                 {lspOpenModal && (
                   <CalculateLspModal
+                  onClickLspParmas={onClickLspParmas}
                     isOpen={lspOpenModal}
                     closeModal={() =>
                       setLspOpenModal((lspOpenModal) => !lspOpenModal)
@@ -260,19 +298,22 @@ console.log(baseCodeData);
                     borderRadius: 0,
                   }}
                   onChange={onChangeCalInfo}
+                  value={reqVslCdParam}
                 />
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
                   onClick={() => {
-                    setLspOpenModal((lspOpenModal) => !lspOpenModal);
+                    setVslOpenModal((vslOpenModal) => !vslOpenModal);
                   }}
                 ></HiSearch>
-                {lspOpenModal && (
+                {vslOpenModal && (
                   <CalculateVslCdModal
-                    isOpen={lspOpenModal}
+                   onClickVslCdParmas={onClickVslCdParmas}
+                    isOpen={vslOpenModal}
                     closeModal={() =>
-                      setLspOpenModal((lspOpenModal) => !lspOpenModal)
+                      setVslOpenModal((vslOpenModal) => !vslOpenModal)
                     }
+                    vslCodeData={vslCodeData}
                   ></CalculateVslCdModal>
                 )}
               </td>
@@ -298,17 +339,13 @@ console.log(baseCodeData);
                   type="select"
                   onChange={onChangeCalInfo}
                 >
-                  
-                  {baseCodeData.data?.slice(79, 91).map((option) => (
-                          <option
-                            key={option.cd_v}
-                            value={option.cd_v}
-                            selected={option.cd_v_meaning}
-                            disabled
-                          >
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                  <option key="" value=""></option>
+                  {baseCodeData.data?.filter((data) => data.cd_tp === "DELIVERY_AREA_CD")
+                    .map((option) => (
+                      <option key={option.cd_v} value={option.cd_v_meaning}>
+                        {option.cd_v_meaning}
+                      </option>
+                    ))}
                 </Input>
               </td>
               <th
@@ -329,7 +366,7 @@ console.log(baseCodeData);
               </td>
             </tr>
           </tbody>
-        </table>
+        </Table>
         <div
           style={{
             display: "flex",
@@ -351,6 +388,7 @@ console.log(baseCodeData);
           </Button>
           {detailOpenModal && (
             <CalculateDetailModal
+              calculateInfoData={calculateInfoData.data}
               isOpen={detailOpenModal}
               closeModal={() =>
                 setDetailOpenModal((detailOpenModal) => !detailOpenModal)
@@ -393,7 +431,7 @@ console.log(baseCodeData);
                 <td>{data.nation_nm}</td>
                 <td>{data.lsp_id}</td>
                 <td>{data.cd_v_meaning}</td>
-                <td>날짜</td>
+                <td>{dateToString(to_date(data.bl_date))}</td>
                 <td>{data.trans_order_no}</td>
                 <td>{data.vsl_cd}</td>
                 <td>{data.vsl_nm}</td>

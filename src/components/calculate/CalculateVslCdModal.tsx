@@ -31,18 +31,22 @@ import styles from "./coa.module.css";
 interface CalculateVslCdModalProps {
   closeModal: any;
   isOpen: boolean;
+  vslCodeData: any;
+  onClickVslCdParmas: any;
 }
 
 const CalculateVslCdModal = ({
   isOpen,
   closeModal,
+  vslCodeData,
+  onClickVslCdParmas,
 }: CalculateVslCdModalProps) => {
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
         <Container>
           <ModalHeader toggle={closeModal}>
-            <ModalTitle>사업 코드</ModalTitle>
+            <ModalTitle>선박 코드</ModalTitle>
           </ModalHeader>
         </Container>
         <ModalBody>
@@ -58,18 +62,33 @@ const CalculateVslCdModal = ({
             </table>
           </Container>
           <Container>
-            <Table border={1}>
+            <div
+            style={{
+              maxHeight: "600px",
+              overflowY: "auto",
+              
+            }}
+            >
+            <Table hover border={1}>
               <tbody style={{ textAlign: "center" }}>
                 <tr className="table-secondary">
-                  <th>아이디</th>
-                  <th>이름</th>
+                  <th>선박코드</th>
+                  <th>선박명</th>
+                  <th>선박재화중량</th>
+                  <th>선적가능량</th>
                 </tr>
-                <tr>
-                  <td>10028011</td>
-                  <td>대유상선(주) / Daeyoo Merchant Marine Co., Ltd</td>
-                </tr>
+                  {vslCodeData.data?.map((data, index) => (
+                      <tr key={index} aria-rowcount={index} onClick={()=>onClickVslCdParmas(data.vsl_cd, data.vsl_nm)}>
+                        
+                        <td>{data.vsl_cd}</td>
+                        <td>{data.vsl_nm}</td>
+                        <td>{data.vsl_dead_wt}</td>
+                        <td>{data.vsl_load_posbl_wt}</td>
+                      </tr>
+                    ))}
               </tbody>
             </Table>
+            </div>
           </Container>
         </ModalBody>
       </Modal>

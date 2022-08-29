@@ -144,16 +144,13 @@ const ContractCoaRegisterModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(8, 9).map((option) => (
-                          <option
-                            key={option.cd_v}
-                            value={option.cd_v}
-                            selected={option.cd_v_meaning}
-                            disabled
-                          >
+                      {baseCodeData.data?.filter((data) => data.cd_tp === "CORP_ID" )
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v} >
                             {option.cd_v_meaning}
                           </option>
                         ))}
+                        
                       </Input>
                     </div>
                   </td>
@@ -184,7 +181,8 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.slice(10, 12).map((option) => (
+                        {baseCodeData.data?.filter((data) => data.cd_tp === "CNTRT_TYP_GCD")
+                        .map((option) => (
                           <option key={option.cd_v} value={option.cd_v}>
                             {option.cd_v_meaning}
                           </option>
@@ -249,8 +247,9 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.slice(12, 22).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
+                        {baseCodeData.data?.filter((data) => data.cd_tp === "CNTRT_TCD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
                             {option.cd_v_meaning}
                           </option>
                         ))}
@@ -453,8 +452,9 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.slice(24, 37).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
+                        {baseCodeData.data?.filter((data) => data.cd_tp === "CURR_CD")
+                        .map((option) => (
+                          <option key={option.cd_v} value={option.cd_v}>
                             {option.cd_v} [{option.cd_v_meaning}]
                           </option>
                         ))}

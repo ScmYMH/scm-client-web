@@ -31,12 +31,15 @@ import styles from "./coa.module.css";
 interface CalculateDetailModalProps {
   closeModal: any;
   isOpen: boolean;
+  calculateInfoData: any;
 }
 
 const CalculateDetailModal = ({
   isOpen,
   closeModal,
+  calculateInfoData,
 }: CalculateDetailModalProps) => {
+  console.log("calculateInfoDatacalculateInfoData", calculateInfoData)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
