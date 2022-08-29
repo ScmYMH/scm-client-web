@@ -41,7 +41,7 @@ const CalculateDetailModal = ({
   calculateInfoData,
   detailParamas
 }: CalculateDetailModalProps) => {
-  console.log("detailParamas", detailParamas)
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -114,7 +114,7 @@ const CalculateDetailModal = ({
                 size="sm"
                 style={{ margin: 0, padding: 0, width: 50 }}
               >
-                추가
+                담당자확정
               </Button>
             </div>
             <Table bordered>

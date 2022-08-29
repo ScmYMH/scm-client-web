@@ -1,5 +1,5 @@
 import { RootState } from "modules";
-import { calculateRequestAsync, vslCdRequestAsync } from "modules/calculate/actions";
+import { calculateDetailRequestAsync, calculateRequestAsync, vslCdRequestAsync } from "modules/calculate/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "reactstrap";
 import CalculateInfoForm from "./CalculateInfoForm";
@@ -24,7 +24,13 @@ const CalculateInfoLoader = () => {
     (state: RootState) => state.baseCode.baseCode
   );
 
-  
+  const calculateDetailCodeData = useSelector(
+    (state: RootState) => state.calculateDetailInfo.calculateDetailInfo
+  );
+  const onSubmitCalculateDetailInfo = (transOrderNo: any) => {
+    dispatch(calculateDetailRequestAsync.request(transOrderNo));
+  };
+
   const vslCodeData = useSelector(
     (state: RootState) => state.vslCdInfo.vslCdInfo
   );
@@ -61,7 +67,7 @@ const CalculateInfoLoader = () => {
         </header>
       </div>
       <Card style={{ minHeight: "900px" }}>
-        <CalculateInfoForm baseCodeData={baseCodeData} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
+        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} baseCodeData={baseCodeData} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
       </Card>
     </>
   );

@@ -19,7 +19,7 @@ import { userMemberSaga } from "./userMember/saga";
 import tariff from "./tariff/reducer";
 import { tariffSaga } from "./tariff/saga";
 import { calculateSaga } from "./calculate/saga";
-import {calculateInfo, vslCdInfo} from "./calculate/reducer";
+import {calculateInfo, vslCdInfo, calculateDetailInfo} from "./calculate/reducer";
 import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
 import { contractChangeInfo } from "./contractChangeCoa/reducer";
 
@@ -36,7 +36,8 @@ const rootReducer = combineReducers({
   delContractInfo,
   calculateInfo,
   contractChangeInfo,
-  vslCdInfo
+  vslCdInfo,
+  calculateDetailInfo
 });
 
 // 루트 리듀서 내보내기

@@ -13,6 +13,17 @@ export const calculateRequestAsync = createAsyncAction(
 	CALCULATE_SELECT_ERROR,
 )<any, CalculateInfo, AxiosError>();
 
+// 액션 정의
+export const CALCULAT_DETAIL_SELECT_REQUEST = 'calculate/CALCULAT_DETAIL_SELECT_REQUEST';
+export const CALCULAT_DETAIL_SELECT_SUCCESS = 'calculate/CALCULAT_DETAIL_SELECT_SUCCESS';
+export const CALCULAT_DETAIL_SELECT_ERROR = 'calculate/CALCULAT_DETAIL_SELECT_ERROR';
+
+export const calculateDetailRequestAsync = createAsyncAction(
+	CALCULAT_DETAIL_SELECT_REQUEST,
+	CALCULAT_DETAIL_SELECT_SUCCESS,
+	CALCULAT_DETAIL_SELECT_ERROR,
+)<any, CalculateInfo, AxiosError>();
+
 // vsl code 액션 정의
 export const VSLCODE_SELECT_REQUEST = 'calculate/VSLCODE_SELECT_REQUEST';
 export const VSLCODE_SELECT_SUCCESS = 'calculate/VSLCODE_SELECT_SUCCESS';

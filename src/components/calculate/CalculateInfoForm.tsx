@@ -10,12 +10,14 @@ import CalculateVslCdModal from "./CalculateVslCdModal";
 
 export interface CalculateInfoFormProps {
   onSubmitCalculateInfo: (calSelectParams: any) => void;
+  onSubmitCalculateDetailInfo : (transOrderNo: any) => void;
   calculateInfoData : any;
+  calculateDetailCodeData: any;
   baseCodeData: any;
   vslCodeData: any;
 }
 
-const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeData, vslCodeData}: CalculateInfoFormProps) => {
+const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo, onSubmitCalculateInfo, calculateInfoData, baseCodeData, vslCodeData}: CalculateInfoFormProps) => {
   const [detailOpenModal, setDetailOpenModal] = useState(false);
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
@@ -29,6 +31,8 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     transOrderNo: "",
     cdVmeaning: "",
   });
+  const [transOrderNo, setTransOrderNo] = useState("");
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const [detailParamas, setDetailParamas] = useState({
@@ -103,6 +107,7 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
 
       return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
   }
+
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName("calInfoId") as any | null;
 
@@ -113,6 +118,8 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
     }
   };
   
+  console.log(transOrderNo);
+  console.log(calculateDetailCodeData);
   return (
     <div
       style={{
@@ -402,6 +409,7 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
             className="btn"
             size="sm"
             onClick={() => {
+              onSubmitCalculateDetailInfo(transOrderNo)
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -456,6 +464,7 @@ const CalculateInfoForm = ({onSubmitCalculateInfo, calculateInfoData, baseCodeDa
                             ...detailParamas,
                             data: data,
                           });
+                          setTransOrderNo(data.trans_order_no);
                         }}>
                   </Input>
                 </td>

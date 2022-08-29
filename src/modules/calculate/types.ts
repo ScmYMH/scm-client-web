@@ -9,6 +9,14 @@ export type CalculateInfoState = {
 	calculateInfo: AsyncState<CalculateInfo, Error>;
 };
 
+
+export type CalculateDetailInfoAction = ActionType<typeof actions>;
+
+export type CalculateDetailInfoState = {
+	calculateDetailInfo: AsyncState<CalculateInfo, Error>;
+};
+
+
 export type VslCdAction = ActionType<typeof actions>;
 
 export type VslCdState = {

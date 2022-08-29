@@ -6,8 +6,11 @@ import {
 	CALCULATE_SELECT_ERROR, 
 	VSLCODE_SELECT_REQUEST,
 	VSLCODE_SELECT_ERROR,
-	VSLCODE_SELECT_SUCCESS} from './actions';
-import { CalculateInfoAction, CalculateInfoState, VslCdAction, VslCdState } from './types';
+	VSLCODE_SELECT_SUCCESS,
+	CALCULAT_DETAIL_SELECT_REQUEST,
+	CALCULAT_DETAIL_SELECT_SUCCESS,
+	CALCULAT_DETAIL_SELECT_ERROR} from './actions';
+import { CalculateDetailInfoAction, CalculateDetailInfoState, CalculateInfoAction, CalculateInfoState, VslCdAction, VslCdState } from './types';
 
 const initialState: CalculateInfoState = {
 	calculateInfo: asyncState.initial(),
@@ -29,6 +32,25 @@ const calculateInfo = createReducer<CalculateInfoState, CalculateInfoAction>(ini
 });
 
 
+const calDetailInfoInitialState: CalculateDetailInfoState = {
+	calculateDetailInfo: asyncState.initial(),
+};
+
+const calculateDetailInfo = createReducer<CalculateDetailInfoState, CalculateDetailInfoAction>(calDetailInfoInitialState, {
+	[CALCULAT_DETAIL_SELECT_REQUEST]: (state) => ({
+		...state,
+		calculateDetailInfo: asyncState.load(),
+	}),
+	[CALCULAT_DETAIL_SELECT_SUCCESS]: (state, action) => ({
+		...state,
+		calculateDetailInfo: asyncState.success(action.payload),
+	}),
+	[CALCULAT_DETAIL_SELECT_ERROR]: (state, action) => ({
+		...state,
+		calculateDetailInfo: asyncState.error(action.payload),
+	}),
+});
+
 const vslInitialState: VslCdState = {
 	vslCdInfo: asyncState.initial(),
 };
@@ -49,4 +71,4 @@ const vslCdInfo = createReducer<VslCdState, VslCdAction>(vslInitialState, {
 });
 
 
-export {calculateInfo, vslCdInfo};
+export {calculateInfo, vslCdInfo, calculateDetailInfo};

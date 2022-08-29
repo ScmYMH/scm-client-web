@@ -10,6 +10,18 @@ export async function getCalculateInfo(calSelectParams: any) {
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
+
+export async function getCalculateDetailInfo(transOrderNo: any) {
+  console.log(transOrderNo);
+  // Generic 을 통해 응답 데이터의 타입을 설정 할 수 있습니다.
+  const response = await axios.get<CalculateInfo>(
+    `http://192.168.0.65:9999/calculate/detail?transOrderNo=${transOrderNo}`
+  );
+  console.log(response.data);
+  return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
+}
+
+
 export async function getVslCodeInfo(vslCd: any) {
   // Generic 을 통해 응답 데이터의 타입을 설정 할 수 있습니다.
   const response = await axios.get<VslCdInfo>(
@@ -41,4 +53,15 @@ export interface CalculateInfo {
     acctg_yn:string;
     tot_gross_wt:string;
     vsl_load_posbl_wt:string;
+    inv_inner_no:string;
+    inv_inner_seq_no:string;
+    item_cd:string;
+    local_supp_amt:string;
+    local_curr_cd:string;
+    local_exr:string;
+    unit_price:string;
+    tot_gross_wt_unit_cd:string;
+    fac_cd:string;
+    arr_node_nm:string;
+    ref_doc_no:string;
 }
