@@ -12,6 +12,7 @@ export async function postExcelImport(params: any[]) {
     `http://localhost:9094/excel`,
     JSON.parse(paramsData)
   );
+  console.log(response.data);
   return response.data;
 }
 

@@ -1,4 +1,3 @@
-import { postExcelImport } from "api/excelImportAxios";
 import { RootState } from "modules";
 import { postTariffExcelImportAsync } from "modules/importExcel/action";
 import { useRef, useState, useEffect } from "react";
@@ -13,11 +12,13 @@ const TariffExcelModal = ({
   isOpen: boolean;
   closeModal: any;
 }) => {
-  let jsonData;
+  // let jsonData;
+  const [jsonData, setJsonData] = useState<any>();
   const [excelData, setExcelData] = useState<any>([]);
   //Excel to Json
   const readUploadFile = (e) => {
     e.preventDefault();
+
     if (e.target.files) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -26,7 +27,7 @@ const TariffExcelModal = ({
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(worksheet);
-        jsonData = json;
+        setJsonData(json);
       };
       reader.readAsArrayBuffer(e.target.files[0]);
     }
@@ -45,7 +46,6 @@ const TariffExcelModal = ({
   }, [valiCheck.data]);
 
   const onSubmitExcelData = () => {
-    console.log("jsonData >>>> ", jsonData);
     dispatch(postTariffExcelImportAsync.request(jsonData));
 
     if (valiCheck.loading == true) {
@@ -60,6 +60,7 @@ const TariffExcelModal = ({
       alert("성공적으로 등록되었습니다");
     }
   }
+  console.log("jsonData >>>> ", jsonData);
 
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="m">
