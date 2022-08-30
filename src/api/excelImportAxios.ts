@@ -9,7 +9,7 @@ export async function postExcelImport(params: any[]) {
   }`;
   console.log("postExcelImport 실행 ======> data : ", paramsData);
   const response = await axios.post<Array<ExcelImportData>>(
-    `http://localhost:9094//excel/`,
+    `http://localhost:9094//excel`,
     JSON.parse(paramsData)
   );
   return response.data;
