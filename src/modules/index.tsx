@@ -17,6 +17,8 @@ import usermember from "./userMember/reducer";
 import { userMemberSaga } from "./userMember/saga";
 import tariff from "./tariff/reducer";
 import { tariffSaga } from "./tariff/saga";
+import excelImportDataInfo from "./importExcel/reducer";
+import { excelImportSaga } from "./importExcel/saga";
 
 const rootReducer = combineReducers({
   contractInfo,
@@ -28,6 +30,7 @@ const rootReducer = combineReducers({
   usermember,
   tariff,
   updateContractInfo,
+  excelImportDataInfo,
 });
 
 // 루트 리듀서 내보내기
@@ -46,5 +49,6 @@ export function* rootSaga() {
     contractMemberSaga(),
     userMemberSaga(),
     tariffSaga(),
+    excelImportSaga(),
   ]);
 }

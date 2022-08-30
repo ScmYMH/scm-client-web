@@ -15,6 +15,7 @@ import {
   postTariffCondHAsync,
   resetTariffCondHAsync,
 } from "modules/tariff/actions";
+import TariffExcelModal from "./TariffExcelModal";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     arrivalNodeCd: "",
   });
 
+  const [openExcelModal, setOpenExcelModal] = useState(false);
   const [openDepartModal, setOpenDepartModal] = useState(false);
   const [openArrivalModal, setOpenArrivalModal] = useState(false);
   const [openRowDepartCdModal, setOpenRowDepartCdModal] = useState(false);
@@ -551,6 +553,8 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     console.log("ADD 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
+    } else {
+      setOpenExcelModal((openExcelModal) => !openExcelModal);
     }
   };
 
@@ -681,6 +685,14 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 >
                   Add
                 </Button>
+                {openExcelModal && (
+                  <TariffExcelModal
+                    isOpen={openExcelModal}
+                    closeModal={() =>
+                      setOpenExcelModal((openExcelModal) => !openExcelModal)
+                    }
+                  ></TariffExcelModal>
+                )}
               </div>
             </Row>
           </Col>
