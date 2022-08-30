@@ -6,13 +6,14 @@ import SearchDestModal from "./SearchDestModal";
 import SearchLccModal from "./SearchLccModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "modules";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 import {
   deleteTariffCondHAsync,
   getCodeDefAsync,
   getTariffCondHAsync,
   postTariffCondHAsync,
   resetTariffCondHAsync,
-  saveTariffParamAsync,
 } from "modules/tariff/actions";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
@@ -377,6 +378,69 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     }
   };
 
+  //엑셀 구현
+  const excelFileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const excelFileExtension = ".xlsx";
+  const excelFileName = "작성자";
+
+  const excelDownload = () => {
+    const ws = XLSX.utils.aoa_to_sheet([
+      [
+        "출발지코드",
+        "출발지명",
+        "도착지코드",
+        "도착지명",
+        "물류비계정",
+        "세부물류비",
+        "세부물류비설명",
+        "유효기간 시작",
+        "유효기간 종료",
+        "계약통화",
+        "지불통화",
+        "품종명",
+        "단가",
+        "계산단위",
+        "인도조건",
+        "조건ID",
+        "조건명",
+      ],
+    ]);
+    trffCondHList?.map((trffCondH) => {
+      XLSX.utils.sheet_add_aoa(
+        ws,
+        [
+          [
+            trffCondH.depCd,
+            trffCondH.depNm,
+            trffCondH.arrCd,
+            trffCondH.arrNm,
+            trffCondH.lccCd,
+            trffCondH.subLccCd,
+            trffCondH.lccCdDesc,
+            trffCondH.trffStatDate,
+            trffCondH.trffEndDate,
+            trffCondH.cntrtCurrCd,
+            trffCondH.payCurrCd,
+            trffCondH.prodGcd,
+            trffCondH.unitPrice,
+            trffCondH.calUnitCd,
+            trffCondH.incoCd,
+            trffCondH.condId,
+            trffCondH.condNm,
+          ],
+        ],
+        { origin: -1 }
+      );
+      ws["!cols"] = [{ wpx: 200 }, { wpx: 200 }];
+      return false;
+    });
+    const wb: any = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelButter = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const excelFile = new Blob([excelButter], { type: excelFileType });
+    FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
+  };
+
   const onClickCopy = () => {
     console.log("복사 버튼 클릭");
     if (!isSave) {
@@ -478,6 +542,8 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     console.log("엑셀 export 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
+    } else {
+      excelDownload();
     }
   };
 

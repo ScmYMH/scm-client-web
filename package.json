@@ -17,6 +17,7 @@
 		"@types/react-dom": "^18.0.6",
 		"axios": "^0.27.2",
 		"bootstrap": "^5.2.0",
+		"file-save": "^0.2.0",
 		"file-saver": "^2.0.5",
 		"install": "^0.13.0",
 		"npm": "^8.15.0",
