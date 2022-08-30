@@ -1,6 +1,7 @@
+import { postExcelImport } from "api/excelImportAxios";
 import { RootState } from "modules";
 import { postTariffExcelImportAsync } from "modules/importExcel/action";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
 import * as XLSX from "xlsx";
@@ -46,9 +47,8 @@ const TariffExcelModal = ({
   const onSubmitExcelData = () => {
     console.log("jsonData >>>> ", jsonData);
     dispatch(postTariffExcelImportAsync.request(jsonData));
-    console.log("onSubmitExcelData");
+
     if (valiCheck.loading == true) {
-      console.log("valiCheck.loading === true");
       validationCheck();
     }
   };
