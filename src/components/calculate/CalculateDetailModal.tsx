@@ -31,23 +31,71 @@ import styles from "./coa.module.css";
 interface CalculateDetailModalProps {
   closeModal: any;
   isOpen: boolean;
-  calculateInfoData: any;
+  calculateDetailCodeData: any;
   detailParamas: any;
 }
 
 const CalculateDetailModal = ({
   isOpen,
   closeModal,
-  calculateInfoData,
+  calculateDetailCodeData,
   detailParamas
 }: CalculateDetailModalProps) => {
 
+  console.log("calculateDetailCodeData.data", calculateDetailCodeData);
+  
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +"/"+
+      (date.getMonth() + 1).toString().padStart(2, "0") +"/"+
+      date.getDate().toString().padStart(2, "0")
+    );
+  }
+
+  function to_date(date_str)
+  {
+      const yyyyMMdd = String(date_str);
+      const sYear = yyyyMMdd.substring(0,4);
+      const sMonth = yyyyMMdd.substring(4,6);
+      const sDate = yyyyMMdd.substring(6,8);
+
+      return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+  }
+
+  function clearQtyTotalSum(){
+    console.log(calculateDetailCodeData);
+    let ans = 0;
+    calculateDetailCodeData?.map((data, index) => {
+      ans+=parseInt(data['clear_qty']);
+    })
+    console.log(ans)
+    return ans;
+  }
+  
+  function clearAmtTotalSum(){
+    console.log(calculateDetailCodeData);
+    let ans = 0;
+    calculateDetailCodeData?.map((data, index) => {
+      ans+=parseInt(data['clear_amt']);
+    })
+    console.log(ans)
+    return ans;
+  }
+  function clearLocalSuppAmtTotalSum(){
+    console.log(calculateDetailCodeData);
+    let ans = 0;
+    calculateDetailCodeData?.map((data, index) => {
+      ans+=parseInt(data['local_supp_amt']);
+    })
+    console.log(ans)
+    return ans;
+  }
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
         <Container>
           <ModalHeader toggle={closeModal}>
-            <ModalTitle>계약 등록</ModalTitle>
+            <ModalTitle>상세 정보</ModalTitle>
           </ModalHeader>
         </Container>
         <ModalBody>
@@ -112,7 +160,7 @@ const CalculateDetailModal = ({
                 outline
                 className="btn"
                 size="sm"
-                style={{ margin: 0, padding: 0, width: 50 }}
+                style={{ margin: 0, padding: 0, width: 80 }}
               >
                 담당자확정
               </Button>
@@ -135,23 +183,40 @@ const CalculateDetailModal = ({
                   <th>Local 통화</th>
                   <th>Local 금액</th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>K</td>
-                  <td>ICHIKAWA</td>
-                  <td>7/3/2022</td>
-                  <td>01S5488637010</td>
-                  <td>HR.Coil</td>
-                  <td>72,524</td>
-                  <td>KG</td>
-                  <td>36.40</td>
-                  <td>USD</td>
-                  <td>2,639.87</td>
-                  <td>1,299.80</td>
-                  <td>KRW</td>
-                  <td>3,431,303</td>
-                </tr>
+                {calculateDetailCodeData?.map((data, index)=>(
+                  <><tr key={index} aria-rowcount={index}>
+                    <td>{data.inv_inner_seq_no}</td>
+                    <td>{data.fac_cd}</td>
+                    <td>{data.arr_node_nm}</td>
+                    <td>{dateToString(to_date(data.bl_date))}</td>
+                    <td>{data.ref_doc_no}</td>
+                    <td>{data.item_cd}</td>
+                    <td>{data.clear_qty}</td>
+                    <td>{data.tot_gross_wt_unit_cd}</td>
+                    <td>{data.unit_price}</td>
+                    <td>{data.clear_curr}</td>
+                    <td>{data.clear_amt}</td>
+                    <td>{data.local_exr}</td>
+                    <td>{data.local_curr_cd}</td>
+                    <td>{data.local_supp_amt}</td>
+                  </tr>
+                  
+                  </>
+                ))}
               </tbody>
+              <tfoot style={{ textAlign: "center" }}>
+                <tr>
+                  <td colSpan={6} style={{ backgroundColor:"#ced6e0"}}>총 금액</td>
+                  <td>{clearQtyTotalSum()}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{clearAmtTotalSum()}</td>
+                  <td></td>
+                  <td></td>
+                  <td>{clearLocalSuppAmtTotalSum()}</td>
+                </tr>
+              </tfoot>
             </Table>
           </Container>
         </ModalBody>

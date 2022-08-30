@@ -6,39 +6,39 @@ import CalculateInfoForm from "./CalculateInfoForm";
 import {
   baseCodeAsync
 } from "modules/contractCoa/action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CalculateInfoLoader = () => {
-  
+  const [params, setParams] = useState({
+    vslCd : "",
+    vslNm: ""
+  })
   const dispatch = useDispatch();
 
   const calculateInfoData = useSelector(
     (state: RootState) => state.calculateInfo.calculateInfo
   );
 
-  const onSubmitCalculateInfo = (calSelectParams: any) => {
-    dispatch(calculateRequestAsync.request(calSelectParams));
-  };
-
-  const baseCodeData = useSelector(
-    (state: RootState) => state.baseCode.baseCode
-  );
-
   const calculateDetailCodeData = useSelector(
     (state: RootState) => state.calculateDetailInfo.calculateDetailInfo
   );
-  const onSubmitCalculateDetailInfo = (transOrderNo: any) => {
-    dispatch(calculateDetailRequestAsync.request(transOrderNo));
-  };
 
   const vslCodeData = useSelector(
     (state: RootState) => state.vslCdInfo.vslCdInfo
   );
 
+  const onSubmitCalculateDetailInfo = (transOrderNo: any) => {
+    dispatch(calculateDetailRequestAsync.request(transOrderNo));
+  };
+
+  const onSubmitCalculateInfo = (calSelectParams: any) => {
+    dispatch(calculateRequestAsync.request(calSelectParams));
+  };
+
   useEffect(() => {
-    dispatch(baseCodeAsync.request(""));
-    dispatch(vslCdRequestAsync.request(""));
+    dispatch(vslCdRequestAsync.request(params));
   }, []);
+
   return (
     <>
       <div>
@@ -67,7 +67,7 @@ const CalculateInfoLoader = () => {
         </header>
       </div>
       <Card style={{ minHeight: "900px" }}>
-        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} baseCodeData={baseCodeData} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
+        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
       </Card>
     </>
   );

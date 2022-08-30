@@ -27,6 +27,7 @@ import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import styles from "./coa.module.css";
+import { vslCdRequestAsync } from "modules/calculate/actions";
 
 interface CalculateVslCdModalProps {
   closeModal: any;
@@ -41,6 +42,19 @@ const CalculateVslCdModal = ({
   vslCodeData,
   onClickVslCdParmas,
 }: CalculateVslCdModalProps) => {
+  const dispatch = useDispatch();
+
+  const [params, setParams] = useState({
+    vslCd : "",
+    vslNm: ""
+  })
+
+  const onSubmitVslCd = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(vslCdRequestAsync.request(params));
+  };
+
+  
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -51,14 +65,56 @@ const CalculateVslCdModal = ({
         </Container>
         <ModalBody>
           <Container style={{ marginBottom: 30 }}>
-            <table>
-              <tr>
-                <td>검색조건</td>
-                <td></td>
-                <td>
-                  <Input type="text"></Input>
-                </td>
-              </tr>
+            <table border={1}>
+            <tr>
+              <td style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>
+                선박 코드
+              </td>
+              <td>
+                <input 
+                
+                  type="text"
+                  id="vslCd"
+                  onChange={(e) =>
+                    setParams({
+                      ...params,
+                      [e.target.id]: e.target.value,
+                    })
+                  }/>
+              </td>
+              <td style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>
+                선박 명
+              </td>
+              <td>
+                <input 
+                  type="text"
+                  id="vslNm" onChange={(e) =>
+                  setParams({
+                    ...params,
+                    [e.target.id]: e.target.value,
+                  })}
+                  />
+              </td>
+              <td>
+              <Form
+                  style={{ margin: 3 }}
+                  onSubmit={onSubmitVslCd}
+                  className="vslCd"
+                >
+                <Button outline style={{ margin: 3 }} className="btn" size="sm">
+                  조회
+                </Button>
+              </Form>
+              </td>
+            </tr>
             </table>
           </Container>
           <Container>
