@@ -19,6 +19,10 @@ const CalculateInfoLoader = () => {
     (state: RootState) => state.calculateInfo.calculateInfo
   );
 
+  const baseCodeData = useSelector(
+    (state: RootState) => state.baseCode.baseCode
+  );
+
   const calculateDetailCodeData = useSelector(
     (state: RootState) => state.calculateDetailInfo.calculateDetailInfo
   );
@@ -34,6 +38,10 @@ const CalculateInfoLoader = () => {
   const onSubmitCalculateInfo = (calSelectParams: any) => {
     dispatch(calculateRequestAsync.request(calSelectParams));
   };
+
+  useEffect(() => {
+    dispatch(baseCodeAsync.request(""));
+  }, []);
 
   useEffect(() => {
     dispatch(vslCdRequestAsync.request(params));
@@ -67,7 +75,7 @@ const CalculateInfoLoader = () => {
         </header>
       </div>
       <Card style={{ minHeight: "900px" }}>
-        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
+        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} baseCodeData={baseCodeData} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
       </Card>
     </>
   );

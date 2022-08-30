@@ -1,9 +1,5 @@
-import { RootState } from "modules";
-import { vslCdRequestAsync } from "modules/calculate/actions";
-import { baseCodeAsync } from "modules/contractCoa/action";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { HiSearch } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
 import { Button, Container, Form, Input, Table } from "reactstrap";
 import AccountConnModal from "./AccountConnModal";
 
@@ -17,14 +13,16 @@ export interface CalculateInfoFormProps {
   onSubmitCalculateDetailInfo : (transOrderNo: any) => void;
   calculateInfoData : any;
   calculateDetailCodeData: any;
+  baseCodeData: any;
   vslCodeData: any;
 }
 
-const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo, onSubmitCalculateInfo, calculateInfoData,  vslCodeData}: CalculateInfoFormProps) => {
+const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo, onSubmitCalculateInfo, calculateInfoData, baseCodeData, vslCodeData}: CalculateInfoFormProps) => {
   const [detailOpenModal, setDetailOpenModal] = useState(false);
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
+  const [coaChkFlag, setCoaChkFlag] = useState(false);
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
@@ -120,15 +118,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     }
   };
   
-  const baseCodeData = useSelector(
-    (state: RootState) => state.baseCode.baseCode
-  );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(baseCodeAsync.request(""));
-  }, []);
-
   return (
     <div
       style={{
@@ -485,14 +474,14 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.vsl_cd}</td>
                 <td>{data.vsl_nm}</td>
                 <td>
-                  <Input type="checkbox"></Input>
+                  <Input type="checkbox" onClick={()=> setCoaChkFlag(!coaChkFlag)}></Input>
                 </td>
                 <td>{data.close_no_yn}</td>
                 <td>{data.acctg_yn}</td>
                 <td>{data.clear_curr}</td>
                 <td>{data.tot_gross_wt}</td>
-                <td>{data.clear_amt}</td>
-                <td>{data.acctg_amt}</td>
+                <td>{coaChkFlag ? (data.clear_amt) : 0}</td>
+                <td>{coaChkFlag ? (data.acctg_amt) : 0}</td>
                 <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
               </tr>
             ))}

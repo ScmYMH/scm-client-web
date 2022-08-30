@@ -62,7 +62,6 @@ const CalculateLspModal = ({ isOpen, closeModal, baseCodeData,onClickLspParmas }
             style={{
               maxHeight: "600px",
               overflowY: "auto",
-              
             }}
             >
             <Table border={1} hover>

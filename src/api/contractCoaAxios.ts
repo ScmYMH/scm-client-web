@@ -44,6 +44,7 @@ export async function getContractInfoDefinitionApi(params: any) {
   const response = await axios.get<ContractInfoDefinition>(
     `http://3.37.155.50:8000/coa/code`
   );
+  console.log(response.data);
   return response.data;
 }
 
