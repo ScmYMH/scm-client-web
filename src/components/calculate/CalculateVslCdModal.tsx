@@ -65,7 +65,7 @@ const CalculateVslCdModal = ({
         </Container>
         <ModalBody>
           <Container style={{ marginBottom: 30 }}>
-            <table border={1}>
+            <table>
             <tr>
               <td style={{
                       textAlign: "center",

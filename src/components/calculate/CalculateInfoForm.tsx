@@ -474,14 +474,21 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.vsl_cd}</td>
                 <td>{data.vsl_nm}</td>
                 <td>
-                  <Input type="checkbox" onClick={()=> setCoaChkFlag(!coaChkFlag)}></Input>
+                  <Input 
+                    type="checkbox"
+                    onChange={(e) => {
+                        checkOnlyOne(e.target);
+                        setTransOrderNo(data.trans_order_no);
+                      }}
+                    onClick={()=> setCoaChkFlag(!coaChkFlag)}>
+                  </Input>
                 </td>
                 <td>{data.close_no_yn}</td>
                 <td>{data.acctg_yn}</td>
                 <td>{data.clear_curr}</td>
-                <td>{data.tot_gross_wt}</td>
-                <td>{coaChkFlag ? (data.clear_amt) : 0}</td>
-                <td>{coaChkFlag ? (data.acctg_amt) : 0}</td>
+                <td>{data.tot_gross_wt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>{coaChkFlag ? (data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')) : 0}</td>
+                <td>{coaChkFlag ? (data.acctg_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')) : 0}</td>
                 <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
               </tr>
             ))}

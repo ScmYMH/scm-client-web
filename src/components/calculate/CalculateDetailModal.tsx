@@ -69,7 +69,7 @@ const CalculateDetailModal = ({
       ans+=parseInt(data['clear_qty']);
     })
     console.log(ans)
-    return ans;
+    return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
   function clearAmtTotalSum(){
@@ -79,7 +79,7 @@ const CalculateDetailModal = ({
       ans+=parseInt(data['clear_amt']);
     })
     console.log(ans)
-    return ans;
+    return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   function clearLocalSuppAmtTotalSum(){
     console.log(calculateDetailCodeData);
@@ -88,7 +88,7 @@ const CalculateDetailModal = ({
       ans+=parseInt(data['local_supp_amt']);
     })
     console.log(ans)
-    return ans;
+    return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   return (
     <>
@@ -185,20 +185,20 @@ const CalculateDetailModal = ({
                 </tr>
                 {calculateDetailCodeData?.map((data, index)=>(
                   <><tr key={index} aria-rowcount={index}>
-                    <td>{data.inv_inner_seq_no}</td>
+                    <td>{index+1}</td>
                     <td>{data.fac_cd}</td>
                     <td>{data.arr_node_nm}</td>
                     <td>{dateToString(to_date(data.bl_date))}</td>
                     <td>{data.ref_doc_no}</td>
                     <td>{data.item_cd}</td>
-                    <td>{data.clear_qty}</td>
+                    <td>{data.clear_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                     <td>{data.tot_gross_wt_unit_cd}</td>
-                    <td>{data.unit_price}</td>
+                    <td>{data.unit_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                     <td>{data.clear_curr}</td>
-                    <td>{data.clear_amt}</td>
+                    <td>{data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                     <td>{data.local_exr}</td>
                     <td>{data.local_curr_cd}</td>
-                    <td>{data.local_supp_amt}</td>
+                    <td>{data.local_supp_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                   </tr>
                   
                   </>
