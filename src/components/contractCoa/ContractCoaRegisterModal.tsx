@@ -15,6 +15,7 @@ import { RootState } from "modules";
 import {
   baseCodeAsync,
   insertContractCodeAsync,
+  tariffInfoAsync,
 } from "modules/contractCoa/action";
 import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
@@ -31,11 +32,13 @@ import styles from "./coa.module.css";
 interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
+  tariffInfoConditon: any;
 }
 
 const ContractCoaRegisterModal = ({
   isOpen,
   closeModal,
+  tariffInfoConditon,
 }: ContractCoaRegisterModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -43,13 +46,21 @@ const ContractCoaRegisterModal = ({
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
   
-  const {
-    data: tariffCondHListData,
-    loading: tariffCondHListLoading,
-    error: tariffCondHListError,
-  } = useSelector((state: RootState) => state.tariff.tariffCondHList);
+  
+  const tariffData = useSelector(
+    (state: RootState) => state.tariffInfo.tariffInfo
+  );
 
-  console.log(tariffCondHListData);
+  // const {
+  //   data: tariffCondHListData,
+  //   loading: tariffCondHListLoading,
+  //   error: tariffCondHListError,
+  // } = useSelector((state: RootState) => state.tariff.tariffCondHList);
+  // const tariffCondHListData  = useSelector((state: RootState) => state.tariff.tariffCondHList);
+  console.log("tariffInfoConditon.cntrtId", tariffInfoConditon.cntrtId);
+  useEffect(() => {
+    dispatch(tariffInfoAsync.request(tariffInfoConditon));
+  }, []);
 
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
@@ -147,7 +158,7 @@ const ContractCoaRegisterModal = ({
       closeModal();
     }
   };
-
+  console.log("tariffDatatariffData",tariffData)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -195,7 +206,6 @@ const ContractCoaRegisterModal = ({
                             {option.cd_v_meaning}
                           </option>
                         ))}
-                        
                       </Input>
                     </div>
                   </td>
@@ -562,29 +572,23 @@ const ContractCoaRegisterModal = ({
               <thead style={{ margin: 4 }}>◎ 타리프 정보</thead>
               <tbody style={{ textAlign: "center" }}>
                 <tr className="table-secondary">
-                  <th>일련번호</th>
                   <th>타리프 ID</th>
                   <th>타리프 설명</th>
-                  <th>서비스유형명</th>
-                  <th>Data Count</th>
-                  <th>LCC 갯수</th>
+                  <th>사업유형</th>
+                  <th>서비스유형</th>
+                  <th>상세서비스유형명</th>
+                  <th>등록일</th>
                 </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                  {tariffData.data?.map((data,index) => (
+                <tr key={index} aria-rowcount={index}>
+                    <td>{data.trff_nm}</td>
+                    <td>{data.trff_desc}</td>
+                    <td>{data.biz_nm}</td>
+                    <td>{data.svc_nm}</td>
+                    <td>{data.detl_svc_nm}</td>
+                    <td>{data.ins_date}</td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
             <div

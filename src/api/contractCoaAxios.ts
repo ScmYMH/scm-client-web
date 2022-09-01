@@ -57,6 +57,7 @@ export interface ContractInfoDefinition {
 }
 
 export interface TariffInfo {
+  [x: string]: any;
   trff_id: number;
   trff_nm: string;
   trff_desc: string;
