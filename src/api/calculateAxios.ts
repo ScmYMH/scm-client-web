@@ -22,7 +22,6 @@ export async function getCalculateDetailInfo(transOrderNo: any) {
 
 
 export async function getVslCodeInfo(params: any) {
-  console.log(`http://localhost:9999/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`);
   const response = await axios.get<VslCdInfo>(
     `http://localhost:9999/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
   );

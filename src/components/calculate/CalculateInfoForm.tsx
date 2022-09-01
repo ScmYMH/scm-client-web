@@ -117,8 +117,20 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
       }
     }
   };
+
+  const checkCoaOnlyOne = (e) => {
+    console.log(e.target);
+    // const checkboxes = document.getElementsByName("coaChkId") as any | null;
+
+    // for (let i = 0; i < checkboxes.length; i++) {
+    //   if (checkboxes[i] !== checkThis) {
+    //     checkboxes[i].checked = false;
+    //   }
+    // }
+  };
   
   return (
+    
     <div
       style={{
         marginTop: 30,
@@ -475,12 +487,14 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.vsl_nm}</td>
                 <td>
                   <Input 
+                    id="coaChkId"
+                    name="coaChkId"
                     type="checkbox"
                     onChange={(e) => {
-                        checkOnlyOne(e.target);
-                        setTransOrderNo(data.trans_order_no);
+                        checkCoaOnlyOne(e.target);
                       }}
-                    onClick={()=> setCoaChkFlag(!coaChkFlag)}>
+                    // onClick={checkCoaOnlyOne}
+                    >
                   </Input>
                 </td>
                 <td>{data.close_no_yn}</td>
