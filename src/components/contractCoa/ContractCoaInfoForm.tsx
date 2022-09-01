@@ -1,15 +1,16 @@
-import React, { FormEvent, useState, ChangeEvent, useEffect } from "react";
+import React, { FormEvent, useState, ChangeEvent } from "react";
 import { Button, Input, Form, Table } from "reactstrap";
-
-import DatePicker from "react-datepicker";
-import { RootState } from "modules";
-import { NonceProvider } from "react-select";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
+import { useDispatch } from "react-redux";
 import TariffLoader from "components/tariffInfo/TariffLoader";
-import { TariffInfoParam } from "modules/tariff/types";
-import ContractCoaUpdateModal from "./ContractCoaUpdateModal";
+import {
+  getTariffHeaderAsync,
+  saveTariffParamAsync,
+} from "modules/tariff/actions";
+import { TariffParam } from "modules/tariff/types";
 import ContractCoaCopyModal from "./ContractCoaCopyModal";
+import ContractCoaUpdateModal from "./ContractCoaUpdateModal";
 
 interface onSubmitContractInfoProps {
   onSubmitContractCoaInfo: (params: any) => void;
@@ -30,6 +31,8 @@ const ContractCoaInfoForm = ({
   tariffData,
   onSubmitDelContractCoaInfo,
 }: onSubmitContractInfoProps) => {
+  const dispatch = useDispatch();
+
   const [date, setDate] = useState(new Date());
   const [cntrtRegisterModal, setCntrtRegisterOpenModal] = useState(false);
   const [cntrtUpdModal, setCntrtUpdModal] = useState(false);
@@ -86,15 +89,33 @@ const ContractCoaInfoForm = ({
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
 
-  const [tariffParams, setTariffParams] = useState<TariffInfoParam>({
+  const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
+    trffId: 0, // 타리프 ID
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
   });
+
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +
+      (date.getMonth() + 1).toString().padStart(2, "0") +
+      date.getDate().toString().padStart(2, "0")
+    );
+  };
+
+  const onClickTariffModal = () => {
+    setOpenTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(saveTariffParamAsync.request(tariffParams));
+    dispatch(
+      getTariffHeaderAsync.request({
+        cntrtId: tariffParams.cntrtId,
+        trffId: tariffParams.trffId,
+      })
+    );
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setParmas({ ...params, [e.target.id]: e.target.value });
@@ -538,6 +559,12 @@ const ContractCoaInfoForm = ({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
                         });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
+                        });
                       }}
                       onClick={() => {
                         onSubmitTariffInfo(tariffInfoConditon);
@@ -552,6 +579,12 @@ const ContractCoaInfoForm = ({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
                         });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
+                        });
                       }}
                       onClick={() => {
                         onSubmitTariffInfo(tariffInfoConditon);
@@ -565,6 +598,12 @@ const ContractCoaInfoForm = ({
                         setTariffInfoConditon({
                           ...tariffInfoConditon,
                           cntrtId: data.cntrt_id,
+                        });
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtStatDate: data.cntrt_start_date,
+                          cntrtEndDate: data.cntrt_end_date,
+                          cntrtCurrCd: data.cntrt_curr_cd,
                         });
                       }}
                       onClick={() => {
@@ -622,17 +661,10 @@ const ContractCoaInfoForm = ({
                       setTariffParams({
                         ...tariffParams,
                         cntrtId: tariffInfoConditon.cntrtId, // 계약 ID
-                        trffNm: data.trff_nm, // 타리프 NM
-                        trffDesc: data.trff_desc, // 타리프 설명
-                        bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
-                        arApCcd: "AP", // 매출매입구분코드
-                        svcTcd: data.svc_nm, // 서비스유형코드
-                        detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                        trffId: data.trff_id, // 타리프 ID
                       });
                     }}
-                    onClick={() => {
-                      setOpenTariffModal((openTariffModal) => !openTariffModal);
-                    }}
+                    onClick={onClickTariffModal}
                   >
                     <th scope="row">
                       <Input type="checkbox" />
@@ -642,7 +674,7 @@ const ContractCoaInfoForm = ({
                     <td style={{ padding: 30 }}>{data.biz_nm}</td>
                     <td style={{ padding: 30 }}>{data.svc_nm}</td>
                     <td style={{ padding: 30 }}>
-                      {data.detl_svc_tcd} - {data.svc_nm}
+                      {data.detl_svc_tcd}-{data.detl_svc_nm}
                     </td>
                     <td style={{ padding: 30 }}>{data.ins_date}</td>
                     {openTariffModal && (
@@ -653,7 +685,6 @@ const ContractCoaInfoForm = ({
                             (openTariffModal) => !openTariffModal
                           )
                         }
-                        tariffParams={tariffParams}
                       />
                     )}
                   </tr>

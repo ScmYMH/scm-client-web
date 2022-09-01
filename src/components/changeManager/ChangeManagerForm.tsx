@@ -14,6 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import SearchManagerModal from "./SearchManagerModal";
+import { stringify } from "querystring";
+import { Tab } from "react-bootstrap";
 
 const ChangeManagerForm = () => {
   const dispatch = useDispatch();
@@ -53,7 +55,8 @@ const ChangeManagerForm = () => {
   const [allCommonInfoChecked, setAllCommonInfoChecked] = useState(false);
   const [allCntrtChgInfoChecked, setAllCntrtChgInfoChecked] = useState(false);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("");
+  const [todayState, setTodayState] = useState(new Date());
 
   const [openPreModal, setOpenPreModal] = useState(false);
   const [openAftModal, setOpenAftModal] = useState(false);
@@ -64,6 +67,21 @@ const ChangeManagerForm = () => {
       (date.getMonth() + 1).toString().padStart(2, "0") +
       date.getDate().toString().padStart(2, "0")
     );
+  };
+
+  const leftPad = (value) => {
+    if (value >= 10) {
+      return value;
+    }
+    return `0${value}`;
+  };
+
+  const toStringByFormatting = (source, delimiter = "-") => {
+    const year = source.getFullYear();
+    const month = leftPad(source.getMonth() + 1);
+    const day = leftPad(source.getDate());
+
+    return [year, month, day].join(delimiter);
   };
 
   const onClickMember = (memId: string, memNm: string) => {
@@ -125,14 +143,21 @@ const ChangeManagerForm = () => {
       setCheckList({ ...checkList, seqNoArray: newCntrtId });
     }
   };
-  console.log("checkList ------------------------------>", checkList);
-  const onChangeValidDate = (date: Date) => {
-    setDate(date);
-    setMngChgInfo({
-      ...mngChgInfo,
-      validDate: dateToString(date),
-    });
-    console.log("date : ", dateToString(date));
+
+  const onChangeValidDate = (date: string) => {
+    const today = dateToString(new Date());
+    console.log("today : ", today);
+    if (date < today) {
+      alert("오늘보다 이전날짜는 선택할 수 없습니다.");
+    } else {
+      setDate(date);
+      setMngChgInfo({
+        ...mngChgInfo,
+        validDate: date,
+      });
+      console.log("date : ", date);
+    }
+    console.log("todayState.toDateString : ", String(todayState));
   };
 
   const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -163,7 +188,6 @@ const ChangeManagerForm = () => {
 
     setCheckList({ ...checkList, seqNoArray: [] });
   };
-  console.log("================cntrtIdArray: ", checkList);
 
   const onClickCancel = () => {
     console.log(
@@ -213,112 +237,113 @@ const ChangeManagerForm = () => {
   return (
     <>
       <div style={{ margin: 30 }}>
-        <div style={{ border: "1px solid silver", width: "910px" }}>
-          <div style={{ margin: 10 }}>
-            <span style={{ marginRight: 96 }}>현 담당자</span>
-            <input
-              type="text"
-              value={preActorNm}
-              onChange={(e) => setPreActorNm(e.target.value)}
-              style={{ marginRight: 20 }}
-            ></input>
-            <Button
-              className="btn"
-              size="sm"
-              onClick={() => {
-                setOpenPreModal((openPreModal) => !openPreModal);
-                setIsCurrent(true);
-              }}
-            >
-              조회
-            </Button>
-            {openPreModal && (
-              <SearchManagerModal
-                onClickMember={onClickMember}
-                isOpen={openPreModal}
-                closeModal={() =>
-                  setOpenPreModal((openPreModal) => !openPreModal)
-                }
-                preActorNm={preActorNm}
-                aftActorNm={aftActorNm}
-                isCurrent={isCurrent}
-              />
-            )}
-            <span style={{ marginRight: 30, marginLeft: 80 }}>인수 담당자</span>
-            <input
-              type="text"
-              value={aftActorNm}
-              onChange={(e) => setAftActorNm(e.target.value)}
-              style={{ marginRight: 20 }}
-            ></input>
-            <Button
-              className="btn"
-              size="sm"
-              onClick={() => {
-                setOpenAftModal((openAftModal) => !openAftModal);
-                setIsCurrent(false);
-              }}
-            >
-              조회
-            </Button>
-            {openAftModal && (
-              <SearchManagerModal
-                onClickMember={onClickMember}
-                isOpen={openAftModal}
-                closeModal={() =>
-                  setOpenAftModal((openAftModal) => !openAftModal)
-                }
-                preActorNm={preActorNm}
-                aftActorNm={aftActorNm}
-                isCurrent={isCurrent}
-              />
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              margin: 10,
-              marginTop: 10,
-              alignContent: "center",
-            }}
-          >
-            <span style={{ width: "120px", marginRight: 56 }}>
-              변경 발효 일자
-            </span>
-            <DatePicker
-              style={{ display: "span" }}
-              flexedHeight
-              dateFormat="yyyy-MM-dd"
-              selected={date}
-              minDate={new Date()}
-              onChange={(date: Date) => onChangeValidDate(date)}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              margin: 10,
-              marginTop: 25,
-              marginBottom: 20,
-            }}
-          >
-            <Label for="reasonDesc" sm={2} style={{ width: 155 }}>
-              변경 사유
-            </Label>
-            <Col sm={5}>
-              <Input
-                id="reasonDesc"
-                name="textarea"
-                type="textarea"
-                style={{ width: 720 }}
-                value={mngChgInfo.reasonDesc}
-                onChange={(e) =>
-                  setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })
-                }
-              />
-            </Col>
-          </div>
-        </div>
+        <Table bordered>
+          <tbody style={{ textAlign: "left" }}>
+            <tr>
+              <th>현 담당자</th>
+              <td>
+                {" "}
+                <input
+                  type="text"
+                  value={preActorNm}
+                  onChange={(e) => setPreActorNm(e.target.value)}
+                  style={{ marginRight: 20 }}
+                ></input>
+                <Button
+                  className="btn"
+                  size="sm"
+                  onClick={() => {
+                    setOpenPreModal((openPreModal) => !openPreModal);
+                    setIsCurrent(true);
+                  }}
+                >
+                  조회
+                </Button>
+                {openPreModal && (
+                  <SearchManagerModal
+                    onClickMember={onClickMember}
+                    isOpen={openPreModal}
+                    closeModal={() =>
+                      setOpenPreModal((openPreModal) => !openPreModal)
+                    }
+                    preActorNm={preActorNm}
+                    aftActorNm={aftActorNm}
+                    isCurrent={isCurrent}
+                  />
+                )}
+              </td>
+              <th>인수 담당자</th>
+              <td>
+                <input
+                  type="text"
+                  value={aftActorNm}
+                  onChange={(e) => setAftActorNm(e.target.value)}
+                  style={{ marginRight: 20 }}
+                ></input>
+                <Button
+                  className="btn"
+                  size="sm"
+                  onClick={() => {
+                    setOpenAftModal((openAftModal) => !openAftModal);
+                    setIsCurrent(false);
+                  }}
+                >
+                  조회
+                </Button>
+                {openAftModal && (
+                  <SearchManagerModal
+                    onClickMember={onClickMember}
+                    isOpen={openAftModal}
+                    closeModal={() =>
+                      setOpenAftModal((openAftModal) => !openAftModal)
+                    }
+                    preActorNm={preActorNm}
+                    aftActorNm={aftActorNm}
+                    isCurrent={isCurrent}
+                  />
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>변경 발효 일자</th>
+              <td colSpan={3}>
+                {" "}
+                <Input
+                  id="validDate"
+                  name="validDate"
+                  type="date"
+                  selected={date}
+                  min={toStringByFormatting(new Date())}
+                  dateFormat="yyyy-MM-dd"
+                  style={{
+                    boxShadow: "none",
+                    height: 30,
+                    width: 185,
+                    borderRadius: 0,
+                  }}
+                  onChange={(e) => {
+                    onChangeValidDate(e.target.value.replaceAll("-", ""));
+                  }}
+                ></Input>
+              </td>
+            </tr>
+            <tr>
+              <th rowSpan={2}>변경 사유</th>
+              <td colSpan={3} rowSpan={2}>
+                <Input
+                  id="reasonDesc"
+                  name="textarea"
+                  type="textarea"
+                  style={{ width: 1000, borderRadius: 0 }}
+                  value={mngChgInfo.reasonDesc}
+                  onChange={(e) =>
+                    setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })
+                  }
+                />
+              </td>
+            </tr>
+          </tbody>
+        </Table>
 
         <div
           style={{

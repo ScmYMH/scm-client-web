@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import TariffCondHForm from "./TariffCondHForm";
 import TariffInfoForm from "./TariffInfoForm";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
-import { TariffInfoParam } from "modules/tariff/types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "modules";
+import { getCodeDefAsync } from "modules/tariff/actions";
 
 const TariffLoader = ({
   isOpen,
   closeModal,
-  tariffParams,
 }: {
   isOpen: boolean;
   closeModal: () => void;
-  tariffParams: TariffInfoParam;
 }) => {
   const [isSave, setIsSave] = useState(false);
 
@@ -26,12 +26,10 @@ const TariffLoader = ({
       <ModalBody>
         <TariffInfoForm
           isSaveTrue={() => setIsSave(true)}
-          tariffParams={tariffParams}
-        ></TariffInfoForm>
-        <TariffCondHForm
+          isSaveFalse={() => setIsSave(false)}
           isSave={isSave}
-          cntrtId={tariffParams.cntrtId}
-        ></TariffCondHForm>
+        ></TariffInfoForm>
+        <TariffCondHForm isSave={isSave}></TariffCondHForm>
       </ModalBody>
     </Modal>
   );

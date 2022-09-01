@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import {
   Button,
@@ -7,15 +7,9 @@ import {
   ModalBody,
   ModalHeader,
   Table,
-  Label,
-  InputGroup,
-  InputGroupText,
   Form,
-  Row,
-  Col,
   Container,
 } from "reactstrap";
-import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "modules";
 import {
@@ -26,6 +20,12 @@ import axios from "axios";
 import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
+import TariffLoader from "components/tariffInfo/TariffLoader";
+import {
+  resetTariffHeaderAsync,
+  saveTariffParamAsync,
+} from "modules/tariff/actions";
+import { TariffParam } from "modules/tariff/types";
 import styles from "./coa.module.css";
 
 interface ContractCoaRegisterModalProps {
@@ -42,9 +42,53 @@ const ContractCoaRegisterModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
+  
+  const {
+    data: tariffCondHListData,
+    loading: tariffCondHListLoading,
+    error: tariffCondHListError,
+  } = useSelector((state: RootState) => state.tariff.tariffCondHList);
+
+  console.log(tariffCondHListData);
 
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
+
+  const [openNewTariffModal, setNewOpenTariffModal] = useState(false);
+
+  const [tariffParams, setTariffParams] = useState<TariffParam>({
+    cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
+    trffId: 0, // 타리프 ID
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
+  });
+
+  const onClickTariffModal = () => {
+    setNewOpenTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(
+      saveTariffParamAsync.request({
+        ...tariffParams,
+        cntrtId: contractInfoParams.cntrtId, // 계약 ID
+        cntrtStatDate: contractInfoParams.cntrtStartDate,
+        cntrtEndDate: contractInfoParams.cntrtEndDate,
+        cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+      })
+    );
+    dispatch(
+      resetTariffHeaderAsync.request({
+        cntrtId: contractInfoParams.cntrtId,
+        trffId: 0,
+        trffNm: "",
+        trffDesc: "",
+        bizTcd: "",
+        arApCcd: "",
+        svcTcd: "",
+        detlSvcTcd: "",
+      })
+    );
+  };
 
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
@@ -103,6 +147,7 @@ const ContractCoaRegisterModal = ({
       closeModal();
     }
   };
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -555,9 +600,20 @@ const ContractCoaRegisterModal = ({
                 className="btn"
                 size="sm"
                 style={{ margin: 0, padding: 0, width: 50 }}
+                onClick={onClickTariffModal}
               >
                 추가
               </Button>
+              {openNewTariffModal && (
+                <TariffLoader
+                  isOpen={openNewTariffModal}
+                  closeModal={() =>
+                    setNewOpenTariffModal(
+                      (openNewTariffModal) => !openNewTariffModal
+                    )
+                  }
+                />
+              )}
             </div>
           </Container>
         </ModalBody>

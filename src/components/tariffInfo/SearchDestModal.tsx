@@ -9,13 +9,15 @@ const SearchManager = ({
   isOpen,
   closeModal,
   onClickNode,
-  nodeNm,
+  departNodeNm,
+  arrivalNodeNm,
   whatNode,
 }: {
   isOpen: boolean;
   closeModal: () => void;
   onClickNode: (nodeCd: string, nodeDesc: string) => void;
-  nodeNm: any;
+  departNodeNm: string;
+  arrivalNodeNm: string;
   whatNode: string;
 }) => {
   return (
@@ -25,7 +27,8 @@ const SearchManager = ({
         <SearchManagerBody
           closeModal={closeModal}
           onClickNode={onClickNode}
-          nodeNm={nodeNm}
+          departNodeNm={departNodeNm}
+          arrivalNodeNm={arrivalNodeNm}
           whatNode={whatNode}
         />
       </ModalBody>
@@ -36,12 +39,14 @@ const SearchManager = ({
 const SearchManagerBody = ({
   closeModal,
   onClickNode,
-  nodeNm,
+  departNodeNm,
+  arrivalNodeNm,
   whatNode,
 }: {
   closeModal: () => void;
   onClickNode: (nodeCd: string, nodeDesc: string) => void;
-  nodeNm: any;
+  departNodeNm: string;
+  arrivalNodeNm: string;
   whatNode: string;
 }) => {
   const dispatch = useDispatch();
@@ -83,9 +88,17 @@ const SearchManagerBody = ({
 
   useEffect(() => {
     dispatch(getDestInfoAsync.request());
+    if (whatNode === "departCond") {
+      // 출발지 cond 선택하는 경우
+      setNodeInfo({ ...nodeInfo, nodeDesc: departNodeNm });
+    } else if (whatNode === "arrivalCond") {
+      // 도착지 cond 선택하는 경우
+      setNodeInfo({ ...nodeInfo, nodeDesc: arrivalNodeNm });
+    }
   }, []);
   useEffect(() => {
     setDestInfoState(destInfoListData);
+    onSubmitNodeInfo();
   }, [destInfoListData]);
 
   return (
@@ -103,6 +116,7 @@ const SearchManagerBody = ({
           name="nodeDesc"
           type="text"
           style={{ width: "170px", marginRight: "20Px" }}
+          value={nodeInfo.nodeDesc}
           onChange={(e) =>
             setNodeInfo({ ...nodeInfo, nodeDesc: e.target.value })
           }

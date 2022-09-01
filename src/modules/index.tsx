@@ -22,6 +22,8 @@ import { calculateSaga } from "./calculate/saga";
 import {calculateInfo, vslCdInfo, calculateDetailInfo} from "./calculate/reducer";
 import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
 import { contractChangeInfo } from "./contractChangeCoa/reducer";
+import excelImportDataInfo from "./importExcel/reducer";
+import { excelImportSaga } from "./importExcel/saga";
 
 const rootReducer = combineReducers({
   contractInfo,
@@ -37,7 +39,8 @@ const rootReducer = combineReducers({
   calculateInfo,
   contractChangeInfo,
   vslCdInfo,
-  calculateDetailInfo
+  calculateDetailInfo,
+  excelImportDataInfo,
 });
 
 // 루트 리듀서 내보내기
@@ -57,6 +60,7 @@ export function* rootSaga() {
     userMemberSaga(),
     tariffSaga(),
     calculateSaga(),
-    contractChangeInfoSaga()
+    contractChangeInfoSaga(),
+    excelImportSaga(),
   ]);
 }

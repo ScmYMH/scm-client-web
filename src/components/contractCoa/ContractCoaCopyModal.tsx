@@ -27,7 +27,6 @@ import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import TariffLoader from "components/tariffInfo/TariffLoader";
-import { TariffInfoParam } from "modules/tariff/types";
 import styles from "./coa.module.css";
 
 interface ContractCoaCopyModalProps {
@@ -50,7 +49,7 @@ const ContractCoaCopyModal = ({
   const [addMember, setAddMember] = useState<any>([]);
   const [openTariffModal, setOpenTariffModal] = useState(false);
 
-  const [tariffParams, setTariffParams] = useState<TariffInfoParam>({
+  const [tariffParams, setTariffParams] = useState({
     cntrtId: "", // 계약 ID
     trffNm: "", // 타리프 NM
     trffDesc: "", // 타리프 설명
@@ -591,7 +590,6 @@ const ContractCoaCopyModal = ({
                               (openTariffModal) => !openTariffModal
                             )
                           }
-                          tariffParams={tariffParams}
                         />
                       )}
                     </tr>

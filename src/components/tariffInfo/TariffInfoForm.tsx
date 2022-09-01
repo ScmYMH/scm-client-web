@@ -1,105 +1,80 @@
 import { RootState } from "modules";
-import { postTariffInfoAsync } from "modules/tariff/actions";
-import { TariffInfoParam } from "modules/tariff/types";
+import {
+  getCodeDefAsync,
+  getTariffHeaderAsync,
+  postTariffHeaderAsync,
+} from "modules/tariff/actions";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, Modal, Table } from "reactstrap";
+import { Button, Input, Table } from "reactstrap";
 
 const TariffInfoForm = ({
+  isSave,
   isSaveTrue,
-  tariffParams,
+  isSaveFalse,
 }: {
+  isSave: boolean;
   isSaveTrue: () => void;
-  tariffParams: TariffInfoParam;
+  isSaveFalse: () => void;
 }) => {
   const dispatch = useDispatch();
+  const { data: codeDefList } = useSelector(
+    (state: RootState) => state.tariff.codeDefList
+  );
+  const {
+    data: tariffHeaderData,
+    loading: tariffHeaderLoading,
+    error: tariffHeaderError,
+  } = useSelector((state: RootState) => state.tariff.tariffHeader);
 
   const {
-    data: tariffInfoData,
-    loading: tariffInfoLoading,
-    error: tariffInfoError,
-  } = useSelector((state: RootState) => state.tariff.tariffInfo);
+    data: tariffParamData,
+    loading: tariffParamLoading,
+    error: tariffParamError,
+  } = useSelector((state: RootState) => state.tariff.tariffParam);
 
-  const [params, setParams] = useState<TariffInfoParam>({
-    cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
-  });
-
-  const bizTcdLov = [
-    { value: "", text: "" },
-    { value: "EX", text: "수출" },
-    { value: "LD", text: "역내판매운송" },
-  ];
-
-  const arApCcdLov = [
-    { value: "", text: "" },
-    { value: "AR", text: "매출" },
-    { value: "AP", text: "매입" },
-  ];
-
-  const svcTcdLov = [
-    { value: "", text: "" },
-    { value: "ROAD", text: "공로운송" },
-    { value: "VSL", text: "해상운송" },
-  ];
-
-  const detlSvcTcdLov = [
-    { value: "", text: "" },
-    { value: "ICV", text: "ICV-국제해송(COA)" },
-    { value: "NTR", text: "NTR-일반공로운송(주문기준)" },
-  ];
+  const [params, setParams] = useState<any>(tariffHeaderData);
 
   const onClickHeaderSave = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    if (params.bizTcd === "") {
-      alert("사업지역을 선택해주세요");
-    } else if (params.arApCcd === "") {
-      alert("매입/매출을 선택해주세요");
-    } else if (params.trffDesc === "") {
-      alert("타리프 설명을 기입해주세요");
-    } else if (params.svcTcd === "") {
-      alert("서비스유형을 선택해주세요");
-    } else if (params.detlSvcTcd === "") {
-      alert("상세 서비스유형을 선택해주세요");
+    if (isSave) {
+      alert("이미 저장되어 있는 타리프 헤더정보입니다.");
     } else {
-      const data = {
-        ...params,
-        trffNm:
-          "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
-      };
-      setParams(data);
-      dispatch(postTariffInfoAsync.request(data));
-      isSaveTrue();
+      if (params.bizTcd === "") {
+        alert("사업지역을 선택해주세요");
+      } else if (params.arApCcd === "") {
+        alert("매입/매출을 선택해주세요");
+      } else if (params.trffDesc === "") {
+        alert("타리프 설명을 기입해주세요");
+      } else if (params.svcTcd === "") {
+        alert("서비스유형을 선택해주세요");
+      } else if (params.detlSvcTcd === "") {
+        alert("상세 서비스유형을 선택해주세요");
+      } else {
+        const data = {
+          ...params,
+          trffNm:
+            "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
+        };
+        setParams(data);
+        dispatch(postTariffHeaderAsync.request(data));
+        isSaveTrue();
+      }
     }
   };
 
   useEffect(() => {
-    if (tariffParams !== null) {
-      if (tariffParams.bizTcd === "수출") {
-        tariffParams.bizTcd = "EX";
-      } else if (tariffParams.bizTcd === "역내판매운송") {
-        tariffParams.bizTcd = "LD";
-      }
-      if (tariffParams.svcTcd === "공로운송") {
-        tariffParams.svcTcd = "ROAD";
-      } else if (tariffParams.svcTcd === "해상운송") {
-        tariffParams.svcTcd = "VSL";
-      }
-      if (tariffParams.detlSvcTcd === "ICV-국제해송(COA)") {
-        tariffParams.detlSvcTcd = "ICV";
-      } else if (tariffParams.detlSvcTcd === "NTR-일반공로운송(주문기준)") {
-        tariffParams.detlSvcTcd = "NTR";
-      }
-      setParams(tariffParams);
+    dispatch(getCodeDefAsync.request(""));
+    setParams(tariffHeaderData);
+    if (tariffParamData?.trffId !== 0) {
       isSaveTrue();
     }
   }, []);
+
+  useEffect(() => {
+    setParams(tariffHeaderData);
+  }, [tariffHeaderData]);
 
   return (
     <>
@@ -125,29 +100,35 @@ const TariffInfoForm = ({
         </div>
         <Table bordered>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingLeft: 10 }}>
               타리프 ID
             </th>
-            <td colSpan={2}>{params.trffNm}</td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <td colSpan={2} style={{ height: 50, paddingLeft: 7 }}>
+              {params?.trffNm}
+            </td>
+            <th colSpan={1} style={{ paddingRight: 10 }}>
               사업유형
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="bizTcd"
                 name="bizTcd"
                 style={{ width: 230 }}
-                value={params.bizTcd}
-                key={params.bizTcd}
+                value={params?.bizTcd}
+                key={params?.bizTcd}
               >
-                {bizTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "BIZ_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
             <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
@@ -155,55 +136,66 @@ const TariffInfoForm = ({
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="arApCcd"
                 name="arApCcd"
                 style={{ width: 230 }}
-                value={params.arApCcd}
+                value={params?.arApCcd}
               >
-                {arApCcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "AR_AP_CCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
           </tr>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingLeft: 10 }}>
               타리프설명
             </th>
             <td colSpan={2}>
-              <Input
-                type="text"
-                value={params.trffDesc}
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
-                id="trffDesc"
-                style={{ boxShadow: "none" }}
-              ></Input>
+              <div style={{ padding: 3, paddingLeft: 0, width: 350 }}>
+                <Input
+                  type="text"
+                  value={params?.trffDesc}
+                  onChange={(e) => {
+                    setParams({ ...params, [e.target.id]: e.target.value });
+                    isSaveFalse();
+                  }}
+                  id="trffDesc"
+                  style={{ boxShadow: "none" }}
+                ></Input>
+              </div>
             </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <th colSpan={1} style={{ paddingRight: 10 }}>
               서비스유형
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
-                  setParams({ ...params, [e.target.id]: e.target.value })
-                }
+                onChange={(e) => {
+                  setParams({ ...params, [e.target.id]: e.target.value });
+                  isSaveFalse();
+                }}
                 id="svcTcd"
                 name="svcTcd"
                 style={{ width: 230 }}
-                value={params.svcTcd}
+                value={params?.svcTcd}
               >
-                {svcTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "SVC_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
             <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
@@ -211,22 +203,26 @@ const TariffInfoForm = ({
             </th>
             <td colSpan={2}>
               <select
-                onChange={(e) =>
+                onChange={(e) => {
                   setParams({
                     ...params,
                     [e.target.id]: e.target.value.slice(0, 3),
-                  })
-                }
+                  });
+                  isSaveFalse();
+                }}
                 id="detlSvcTcd"
                 name="detlSvcTcd"
                 style={{ width: 230 }}
-                value={params.detlSvcTcd}
+                value={params?.detlSvcTcd}
               >
-                {detlSvcTcdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
+                <option key={""} value={""}></option>
+                {codeDefList
+                  ?.filter((data) => data.cd_tp === "DETL_SVC_TCD")
+                  .map((option) => (
+                    <option key={option.cd_v} value={option.cd_v}>
+                      {option.cd_v + "-" + option.cd_v_meaning}
+                    </option>
+                  ))}
               </select>
             </td>
           </tr>
