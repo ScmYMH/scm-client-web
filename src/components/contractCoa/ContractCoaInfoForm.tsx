@@ -149,7 +149,7 @@ const ContractCoaInfoForm = ({
       }
     }
   };
-  
+
   return (
     <>
       <div
@@ -290,7 +290,7 @@ const ContractCoaInfoForm = ({
           <Table bordered>
             <tbody>
               <tr>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -298,11 +298,11 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   물류법인
-                </td>
+                </th>
                 <td>
                   <span>POSCO ICT</span>
                 </td>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -310,7 +310,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   계약일자
-                </td>
+                </th>
                 <td>
                   <div>
                     <Input
@@ -334,7 +334,7 @@ const ContractCoaInfoForm = ({
                     />
                   </div>
                 </td>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -342,7 +342,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   계약상태
-                </td>
+                </th>
                 <td colSpan={3}>
                   <div>
                     <Input
@@ -367,7 +367,7 @@ const ContractCoaInfoForm = ({
                 </td>
               </tr>
               <tr>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -375,7 +375,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   계약ID
-                </td>
+                </th>
                 <td>
                   <div>
                     <Input
@@ -389,7 +389,7 @@ const ContractCoaInfoForm = ({
                     ></Input>
                   </div>
                 </td>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -397,7 +397,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   계약명
-                </td>
+                </th>
                 <td>
                   <div>
                     <Input
@@ -411,7 +411,7 @@ const ContractCoaInfoForm = ({
                     ></Input>
                   </div>
                 </td>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -419,7 +419,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   서비스유형
-                </td>
+                </th>
                 <td>
                   <div>
                     <Input
@@ -445,7 +445,7 @@ const ContractCoaInfoForm = ({
                     </Input>
                   </div>
                 </td>
-                <td
+                <th
                   style={{
                     textAlign: "center",
                     backgroundColor: "#ced6e0",
@@ -453,7 +453,7 @@ const ContractCoaInfoForm = ({
                   }}
                 >
                   상세 서비스유형
-                </td>
+                </th>
                 <td>
                   <div>
                     <Input

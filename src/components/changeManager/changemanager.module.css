@@ -1,0 +1,8 @@
+.chgmng_table tr td select {
+  text-align: "center";
+  box-shadow: none;
+  border-radius: 0;
+}
+.chgmng_table tr th {
+  text-align: "center";
+}

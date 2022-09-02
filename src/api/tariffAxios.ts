@@ -15,14 +15,14 @@ export async function getTariffHeaderAxios(params: any) {
     params.trffId
   );
   const response = await axios.get<TariffHeader>(
-    `http://3.37.155.50:8000/tariff/header/${params.cntrtId}/${params.trffId}`
+    `http://localhost:9092/tariff/header/${params.cntrtId}/${params.trffId}`
   );
   return response.data;
 }
 
 export async function postTariffHeaderAxios(params: any) {
   const response = await axios.post<TariffHeader>(
-    `http://3.37.155.50:8000/tariff/header`,
+    `http://localhost:9092/tariff/header`,
     params
   );
   return response.data;
@@ -36,7 +36,7 @@ export async function getTariffCondHAxios(params: any) {
     params.trffId
   );
   const response = await axios.get<Array<TariffCondH>>(
-    `http://3.37.155.50:8000/tariff/${params.cntrtId}/${params.trffId}`
+    `http://localhost:9092/tariff/${params.cntrtId}/${params.trffId}`
   );
   return response.data;
 }
@@ -44,7 +44,7 @@ export async function getTariffCondHAxios(params: any) {
 export async function postTariffCondHAxios(params: any) {
   console.log("posttariffCondHAxios params : ", params);
   const response = await axios.post<any>(
-    `http://3.37.155.50:8000/tariff`,
+    `http://localhost:9092/tariff`,
     params
   );
   return response.data;
@@ -52,28 +52,28 @@ export async function postTariffCondHAxios(params: any) {
 
 export async function delTariffCondHAxios(seqNoParam: string) {
   const response = await axios.delete<Array<TariffCondH>>(
-    `http://3.37.155.50:8000/tariff/${seqNoParam}`
+    `http://localhost:9092/tariff/${seqNoParam}`
   );
   return response.data;
 }
 
 export async function getDestInfoAxios() {
   const response = await axios.get<DestInfoParam>(
-    `http://3.37.155.50:8000/tariff/searchNode`
+    `http://localhost:9092/tariff/searchNode`
   );
   return response.data;
 }
 
 export async function getLccInfoAxios(params: any) {
   const response = await axios.get<LccInfoParam>(
-    `http://3.37.155.50:8000/tariff/searchLcc?lccCd=${params.lccCd}&subLccCd=${params.subLccCd}&lccCdNm=${params.lccCdNm}`
+    `http://localhost:9092/tariff/searchLcc?lccCd=${params.lccCd}&subLccCd=${params.subLccCd}&lccCdNm=${params.lccCdNm}`
   );
   return response.data;
 }
 
 export async function getCodeDefAxios(params: any) {
   const response = await axios.get<Array<CodeDefinition>>(
-    `http://3.37.155.50:8000/coa/code`
+    `http://localhost:9092/coa/code`
   );
   return response.data;
 }
