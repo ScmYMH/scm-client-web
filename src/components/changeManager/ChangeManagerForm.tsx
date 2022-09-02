@@ -336,7 +336,7 @@ const ChangeManagerForm = () => {
                   style={{
                     boxShadow: "none",
                     height: 30,
-                    width: 185,
+                    width: 178,
                     borderRadius: 0,
                   }}
                   onChange={(e) => {
@@ -361,7 +361,7 @@ const ChangeManagerForm = () => {
                   id="reasonDesc"
                   name="textarea"
                   type="textarea"
-                  style={{ width: 980, borderRadius: 0 }}
+                  style={{ width: 1000, borderRadius: 0 }}
                   value={mngChgInfo.reasonDesc}
                   onChange={(e) =>
                     setMngChgInfo({

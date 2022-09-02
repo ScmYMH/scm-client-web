@@ -73,7 +73,7 @@ export async function getLccInfoAxios(params: any) {
 
 export async function getCodeDefAxios(params: any) {
   const response = await axios.get<Array<CodeDefinition>>(
-    `http://localhost:9092/coa/code`
+    `http://localhost:9999/coa/code`
   );
   return response.data;
 }

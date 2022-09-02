@@ -599,7 +599,9 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
       <div style={{ marginLeft: 20, marginRight: 20 }}>
         <Row style={{ marginTop: 30 }}>
           <Col>
-            <h4 style={{ marginTop: 10 }}>타리프 정보</h4>
+            <h4 style={{ marginTop: 10, fontWeight: "bold", color: "#003366" }}>
+              ◎ 타리프 정보
+            </h4>
           </Col>
           <Col>
             <Row>
@@ -722,7 +724,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
               유효기간
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   id="validDateCond"
                   name="validDateCond"
@@ -758,7 +760,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
               출발지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   type="text"
                   value={tariffCondParam.departNodeNm}
@@ -812,7 +814,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
               물류비계정
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   onChange={(e) =>
                     setTariffCondParam({
@@ -846,7 +848,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
               도착지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   type="text"
                   value={tariffCondParam.arrivalNodeNm}

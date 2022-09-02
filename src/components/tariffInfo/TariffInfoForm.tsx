@@ -82,14 +82,16 @@ const TariffInfoForm = ({
       <div style={{ marginLeft: 20, marginRight: 20 }}>
         <div
           style={{
-            margin: "10px",
             marginTop: "10px",
+            marginBottom: "10px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <h4>타리프 헤더정보</h4>
+          <h4 style={{ fontWeight: "bold", color: "#003366" }}>
+            ◎ 타리프 헤더정보
+          </h4>
           <Button
             size="sm"
             onClick={(e) => {
