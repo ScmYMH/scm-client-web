@@ -73,14 +73,14 @@ const CalculateDetailModal = ({
   }
   
   function clearAmtTotalSum(){
-    console.log(calculateDetailCodeData);
     let ans = 0;
     calculateDetailCodeData?.map((data, index) => {
       ans+=parseInt(data['clear_amt']);
     })
-    console.log(ans)
+    console.log("clearAmtTotalSum", ans)
     return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
+  
   function clearLocalSuppAmtTotalSum(){
     console.log(calculateDetailCodeData);
     let ans = 0;
@@ -108,7 +108,7 @@ const CalculateDetailModal = ({
                 </td>
                 <td>총선적량</td>
                 <td>
-                  <Input type="text" disabled value={detailParamas.data?.clear_qty}></Input>
+                  <Input type="text" disabled value={detailParamas.data?.clear_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}></Input>
                 </td>
               </tr>
               <tr>
@@ -138,11 +138,11 @@ const CalculateDetailModal = ({
               <tr>
                 <td>해송운임</td>
                 <td>
-                  <Input type="text" disabled value={detailParamas.data?.clear_amt}></Input>
+                  <Input type="text" disabled value={clearAmtTotalSum()}></Input>
                 </td>
                 <td>총 운임</td>
                 <td>
-                  <Input type="text" disabled value={detailParamas.data?.clear_amt}></Input>
+                  <Input type="text" disabled value={clearAmtTotalSum()}></Input>
                 </td>
               </tr>
             </table>
@@ -165,6 +165,13 @@ const CalculateDetailModal = ({
                 담당자확정
               </Button>
             </div>
+            <div
+            style={{
+              maxHeight: "500px",
+              overflowY: "auto",
+              
+            }}
+            >
             <Table bordered>
               <tbody style={{ textAlign: "center" }}>
                 <tr className="table-secondary">
@@ -218,6 +225,7 @@ const CalculateDetailModal = ({
                 </tr>
               </tfoot>
             </Table>
+            </div>
           </Container>
         </ModalBody>
       </Modal>

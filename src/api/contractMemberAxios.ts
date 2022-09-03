@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getContractMemberList(params: any) {
 	const response = await axios.get<ContractMemberInfo>(
-		`http://localhost:9091/contract/manager/search?loginId=${params.loginId}&userNm=${params.userNm}&delYn=${params.delYn}`,
+		`http://3.37.155.50:8000/contract/manager/search?loginId=${params.loginId}&userNm=${params.userNm}&delYn=${params.delYn}`,
 	);
 
 	return response.data;
@@ -18,7 +18,7 @@ export async function postContractMemberList(params: any[]) {
 	}`;
 
 	const response = await axios.post<Array<ContractMemberInfo>>(
-		`http://localhost:9091/contract/manager/`,
+		`http://3.37.155.50:8000/contract/manager/`,
 		JSON.parse(paramsData),
 	);
 	return response.data;

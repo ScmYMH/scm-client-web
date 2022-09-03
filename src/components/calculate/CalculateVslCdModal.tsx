@@ -120,7 +120,7 @@ const CalculateVslCdModal = ({
           <Container>
             <div
             style={{
-              maxHeight: "600px",
+              maxHeight: "500px",
               overflowY: "auto",
               
             }}

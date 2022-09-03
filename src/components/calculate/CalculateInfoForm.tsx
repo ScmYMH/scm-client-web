@@ -177,7 +177,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
           ></AccountConnModal>
         )}
         <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          정산 집계
+          운임 정산
         </Button>
       </div>
       <div>
@@ -453,7 +453,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
               <th>지시번호</th>
               <th>선박코드</th>
               <th>선박명</th>
-              <th>coa여부</th>
               <th>확정여부</th>
               <th>회계연결여부</th>
               <th>통화</th>
@@ -485,18 +484,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.trans_order_no}</td>
                 <td>{data.vsl_cd}</td>
                 <td>{data.vsl_nm}</td>
-                <td>
-                  <Input 
-                    id="coaChkId"
-                    name="coaChkId"
-                    type="checkbox"
-                    onChange={(e) => {
-                        checkCoaOnlyOne(e.target);
-                      }}
-                    // onClick={checkCoaOnlyOne}
-                    >
-                  </Input>
-                </td>
                 <td>{data.close_no_yn}</td>
                 <td>{data.acctg_yn}</td>
                 <td>{data.clear_curr}</td>
