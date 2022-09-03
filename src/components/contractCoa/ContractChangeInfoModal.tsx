@@ -6,13 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal, ModalBody, ModalHeader, Table } from "reactstrap";
 import { useEffect } from "react";
 
+interface ContractChangeInfoModalProps {
+  isOpen: boolean;
+  closeModal: any;
+  updParams: any;
+}
+
 const ContractChangeInfoModal = ({
   isOpen,
   closeModal,
-}: {
-  isOpen: boolean;
-  closeModal: any;
-}) => {
+  updParams,
+}: ContractChangeInfoModalProps) => {
   const dispatch = useDispatch();
 
   const { data: contractChangeData } = useSelector(
@@ -20,8 +24,10 @@ const ContractChangeInfoModal = ({
   );
 
   useEffect(() => {
-    dispatch(contractChangeInfoAsync.request(""));
+    dispatch(contractChangeInfoAsync.request(updParams.data.cntrt_id));
   }, []);
+
+  console.log("cntrtId >> ", updParams.data.cntrt_id);
 
   return (
     <>

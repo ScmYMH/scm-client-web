@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getContractChangeInfoListApi(params: any) {
   const response = await axios.get<ContractChangeInfo>(
-    `http://3.37.155.50:8000/coa/change/info`
+    `http://3.37.155.50:8000/coa/change/info/${params}`
   );
   console.log(response.data);
 

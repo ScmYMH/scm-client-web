@@ -56,7 +56,7 @@ const ContractCoaInfoForm = ({
       user_nm: "",
     },
   });
-  
+
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
 
@@ -150,7 +150,7 @@ const ContractCoaInfoForm = ({
       }
     }
   };
-  
+
   return (
     <>
       <div
@@ -276,6 +276,7 @@ const ContractCoaInfoForm = ({
                   (contractChangeInfoModal) => !contractChangeInfoModal
                 )
               }
+              updParams={updParams}
             />
           )}
           <Form
