@@ -42,7 +42,7 @@ const ContractCoaRegisterModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
-  
+
   const {
     data: tariffCondHListData,
     loading: tariffCondHListLoading,
@@ -54,7 +54,7 @@ const ContractCoaRegisterModal = ({
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
 
-  const [openNewTariffModal, setNewOpenTariffModal] = useState(false);
+  const [openNewTariffModal, setOpenNewTariffModal] = useState(false);
 
   const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
@@ -65,7 +65,7 @@ const ContractCoaRegisterModal = ({
   });
 
   const onClickTariffModal = () => {
-    setNewOpenTariffModal((openTariffModal) => !openTariffModal);
+    setOpenNewTariffModal((openTariffModal) => !openTariffModal);
     console.log("tariffParams : ", tariffParams);
     dispatch(
       saveTariffParamAsync.request({
@@ -189,13 +189,13 @@ const ContractCoaRegisterModal = ({
                           borderRadius: 0,
                         }}
                       >
-                      {baseCodeData.data?.filter((data) => data.cd_tp === "CORP_ID" )
-                        .map((option) => (
-                          <option key={option.cd_v} value={option.cd_v} >
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
-                        
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CORP_ID")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -226,12 +226,13 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.filter((data) => data.cd_tp === "CNTRT_TYP_GCD")
-                        .map((option) => (
-                          <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TYP_GCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -292,12 +293,13 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.filter((data) => data.cd_tp === "CNTRT_TCD")
-                        .map((option) => (
-                          <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -497,12 +499,13 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.filter((data) => data.cd_tp === "CURR_CD")
-                        .map((option) => (
-                          <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v} [{option.cd_v_meaning}]
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CURR_CD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v} [{option.cd_v_meaning}]
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -608,7 +611,7 @@ const ContractCoaRegisterModal = ({
                 <TariffLoader
                   isOpen={openNewTariffModal}
                   closeModal={() =>
-                    setNewOpenTariffModal(
+                    setOpenNewTariffModal(
                       (openNewTariffModal) => !openNewTariffModal
                     )
                   }

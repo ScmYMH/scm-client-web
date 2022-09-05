@@ -29,6 +29,11 @@ import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import TariffLoader from "components/tariffInfo/TariffLoader";
 import styles from "./coa.module.css";
+import {
+  getTariffHeaderAsync,
+  saveTariffParamAsync,
+} from "modules/tariff/actions";
+import { TariffParam } from "modules/tariff/types";
 
 interface ContractCoaUpdateModalProps {
   closeModal: any;
@@ -48,7 +53,6 @@ const ContractCoaUpdateModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
-  const [openTariffModal, setOpenTariffModal] = useState(false);
 
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
@@ -80,6 +84,28 @@ const ContractCoaUpdateModal = ({
     cntrtTypGcd: "1090",
     cntrtEditComment: "",
   });
+
+  const [openTariffModal, setOpenTariffModal] = useState(false);
+
+  const [tariffParams, setTariffParams] = useState<TariffParam>({
+    cntrtId: "", // 계약 ID
+    trffId: 0, // 타리프 ID
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
+  });
+
+  const onClickTariffModal = () => {
+    setOpenTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(saveTariffParamAsync.request(tariffParams));
+    dispatch(
+      getTariffHeaderAsync.request({
+        cntrtId: tariffParams.cntrtId,
+        trffId: tariffParams.trffId,
+      })
+    );
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -120,16 +146,6 @@ const ContractCoaUpdateModal = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
-
-  const [tariffParams, setTariffParams] = useState({
-    cntrtId: "", // 계약 ID
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
-  });
 
   return (
     <>
@@ -398,10 +414,7 @@ const ContractCoaUpdateModal = ({
                     <div style={{ display: "inline-block" }}>
                       <div>
                         <Input
-                          fixedHeight
-                          dateFormat="yyyy-MM-dd"
                           selected={startDate}
-                          selectsStart
                           type="date"
                           id="cntrtStartDate"
                           name="cntrtStartDate"
@@ -430,8 +443,6 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                           display: "span",
                         }}
-                        fixedHeight
-                        dateFormat="yyyy-MM-dd"
                         id="cntrtEndDate"
                         name="cntrtEndDate"
                         defaultValue={toStringByFormatting(
@@ -444,7 +455,6 @@ const ContractCoaUpdateModal = ({
                           })
                         }
                         selected={endDate}
-                        minDate={new Date()}
                       />
                     </div>
                   </td>
@@ -563,20 +573,14 @@ const ContractCoaUpdateModal = ({
                       onMouseDown={(e) => {
                         setTariffParams({
                           ...tariffParams,
-                          cntrtId: data.cntrtId, // 계약 ID
-                          trffNm: data.trff_nm, // 타리프 NM
-                          trffDesc: data.trff_desc, // 타리프 설명
-                          bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
-                          arApCcd: "AP", // 매출매입구분코드
-                          svcTcd: data.svc_nm, // 서비스유형코드
-                          detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                          cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                          trffId: data.trff_id, // 타리프 ID
+                          cntrtStatDate: contractInfoParams.cntrtStartDate,
+                          cntrtEndDate: contractInfoParams.cntrtEndDate,
+                          cntrtCurrCd: contractInfoParams.cntrtCurrCd,
                         });
                       }}
-                      onClick={() => {
-                        setOpenTariffModal(
-                          (openTariffModal) => !openTariffModal
-                        );
-                      }}
+                      onClick={onClickTariffModal}
                     >
                       <th scope="row">
                         <Input type="checkbox" />

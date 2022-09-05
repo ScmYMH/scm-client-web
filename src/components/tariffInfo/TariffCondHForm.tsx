@@ -17,6 +17,7 @@ import {
 } from "modules/tariff/actions";
 import TariffExcelModal from "./TariffExcelModal";
 import styles from "./tariff.module.css";
+import tariff from "modules/tariff/reducer";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
@@ -458,6 +459,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
           })
       );
       onClickSearch();
+      setTariffCheckBox([]);
     }
   };
 
@@ -509,13 +511,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     }
   };
 
-  const onClickCondEnroll = () => {
-    console.log("조건등록 버튼 클릭");
-    if (!isSave) {
-      alert("타리프 헤더정보가 없습니다");
-    }
-  };
-
   const onClickSave = () => {
     console.log("저장 버튼 클릭");
     if (!isSave) {
@@ -528,6 +523,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
         })
       );
       setIsAdd([]);
+      setTariffCheckBox([]);
     }
   };
 
@@ -538,6 +534,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     } else {
       console.log("타리프 정보 삭제할 seqNo array : ", tariffCheckBox);
       dispatch(deleteTariffCondHAsync.request(tariffCheckBox));
+      setTariffCheckBox([]);
     }
   };
 
@@ -657,14 +654,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   alignItems: "center",
                 }}
               >
-                <Button
-                  size="sm"
-                  style={{ marginLeft: 10 }}
-                  onClick={onClickCondEnroll}
-                  outline
-                >
-                  조건등록
-                </Button>
                 <Button
                   size="sm"
                   style={{ marginLeft: 10 }}
@@ -979,6 +968,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         type="checkbox"
                         onChange={(e) =>
                           onChangeTariffCheckBox(e, trffInfo.seqNo)
+                        }
+                        checked={
+                          tariffCheckBox.find(
+                            (seqNo) => seqNo == trffInfo.seqNo
+                          )
+                            ? true
+                            : false
                         }
                       />
                     </th>

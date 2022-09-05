@@ -87,6 +87,14 @@ const ContractCoaInfoForm = ({
     { value: "수출해송", text: "수출해송" },
   ];
 
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +
+      (date.getMonth() + 1).toString().padStart(2, "0") +
+      date.getDate().toString().padStart(2, "0")
+    );
+  };
+
   const [openTariffModal, setOpenTariffModal] = useState(false);
 
   const [tariffParams, setTariffParams] = useState<TariffParam>({
@@ -96,14 +104,6 @@ const ContractCoaInfoForm = ({
     cntrtEndDate: "", // 유효기간
     cntrtCurrCd: "", // 계약 통화 코드
   });
-
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
 
   const onClickTariffModal = () => {
     setOpenTariffModal((openTariffModal) => !openTariffModal);
@@ -320,8 +320,6 @@ const ContractCoaInfoForm = ({
                         boxShadow: "none",
                         borderRadius: 0,
                       }}
-                      flexedHeight
-                      dateFormat="MM/dd/yyyy"
                       selected={date}
                       id="insDate"
                       name="insDate"
