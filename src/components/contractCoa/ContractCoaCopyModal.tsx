@@ -62,7 +62,8 @@ const ContractCoaCopyModal = ({
     });
     console.log(contractInfoParams);
   };
-
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
   const baseCodeData = useSelector(
     (state: RootState) => state.baseCode.baseCode
   );
@@ -74,9 +75,9 @@ const ContractCoaCopyModal = ({
     cntrtStartDate: updParams.data?.cntrt_start_date,
     cntrtEndDate: updParams.data?.cntrt_end_date,
     cntrtTcd: "109031",
-    crePersonId: "", // 담당자 명
-    insPersonId: "mh.kim",
-    updPersonId: "202207130004",
+    crePersonId: nowUserId, // 담당자 명
+    insPersonId: nowUserId,
+    updPersonId: nowUserId,
     cntrtTypGcd: "1090",
   });
 
@@ -148,9 +149,8 @@ const ContractCoaCopyModal = ({
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // dispatch(insertContractCodeAsync.request(contractInfoParams));
+    dispatch(insertContractCodeAsync.request(contractInfoParams));
     alert("등록이 완료되었습니다.");
-    closeModal();
   };
 
   function leftPad(value) {

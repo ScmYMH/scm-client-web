@@ -119,7 +119,6 @@ const ContractCoaUpdateModal = ({
     } else {
       dispatch(updateContractCodeAsync.request(contractInfoParams));
       alert("수정이 완료되었습니다.");
-      closeModal();
     }
   };
   function leftPad(value) {

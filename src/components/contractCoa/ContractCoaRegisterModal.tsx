@@ -151,7 +151,6 @@ const ContractCoaRegisterModal = ({
     } else {
       dispatch(insertContractCodeAsync.request(contractInfoParams));
       alert("등록이 완료되었습니다.");
-      closeModal();
     }
   };
   console.log("tariffDatatariffData", tariffData);
