@@ -28,6 +28,12 @@ import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import TariffLoader from "components/tariffInfo/TariffLoader";
 import styles from "./coa.module.css";
+import {
+  getTariffHeaderAsync,
+  resetTariffHeaderAsync,
+  saveTariffParamAsync,
+} from "modules/tariff/actions";
+import { TariffParam } from "modules/tariff/types";
 
 interface ContractCoaCopyModalProps {
   closeModal: any;
@@ -47,17 +53,7 @@ const ContractCoaCopyModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
-  const [openTariffModal, setOpenTariffModal] = useState(false);
 
-  const [tariffParams, setTariffParams] = useState({
-    cntrtId: "", // 계약 ID
-    trffNm: "", // 타리프 NM
-    trffDesc: "", // 타리프 설명
-    bizTcd: "", //사업유형코드 (사업영역코드는 뭐징?)
-    arApCcd: "", // 매출매입구분코드
-    svcTcd: "", // 서비스유형코드
-    detlSvcTcd: "", // 상세서비스유형
-  });
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -76,7 +72,7 @@ const ContractCoaCopyModal = ({
     cntrtNm: updParams.data?.cntrt_nm,
     cntrtScd: "60",
     cntrtStartDate: updParams.data?.cntrt_start_date,
-    cntrtEndDate: "",
+    cntrtEndDate: updParams.data?.cntrt_end_date,
     cntrtTcd: "109031",
     crePersonId: "", // 담당자 명
     insPersonId: "mh.kim",
@@ -84,10 +80,59 @@ const ContractCoaCopyModal = ({
     cntrtTypGcd: "1090",
   });
 
+  const [openTariffModal, setOpenTariffModal] = useState(false);
+  const [openNewTariffModal, setOpenNewTariffModal] = useState(false);
+
+  const [tariffParams, setTariffParams] = useState<TariffParam>({
+    cntrtId: "", // 계약 ID
+    trffId: 0, // 타리프 ID
+    cntrtStatDate: "",
+    cntrtEndDate: "", // 유효기간
+    cntrtCurrCd: "", // 계약 통화 코드
+  });
+
+  const onClickTariffModal = () => {
+    setOpenTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(saveTariffParamAsync.request(tariffParams));
+    dispatch(
+      getTariffHeaderAsync.request({
+        cntrtId: tariffParams.cntrtId,
+        trffId: tariffParams.trffId,
+      })
+    );
+  };
+
+  const onClickNewTariffModal = () => {
+    setOpenNewTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(
+      saveTariffParamAsync.request({
+        ...tariffParams,
+        cntrtId: contractInfoParams.cntrtId, // 계약 ID
+        cntrtStatDate: contractInfoParams.cntrtStartDate,
+        cntrtEndDate: contractInfoParams.cntrtEndDate,
+        cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+      })
+    );
+    dispatch(
+      resetTariffHeaderAsync.request({
+        cntrtId: contractInfoParams.cntrtId,
+        trffId: 0,
+        trffNm: "",
+        trffDesc: "",
+        bizTcd: "",
+        arApCcd: "",
+        svcTcd: "",
+        detlSvcTcd: "",
+      })
+    );
+  };
+
   const dispatch = useDispatch();
 
   const getContractId = async () => {
-    await axios.get(`http://localhost:9999/coa/newcntrtid`).then((res) =>
+    await axios.get(`http://3.37.155.50:8000/coa/newcntrtid`).then((res) =>
       setContractInfoParamas({
         ...contractInfoParams,
         cntrtId: res.data,
@@ -556,20 +601,14 @@ const ContractCoaCopyModal = ({
                       onMouseDown={(e) => {
                         setTariffParams({
                           ...tariffParams,
-                          cntrtId: data.cntrtId, // 계약 ID
-                          trffNm: data.trff_nm, // 타리프 NM
-                          trffDesc: data.trff_desc, // 타리프 설명
-                          bizTcd: data.biz_nm, //사업유형코드 (사업영역코드는 뭐징?)
-                          arApCcd: "AP", // 매출매입구분코드
-                          svcTcd: data.svc_nm, // 서비스유형코드
-                          detlSvcTcd: data.detl_svc_nm, // 상세서비스유형
+                          cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                          trffId: data.trff_id, // 타리프 ID
+                          cntrtStatDate: contractInfoParams.cntrtStartDate,
+                          cntrtEndDate: contractInfoParams.cntrtEndDate,
+                          cntrtCurrCd: contractInfoParams.cntrtCurrCd,
                         });
                       }}
-                      onClick={() => {
-                        setOpenTariffModal(
-                          (openTariffModal) => !openTariffModal
-                        );
-                      }}
+                      onClick={onClickTariffModal}
                     >
                       <th scope="row">
                         <Input type="checkbox" />
@@ -610,9 +649,20 @@ const ContractCoaCopyModal = ({
                 className="btn"
                 size="sm"
                 style={{ margin: 0, padding: 0, width: 50 }}
+                onClick={onClickNewTariffModal}
               >
                 추가
               </Button>
+              {openNewTariffModal && (
+                <TariffLoader
+                  isOpen={openNewTariffModal}
+                  closeModal={() =>
+                    setOpenNewTariffModal(
+                      (openNewTariffModal) => !openNewTariffModal
+                    )
+                  }
+                />
+              )}
             </div>
           </Container>
         </ModalBody>

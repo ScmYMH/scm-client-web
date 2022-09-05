@@ -179,7 +179,7 @@ const MenuBar = ({
         <Table bordered style={{ marginLeft: 30 }}>
           <tr>
             <tbody>
-              <td
+              <th
                 style={{
                   textAlign: "center",
                   backgroundColor: "#ced6e0",
@@ -187,7 +187,7 @@ const MenuBar = ({
                 }}
               >
                 사용자명
-              </td>
+              </th>
               <td>
                 <Input
                   style={{
@@ -200,7 +200,7 @@ const MenuBar = ({
                   onChange={search}
                 ></Input>
               </td>
-              <td
+              <th
                 style={{
                   textAlign: "center",
                   backgroundColor: "#ced6e0",
@@ -208,7 +208,7 @@ const MenuBar = ({
                 }}
               >
                 로그인ID
-              </td>
+              </th>
               <td>
                 <Input
                   id="loginId"
@@ -220,7 +220,7 @@ const MenuBar = ({
                   }}
                 ></Input>
               </td>
-              <td
+              <th
                 style={{
                   textAlign: "center",
                   backgroundColor: "#ced6e0",
@@ -228,7 +228,7 @@ const MenuBar = ({
                 }}
               >
                 삭제여부
-              </td>
+              </th>
               <td>
                 <div>
                   <Input

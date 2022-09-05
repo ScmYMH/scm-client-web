@@ -23,12 +23,14 @@ const ChangeManagerLoader = () => {
                 alignItems: "center",
               }}
             >
-              <h5>계약 담당자 변경</h5>
+              <h5 style={{ fontWeight: "bold", color: "#003366" }}>
+                ● 계약 담당자 변경
+              </h5>
             </div>
           </div>
         </header>
       </div>
-      <Card>
+      <Card style={{ minHeight: "900px" }}>
         <ChangeManagerForm></ChangeManagerForm>
       </Card>
     </>

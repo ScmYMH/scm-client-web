@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Input, Label, Table } from "reactstrap";
+import { Button, Card, Input, Table } from "reactstrap";
 import {
   delCntrtChgInfoAsync,
   getContractListAsync,
@@ -12,10 +12,10 @@ import {
   ManagerChangeInfo,
 } from "modules/changeManager/types";
 import { useDispatch, useSelector } from "react-redux";
-import DatePicker from "react-datepicker";
 import SearchManagerModal from "./SearchManagerModal";
-import { stringify } from "querystring";
-import { Tab } from "react-bootstrap";
+
+import styles from "./changemanager.module.css";
+import { HiSearch } from "react-icons/hi";
 
 const ChangeManagerForm = () => {
   const dispatch = useDispatch();
@@ -237,10 +237,18 @@ const ChangeManagerForm = () => {
   return (
     <>
       <div style={{ margin: 30 }}>
-        <Table bordered>
+        <Table bordered className={styles.chgmng_table}>
           <tbody style={{ textAlign: "left" }}>
             <tr>
-              <th>현 담당자</th>
+              <th
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                현 담당자
+              </th>
               <td>
                 {" "}
                 <input
@@ -249,16 +257,13 @@ const ChangeManagerForm = () => {
                   onChange={(e) => setPreActorNm(e.target.value)}
                   style={{ marginRight: 20 }}
                 ></input>
-                <Button
-                  className="btn"
-                  size="sm"
+                <HiSearch
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     setOpenPreModal((openPreModal) => !openPreModal);
                     setIsCurrent(true);
                   }}
-                >
-                  조회
-                </Button>
+                ></HiSearch>
                 {openPreModal && (
                   <SearchManagerModal
                     onClickMember={onClickMember}
@@ -272,7 +277,15 @@ const ChangeManagerForm = () => {
                   />
                 )}
               </td>
-              <th>인수 담당자</th>
+              <th
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                인수 담당자
+              </th>
               <td>
                 <input
                   type="text"
@@ -280,16 +293,13 @@ const ChangeManagerForm = () => {
                   onChange={(e) => setAftActorNm(e.target.value)}
                   style={{ marginRight: 20 }}
                 ></input>
-                <Button
-                  className="btn"
-                  size="sm"
+                <HiSearch
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     setOpenAftModal((openAftModal) => !openAftModal);
                     setIsCurrent(false);
                   }}
-                >
-                  조회
-                </Button>
+                ></HiSearch>
                 {openAftModal && (
                   <SearchManagerModal
                     onClickMember={onClickMember}
@@ -305,7 +315,15 @@ const ChangeManagerForm = () => {
               </td>
             </tr>
             <tr>
-              <th>변경 발효 일자</th>
+              <th
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                변경 발효 일자
+              </th>
               <td colSpan={3}>
                 {" "}
                 <Input
@@ -318,7 +336,7 @@ const ChangeManagerForm = () => {
                   style={{
                     boxShadow: "none",
                     height: 30,
-                    width: 185,
+                    width: 178,
                     borderRadius: 0,
                   }}
                   onChange={(e) => {
@@ -328,7 +346,16 @@ const ChangeManagerForm = () => {
               </td>
             </tr>
             <tr>
-              <th rowSpan={2}>변경 사유</th>
+              <th
+                rowSpan={2}
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "#ced6e0",
+                  margin: 1,
+                }}
+              >
+                변경 사유
+              </th>
               <td colSpan={3} rowSpan={2}>
                 <Input
                   id="reasonDesc"
@@ -337,7 +364,10 @@ const ChangeManagerForm = () => {
                   style={{ width: 1000, borderRadius: 0 }}
                   value={mngChgInfo.reasonDesc}
                   onChange={(e) =>
-                    setMngChgInfo({ ...mngChgInfo, reasonDesc: e.target.value })
+                    setMngChgInfo({
+                      ...mngChgInfo,
+                      reasonDesc: e.target.value,
+                    })
                   }
                 />
               </td>
@@ -354,9 +384,12 @@ const ChangeManagerForm = () => {
             alignItems: "center",
           }}
         >
-          <div>대상계약리스트</div>
+          <div style={{ fontWeight: "bold", color: "#003366" }}>
+            ◎ 대상계약리스트
+          </div>
           <Button
             size="sm"
+            outline
             onClick={(e) => {
               onClickApply(e);
             }}
@@ -370,7 +403,11 @@ const ChangeManagerForm = () => {
             overflowY: "auto",
           }}
         >
-          <Table bordered style={{ height: 80 }}>
+          <Table
+            bordered
+            className={styles.chgmng_table}
+            style={{ height: 80 }}
+          >
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th style={{ width: 50 }}></th>
@@ -400,14 +437,22 @@ const ChangeManagerForm = () => {
                     />
                   </th>
                   <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 200 }}
+                    style={{
+                      textAlign: "right",
+                      paddingRight: 20,
+                      width: 200,
+                    }}
                   >
                     {commonInfo.cntrtId}
                   </td>
                   <td style={{ paddingLeft: 20 }}>{commonInfo.cntrtNm}</td>
                   <td style={{ paddingLeft: 20 }}>{commonInfo.cntrtScd}</td>
                   <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 150 }}
+                    style={{
+                      textAlign: "right",
+                      paddingRight: 20,
+                      width: 150,
+                    }}
                   >
                     {commonInfo.cntrtStartDate.slice(0, 4) +
                       "-" +
@@ -416,7 +461,11 @@ const ChangeManagerForm = () => {
                       commonInfo.cntrtStartDate.slice(6)}
                   </td>
                   <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 150 }}
+                    style={{
+                      textAlign: "right",
+                      paddingRight: 20,
+                      width: 150,
+                    }}
                   >
                     {commonInfo.cntrtEndDate.slice(0, 4) +
                       "-" +
@@ -439,12 +488,15 @@ const ChangeManagerForm = () => {
             alignItems: "center",
           }}
         >
-          <div>재할당 계약</div>
+          <div style={{ fontWeight: "bold", color: "#003366" }}>
+            ◎ 재할당 계약
+          </div>
           <div>
             <Button
               size="sm"
               onClick={onClickConfrim}
               style={{ margin: "10px" }}
+              outline
             >
               확정
             </Button>
@@ -452,6 +504,7 @@ const ChangeManagerForm = () => {
               size="sm"
               onClick={onClickCancel}
               style={{ margin: "10px" }}
+              outline
             >
               취소
             </Button>
@@ -463,7 +516,11 @@ const ChangeManagerForm = () => {
             overflowY: "auto",
           }}
         >
-          <Table bordered style={{ height: 100 }}>
+          <Table
+            bordered
+            className={styles.chgmng_table}
+            style={{ height: 100 }}
+          >
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th style={{ width: 50 }}></th>
@@ -501,7 +558,11 @@ const ChangeManagerForm = () => {
                     />
                   </th>
                   <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 200 }}
+                    style={{
+                      textAlign: "right",
+                      paddingRight: 20,
+                      width: 200,
+                    }}
                   >
                     {cntrtChangeInfo.cntrtId}
                   </td>
@@ -515,7 +576,11 @@ const ChangeManagerForm = () => {
                     {cntrtChangeInfo.aftActorNm}
                   </td>
                   <td
-                    style={{ textAlign: "right", paddingRight: 20, width: 150 }}
+                    style={{
+                      textAlign: "right",
+                      paddingRight: 20,
+                      width: 150,
+                    }}
                   >
                     {cntrtChangeInfo.validDate.slice(0, 4) +
                       "-" +

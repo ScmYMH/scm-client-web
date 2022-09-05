@@ -108,6 +108,7 @@ const SearchManagerBody = ({
           display: "inline-block",
           margin: "10px",
           verticalAlign: "center",
+          marginBottom: 20,
         }}
       >
         <span style={{ marginRight: "10px" }}>목적지명</span>
@@ -149,7 +150,7 @@ const SearchManagerBody = ({
             setNodeInfo({ ...nodeInfo, nationCd: e.target.value })
           }
         ></input>
-        <Button className="btn" onClick={onSubmitNodeInfo} size="sm">
+        <Button className="btn" onClick={onSubmitNodeInfo} size="sm" outline>
           조회
         </Button>
       </div>
@@ -175,6 +176,7 @@ const SearchManagerBody = ({
                   <Button
                     size="sm"
                     onClick={() => onSelect(destInfo.nodeCd, destInfo.nodeDesc)}
+                    outline
                   >
                     선택
                   </Button>

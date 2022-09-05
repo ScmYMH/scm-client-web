@@ -16,6 +16,8 @@ import {
   resetTariffCondHAsync,
 } from "modules/tariff/actions";
 import TariffExcelModal from "./TariffExcelModal";
+import styles from "./tariff.module.css";
+import tariff from "modules/tariff/reducer";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
@@ -457,6 +459,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
           })
       );
       onClickSearch();
+      setTariffCheckBox([]);
     }
   };
 
@@ -508,13 +511,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     }
   };
 
-  const onClickCondEnroll = () => {
-    console.log("조건등록 버튼 클릭");
-    if (!isSave) {
-      alert("타리프 헤더정보가 없습니다");
-    }
-  };
-
   const onClickSave = () => {
     console.log("저장 버튼 클릭");
     if (!isSave) {
@@ -527,6 +523,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
         })
       );
       setIsAdd([]);
+      setTariffCheckBox([]);
     }
   };
 
@@ -537,6 +534,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     } else {
       console.log("타리프 정보 삭제할 seqNo array : ", tariffCheckBox);
       dispatch(deleteTariffCondHAsync.request(tariffCheckBox));
+      setTariffCheckBox([]);
     }
   };
 
@@ -598,7 +596,9 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
       <div style={{ marginLeft: 20, marginRight: 20 }}>
         <Row style={{ marginTop: 30 }}>
           <Col>
-            <h4 style={{ marginTop: 10 }}>타리프 정보</h4>
+            <h4 style={{ marginTop: 10, fontWeight: "bold", color: "#003366" }}>
+              ◎ 타리프 정보
+            </h4>
           </Col>
           <Col>
             <Row>
@@ -615,6 +615,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: "10px" }}
                   onClick={onClickSearch}
+                  outline
                 >
                   조회
                 </Button>
@@ -622,6 +623,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: "10px" }}
                   onClick={onClickCopy}
+                  outline
                 >
                   복사
                 </Button>
@@ -629,6 +631,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: "10px" }}
                   onClick={onClickAddRow}
+                  outline
                 >
                   행추가
                 </Button>
@@ -636,6 +639,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: "10px" }}
                   onClick={onClickDelRow}
+                  outline
                 >
                   행삭제
                 </Button>
@@ -653,14 +657,8 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 <Button
                   size="sm"
                   style={{ marginLeft: 10 }}
-                  onClick={onClickCondEnroll}
-                >
-                  조건등록
-                </Button>
-                <Button
-                  size="sm"
-                  style={{ marginLeft: 10 }}
                   onClick={onClickSave}
+                  outline
                 >
                   저장
                 </Button>
@@ -668,6 +666,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: 10 }}
                   onClick={onClickDelete}
+                  outline
                 >
                   삭제
                 </Button>
@@ -675,6 +674,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: 10 }}
                   onClick={onClickExcelExport}
+                  outline
                 >
                   엑셀 Export
                 </Button>
@@ -682,6 +682,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   size="sm"
                   style={{ marginLeft: 10 }}
                   onClick={onClickExcelImport}
+                  outline
                 >
                   Add
                 </Button>
@@ -697,21 +698,33 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             </Row>
           </Col>
         </Row>
-        <Table bordered>
+        <Table bordered className={styles.tariff_table}>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th
+              colSpan={1}
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                margin: 1,
+              }}
+            >
               유효기간
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   id="validDateCond"
                   name="validDateCond"
                   type="date"
                   dateFormat="yyyy-MM-dd"
+                  flxedHeight
                   style={{
                     boxShadow: "none",
                     width: 230,
+                    display: "span",
+                    borderRadius: 0,
                   }}
                   onChange={(e) =>
                     setTariffCondParam({
@@ -723,11 +736,20 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 ></Input>
               </div>
             </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <th
+              colSpan={1}
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                margin: 1,
+              }}
+            >
               출발지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   type="text"
                   value={tariffCondParam.departNodeNm}
@@ -742,6 +764,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                     boxShadow: "none",
                     width: 230,
                     display: "inline-block",
+                    borderRadius: 0,
                   }}
                 ></Input>
                 <HiSearch
@@ -767,33 +790,54 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             </td>
           </tr>
           <tr>
-            <th colSpan={1} style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <th
+              colSpan={1}
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                margin: 1,
+              }}
+            >
               물류비계정
             </th>
             <td colSpan={2}>
-              <select
-                onChange={(e) =>
-                  setTariffCondParam({
-                    ...tariffCondParam,
-                    lccCd: e.target.value,
-                  })
-                }
-                id="LccCd"
-                name="LccCd"
-                style={{ width: 230 }}
-              >
-                {LccCdLov.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.text}
-                  </option>
-                ))}
-              </select>
+              <div style={{ padding: 5 }}>
+                <Input
+                  onChange={(e) =>
+                    setTariffCondParam({
+                      ...tariffCondParam,
+                      lccCd: e.target.value,
+                    })
+                  }
+                  id="LccCd"
+                  name="LccCd"
+                  type="select"
+                  style={{ width: 230, boxShadow: "none", borderRadius: 0 }}
+                >
+                  {LccCdLov.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.text}
+                    </option>
+                  ))}
+                </Input>
+              </div>
             </td>
-            <th colSpan={1} style={{ paddingLeft: 20, paddingRight: 10 }}>
+            <th
+              colSpan={1}
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                margin: 1,
+              }}
+            >
               도착지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 3 }}>
+              <div style={{ padding: 5 }}>
                 <Input
                   type="text"
                   value={tariffCondParam.arrivalNodeNm}
@@ -808,6 +852,8 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                     boxShadow: "none",
                     width: 230,
                     display: "inline-block",
+
+                    borderRadius: 0,
                   }}
                 ></Input>
                 <HiSearch
@@ -845,7 +891,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             marginTop: 20,
           }}
         >
-          <Table bordered>
+          <Table bordered className={styles.tariff_table}>
             <thead style={{ textAlign: "center", verticalAlign: "middle" }}>
               <tr className="table-secondary">
                 <th rowSpan={2} style={{ width: "1%" }}></th>
@@ -922,6 +968,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         type="checkbox"
                         onChange={(e) =>
                           onChangeTariffCheckBox(e, trffInfo.seqNo)
+                        }
+                        checked={
+                          tariffCheckBox.find(
+                            (seqNo) => seqNo == trffInfo.seqNo
+                          )
+                            ? true
+                            : false
                         }
                       />
                     </th>

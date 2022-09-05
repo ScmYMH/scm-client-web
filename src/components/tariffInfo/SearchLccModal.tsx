@@ -65,6 +65,7 @@ const SearchManagerBody = ({
           display: "inline-block",
           margin: "10px",
           verticalAlign: "center",
+          marginBottom: 20,
         }}
       >
         <span style={{ marginRight: "10px" }}>물류비계정</span>
@@ -91,7 +92,7 @@ const SearchManagerBody = ({
           style={{ marginRight: "30px" }}
           onChange={(e) => setLccInfo({ ...lccInfo, lccCdNm: e.target.value })}
         ></input>
-        <Button className="btn" size="sm" onClick={onSubmitLccInfo}>
+        <Button className="btn" size="sm" onClick={onSubmitLccInfo} outline>
           조회
         </Button>
       </div>
@@ -121,6 +122,7 @@ const SearchManagerBody = ({
                         lccInfo.lccCdDesc
                       )
                     }
+                    outline
                   >
                     선택
                   </Button>
