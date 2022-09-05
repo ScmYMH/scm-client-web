@@ -54,6 +54,8 @@ const ContractCoaUpdateModal = ({
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
 
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -78,9 +80,9 @@ const ContractCoaUpdateModal = ({
     cntrtStartDate: updParams.data.cntrt_start_date,
     cntrtEndDate: updParams.data.cntrt_end_date,
     cntrtTcd: "109031",
-    crePersonId: preActorId, // 담당자 명
-    insPersonId: preActorId,
-    updPersonId: addMember[addMember.length - 1]?.userId,
+    crePersonId: nowUserId, // 담당자 명
+    insPersonId: nowUserId,
+    updPersonId: nowUserId,
     cntrtTypGcd: "1090",
     cntrtEditComment: "",
   });

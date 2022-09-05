@@ -119,13 +119,11 @@ const CommonInfoList = () => {
           </div>
         </header>
       </div>
-      <Card style={{ minHeight: "900px" }}>
+      <Card style={{ display: "flex", height: "100%", marginBottom: "50px" }}>
         <MenuBar
           onSubmitMemberInfo={onSubmitMemberInfo}
           addRow={() => setIsAdd([...addMember, {}])}
           delRow={() => {
-            //const tmp = [...addMember];
-            //addMember.pop();
             setIsAdd(addMember.pop());
           }}
           delRowForSearch={() => {
@@ -231,10 +229,6 @@ const CommonInfoList = () => {
                       </td>
                     </tr>
                   ))}
-
-                  {/* {isAdd.map((i) => (
-								<AddTable />
-							))} */}
 
                   {addMember.map((data, index) => (
                     <tr key={index} aria-rowcount={index}>

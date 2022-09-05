@@ -260,7 +260,7 @@ const SearchManagerBody = ({
                         contractmemberInfo.userNm
                       )
                     }
-                    outline
+                    style={{ backgroundColor: "grey" }}
                   >
                     선택
                   </Button>

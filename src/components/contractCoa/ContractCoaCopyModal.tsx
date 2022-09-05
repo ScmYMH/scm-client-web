@@ -419,7 +419,7 @@ const ContractCoaCopyModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(0, 1).map((option) => (
+                        {baseCodeData.data?.slice(1, 2).map((option) => (
                           <option
                             key={option.cd_v}
                             value={option.cd_v}
