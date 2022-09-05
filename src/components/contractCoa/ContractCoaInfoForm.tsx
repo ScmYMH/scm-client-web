@@ -150,7 +150,7 @@ const ContractCoaInfoForm = ({
       }
     }
   };
-
+  console.log("tariffDatatariffData", tariffData);
   return (
     <>
       <div

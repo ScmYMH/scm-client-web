@@ -182,7 +182,7 @@ const ContractCoaCopyModal = ({
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
         <Container>
           <ModalHeader toggle={closeModal}>
-            <ModalTitle>계약 등록</ModalTitle>
+            <ModalTitle>계약 복사</ModalTitle>
           </ModalHeader>
         </Container>
         <ModalBody>
@@ -636,7 +636,7 @@ const ContractCoaCopyModal = ({
                 </>
               </tbody>
             </Table>
-            <div
+            {/* <div
               style={{
                 margin: "10px",
                 display: "flex",
@@ -663,7 +663,7 @@ const ContractCoaCopyModal = ({
                   }
                 />
               )}
-            </div>
+            </div> */}
           </Container>
         </ModalBody>
       </Modal>

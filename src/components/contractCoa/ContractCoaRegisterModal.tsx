@@ -49,14 +49,14 @@ const ContractCoaRegisterModal = ({
   const tariffData = useSelector(
     (state: RootState) => state.tariffInfo.tariffInfo
   );
-
+  console.log("tariffData : ", tariffData);
   // const {
   //   data: tariffCondHListData,
   //   loading: tariffCondHListLoading,
   //   error: tariffCondHListError,
   // } = useSelector((state: RootState) => state.tariff.tariffCondHList);
   // const tariffCondHListData  = useSelector((state: RootState) => state.tariff.tariffCondHList);
-  console.log("tariffInfoConditon.cntrtId", tariffInfoConditon.cntrtId);
+  // console.log("tariffInfoConditon.cntrtId", tariffInfoConditon.cntrtId);
 
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");

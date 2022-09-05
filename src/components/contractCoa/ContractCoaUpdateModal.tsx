@@ -31,6 +31,7 @@ import TariffLoader from "components/tariffInfo/TariffLoader";
 import styles from "./coa.module.css";
 import {
   getTariffHeaderAsync,
+  resetTariffHeaderAsync,
   saveTariffParamAsync,
 } from "modules/tariff/actions";
 import { TariffParam } from "modules/tariff/types";
@@ -74,7 +75,7 @@ const ContractCoaUpdateModal = ({
     cntrtId: updParams.data.cntrt_id,
     cntrtCurrCd: "USD",
     cntrtNm: updParams.data.cntrt_nm,
-    cntrtScd: "60",
+    cntrtScd: "80",
     cntrtStartDate: updParams.data.cntrt_start_date,
     cntrtEndDate: updParams.data.cntrt_end_date,
     cntrtTcd: "109031",
@@ -86,6 +87,7 @@ const ContractCoaUpdateModal = ({
   });
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
+  const [openNewTariffModal, setOpenNewTariffModal] = useState(false);
 
   const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID
@@ -107,6 +109,32 @@ const ContractCoaUpdateModal = ({
     );
   };
 
+  const onClickNewTariffModal = () => {
+    setOpenNewTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(
+      saveTariffParamAsync.request({
+        ...tariffParams,
+        cntrtId: contractInfoParams.cntrtId, // 계약 ID
+        cntrtStatDate: contractInfoParams.cntrtStartDate,
+        cntrtEndDate: contractInfoParams.cntrtEndDate,
+        cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+      })
+    );
+    dispatch(
+      resetTariffHeaderAsync.request({
+        cntrtId: contractInfoParams.cntrtId,
+        trffId: 0,
+        trffNm: "",
+        trffDesc: "",
+        bizTcd: "",
+        arApCcd: "",
+        svcTcd: "",
+        detlSvcTcd: "",
+      })
+    );
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
@@ -121,6 +149,7 @@ const ContractCoaUpdateModal = ({
       alert("수정이 완료되었습니다.");
     }
   };
+
   function leftPad(value) {
     if (value >= 10) {
       return value;
@@ -607,35 +636,7 @@ const ContractCoaUpdateModal = ({
                 </>
               </tbody>
             </Table>
-            {/* <Table bordered>
-              <thead style={{ margin: 4 }}>타리프 정보</thead>
-              <tbody>
-                <tr>
-                  <th>일련번호</th>
-                  <th>타리프 ID</th>
-                  <th>타리프 설명</th>
-                  <th>서비스유형명</th>
-                  <th>Data Count</th>
-                  <th>LCC 갯수</th>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </Table>
+
             <div
               style={{
                 margin: "10px",
@@ -649,10 +650,21 @@ const ContractCoaUpdateModal = ({
                 className="btn"
                 size="sm"
                 style={{ margin: 0, padding: 0, width: 50 }}
+                onClick={onClickNewTariffModal}
               >
                 추가
               </Button>
-            </div> */}
+              {openNewTariffModal && (
+                <TariffLoader
+                  isOpen={openNewTariffModal}
+                  closeModal={() =>
+                    setOpenNewTariffModal(
+                      (openNewTariffModal) => !openNewTariffModal
+                    )
+                  }
+                />
+              )}
+            </div>
           </Container>
         </ModalBody>
       </Modal>
