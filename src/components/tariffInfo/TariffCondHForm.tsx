@@ -495,9 +495,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
         },
       ]);
       setCount((prevState) => prevState + 1);
-
-      console.log("isAdd : ", isAdd);
-      console.log("tariffCondHListData: ", tariffCondHListData);
     }
   };
 
@@ -559,7 +556,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   useEffect(() => {
     dispatch(getCodeDefAsync.request(""));
 
-    console.log("tariffParamData : ", tariffParamData);
+    // console.log("tariffParamData : ", tariffParamData);
     const validDateTemp = toStringByFormatting(
       stringToDate(tariffParamData?.cntrtEndDate)
     );

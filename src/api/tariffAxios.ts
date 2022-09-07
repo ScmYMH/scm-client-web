@@ -8,12 +8,12 @@ import {
 } from "modules/tariff/types";
 
 export async function getTariffHeaderAxios(params: any) {
-  console.log(
-    "getTariffHeaderAxios =======> cntrtId : ",
-    params.cntrtId,
-    ", tariffId : ",
-    params.trffId
-  );
+  // console.log(
+  //   "getTariffHeaderAxios =======> cntrtId : ",
+  //   params.cntrtId,
+  //   ", tariffId : ",
+  //   params.trffId
+  // );
   const response = await axios.get<TariffHeader>(
     `http://3.37.155.50:8000/tariff/header/${params.cntrtId}/${params.trffId}`
   );
@@ -29,12 +29,12 @@ export async function postTariffHeaderAxios(params: any) {
 }
 
 export async function getTariffCondHAxios(params: any) {
-  console.log(
-    "ㅎetTariffCondHAxios ==========> cntrtId : ",
-    params.cntrtId,
-    ", trffId : ",
-    params.trffId
-  );
+  // console.log(
+  //   "ㅎetTariffCondHAxios ==========> cntrtId : ",
+  //   params.cntrtId,
+  //   ", trffId : ",
+  //   params.trffId
+  // );
   const response = await axios.get<Array<TariffCondH>>(
     `http://3.37.155.50:8000/tariff/${params.cntrtId}/${params.trffId}`
   );
@@ -42,7 +42,7 @@ export async function getTariffCondHAxios(params: any) {
 }
 
 export async function postTariffCondHAxios(params: any) {
-  console.log("posttariffCondHAxios params : ", params);
+  // console.log("posttariffCondHAxios params : ", params);
   const response = await axios.post<any>(
     `http://3.37.155.50:8000/tariff`,
     params
