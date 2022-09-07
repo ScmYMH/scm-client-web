@@ -119,7 +119,7 @@ const CommonInfoList = () => {
           </div>
         </header>
       </div>
-      <Card style={{ display: "flex", height: "100%", marginBottom: "50px" }}>
+      <Card style={{ minHeight: "900px" }}>
         <MenuBar
           onSubmitMemberInfo={onSubmitMemberInfo}
           addRow={() => setIsAdd([...addMember, {}])}
