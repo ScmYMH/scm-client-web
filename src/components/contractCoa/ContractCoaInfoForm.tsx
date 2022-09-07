@@ -624,7 +624,7 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            margin: "10px",
+            margin: "5px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",

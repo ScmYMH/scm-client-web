@@ -336,7 +336,7 @@ const ChangeManagerForm = () => {
                   style={{
                     boxShadow: "none",
                     height: 30,
-                    width: 178,
+                    width: 200,
                     borderRadius: 0,
                   }}
                   onChange={(e) => {
