@@ -402,7 +402,7 @@ const ContractCoaRegisterModal = ({
                           })
                         }
                       >
-                        {baseCodeData.data?.slice(0, 1).map((option) => (
+                        {baseCodeData.data?.slice(1, 2).map((option) => (
                           <option
                             key={option.cd_v}
                             value={option.cd_v}
@@ -578,7 +578,7 @@ const ContractCoaRegisterModal = ({
                   <th>상세서비스유형명</th>
                   <th>등록일</th>
                 </tr>
-                {tariffData.data?.map((data, index) => (
+                {/* {tariffData.data?.map((data, index) => (
                   <tr key={index} aria-rowcount={index}>
                     <td>{data.trff_nm}</td>
                     <td>{data.trff_desc}</td>
@@ -587,7 +587,7 @@ const ContractCoaRegisterModal = ({
                     <td>{data.detl_svc_nm}</td>
                     <td>{data.ins_date}</td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </Table>
             <div

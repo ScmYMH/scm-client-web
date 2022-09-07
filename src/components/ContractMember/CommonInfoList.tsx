@@ -124,8 +124,6 @@ const CommonInfoList = () => {
           onSubmitMemberInfo={onSubmitMemberInfo}
           addRow={() => setIsAdd([...addMember, {}])}
           delRow={() => {
-            //const tmp = [...addMember];
-            //addMember.pop();
             setIsAdd(addMember.pop());
           }}
           delRowForSearch={() => {
@@ -231,10 +229,6 @@ const CommonInfoList = () => {
                       </td>
                     </tr>
                   ))}
-
-                  {/* {isAdd.map((i) => (
-								<AddTable />
-							))} */}
 
                   {addMember.map((data, index) => (
                     <tr key={index} aria-rowcount={index}>

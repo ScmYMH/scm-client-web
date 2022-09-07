@@ -624,7 +624,7 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            margin: "10px",
+            margin: "5px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -636,7 +636,8 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            maxHeight: "40%",
+            position: "relative",
+            maxHeight: "200px",
             overflowY: "auto",
           }}
         >
