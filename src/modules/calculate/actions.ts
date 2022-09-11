@@ -34,3 +34,14 @@ export const vslCdRequestAsync = createAsyncAction(
 	VSLCODE_SELECT_SUCCESS,
 	VSLCODE_SELECT_ERROR,
 )<any, VslCdInfo, AxiosError>();
+
+
+export const FRTSTATUS_UPDATE_REQUEST = 'calculate/FRTSTATUS_UPDATE_REQUEST';
+export const FRTSTATUS_UPDATE_SUCCESS = 'calculate/FRTSTATUS_UPDATE_SUCCESS';
+export const FRTSTATUS_UPDATE_ERROR = 'calculate/FRTSTATUS_UPDATE_ERROR';
+
+export const updateFrtStatusRequestAsync = createAsyncAction(
+	FRTSTATUS_UPDATE_REQUEST,
+	FRTSTATUS_UPDATE_SUCCESS,
+	FRTSTATUS_UPDATE_ERROR,
+)<any, CalculateInfo, AxiosError>();

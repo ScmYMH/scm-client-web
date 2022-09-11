@@ -1,5 +1,7 @@
+import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { HiSearch } from "react-icons/hi";
+import { useDispatch } from "react-redux";
 import { Button, Container, Form, Input, Table } from "reactstrap";
 import AccountConnModal from "./AccountConnModal";
 
@@ -44,6 +46,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
       cdvMeaning: "",
       ins_person_id: "",
       user_nm: "",
+      vsl_load_posbl_wt: ""
     },
   });
 
@@ -128,7 +131,18 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     //   }
     // }
   };
-  
+  const dispatch = useDispatch();
+
+  const [params, setParams] = useState({
+    transOrderNo: '',
+    frtStatus: '10'
+  })
+  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(updateFrtStatusRequestAsync.request(params));
+    alert("담당자 확정이 취소되었습니다.");
+  };
+
   return (
     
     <div
@@ -137,7 +151,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
         marginRight: 30,
         marginBottom: 15,
         marginLeft: 30,
-        height: 800,
       }}
     >
       <div
@@ -156,9 +169,15 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
             조회
           </Button>
         </Form>
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          확정 취소
-        </Button>
+        <Form
+            style={{ margin: 3 }}
+            onSubmit={onSubmitUpdFrtStatus}
+            className="UpdFrtStatus"
+          >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            확정 취소
+          </Button>
+        </Form>
         <Button
           outline
           style={{ margin: 3 }}
@@ -174,6 +193,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
             closeModal={() =>
               setActConOpenModal((actConOpenModal) => !actConOpenModal)
             }
+            detailParamas={detailParamas}
           ></AccountConnModal>
         )}
         <Button outline style={{ margin: 3 }} className="btn" size="sm">
@@ -488,8 +508,8 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.acctg_yn}</td>
                 <td>{data.clear_curr}</td>
                 <td>{data.tot_gross_wt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>{coaChkFlag ? (data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')) : 0}</td>
-                <td>{coaChkFlag ? (data.acctg_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')) : 0}</td>
+                <td>{data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>{data.acctg_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
               </tr>
             ))}

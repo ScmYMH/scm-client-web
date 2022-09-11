@@ -42,12 +42,12 @@ const CalculateLspModal = ({ isOpen, closeModal, baseCodeData,onClickLspParmas }
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
         <Container>
           <ModalHeader toggle={closeModal}>
-            <ModalTitle>사업협력사 검색</ModalTitle>
+            <ModalTitle>물류실행사 검색</ModalTitle>
           </ModalHeader>
         </Container>
         <ModalBody>
           <Container style={{ marginBottom: 30 }}>
-            <table>
+            <table className="detailTable">
               <tr>
                 <td>검색조건</td>
                 <td></td>

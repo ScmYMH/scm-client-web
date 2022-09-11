@@ -65,7 +65,7 @@ const CalculateVslCdModal = ({
         </Container>
         <ModalBody>
           <Container style={{ marginBottom: 30 }}>
-            <table>
+            <table className="vslTable">
             <tr>
               <td style={{
                       textAlign: "center",
@@ -76,7 +76,6 @@ const CalculateVslCdModal = ({
               </td>
               <td>
                 <input 
-                
                   type="text"
                   id="vslCd"
                   onChange={(e) =>

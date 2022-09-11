@@ -27,6 +27,7 @@ import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import styles from "./coa.module.css";
+import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
 
 interface CalculateDetailModalProps {
   closeModal: any;
@@ -42,8 +43,11 @@ const CalculateDetailModal = ({
   detailParamas
 }: CalculateDetailModalProps) => {
 
-  console.log("calculateDetailCodeData.data", calculateDetailCodeData);
-  
+  const [params, setParams] = useState({
+    transOrderNo: detailParamas.data?.trans_order_no,
+    frtStatus: '20'
+  })
+
   const dateToString = (date) => {
     return (
       date.getFullYear() +"/"+
@@ -68,7 +72,6 @@ const CalculateDetailModal = ({
     calculateDetailCodeData?.map((data, index) => {
       ans+=parseInt(data['clear_qty']);
     })
-    console.log(ans)
     return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
@@ -77,7 +80,6 @@ const CalculateDetailModal = ({
     calculateDetailCodeData?.map((data, index) => {
       ans+=parseInt(data['clear_amt']);
     })
-    console.log("clearAmtTotalSum", ans)
     return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   
@@ -87,9 +89,18 @@ const CalculateDetailModal = ({
     calculateDetailCodeData?.map((data, index) => {
       ans+=parseInt(data['local_supp_amt']);
     })
-    console.log(ans)
     return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
+
+  const dispatch = useDispatch();
+  
+  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(updateFrtStatusRequestAsync.request(params));
+    alert("담당자 확정이 완료되었습니다.");
+  };
+
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -100,7 +111,7 @@ const CalculateDetailModal = ({
         </Container>
         <ModalBody>
           <Container>
-            <table>
+            <table className="detailTable">
               <tr>
                 <td>지시번호</td>
                 <td>
@@ -118,7 +129,7 @@ const CalculateDetailModal = ({
                 </td>
                 <td>기준선적량</td>
                 <td>
-                  <Input type="text" disabled value="2500000"></Input>
+                  <Input type="text" disabled value={detailParamas.data?.vsl_load_posbl_wt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}></Input>
                 </td>
               </tr>
               <tr>
@@ -156,14 +167,20 @@ const CalculateDetailModal = ({
                 alignItems: "center",
               }}
             >
-              <Button
-                outline
-                className="btn"
-                size="sm"
-                style={{ margin: 0, padding: 0, width: 80 }}
+               <Form
+                style={{ margin: 3 }}
+                onSubmit={onSubmitUpdFrtStatus}
+                className="UpdFrtStatusForm"
               >
-                담당자확정
-              </Button>
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 80 }}
+                >
+                  담당자확정
+                </Button>
+              </Form>
             </div>
             <div
             style={{
@@ -207,7 +224,6 @@ const CalculateDetailModal = ({
                     <td>{data.local_curr_cd}</td>
                     <td>{data.local_supp_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                   </tr>
-                  
                   </>
                 ))}
               </tbody>
