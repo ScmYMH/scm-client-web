@@ -22,6 +22,12 @@ export type UpdateFrtStatusState = {
 	updateFrtStatus: AsyncState<CalculateInfo, Error>;
 };
 
+export type UpdateAccountAction = ActionType<typeof actions>;
+
+export type UpdateAccountState = {
+	updAccountInfo: AsyncState<CalculateInfo, Error>;
+};
+
 export type VslCdAction = ActionType<typeof actions>;
 
 export type VslCdState = {

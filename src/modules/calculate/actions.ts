@@ -45,3 +45,13 @@ export const updateFrtStatusRequestAsync = createAsyncAction(
 	FRTSTATUS_UPDATE_SUCCESS,
 	FRTSTATUS_UPDATE_ERROR,
 )<any, CalculateInfo, AxiosError>();
+
+export const ACCOUNT_UPDATE_REQUEST = 'calculate/ACCOUNT_UPDATE_REQUEST';
+export const ACCOUNT_UPDATE_SUCCESS = 'calculate/ACCOUNT_UPDATE_SUCCESS';
+export const ACCOUNT_UPDATE_ERROR = 'calculate/ACCOUNT_UPDATE_ERROR';
+
+export const updateAccountRequestAsync = createAsyncAction(
+	ACCOUNT_UPDATE_REQUEST,
+	ACCOUNT_UPDATE_SUCCESS,
+	ACCOUNT_UPDATE_ERROR,
+)<any, CalculateInfo, AxiosError>();

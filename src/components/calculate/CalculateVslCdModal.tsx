@@ -132,6 +132,12 @@ const CalculateVslCdModal = ({
                   <th>선박재화중량</th>
                   <th>선적가능량</th>
                 </tr>
+                <tr onClick={()=> onClickVslCdParmas("", "")}>
+                      <td>공백 입력</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                  </tr>
                   {vslCodeData.data?.map((data, index) => (
                       <tr key={index} aria-rowcount={index} onClick={()=>onClickVslCdParmas(data.vsl_cd, data.vsl_nm)}>
                         

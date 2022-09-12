@@ -50,7 +50,6 @@ const CalculateLspModal = ({ isOpen, closeModal, baseCodeData,onClickLspParmas }
             <table className="detailTable">
               <tr>
                 <td>검색조건</td>
-                <td></td>
                 <td>
                   <Input type="text"></Input>
                 </td>
@@ -70,6 +69,10 @@ const CalculateLspModal = ({ isOpen, closeModal, baseCodeData,onClickLspParmas }
                   <th>아이디</th>
                   <th>이름</th>
                 </tr>
+                  <tr onClick={()=> onClickLspParmas("", "")}>
+                      <td>공백 입력</td>
+                      <td>공백 입력</td>
+                  </tr>
                   {baseCodeData.data
                     ?.filter((data) => data.cd_tp === "LSP_INFO")
                     .map((data, index) => (

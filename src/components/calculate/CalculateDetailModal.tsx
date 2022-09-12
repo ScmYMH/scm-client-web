@@ -40,7 +40,7 @@ const CalculateDetailModal = ({
   isOpen,
   closeModal,
   calculateDetailCodeData,
-  detailParamas
+  detailParamas,
 }: CalculateDetailModalProps) => {
 
   const [params, setParams] = useState({
@@ -99,7 +99,6 @@ const CalculateDetailModal = ({
     dispatch(updateFrtStatusRequestAsync.request(params));
     alert("담당자 확정이 완료되었습니다.");
   };
-
 
   return (
     <>

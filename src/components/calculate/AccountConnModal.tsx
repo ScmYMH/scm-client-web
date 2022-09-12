@@ -27,6 +27,7 @@ import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import "./table.css";
+import { updateAccountRequestAsync } from "modules/calculate/actions";
 
 interface AccountConnModalProps {
   closeModal: any;
@@ -35,6 +36,38 @@ interface AccountConnModalProps {
 }
 
 const AccountConnModal = ({ isOpen, closeModal, detailParamas }: AccountConnModalProps) => {
+  const expNo = localStorage.getItem("employeeNumber");
+
+  const [newAccountIdParams, setNewAccountIdParams] = useState({
+    closeNo: "",
+    acctgAmt: 0,
+    transOrderNo: detailParamas.data.trans_order_no,
+    invInnerNo: detailParamas.data.inv_inner_no
+  });
+
+  const getNewAccountId = async () => {
+    await axios.get(`http://localhost:9990/calculate/newAccountId?expNo=${expNo}`).then((res) =>
+      setNewAccountIdParams({
+        ...newAccountIdParams,
+        closeNo: res.data,
+      })
+    );
+  };  
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    getNewAccountId();
+  }, []);
+
+
+  const onSubmitAccountInfo = (e: FormEvent<HTMLFormElement>) => {
+    dispatch(updateAccountRequestAsync.request(newAccountIdParams));
+    alert("결제 성공");
+  };
+
+  console.log("newAccountIdParams", newAccountIdParams);
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -180,8 +213,9 @@ const AccountConnModal = ({ isOpen, closeModal, detailParamas }: AccountConnModa
               }}
             >
             <Form
-            style={{ margin: 3 }}
-            className="CalculateInfoForm"
+              style={{ margin: 3 }}
+              onSubmit={onSubmitAccountInfo}
+              className="CalculateInfoForm"
             >
               <Button outline style={{ margin: 3}} className="btn" size="sm">
                 결제요청

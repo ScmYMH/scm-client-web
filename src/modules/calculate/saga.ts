@@ -1,6 +1,6 @@
-import { calculateDetailRequestAsync, calculateRequestAsync, CALCULATE_SELECT_REQUEST, CALCULAT_DETAIL_SELECT_REQUEST, FRTSTATUS_UPDATE_REQUEST, updateFrtStatusRequestAsync, vslCdRequestAsync, VSLCODE_SELECT_REQUEST } from './actions';
+import { ACCOUNT_UPDATE_REQUEST, calculateDetailRequestAsync, calculateRequestAsync, CALCULATE_SELECT_REQUEST, CALCULAT_DETAIL_SELECT_REQUEST, FRTSTATUS_UPDATE_REQUEST, updateAccountRequestAsync, updateFrtStatusRequestAsync, vslCdRequestAsync, VSLCODE_SELECT_REQUEST } from './actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { CalculateInfo, getCalculateDetailInfo, getCalculateInfo, getVslCodeInfo, updateFrtStatus, VslCdInfo } from 'api/calculateAxios';
+import { CalculateInfo, getCalculateDetailInfo, getCalculateInfo, getVslCodeInfo, updateAccountInfo, updateFrtStatus, VslCdInfo } from 'api/calculateAxios';
 
 function* calculateRequestSaga(action: ReturnType<typeof calculateRequestAsync.request>) {
 	try {
@@ -38,9 +38,19 @@ function* updFrtStatusSaga(action: ReturnType<typeof updateFrtStatusRequestAsync
 	}
 }
 
+function* updAccountSaga(action: ReturnType<typeof updateAccountRequestAsync.request>) {
+	try {
+		const updAccount : CalculateInfo = yield call(updateAccountInfo, action.payload);
+		yield put(updateAccountRequestAsync.success(updAccount));
+	} catch (e: any) {
+		yield put(updateAccountRequestAsync.failure(e));
+	}
+}
+
 export function* calculateSaga() {
 	yield takeLatest(CALCULATE_SELECT_REQUEST, calculateRequestSaga);
 	yield takeLatest(VSLCODE_SELECT_REQUEST, vslCdRequestSaga);
 	yield takeLatest(CALCULAT_DETAIL_SELECT_REQUEST, calculateDetailRequestSaga);
 	yield takeLatest(FRTSTATUS_UPDATE_REQUEST, updFrtStatusSaga);
+	yield takeLatest(ACCOUNT_UPDATE_REQUEST, updAccountSaga);
 }

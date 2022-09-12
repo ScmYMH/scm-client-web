@@ -1,4 +1,6 @@
+import axios from "axios";
 import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
+import { check } from "prettier";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { HiSearch } from "react-icons/hi";
 import { useDispatch } from "react-redux";
@@ -46,7 +48,8 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
       cdvMeaning: "",
       ins_person_id: "",
       user_nm: "",
-      vsl_load_posbl_wt: ""
+      vsl_load_posbl_wt: "",
+      inv_inner_no:""
     },
   });
 
@@ -55,7 +58,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
   const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
     setReqLspParam(cd_v_meaning);
     setCalSelectParams({ ...calSelectParams, lspId: cd_v });
-    console.log(calSelectParams);
     setLspOpenModal(false);
   }
 
@@ -64,7 +66,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
   const onClickVslCdParmas = (vsl_cd: string, vsl_nm: string) => {
     setReqVslCdParam(vsl_nm);
     setCalSelectParams({ ...calSelectParams, vslCd: vsl_cd });
-    console.log(calSelectParams);
     setVslOpenModal(false);
   }
 
@@ -79,15 +80,20 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
   };
 
   const checkAccountConn = () => {
-    const dialog = confirm("상신하시겠습니까?");
+    if(isChecked === true){
+      const dialog = confirm("상신하시겠습니까?");
 
-    if (dialog) {
-      console.log("Data Saved");
-      setActConOpenModal((actConOpenModal) => !actConOpenModal);
-    } else {
-      console.log("Data Not Saved");
+      if (dialog) {
+        console.log("Data Saved");
+        setActConOpenModal((actConOpenModal) => !actConOpenModal);
+      } else {
+        console.log("Data Not Saved");
+      }
+    }else{
+      alert("상신할 아이템을 선택해주세요.")
     }
   };
+
   const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
@@ -113,7 +119,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
 
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName("calInfoId") as any | null;
-
     for (let i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i] !== checkThis) {
         checkboxes[i].checked = false;
@@ -121,16 +126,6 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     }
   };
 
-  const checkCoaOnlyOne = (e) => {
-    console.log(e.target);
-    // const checkboxes = document.getElementsByName("coaChkId") as any | null;
-
-    // for (let i = 0; i < checkboxes.length; i++) {
-    //   if (checkboxes[i] !== checkThis) {
-    //     checkboxes[i].checked = false;
-    //   }
-    // }
-  };
   const dispatch = useDispatch();
 
   const [params, setParams] = useState({
@@ -141,6 +136,17 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     e.preventDefault();
     dispatch(updateFrtStatusRequestAsync.request(params));
     alert("담당자 확정이 취소되었습니다.");
+  };
+
+  const [checkedList, setCheckedList] = useState<any>([]);
+
+  const onCheckedElement = (checked, item) => {
+    setIsChecked(checked);
+    if (checked) {
+      setCheckedList([...checkedList, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter(el => el !== item));
+    }
   };
 
   return (
@@ -451,7 +457,9 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
               calculateDetailCodeData={calculateDetailCodeData?.data}
               isOpen={detailOpenModal}
               closeModal={() =>
-                setDetailOpenModal((detailOpenModal) => !detailOpenModal)
+                {
+                  setDetailOpenModal((detailOpenModal) => !detailOpenModal)
+                }
               }
             />
           )}
@@ -487,14 +495,15 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>
                   <Input type="checkbox" id="calInfoId" name="calInfoId" value={data} 
                         onChange={(e) => {
+                          onCheckedElement(e.target.checked, data)
                           checkOnlyOne(e.target);
-                          setIsChecked(true);
                           setDetailParamas({
                             ...detailParamas,
                             data: data,
                           });
                           setTransOrderNo(data.trans_order_no);
-                        }}>
+                        }}
+                        >
                   </Input>
                 </td>
                 <td>{data.nation_nm}</td>
@@ -510,7 +519,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 <td>{data.tot_gross_wt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 <td>{data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                 <td>{data.acctg_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
+                <td>{data.close_no}</td>
               </tr>
             ))}
             </>
