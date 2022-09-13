@@ -125,9 +125,14 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={detailParamas.data?.clear_qty
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    value={
+                      (detailParamas.data?.clear_qty == null) ? 
+                      (detailParamas.data?.clear_qty):
+                      (detailParamas.data?.clear_qty
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
+                    
                   ></Input>
                 </td>
               </tr>
@@ -145,9 +150,13 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={detailParamas.data?.vsl_load_posbl_wt
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    value={
+                      (detailParamas.data?.vsl_load_posbl_wt == null) ? 
+                      (detailParamas.data?.vsl_load_posbl_wt):
+                      (detailParamas.data?.vsl_load_posbl_wt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
                   ></Input>
                 </td>
               </tr>
@@ -243,28 +252,45 @@ const CalculateDetailModal = ({
                         <td>{data.ref_doc_no}</td>
                         <td>{data.item_cd}</td>
                         <td>
-                          {data.clear_qty
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          {
+                            (data?.clear_qty == null) ? 
+                            (data?.clear_qty):
+                            (data?.clear_qty
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                          }
                         </td>
                         <td>{data.tot_gross_wt_unit_cd}</td>
                         <td>
-                          {data.unit_price
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          {
+                            (data?.unit_price == null) ? 
+                            (data?.unit_price):
+                            (data?.unit_price
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                          }
+                          
                         </td>
                         <td>{data.clear_curr}</td>
                         <td>
-                          {data.clear_amt
+                        {
+                          (data?.clear_amt == null) ? 
+                          (data?.clear_amt):
+                          (data?.clear_amt
                             .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        }
                         </td>
                         <td>{data.local_exr}</td>
                         <td>{data.local_curr_cd}</td>
                         <td>
-                          {data.local_supp_amt
+                        {
+                          (data?.local_supp_amt == null) ? 
+                          (data?.local_supp_amt):
+                          (data?.local_supp_amt
                             .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        }
                         </td>
                       </tr>
                     </>

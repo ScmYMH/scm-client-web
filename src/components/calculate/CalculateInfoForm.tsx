@@ -39,7 +39,7 @@ const CalculateInfoForm = ({
     endDate: "",
     lspId: "",
     vslCd: "",
-    closeNoYn: "",
+    dstConfYn: "",
     transOrderNo: "",
     cdVmeaning: "",
   });
@@ -163,8 +163,6 @@ const CalculateInfoForm = ({
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
-
-  console.log("calculateInfoData.data", calculateInfoData.data);
   return (
     <div
       style={{
@@ -190,15 +188,9 @@ const CalculateInfoForm = ({
             조회
           </Button>
         </Form>
-        <Form
-          style={{ margin: 3 }}
-          onSubmit={onSubmitUpdFrtStatus}
-          className="UpdFrtStatus"
-        >
-          <Button outline style={{ margin: 3 }} className="btn" size="sm">
-            확정 취소
-          </Button>
-        </Form>
+        <Button outline style={{ margin: 3 }} className="btn" size="sm">
+          운임 정산
+        </Button>
         <Button
           outline
           style={{ margin: 3 }}
@@ -217,9 +209,15 @@ const CalculateInfoForm = ({
             detailParamas={detailParamas}
           ></AccountConnModal>
         )}
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          운임 정산
-        </Button>
+        <Form
+          style={{ margin: 3 }}
+          onSubmit={onSubmitUpdFrtStatus}
+          className="UpdFrtStatus"
+        >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            확정 취소
+          </Button>
+        </Form>
       </div>
       <div>
         <div style={{ margin: 4 }}>◎ 조회 조건</div>
@@ -338,7 +336,7 @@ const CalculateInfoForm = ({
               <td>
                 <div>
                   <Input
-                    id="closeNoYn"
+                    id="dstConfYn"
                     style={{
                       marginRight: "30px",
                       boxShadow: "none",
@@ -532,21 +530,33 @@ const CalculateInfoForm = ({
                     <td>{data.vsl_nm}</td>
                     <td>{data.dst_conf_yn}</td>
                     <td>{data.acctg_yn}</td>
-                    <td>{data.clear_qty}</td>
+                    <td>{data.clear_curr}</td>
                     <td>
-                      {data.tot_gross_wt
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      { 
+                        (data?.clear_qty == null) ? 
+                        (data?.clear_qty):
+                        (data?.clear_qty
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                     <td>
-                      {data.clear_amt
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      { 
+                        (data?.clear_amt == null) ? 
+                        (data?.clear_amt):
+                        (data?.clear_amt
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                     <td>
-                      {data.acctg_amt
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {
+                        (data?.acctg_amt == null) ? 
+                        (data?.acctg_amt):
+                        (data?.acctg_amt
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                     <td>{data.close_no}</td>
                   </tr>

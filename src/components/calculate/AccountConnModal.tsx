@@ -209,15 +209,24 @@ const AccountConnModal = ({
                     <td>{1}</td>
                     <td>{detailParamas.data.cd_v_meaning}</td>
                     <td>
-                      {detailParamas.data.clear_qty
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {
+                        (detailParamas.data?.clear_qty == null) ? 
+                        (detailParamas.data?.clear_qty):
+                        (detailParamas.data?.clear_qty
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
+                      
                     </td>
                     <td>{detailParamas.data.clear_curr}</td>
                     <td>
-                      {detailParamas.data.clear_amt
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {
+                        (detailParamas.data?.clear_amt == null) ? 
+                        (detailParamas.data?.clear_amt):
+                        (detailParamas.data?.clear_amt
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                   </tr>
                   <tr style={{ height: "300px" }}>
@@ -235,15 +244,23 @@ const AccountConnModal = ({
                     총 금액
                   </td>
                   <td>
-                    {detailParamas.data.clear_qty
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {
+                      (detailParamas.data?.clear_qty == null) ? 
+                      (detailParamas.data?.clear_qty):
+                      (detailParamas.data?.clear_qty
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
                   </td>
                   <td></td>
                   <td>
-                    {detailParamas.data.clear_amt
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {
+                      (detailParamas.data?.clear_amt == null) ? 
+                      (detailParamas.data?.clear_amt):
+                      (detailParamas.data?.clear_amt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
                   </td>
                 </tr>
               </tfoot>
