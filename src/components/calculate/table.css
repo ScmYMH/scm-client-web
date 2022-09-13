@@ -2,41 +2,43 @@
   width: 100%;
   border: 1px solid #444444;
 }
-#accountSelectTable tr{
+#accountSelectTable tr {
   border: 1px solid #444444;
 }
-#accountSelectTable td{
+#accountSelectTable td {
   border: 1px solid #444444;
 }
 #tableResult {
   border: 1px solid #444444;
 }
 
-#tableResult td{
+#tableResult td {
   border: 1px solid #444444;
 }
 
-
-#tableResult tr{
+#tableResult tr {
   border: 1px solid #444444;
 }
 
-.detailTable{
+.detailTable {
   text-align: center;
   align-items: center;
   width: 100%;
   border: 1px solid #444444;
 }
-.detailTable tr{
+.detailTable tr {
   border: 1px solid #444444;
 }
-.detailTable td{
+.detailTable td {
   border: 1px solid #444444;
 }
 
-.vslTable{
+.vslTable {
   text-align: center;
   align-items: center;
-  width: 80%;
-  border: 0.5px solid #444444;
+  border: 0.1px solid #444444;
+}
+.vslTable td {
+  text-align: center;
+  align-items: center;
 }

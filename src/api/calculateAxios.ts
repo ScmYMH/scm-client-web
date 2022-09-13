@@ -14,7 +14,7 @@ export async function getCalculateDetailInfo(transOrderNo: any) {
   const response = await axios.get<CalculateInfo>(
     `http://localhost:9990/calculate/detail?transOrderNo=${transOrderNo}`
   );
-  console.log("getCalculateDetailInfo",response.data);
+  console.log("getCalculateDetailInfo", response.data);
   return response.data;
 }
 
@@ -25,7 +25,6 @@ export async function getVslCodeInfo(params: any) {
   console.log(response.data);
   return response.data;
 }
-
 
 export async function updateFrtStatus(params: any) {
   const response = await axios.put<CalculateInfo>(
@@ -45,7 +44,6 @@ export async function updateAccountInfo(params: any) {
   console.log(response.data);
   return response.data;
 }
-
 
 export interface VslCdInfo {
   vsl_cd: string;
@@ -82,5 +80,6 @@ export interface CalculateInfo {
   arr_node_nm: string;
   ref_doc_no: string;
   frt_status: string;
-  close_no:string;
+  close_no: string;
+  dst_conf_yn: string;
 }

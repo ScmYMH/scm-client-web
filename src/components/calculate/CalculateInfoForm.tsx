@@ -14,14 +14,21 @@ import CalculateVslCdModal from "./CalculateVslCdModal";
 
 export interface CalculateInfoFormProps {
   onSubmitCalculateInfo: (calSelectParams: any) => void;
-  onSubmitCalculateDetailInfo : (transOrderNo: any) => void;
-  calculateInfoData : any;
+  onSubmitCalculateDetailInfo: (transOrderNo: any) => void;
+  calculateInfoData: any;
   calculateDetailCodeData: any;
   baseCodeData: any;
   vslCodeData: any;
 }
 
-const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo, onSubmitCalculateInfo, calculateInfoData, baseCodeData, vslCodeData}: CalculateInfoFormProps) => {
+const CalculateInfoForm = ({
+  calculateDetailCodeData,
+  onSubmitCalculateDetailInfo,
+  onSubmitCalculateInfo,
+  calculateInfoData,
+  baseCodeData,
+  vslCodeData,
+}: CalculateInfoFormProps) => {
   const [detailOpenModal, setDetailOpenModal] = useState(false);
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
@@ -49,7 +56,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
       ins_person_id: "",
       user_nm: "",
       vsl_load_posbl_wt: "",
-      inv_inner_no:""
+      inv_inner_no: "",
     },
   });
 
@@ -59,7 +66,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     setReqLspParam(cd_v_meaning);
     setCalSelectParams({ ...calSelectParams, lspId: cd_v });
     setLspOpenModal(false);
-  }
+  };
 
   const [reqVslCdParam, setReqVslCdParam] = useState("");
 
@@ -67,20 +74,20 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     setReqVslCdParam(vsl_nm);
     setCalSelectParams({ ...calSelectParams, vslCd: vsl_cd });
     setVslOpenModal(false);
-  }
+  };
 
   const closeNoYnOptions = [
     { value: "", text: "ALL" },
     { value: "N", text: "No" },
-    { value: "Y", text: "Yes" }
+    { value: "Y", text: "Yes" },
   ];
-  
+
   const onChangeCalInfo = (e: ChangeEvent<HTMLInputElement>) => {
     setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
   };
 
   const checkAccountConn = () => {
-    if(isChecked === true){
+    if (isChecked === true) {
       const dialog = confirm("상신하시겠습니까?");
 
       if (dialog) {
@@ -89,8 +96,8 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
       } else {
         console.log("Data Not Saved");
       }
-    }else{
-      alert("상신할 아이템을 선택해주세요.")
+    } else {
+      alert("상신할 아이템을 선택해주세요.");
     }
   };
 
@@ -98,23 +105,24 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
   };
-  
+
   const dateToString = (date) => {
     return (
-      date.getFullYear() +"/"+
-      (date.getMonth() + 1).toString().padStart(2, "0") +"/"+
+      date.getFullYear() +
+      "/" +
+      (date.getMonth() + 1).toString().padStart(2, "0") +
+      "/" +
       date.getDate().toString().padStart(2, "0")
     );
-  }
+  };
 
-  function to_date(date_str)
-  {
-      const yyyyMMdd = String(date_str);
-      const sYear = yyyyMMdd.substring(0,4);
-      const sMonth = yyyyMMdd.substring(4,6);
-      const sDate = yyyyMMdd.substring(6,8);
+  function to_date(date_str) {
+    const yyyyMMdd = String(date_str);
+    const sYear = yyyyMMdd.substring(0, 4);
+    const sMonth = yyyyMMdd.substring(4, 6);
+    const sDate = yyyyMMdd.substring(6, 8);
 
-      return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
 
   const checkOnlyOne = (checkThis) => {
@@ -129,10 +137,17 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
   const dispatch = useDispatch();
 
   const [params, setParams] = useState({
-    transOrderNo: '',
-    frtStatus: '10'
-  })
+    transOrderNo: "",
+    frtStatus: "10",
+    dstConfYn: "N",
+  });
+
+  console.log("transOrderNo", transOrderNo);
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
+    console.log(transOrderNo);
+    setParams({ ...params, transOrderNo: transOrderNo });
+    console.log("params", params);
+
     e.preventDefault();
     dispatch(updateFrtStatusRequestAsync.request(params));
     alert("담당자 확정이 취소되었습니다.");
@@ -145,12 +160,12 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
     if (checked) {
       setCheckedList([...checkedList, item]);
     } else if (!checked) {
-      setCheckedList(checkedList.filter(el => el !== item));
+      setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
 
+  console.log("calculateInfoData.data", calculateInfoData.data);
   return (
-    
     <div
       style={{
         marginTop: 30,
@@ -167,19 +182,19 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
         }}
       >
         <Form
-            style={{ margin: 3 }}
-            onSubmit={onSubmitCalculateInfoList}
-            className="CalculateInfoForm"
-          >
+          style={{ margin: 3 }}
+          onSubmit={onSubmitCalculateInfoList}
+          className="CalculateInfoForm"
+        >
           <Button outline style={{ margin: 3 }} className="btn" size="sm">
             조회
           </Button>
         </Form>
         <Form
-            style={{ margin: 3 }}
-            onSubmit={onSubmitUpdFrtStatus}
-            className="UpdFrtStatus"
-          >
+          style={{ margin: 3 }}
+          onSubmit={onSubmitUpdFrtStatus}
+          className="UpdFrtStatus"
+        >
           <Button outline style={{ margin: 3 }} className="btn" size="sm">
             확정 취소
           </Button>
@@ -291,8 +306,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                   }}
                   onChange={onChangeCalInfo}
                   value={reqLspParam}
-                >
-                </Input>
+                ></Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
                   onClick={() => {
@@ -301,7 +315,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 ></HiSearch>
                 {lspOpenModal && (
                   <CalculateLspModal
-                  onClickLspParmas={onClickLspParmas}
+                    onClickLspParmas={onClickLspParmas}
                     isOpen={lspOpenModal}
                     closeModal={() =>
                       setLspOpenModal((lspOpenModal) => !lspOpenModal)
@@ -333,12 +347,11 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                     type="select"
                     onChange={onChangeCalInfo}
                   >
-                    
                     {closeNoYnOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
+                      <option key={option.value} value={option.value}>
+                        {option.text}
+                      </option>
+                    ))}
                   </Input>
                 </div>
               </td>
@@ -353,7 +366,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
               </th>
               <td>
                 <Input
-                id="vslCd"
+                  id="vslCd"
                   readOnly
                   style={{
                     boxShadow: "none",
@@ -372,7 +385,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                 ></HiSearch>
                 {vslOpenModal && (
                   <CalculateVslCdModal
-                   onClickVslCdParmas={onClickVslCdParmas}
+                    onClickVslCdParmas={onClickVslCdParmas}
                     isOpen={vslOpenModal}
                     closeModal={() =>
                       setVslOpenModal((vslOpenModal) => !vslOpenModal)
@@ -404,7 +417,8 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                   onChange={onChangeCalInfo}
                 >
                   <option key="" value=""></option>
-                  {baseCodeData.data?.filter((data) => data.cd_tp === "DELIVERY_AREA_CD")
+                  {baseCodeData.data
+                    ?.filter((data) => data.cd_tp === "DELIVERY_AREA_CD")
                     .map((option) => (
                       <option key={option.cd_v} value={option.cd_v_meaning}>
                         {option.cd_v_meaning}
@@ -423,9 +437,11 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
               </th>
               <td>
                 <div>
-                  <Input type="text" 
-                  id="transOrderNo"
-                  onChange={onChangeCalInfo}/>
+                  <Input
+                    type="text"
+                    id="transOrderNo"
+                    onChange={onChangeCalInfo}
+                  />
                 </div>
               </td>
             </tr>
@@ -445,7 +461,7 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
             className="btn"
             size="sm"
             onClick={() => {
-              onSubmitCalculateDetailInfo(transOrderNo)
+              onSubmitCalculateDetailInfo(transOrderNo);
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -456,11 +472,9 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
               detailParamas={detailParamas}
               calculateDetailCodeData={calculateDetailCodeData?.data}
               isOpen={detailOpenModal}
-              closeModal={() =>
-                {
-                  setDetailOpenModal((detailOpenModal) => !detailOpenModal)
-                }
-              }
+              closeModal={() => {
+                setDetailOpenModal((detailOpenModal) => !detailOpenModal);
+              }}
             />
           )}
         </div>
@@ -470,32 +484,36 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
             overflowY: "auto",
           }}
         >
-        <Table bordered style={{ marginTop: 10 }}>
-          <tbody style={{ textAlign: "center" }}>
-            <tr className="table-secondary">
-              <th>CHK</th>
-              <th>권역</th>
-              <th>물류실행사ID</th>
-              <th>물류 실행사명</th>
-              <th>선적일자</th>
-              <th>지시번호</th>
-              <th>선박코드</th>
-              <th>선박명</th>
-              <th>확정여부</th>
-              <th>회계연결여부</th>
-              <th>통화</th>
-              <th>정산중량</th>
-              <th>정산금액</th>
-              <th>회계연결금액</th>
-              <th>AP 전표번호</th>
-            </tr>
-            <>
-            {calculateInfoData.data?.map((data, index)=>(
-              <tr key={index} aria-rowcount={index}>
-                <td>
-                  <Input type="checkbox" id="calInfoId" name="calInfoId" value={data} 
+          <Table bordered style={{ marginTop: 10 }}>
+            <tbody style={{ textAlign: "center" }}>
+              <tr className="table-secondary">
+                <th>CHK</th>
+                <th>권역</th>
+                <th>물류실행사ID</th>
+                <th>물류 실행사명</th>
+                <th>선적일자</th>
+                <th>지시번호</th>
+                <th>선박코드</th>
+                <th>선박명</th>
+                <th>확정여부</th>
+                <th>회계연결여부</th>
+                <th>통화</th>
+                <th>정산중량</th>
+                <th>정산금액</th>
+                <th>회계연결금액</th>
+                <th>AP 전표번호</th>
+              </tr>
+              <>
+                {calculateInfoData.data?.map((data, index) => (
+                  <tr key={index} aria-rowcount={index}>
+                    <td>
+                      <Input
+                        type="checkbox"
+                        id="calInfoId"
+                        name="calInfoId"
+                        value={data}
                         onChange={(e) => {
-                          onCheckedElement(e.target.checked, data)
+                          onCheckedElement(e.target.checked, data);
                           checkOnlyOne(e.target);
                           setDetailParamas({
                             ...detailParamas,
@@ -503,28 +521,39 @@ const CalculateInfoForm = ({calculateDetailCodeData, onSubmitCalculateDetailInfo
                           });
                           setTransOrderNo(data.trans_order_no);
                         }}
-                        >
-                  </Input>
-                </td>
-                <td>{data.nation_nm}</td>
-                <td>{data.lsp_id}</td>
-                <td>{data.cd_v_meaning}</td>
-                <td>{dateToString(to_date(data.bl_date))}</td>
-                <td>{data.trans_order_no}</td>
-                <td>{data.vsl_cd}</td>
-                <td>{data.vsl_nm}</td>
-                <td>{data.close_no_yn}</td>
-                <td>{data.acctg_yn}</td>
-                <td>{data.clear_curr}</td>
-                <td>{data.tot_gross_wt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>{data.clear_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>{data.acctg_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-                <td>{data.close_no}</td>
-              </tr>
-            ))}
-            </>
-          </tbody>
-        </Table>
+                      ></Input>
+                    </td>
+                    <td>{data.nation_nm}</td>
+                    <td>{data.lsp_id}</td>
+                    <td>{data.cd_v_meaning}</td>
+                    <td>{dateToString(to_date(data.bl_date))}</td>
+                    <td>{data.trans_order_no}</td>
+                    <td>{data.vsl_cd}</td>
+                    <td>{data.vsl_nm}</td>
+                    <td>{data.dst_conf_yn}</td>
+                    <td>{data.acctg_yn}</td>
+                    <td>{data.clear_qty}</td>
+                    <td>
+                      {data.tot_gross_wt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </td>
+                    <td>
+                      {data.clear_amt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </td>
+                    <td>
+                      {data.acctg_amt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </td>
+                    <td>{data.close_no}</td>
+                  </tr>
+                ))}
+              </>
+            </tbody>
+          </Table>
         </div>
       </div>
     </div>
