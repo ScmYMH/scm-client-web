@@ -34,6 +34,8 @@ interface CalculateDetailModalProps {
   isOpen: boolean;
   calculateDetailCodeData: any;
   detailParamas: any;
+  setChkCancleFlag: any;
+  chkCancleFlag: boolean;
 }
 
 const CalculateDetailModal = ({
@@ -41,6 +43,8 @@ const CalculateDetailModal = ({
   closeModal,
   calculateDetailCodeData,
   detailParamas,
+  setChkCancleFlag,
+  chkCancleFlag,
 }: CalculateDetailModalProps) => {
   const [params, setParams] = useState({
     transOrderNo: detailParamas.data?.trans_order_no,
@@ -97,6 +101,7 @@ const CalculateDetailModal = ({
     e.preventDefault();
     dispatch(updateFrtStatusRequestAsync.request(params));
     alert("담당자 확정이 완료되었습니다.");
+    setChkCancleFlag(!chkCancleFlag);
     closeModal(true);
   };
 

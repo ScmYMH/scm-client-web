@@ -1,7 +1,7 @@
 import axios from "axios";
 import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
 import { check } from "prettier";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { HiSearch } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { Button, Container, Form, Input, Table } from "reactstrap";
@@ -33,7 +33,7 @@ const CalculateInfoForm = ({
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
-  const [coaChkFlag, setCoaChkFlag] = useState(false);
+
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
@@ -43,7 +43,8 @@ const CalculateInfoForm = ({
     transOrderNo: "",
     cdVmeaning: "",
   });
-  const [transOrderNo, setTransOrderNo] = useState("");
+  
+  const [transOrderNoParam, setTransOrderNoParam] = useState("");
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -142,15 +143,13 @@ const CalculateInfoForm = ({
     dstConfYn: "N",
   });
 
-  console.log("transOrderNo", transOrderNo);
-  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
-    console.log(transOrderNo);
-    setParams({ ...params, transOrderNo: transOrderNo });
-    console.log("params", params);
+  const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
+  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateFrtStatusRequestAsync.request(params));
     alert("담당자 확정이 취소되었습니다.");
+    setChkCancleFlag(!chkCancleFlag);
   };
 
   const [checkedList, setCheckedList] = useState<any>([]);
@@ -163,6 +162,11 @@ const CalculateInfoForm = ({
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
+
+  
+  useEffect(() => {
+    onSubmitCalculateInfo(calSelectParams);
+  }, [chkCancleFlag]);
   return (
     <div
       style={{
@@ -459,7 +463,7 @@ const CalculateInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              onSubmitCalculateDetailInfo(transOrderNo);
+              onSubmitCalculateDetailInfo(transOrderNoParam);
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -473,6 +477,8 @@ const CalculateInfoForm = ({
               closeModal={() => {
                 setDetailOpenModal((detailOpenModal) => !detailOpenModal);
               }}
+              setChkCancleFlag = {setChkCancleFlag}
+              chkCancleFlag={chkCancleFlag}
             />
           )}
         </div>
@@ -517,7 +523,8 @@ const CalculateInfoForm = ({
                             ...detailParamas,
                             data: data,
                           });
-                          setTransOrderNo(data.trans_order_no);
+                          setTransOrderNoParam(data.trans_order_no);
+                          setParams({ ...params, transOrderNo: data.trans_order_no });
                         }}
                       ></Input>
                     </td>
