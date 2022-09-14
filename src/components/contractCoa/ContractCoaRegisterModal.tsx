@@ -56,7 +56,6 @@ const ContractCoaRegisterModal = ({
   //   error: tariffCondHListError,
   // } = useSelector((state: RootState) => state.tariff.tariffCondHList);
   // const tariffCondHListData  = useSelector((state: RootState) => state.tariff.tariffCondHList);
-  console.log("tariffInfoConditon.cntrtId", tariffInfoConditon.cntrtId);
 
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
@@ -73,7 +72,6 @@ const ContractCoaRegisterModal = ({
 
   const onClickTariffModal = () => {
     setOpenNewTariffModal((openTariffModal) => !openTariffModal);
-    console.log("tariffParams : ", tariffParams);
     dispatch(
       saveTariffParamAsync.request({
         ...tariffParams,
@@ -103,7 +101,6 @@ const ContractCoaRegisterModal = ({
       ...contractInfoParams,
       crePersonId: userId,
     });
-    console.log(contractInfoParams);
   };
 
   const baseCodeData = useSelector(
@@ -153,7 +150,6 @@ const ContractCoaRegisterModal = ({
       alert("등록이 완료되었습니다.");
     }
   };
-  console.log("tariffDatatariffData", tariffData);
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">

@@ -85,7 +85,6 @@ const ChangeManagerForm = () => {
   };
 
   const onClickMember = (memId: string, memNm: string) => {
-    console.log("memId: ", memId, " memNm: ", memNm);
     if (isCurrent) {
       // 현 담당자인 경우
       setPreActorNm(memNm);
@@ -99,7 +98,6 @@ const ChangeManagerForm = () => {
         setMngChgInfo({ ...mngChgInfo, aftActorId: memId });
       }
     }
-    console.log("mngChgInfo: ", mngChgInfo);
   };
 
   const onChangeCommonInfoCheckBox = (
@@ -109,7 +107,6 @@ const ChangeManagerForm = () => {
     if (mngChgInfo.cntrtId.find((id) => id === paramCntrtId)) {
       // 있으면 체크가 되어있다는 뜻 => 배열에서 cntrtId 빼기
       const index = mngChgInfo.cntrtId.indexOf(paramCntrtId);
-      // console.log('index: ', index);
       mngChgInfo.cntrtId.splice(index, 1);
       setMngChgInfo({
         ...mngChgInfo,
@@ -118,7 +115,6 @@ const ChangeManagerForm = () => {
     } else {
       // 체크 안되어 있는 상태 => 배열에 체크한 cntrtId 넣기
       const newCntrtId = [...mngChgInfo.cntrtId, paramCntrtId];
-      console.log("newCntrtId: ", newCntrtId);
       setMngChgInfo({
         ...mngChgInfo,
         cntrtId: newCntrtId,
@@ -133,20 +129,17 @@ const ChangeManagerForm = () => {
     if (checkList.seqNoArray.find((id) => id === paramSeqNo)) {
       // 있으면 체크가 되어있다는 뜻 => 배열에서 seqNo 빼기
       const index = checkList.seqNoArray.indexOf(paramSeqNo);
-      // console.log('index: ', index);
       checkList.seqNoArray.splice(index, 1);
       setCheckList({ ...checkList, seqNoArray: checkList.seqNoArray });
     } else {
       // 체크 안되어 있는 상태 => 배열에 체크한 seqNo 넣기
       const newCntrtId = [...checkList.seqNoArray, paramSeqNo];
-      console.log("newCntrtId: ", newCntrtId);
       setCheckList({ ...checkList, seqNoArray: newCntrtId });
     }
   };
 
   const onChangeValidDate = (date: string) => {
     const today = dateToString(new Date());
-    console.log("today : ", today);
     if (date < today) {
       alert("오늘보다 이전날짜는 선택할 수 없습니다.");
     } else {
@@ -155,9 +148,7 @@ const ChangeManagerForm = () => {
         ...mngChgInfo,
         validDate: date,
       });
-      console.log("date : ", date);
     }
-    console.log("todayState.toDateString : ", String(todayState));
   };
 
   const onClickApply = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -179,21 +170,12 @@ const ChangeManagerForm = () => {
   };
 
   const onClickConfrim = () => {
-    // console.log('onClickConfirm --- cntrtChangeInfoListData: ', cntrtChangeInfoListData);
-    console.log(
-      "onClickConfirm --- cntrtIdArray.cntrtChangeInfoList : ",
-      checkList
-    );
     dispatch(putCntrtChgInfoAsync.request(checkList));
 
     setCheckList({ ...checkList, seqNoArray: [] });
   };
 
   const onClickCancel = () => {
-    console.log(
-      "onClickCancel --- cntrtIdArray.cntrtChangeInfoList : ",
-      checkList
-    );
     let isFail = false;
     checkList.seqNoArray.map((seqNo) => {
       checkList.cntrtChangeInfoList
@@ -231,7 +213,6 @@ const ChangeManagerForm = () => {
       ...checkList,
       cntrtChangeInfoList: cntrtChangeInfoListData,
     });
-    // console.log('useEffect cntrtChangeInfoListData --------- cntrtIdArray : ', cntrtIdArray);
   }, [cntrtChangeInfoListData]);
 
   return (

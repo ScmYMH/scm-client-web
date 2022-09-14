@@ -4,7 +4,6 @@ export async function getContractInfoListApi(params: any) {
   const response = await axios.get<ContractInfo>(
     `http://3.37.155.50:8000/coa/search?cntrtId=${params.cntrtId}&cntrtNm=${params.cntrtNm}&insDate=${params.insDate}&cdvMeaning=${params.cdvMeaning}`
   );
-  console.log("contractInfo : ", response.data);
   return response.data;
 }
 
@@ -25,11 +24,9 @@ export async function updateContractInfo(params: ContractInfo) {
 }
 
 export async function deleteContractInfo(cntrtId: ContractInfo) {
-  console.log("deleteContractInfo>>>>>>", cntrtId);
   const response = await axios.put<ContractInfo>(
     `http://3.37.155.50:8000/coa/${cntrtId}`
   );
-  console.log("deleteContractInfo>>>>>>", response.data);
   return response.data;
 }
 
@@ -44,7 +41,6 @@ export async function getContractInfoDefinitionApi(params: any) {
   const response = await axios.get<ContractInfoDefinition>(
     `http://3.37.155.50:8000/coa/code`
   );
-  console.log(response.data);
   return response.data;
 }
 

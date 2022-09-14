@@ -4,7 +4,6 @@ import { postTariffExcelImportAsync, POST_EXCEL_DATA } from "./action";
 function* excelImportRequestSaga(
   action: ReturnType<typeof postTariffExcelImportAsync.request>
 ) {
-  console.log("excelImportRequestSaga 실행");
   try {
     const excelImportDataInfo: Array<ExcelImportData> = yield call(
       postExcelImport,

@@ -8,8 +8,6 @@ import {
 } from "modules/tariff/types";
 
 const customAxios = async (url: any, method: any, data: any) => {
-  console.log(`url : ${url}`);
-
   const response = await axios({
     method,
     url,

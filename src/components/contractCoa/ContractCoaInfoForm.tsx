@@ -108,7 +108,6 @@ const ContractCoaInfoForm = ({
 
   const onClickTariffModal = () => {
     setOpenTariffModal((openTariffModal) => !openTariffModal);
-    console.log("tariffParams : ", tariffParams);
     dispatch(saveTariffParamAsync.request(tariffParams));
     dispatch(
       getTariffHeaderAsync.request({

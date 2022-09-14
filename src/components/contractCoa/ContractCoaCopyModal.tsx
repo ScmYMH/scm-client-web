@@ -62,7 +62,6 @@ const ContractCoaCopyModal = ({
       ...contractInfoParams,
       crePersonId: userId,
     });
-    console.log(contractInfoParams);
   };
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
@@ -105,7 +104,6 @@ const ContractCoaCopyModal = ({
 
   const onClickTariffModal = () => {
     setOpenTariffModal((openTariffModal) => !openTariffModal);
-    console.log("tariffParams : ", tariffParams);
     dispatch(saveTariffParamAsync.request(tariffParams));
     dispatch(
       getTariffHeaderAsync.request({
@@ -117,7 +115,6 @@ const ContractCoaCopyModal = ({
 
   const onClickNewTariffModal = () => {
     setOpenNewTariffModal((openTariffModal) => !openTariffModal);
-    console.log("tariffParams : ", tariffParams);
     dispatch(
       saveTariffParamAsync.request({
         ...tariffParams,
@@ -155,14 +152,8 @@ const ContractCoaCopyModal = ({
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
     getContractId();
-    console.log(
-      "============클릭한 계약 ID(cntrt_id) : ",
-      updParams.data.cntrt_id
-    );
     dispatch(getAllTariffInfoAsync.request(updParams.data.cntrt_id));
   }, []);
-
-  console.log("-=-==-=-=-==-==-=-=-=-=--=- allTariffInfo : ", allTariffInfo);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -170,10 +161,6 @@ const ContractCoaCopyModal = ({
     dispatch(insertContractCodeAsync.request(contractInfoParams)); // 계약 등록
 
     if (allTariffInfo !== null) {
-      console.log(
-        "=========================postContractCopayAsync param----- cntrtId : ",
-        contractInfoParams.cntrtId
-      );
       dispatch(
         postContractCopyAsync.request({
           cntrtId: contractInfoParams.cntrtId,

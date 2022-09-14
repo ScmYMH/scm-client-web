@@ -109,7 +109,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     const findIndex = trffCondHList?.findIndex(
       (data) => data.seqNo === seqNoParam
     );
-    console.log("findIndex : ", findIndex);
 
     const newTrffCondHList = trffCondHList !== null ? [...trffCondHList] : null;
     if (
@@ -119,7 +118,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     ) {
       if (id == "trffStatDate" || id == "trffEndDate") {
         const newValue = value.replace(/-/g, "");
-        console.log("newValue: ", newValue);
         newTrffCondHList[findIndex] = {
           ...newTrffCondHList[findIndex],
           [id]: newValue,
@@ -136,21 +134,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
 
   const onChangeAddRowValue = (e: any, seqNoParam) => {
     const { id, value } = e.target;
-    console.log(
-      "onChangeAddRowValue ===========> id : ",
-      id,
-      ", value : ",
-      value
-    );
 
     const findIndex = isAdd?.findIndex((data) => data.seqNo === seqNoParam);
-    console.log("findIndex : ", findIndex);
 
     const newAdd = [...isAdd];
     if (findIndex !== -1) {
       if (id == "trffStatDate" || id == "trffEndDate") {
         const newValue = value.replace(/-/g, "");
-        console.log("newValue : ", newValue);
         newAdd[findIndex] = {
           ...newAdd[findIndex],
           [id]: newValue,
@@ -256,14 +246,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     subLccCdParam: string,
     lccCdDescParam: string
   ) => {
-    console.log(
-      "lccCd: ",
-      lccCdParam,
-      " subLccCd: ",
-      subLccCdParam,
-      " lccCdDesc: ",
-      lccCdDescParam
-    );
     if (whatLcc === "rowLcc") {
       const findIndex = trffCondHList?.findIndex(
         (data) => data.seqNo === tempSeqNo
@@ -325,7 +307,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickSearch = () => {
-    console.log("조회 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -334,7 +315,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
         tariffCondParam.validDate.substring(0, 4) +
         tariffCondParam.validDate.substring(5, 7) +
         tariffCondParam.validDate.substring(8);
-      console.log("validDateTemp : ", validDateTemp);
 
       if (
         tariffCondParam.departNodeNm == "" &&
@@ -445,7 +425,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickCopy = () => {
-    console.log("복사 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -463,11 +442,9 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickAddRow = () => {
-    console.log("행추가 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
-      console.log("행추가 클릭");
       setIsAdd([
         ...isAdd,
         {
@@ -494,14 +471,10 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
         },
       ]);
       setCount((prevState) => prevState + 1);
-
-      console.log("isAdd : ", isAdd);
-      console.log("tariffCondHListData: ", tariffCondHListData);
     }
   };
 
   const onClickDelRow = () => {
-    console.log("행삭제 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -511,7 +484,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickSave = () => {
-    console.log("저장 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -527,18 +499,15 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickDelete = () => {
-    console.log("삭제 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
-      console.log("타리프 정보 삭제할 seqNo array : ", tariffCheckBox);
       dispatch(deleteTariffCondHAsync.request(tariffCheckBox));
       setTariffCheckBox([]);
     }
   };
 
   const onClickExcelExport = () => {
-    console.log("엑셀 export 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -547,7 +516,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   };
 
   const onClickExcelImport = () => {
-    console.log("ADD 버튼 클릭");
     if (!isSave) {
       alert("타리프 헤더정보가 없습니다");
     } else {
@@ -557,8 +525,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
 
   useEffect(() => {
     dispatch(getCodeDefAsync.request(""));
-
-    console.log("tariffParamData : ", tariffParamData);
     const validDateTemp = toStringByFormatting(
       stringToDate(tariffParamData?.cntrtEndDate)
     );

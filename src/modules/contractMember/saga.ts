@@ -25,7 +25,7 @@ function* getContractMemberSaga(
 
     yield put(getContractMemberAsync.success(contractmemberInfo));
   } catch (e: any) {
-    console.log("saga error");
+    console.log("getContractMemberSaga error");
     yield put(getContractMemberAsync.failure(e));
   }
 }

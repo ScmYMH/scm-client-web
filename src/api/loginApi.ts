@@ -5,7 +5,6 @@ export async function loginApi(params: string) {
     `http://3.37.155.50:8000/user/login`,
     params
   );
-  console.log(response.data);
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 // response type 정의

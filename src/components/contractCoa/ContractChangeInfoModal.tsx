@@ -27,8 +27,6 @@ const ContractChangeInfoModal = ({
     dispatch(contractChangeInfoAsync.request(updParams.data.cntrt_id));
   }, []);
 
-  console.log("cntrtId >> ", updParams.data.cntrt_id);
-
   return (
     <>
       {console.log(

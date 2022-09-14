@@ -209,10 +209,6 @@ function* getAllTariffInfoSaga(
   action: ReturnType<typeof getAllTariffInfoAsync.request>
 ) {
   try {
-    console.log(
-      "getAllTariffInfoSaga 실행 =============> cntrtId : ",
-      action.payload
-    );
     const allTariffInfo: Array<AllTariffInfo> = yield call(
       getAllTariffInfoAxios,
       action.payload
@@ -227,10 +223,6 @@ function* postContractCopySaga(
   action: ReturnType<typeof postContractCopyAsync.request>
 ) {
   try {
-    console.log(
-      "postContractCopySaga 실행 =============> action.payload : ",
-      action.payload
-    );
     const result: boolean = yield call(postContractCopyAxios, action.payload);
     yield put(postContractCopyAsync.success(result));
   } catch (e: any) {
