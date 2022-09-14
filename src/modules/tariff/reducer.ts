@@ -4,6 +4,9 @@ import {
   DELETE_TARIFF_COND_H,
   DELETE_TARIFF_COND_H_ERROR,
   DELETE_TARIFF_COND_H_SUCCESS,
+  GET_ALL_TARIFF_INFO,
+  GET_ALL_TARIFF_INFO_ERROR,
+  GET_ALL_TARIFF_INFO_SUCCESS,
   GET_CODE_DEFINITION,
   GET_CODE_DEFINITION_ERROR,
   GET_CODE_DEFINITION_SUCCESS,
@@ -19,6 +22,9 @@ import {
   GET_TARIFF_HEADER,
   GET_TARIFF_HEADER_ERROR,
   GET_TARIFF_HEADER_SUCCESS,
+  POST_CONTRACT_COPY,
+  POST_CONTRACT_COPY_ERROR,
+  POST_CONTRACT_COPY_SUCCESS,
   POST_TARIFF_COND_H,
   POST_TARIFF_COND_H_ERROR,
   POST_TARIFF_COND_H_SUCCESS,
@@ -31,7 +37,47 @@ import {
   SAVE_TARIFF_PARAM_ERROR,
   SAVE_TARIFF_PARAM_SUCCESS,
 } from "./actions";
-import { TariffAction, TariffState } from "./types";
+import {
+  ContractCopyAction,
+  ContractCopyState,
+  TariffAction,
+  TariffState,
+} from "./types";
+
+const initialContractCopyState: ContractCopyState = {
+  allTariffInfo: asyncState.initial(),
+  contractCopyResult: asyncState.initial(),
+};
+
+export const contractCopyReducer = createReducer<
+  ContractCopyState,
+  ContractCopyAction
+>(initialContractCopyState, {
+  [GET_ALL_TARIFF_INFO]: (state) => ({
+    ...state,
+    allTariffInfo: asyncState.load(),
+  }),
+  [GET_ALL_TARIFF_INFO_SUCCESS]: (state, action) => ({
+    ...state,
+    allTariffInfo: asyncState.success(action.payload),
+  }),
+  [GET_ALL_TARIFF_INFO_ERROR]: (state, action) => ({
+    ...state,
+    allTariffInfo: asyncState.error(action.payload),
+  }),
+  [POST_CONTRACT_COPY]: (state) => ({
+    ...state,
+    contractCopyResult: asyncState.load(),
+  }),
+  [POST_CONTRACT_COPY_SUCCESS]: (state, action) => ({
+    ...state,
+    contractCopyResult: asyncState.success(action.payload),
+  }),
+  [POST_CONTRACT_COPY_ERROR]: (state, action) => ({
+    ...state,
+    contractCopyResult: asyncState.error(action.payload),
+  }),
+});
 
 const initialState: TariffState = {
   tariffParam: asyncState.initial(),
@@ -42,7 +88,7 @@ const initialState: TariffState = {
   tariffCondHList: asyncState.initial(),
 };
 
-const tariff = createReducer<TariffState, TariffAction>(initialState, {
+export const tariff = createReducer<TariffState, TariffAction>(initialState, {
   [SAVE_TARIFF_PARAM]: (state) => ({
     ...state,
     tariffParam: asyncState.load(),
@@ -160,5 +206,3 @@ const tariff = createReducer<TariffState, TariffAction>(initialState, {
     codeDefList: asyncState.error(action.payload),
   }),
 });
-
-export default tariff;

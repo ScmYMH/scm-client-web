@@ -13,6 +13,13 @@ export type TariffState = {
   codeDefList: AsyncState<Array<CodeDefinition>, Error>;
 };
 
+export type ContractCopyAction = ActionType<typeof actions>;
+
+export type ContractCopyState = {
+  allTariffInfo: AsyncState<Array<AllTariffInfo>, Error>;
+  contractCopyResult: AsyncState<boolean, Error>;
+};
+
 // post tariffHeader request
 export interface TariffParam {
   cntrtId: string; // 계약 ID -> 계약 ID를 클릭했을 떄 타리프 창이 뜨기 때문에 그 계약 ID 값 가져오기
@@ -65,6 +72,16 @@ export interface TariffCondParam {
   departNodeNm: string;
   arrivalNodeCd: string;
   arrivalNodeNm: string;
+}
+
+export interface AllTariffInfo {
+  resTariffHeaderDto: TariffHeader;
+  tariffCondHDtoList: Array<TariffCondH>;
+}
+
+export interface ContractCopyParam {
+  cntrtId: string;
+  allTariffInfoList: Array<AllTariffInfo>;
 }
 
 // get destInfo req

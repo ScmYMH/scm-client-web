@@ -29,7 +29,9 @@ import SearchUser from "components/ContractMember/SearchUser";
 import TariffLoader from "components/tariffInfo/TariffLoader";
 import styles from "./coa.module.css";
 import {
+  getAllTariffInfoAsync,
   getTariffHeaderAsync,
+  postContractCopyAsync,
   resetTariffHeaderAsync,
   saveTariffParamAsync,
 } from "modules/tariff/actions";
@@ -67,6 +69,15 @@ const ContractCoaCopyModal = ({
   const baseCodeData = useSelector(
     (state: RootState) => state.baseCode.baseCode
   );
+
+  const { data: allTariffInfo } = useSelector(
+    (state: RootState) => state.contractCopyReducer.allTariffInfo
+  );
+
+  const { data: contractCopyResult } = useSelector(
+    (state: RootState) => state.contractCopyReducer.contractCopyResult
+  );
+
   const [contractInfoParams, setContractInfoParamas] = useState({
     cntrtId: "",
     cntrtCurrCd: "USD",
@@ -144,13 +155,33 @@ const ContractCoaCopyModal = ({
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
     getContractId();
+    console.log(
+      "============클릭한 계약 ID(cntrt_id) : ",
+      updParams.data.cntrt_id
+    );
+    dispatch(getAllTariffInfoAsync.request(updParams.data.cntrt_id));
   }, []);
+
+  console.log("-=-==-=-=-==-==-=-=-=-=--=- allTariffInfo : ", allTariffInfo);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch(insertContractCodeAsync.request(contractInfoParams));
-    alert("등록이 완료되었습니다.");
+    dispatch(insertContractCodeAsync.request(contractInfoParams)); // 계약 등록
+
+    if (allTariffInfo !== null) {
+      console.log(
+        "=========================postContractCopayAsync param----- cntrtId : ",
+        contractInfoParams.cntrtId
+      );
+      dispatch(
+        postContractCopyAsync.request({
+          cntrtId: contractInfoParams.cntrtId,
+          allTariffInfoList: allTariffInfo,
+        })
+      ); // 타리프 등록 ( cntrt_trff_info, cntrt_trff_cond_h, cntrt_trff_cond_val_d )
+      alert("등록이 완료되었습니다.");
+    }
   };
 
   function leftPad(value) {
@@ -182,7 +213,7 @@ const ContractCoaCopyModal = ({
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
         <Container>
           <ModalHeader toggle={closeModal}>
-            <ModalTitle>계약 등록</ModalTitle>
+            <ModalTitle>계약 복사</ModalTitle>
           </ModalHeader>
         </Container>
         <ModalBody>
@@ -553,30 +584,6 @@ const ContractCoaCopyModal = ({
                 </tr>
               </tbody>
             </Table>
-
-            <Form
-              className="ContractInfoForm"
-              onSubmit={onSubmitInsertContractInfo}
-              style={{ margin: 0, padding: 0 }}
-            >
-              <div
-                style={{
-                  margin: "10px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <Button
-                  outline
-                  className="btn"
-                  size="sm"
-                  style={{ margin: 0, padding: 0, width: 50 }}
-                >
-                  저장
-                </Button>
-              </div>
-            </Form>
           </Container>
 
           <Container>
@@ -636,34 +643,29 @@ const ContractCoaCopyModal = ({
                 </>
               </tbody>
             </Table>
-            <div
-              style={{
-                margin: "10px",
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
+            <Form
+              className="ContractInfoForm"
+              onSubmit={onSubmitInsertContractInfo}
+              style={{ margin: 0, padding: 0 }}
             >
-              <Button
-                outline
-                className="btn"
-                size="sm"
-                style={{ margin: 0, padding: 0, width: 50 }}
-                onClick={onClickNewTariffModal}
+              <div
+                style={{
+                  margin: "10px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
               >
-                추가
-              </Button>
-              {openNewTariffModal && (
-                <TariffLoader
-                  isOpen={openNewTariffModal}
-                  closeModal={() =>
-                    setOpenNewTariffModal(
-                      (openNewTariffModal) => !openNewTariffModal
-                    )
-                  }
-                />
-              )}
-            </div>
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                >
+                  저장
+                </Button>
+              </div>
+            </Form>
           </Container>
         </ModalBody>
       </Modal>

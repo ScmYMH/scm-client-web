@@ -1,10 +1,12 @@
 import {
   delTariffCondHAxios,
+  getAllTariffInfoAxios,
   getCodeDefAxios,
   getDestInfoAxios,
   getLccInfoAxios,
   getTariffCondHAxios,
   getTariffHeaderAxios,
+  postContractCopyAxios,
   postTariffCondHAxios,
   postTariffHeaderAxios,
 } from "api/tariffAxios";
@@ -13,18 +15,22 @@ import { call, put, select, takeLatest } from "redux-saga/effects";
 import {
   deleteTariffCondHAsync,
   DELETE_TARIFF_COND_H,
+  getAllTariffInfoAsync,
   getCodeDefAsync,
   getDestInfoAsync,
   getLccInfoAsync,
   getTariffCondHAsync,
   getTariffHeaderAsync,
+  GET_ALL_TARIFF_INFO,
   GET_CODE_DEFINITION,
   GET_DEST_INFO,
   GET_LCC_INFO,
   GET_TARIFF_COND_H,
   GET_TARIFF_HEADER,
+  postContractCopyAsync,
   postTariffCondHAsync,
   postTariffHeaderAsync,
+  POST_CONTRACT_COPY,
   POST_TARIFF_COND_H,
   POST_TARIFF_HEADER,
   resetTariffCondHAsync,
@@ -35,6 +41,7 @@ import {
   SAVE_TARIFF_PARAM,
 } from "./actions";
 import {
+  AllTariffInfo,
   CodeDefinition,
   DestInfo,
   LccInfo,
@@ -198,6 +205,39 @@ function* getCodeDefSaga(action: ReturnType<typeof getCodeDefAsync.request>) {
   }
 }
 
+function* getAllTariffInfoSaga(
+  action: ReturnType<typeof getAllTariffInfoAsync.request>
+) {
+  try {
+    console.log(
+      "getAllTariffInfoSaga 실행 =============> cntrtId : ",
+      action.payload
+    );
+    const allTariffInfo: Array<AllTariffInfo> = yield call(
+      getAllTariffInfoAxios,
+      action.payload
+    );
+    yield put(getAllTariffInfoAsync.success(allTariffInfo));
+  } catch (e: any) {
+    yield put(getAllTariffInfoAsync.failure(e));
+  }
+}
+
+function* postContractCopySaga(
+  action: ReturnType<typeof postContractCopyAsync.request>
+) {
+  try {
+    console.log(
+      "postContractCopySaga 실행 =============> action.payload : ",
+      action.payload
+    );
+    const result: boolean = yield call(postContractCopyAxios, action.payload);
+    yield put(postContractCopyAsync.success(result));
+  } catch (e: any) {
+    yield put(postContractCopyAsync.failure(e));
+  }
+}
+
 export function* tariffSaga() {
   yield takeLatest(SAVE_TARIFF_PARAM, saveTariffHeaderParamSaga);
   yield takeLatest(GET_TARIFF_HEADER, getTariffHeaderSaga);
@@ -210,4 +250,9 @@ export function* tariffSaga() {
   yield takeLatest(GET_DEST_INFO, getDestInfoSaga);
   yield takeLatest(GET_LCC_INFO, getLccInfoSaga);
   yield takeLatest(GET_CODE_DEFINITION, getCodeDefSaga);
+}
+
+export function* contractCopySaga() {
+  yield takeLatest(GET_ALL_TARIFF_INFO, getAllTariffInfoSaga);
+  yield takeLatest(POST_CONTRACT_COPY, postContractCopySaga);
 }

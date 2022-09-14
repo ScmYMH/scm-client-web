@@ -1,5 +1,4 @@
 import {
-  baseCodeAsync,
   contractInfoAsync,
   delContractCodeAsync,
   tariffInfoAsync,
@@ -8,7 +7,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../modules";
 import ContractCoaInfoForm from "./ContractCoaInfoForm";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 const ContractCoaInfoLoader = () => {
   const { data, loading, error } = useSelector(
@@ -60,7 +59,7 @@ const ContractCoaInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ display: "flex", height: "100%", marginBottom: "50px" }}>
+      <Card style={{ minHeight: "900px" }}>
         <ContractCoaInfoForm
           onSubmitContractCoaInfo={onSubmitContractCoaInfo}
           onSubmitTariffInfo={onSubmitTariffInfo}

@@ -17,7 +17,6 @@ import {
 } from "modules/tariff/actions";
 import TariffExcelModal from "./TariffExcelModal";
 import styles from "./tariff.module.css";
-import tariff from "modules/tariff/reducer";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();

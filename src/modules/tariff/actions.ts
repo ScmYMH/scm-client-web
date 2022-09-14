@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
 import { createAsyncAction } from "typesafe-actions";
 import {
+  AllTariffInfo,
   CodeDefinition,
+  ContractCopyParam,
   DestInfo,
   LccInfo,
   LccInfoParam,
@@ -11,6 +13,14 @@ import {
 } from "./types";
 
 // 액션 정의
+
+export const GET_ALL_TARIFF_INFO = "tariff/GET_ALL_TARIFF_INFO";
+export const GET_ALL_TARIFF_INFO_SUCCESS = "tariff/GET_ALL_TARIFF_INFO_SUCCESS";
+export const GET_ALL_TARIFF_INFO_ERROR = "tariff/GET_ALL_TARIFF_INFO_ERROR";
+
+export const POST_CONTRACT_COPY = "tariff/POST_CONTRACT_COPY";
+export const POST_CONTRACT_COPY_SUCCESS = "tariff/POST_CONTRACT_COPY_SUCCESS";
+export const POST_CONTRACT_COPY_ERROR = "tariff/POST_CONTRACT_COPY_ERROR";
 
 export const SAVE_TARIFF_PARAM = "tariff/SAVE_TARIFF_PARAM";
 export const SAVE_TARIFF_PARAM_SUCCESS = "tariff/SAVE_TARIFF_PARAM_SUCCESS";
@@ -56,6 +66,18 @@ export const GET_LCC_INFO_ERROR = "tariff/GET_LCC_INFO_ERROR";
 export const GET_CODE_DEFINITION = "tariff/GET_CODE_DEFINITION";
 export const GET_CODE_DEFINITION_SUCCESS = "tariff/GET_CODE_DEFINITION_SUCCESS";
 export const GET_CODE_DEFINITION_ERROR = "tariff/GET_CODE_DEFINITION_ERROR";
+
+export const getAllTariffInfoAsync = createAsyncAction(
+  GET_ALL_TARIFF_INFO,
+  GET_ALL_TARIFF_INFO_SUCCESS,
+  GET_ALL_TARIFF_INFO_ERROR
+)<string, Array<AllTariffInfo>, AxiosError>();
+
+export const postContractCopyAsync = createAsyncAction(
+  POST_CONTRACT_COPY,
+  POST_CONTRACT_COPY_SUCCESS,
+  POST_CONTRACT_COPY_ERROR
+)<ContractCopyParam, boolean, AxiosError>();
 
 export const saveTariffParamAsync = createAsyncAction(
   SAVE_TARIFF_PARAM,

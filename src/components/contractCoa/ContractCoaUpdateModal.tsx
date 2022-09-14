@@ -31,6 +31,7 @@ import TariffLoader from "components/tariffInfo/TariffLoader";
 import styles from "./coa.module.css";
 import {
   getTariffHeaderAsync,
+  resetTariffHeaderAsync,
   saveTariffParamAsync,
 } from "modules/tariff/actions";
 import { TariffParam } from "modules/tariff/types";
@@ -88,6 +89,7 @@ const ContractCoaUpdateModal = ({
   });
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
+  const [openNewTariffModal, setOpenNewTariffModal] = useState(false);
 
   const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID
@@ -105,6 +107,32 @@ const ContractCoaUpdateModal = ({
       getTariffHeaderAsync.request({
         cntrtId: tariffParams.cntrtId,
         trffId: tariffParams.trffId,
+      })
+    );
+  };
+
+  const onClickNewTariffModal = () => {
+    setOpenNewTariffModal((openTariffModal) => !openTariffModal);
+    console.log("tariffParams : ", tariffParams);
+    dispatch(
+      saveTariffParamAsync.request({
+        ...tariffParams,
+        cntrtId: contractInfoParams.cntrtId, // 계약 ID
+        cntrtStatDate: contractInfoParams.cntrtStartDate,
+        cntrtEndDate: contractInfoParams.cntrtEndDate,
+        cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+      })
+    );
+    dispatch(
+      resetTariffHeaderAsync.request({
+        cntrtId: contractInfoParams.cntrtId,
+        trffId: 0,
+        trffNm: "",
+        trffDesc: "",
+        bizTcd: "",
+        arApCcd: "",
+        svcTcd: "",
+        detlSvcTcd: "",
       })
     );
   };

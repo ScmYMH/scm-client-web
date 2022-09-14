@@ -239,7 +239,11 @@ const ContractCoaInfoForm = ({
             style={{ margin: 3 }}
             size="sm"
             onClick={() => {
-              setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal);
+              if (isChecked === true) {
+                setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal);
+              } else {
+                alert("복사하고자 하는 계약을 체크 해주세요.");
+              }
             }}
           >
             계약복사

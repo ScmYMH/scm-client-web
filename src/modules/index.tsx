@@ -16,14 +16,18 @@ import contractmember from "./contractMember/reducer";
 import { contractMemberSaga } from "./contractMember/saga";
 import usermember from "./userMember/reducer";
 import { userMemberSaga } from "./userMember/saga";
-import tariff from "./tariff/reducer";
-import { tariffSaga } from "./tariff/saga";
+import { contractCopySaga, tariffSaga } from "./tariff/saga";
 import { calculateSaga } from "./calculate/saga";
-import {calculateInfo, vslCdInfo, calculateDetailInfo} from "./calculate/reducer";
+import {
+  calculateInfo,
+  vslCdInfo,
+  calculateDetailInfo,
+} from "./calculate/reducer";
 import { contractChangeInfoSaga } from "./contractChangeCoa/saga";
 import { contractChangeInfo } from "./contractChangeCoa/reducer";
 import excelImportDataInfo from "./importExcel/reducer";
 import { excelImportSaga } from "./importExcel/saga";
+import { contractCopyReducer, tariff } from "./tariff/reducer";
 
 const rootReducer = combineReducers({
   contractInfo,
@@ -34,6 +38,7 @@ const rootReducer = combineReducers({
   contractmember,
   usermember,
   tariff,
+  contractCopyReducer,
   updateContractInfo,
   delContractInfo,
   calculateInfo,
@@ -62,5 +67,6 @@ export function* rootSaga() {
     calculateSaga(),
     contractChangeInfoSaga(),
     excelImportSaga(),
+    contractCopySaga(),
   ]);
 }
