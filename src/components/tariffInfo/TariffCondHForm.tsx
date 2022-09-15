@@ -38,7 +38,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   } = useSelector((state: RootState) => state.tariff.tariffHeader);
 
   const {
-    data: tariffParamData,
+    data: tariffParamData, //계약 id, 타리프 id 가져옴
     loading: tariffParamLoading,
     error: tariffParamError,
   } = useSelector((state: RootState) => state.tariff.tariffParam);
@@ -649,7 +649,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   onClick={onClickExcelImport}
                   outline
                 >
-                  Add
+                  엑셀 Import
                 </Button>
                 {openExcelModal && (
                   <TariffExcelModal
