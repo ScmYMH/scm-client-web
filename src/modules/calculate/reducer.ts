@@ -15,8 +15,11 @@ import {
 	FRTSTATUS_UPDATE_REQUEST,
 	ACCOUNT_UPDATE_ERROR,
 	ACCOUNT_UPDATE_SUCCESS,
-	ACCOUNT_UPDATE_REQUEST} from './actions';
-import { CalculateDetailInfoAction, CalculateDetailInfoState, CalculateInfoAction, CalculateInfoState, UpdateAccountAction, UpdateAccountState, UpdateFrtStatusAction, UpdateFrtStatusState, VslCdAction, VslCdState } from './types';
+	ACCOUNT_UPDATE_REQUEST,
+	CALCULATE_INSERT_REQUEST,
+	CALCULATE_INSERT_SUCCESS,
+	CALCULATE_INSERT_ERROR} from './actions';
+import { CalculateDetailInfoAction, CalculateDetailInfoState, CalculateInfoAction, CalculateInfoState, InsertCalculateInfoAction, InsertCalculateInfoState, UpdateAccountAction, UpdateAccountState, UpdateFrtStatusAction, UpdateFrtStatusState, VslCdAction, VslCdState } from './types';
 
 const initialState: CalculateInfoState = {
 	calculateInfo: asyncState.initial(),
@@ -37,6 +40,24 @@ const calculateInfo = createReducer<CalculateInfoState, CalculateInfoAction>(ini
 	}),
 });
 
+const insertCalInitialState: InsertCalculateInfoState = {
+	insertCalculateInfo: asyncState.initial(),
+};
+
+const insertCalculateInfo = createReducer<InsertCalculateInfoState, InsertCalculateInfoAction>(insertCalInitialState, {
+	[CALCULATE_INSERT_REQUEST]: (state) => ({
+		...state,
+		insertCalculateInfo: asyncState.load(),
+	}),
+	[CALCULATE_INSERT_SUCCESS]: (state, action) => ({
+		...state,
+		insertCalculateInfo: asyncState.success(action.payload),
+	}),
+	[CALCULATE_INSERT_ERROR]: (state, action) => ({
+		...state,
+		insertCalculateInfo: asyncState.error(action.payload),
+	}),
+});
 
 const calDetailInfoInitialState: CalculateDetailInfoState = {
 	calculateDetailInfo: asyncState.initial(),
@@ -115,4 +136,4 @@ const vslCdInfo = createReducer<VslCdState, VslCdAction>(vslInitialState, {
 });
 
 
-export {calculateInfo, vslCdInfo, calculateDetailInfo, updAccountInfo, updateFrtStatus};
+export {insertCalculateInfo, calculateInfo, vslCdInfo, calculateDetailInfo, updAccountInfo, updateFrtStatus};

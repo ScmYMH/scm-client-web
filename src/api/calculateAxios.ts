@@ -5,24 +5,29 @@ export async function getCalculateInfo(calSelectParams: any) {
   const response = await axios.get<CalculateInfo>(
     `http://localhost:9990/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
   );
-  console.log(response.data);
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
 export async function getCalculateDetailInfo(transOrderNo: any) {
-  console.log(transOrderNo);
   const response = await axios.get<CalculateInfo>(
     `http://localhost:9990/calculate/detail?transOrderNo=${transOrderNo}`
   );
-  console.log("getCalculateDetailInfo", response.data);
   return response.data;
 }
+
+// 운임 정산
+export async function insertCalculateInfo(transOrderNo: any) {
+  const response = await axios.post<CalculateInfo>(
+    `http://localhost:9990/calculate?transOrderNo=${transOrderNo}`
+  );
+  return response.data;
+}
+
 
 export async function getVslCodeInfo(params: any) {
   const response = await axios.get<VslCdInfo>(
     `http://localhost:9990/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
   );
-  console.log(response.data);
   return response.data;
 }
 
@@ -31,7 +36,6 @@ export async function updateFrtStatus(params: any) {
     `http://localhost:9990/calculate/frtstatus`,
     params
   );
-  console.log(response.data);
   return response.data;
 }
 
@@ -41,7 +45,6 @@ export async function updateAccountInfo(params: any) {
     `http://localhost:9990/calculate/actConnInfo`,
     params
   );
-  console.log(response.data);
   return response.data;
 }
 

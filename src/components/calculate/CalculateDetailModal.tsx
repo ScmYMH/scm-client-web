@@ -174,9 +174,9 @@ const CalculateDetailModal = ({
                     value={detailParamas.data?.cd_v_meaning}
                   ></Input>
                 </td>
-                <td>기타할증</td>
+                <td>선적일자</td>
                 <td>
-                  <Input type="text" disabled value={"0"}></Input>
+                  <Input type="text" disabled value={dateToString(to_date(detailParamas.data?.bl_date))}></Input>
                 </td>
               </tr>
               <tr>
@@ -185,7 +185,7 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={clearAmtTotalSum()}
+                    value={clearAmtTotalSum() == 'NaN' ? 0 : clearAmtTotalSum()}
                   ></Input>
                 </td>
                 <td>총 운임</td>
@@ -193,7 +193,7 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={clearAmtTotalSum()}
+                    value={clearAmtTotalSum() == 'NaN' ? 0 : clearAmtTotalSum()}
                   ></Input>
                 </td>
               </tr>
@@ -310,10 +310,10 @@ const CalculateDetailModal = ({
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{clearAmtTotalSum()}</td>
+                    <td>{clearAmtTotalSum() == 'NaN' ? null : clearAmtTotalSum()}</td>
                     <td></td>
                     <td></td>
-                    <td>{clearLocalSuppAmtTotalSum()}</td>
+                    <td>{clearLocalSuppAmtTotalSum() == 'NaN' ? null : clearLocalSuppAmtTotalSum()}</td>
                   </tr>
                 </tfoot>
               </Table>

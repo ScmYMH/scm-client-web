@@ -9,6 +9,11 @@ export type CalculateInfoState = {
 	calculateInfo: AsyncState<CalculateInfo, Error>;
 };
 
+export type InsertCalculateInfoAction = ActionType<typeof actions>;
+
+export type InsertCalculateInfoState = {
+	insertCalculateInfo: AsyncState<CalculateInfo, Error>;
+};
 
 export type CalculateDetailInfoAction = ActionType<typeof actions>;
 

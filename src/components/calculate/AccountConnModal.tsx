@@ -41,10 +41,10 @@ const AccountConnModal = ({
   detailParamas,
 }: AccountConnModalProps) => {
   const expNo = localStorage.getItem("employeeNumber");
-
+  console.log(detailParamas.data.clear_amt);
   const [newAccountIdParams, setNewAccountIdParams] = useState({
     closeNo: "",
-    acctgAmt: 0,
+    acctgAmt: detailParamas.data.clear_amt,
     transOrderNo: detailParamas.data.trans_order_no,
     invInnerNo: detailParamas.data.inv_inner_no,
   });

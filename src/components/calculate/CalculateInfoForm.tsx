@@ -1,5 +1,5 @@
 import axios from "axios";
-import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
+import { insertCalculateRequestAsync, updateFrtStatusRequestAsync } from "modules/calculate/actions";
 import { check } from "prettier";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { HiSearch } from "react-icons/hi";
@@ -33,7 +33,13 @@ const CalculateInfoForm = ({
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
+  
+  const [chkCalcFlag, setChkCalcFlag] = useState(false);
+  const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
+  const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
 
+  console.log(chkClearAmtFlag);
+  
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
@@ -62,7 +68,7 @@ const CalculateInfoForm = ({
   });
 
   const [reqLspParam, setReqLspParam] = useState("");
-
+  console.log(reqLspParam);
   const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
     setReqLspParam(cd_v_meaning);
     setCalSelectParams({ ...calSelectParams, lspId: cd_v });
@@ -84,27 +90,45 @@ const CalculateInfoForm = ({
   ];
 
   const onChangeCalInfo = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e)
     setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
   };
 
   const checkAccountConn = () => {
-    if (isChecked === true) {
-      const dialog = confirm("상신하시겠습니까?");
+    if(chkDstConfYnFlag == "N"){
+      alert("담당자 확정을 먼저 해주세요.");
+    }else if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+      alert("운임 정산을 해주세요.");
+    }else{
+      if (isChecked === true) {
+        const dialog = confirm("상신하시겠습니까?");
 
-      if (dialog) {
-        console.log("Data Saved");
-        setActConOpenModal((actConOpenModal) => !actConOpenModal);
+        if (dialog) {
+          console.log("Data Saved");
+          setActConOpenModal((actConOpenModal) => !actConOpenModal);
+        } else {
+          console.log("Data Not Saved");
+        }
       } else {
-        console.log("Data Not Saved");
+        alert("상신할 아이템을 선택해주세요.");
       }
-    } else {
-      alert("상신할 아이템을 선택해주세요.");
     }
   };
 
   const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
+  };
+
+  const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(chkDstConfYnFlag == "Y"){
+      dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
+      alert("운임 정산 완료.");
+      setChkCalcFlag(!chkCalcFlag);
+    }else{
+      alert("담당자 확정을 먼저 해주세요.");
+    }
   };
 
   const dateToString = (date) => {
@@ -166,7 +190,8 @@ const CalculateInfoForm = ({
   
   useEffect(() => {
     onSubmitCalculateInfo(calSelectParams);
-  }, [chkCancleFlag]);
+  }, [chkCalcFlag, chkCancleFlag]);
+
   return (
     <div
       style={{
@@ -192,9 +217,15 @@ const CalculateInfoForm = ({
             조회
           </Button>
         </Form>
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          운임 정산
-        </Button>
+        <Form
+          style={{ margin: 3 }}
+          onSubmit={onSubmitInsertCalculateInfo}
+          className="InsertCalculateInfoForm"
+        >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            운임 정산
+          </Button>
+        </Form>
         <Button
           outline
           style={{ margin: 3 }}
@@ -235,7 +266,7 @@ const CalculateInfoForm = ({
                   margin: 1,
                 }}
               >
-                출하일
+                조회기간
               </th>
               <td>
                 <div style={{ display: "inline-block" }}>
@@ -299,7 +330,6 @@ const CalculateInfoForm = ({
               <td>
                 <Input
                   id="lspId"
-                  readOnly
                   style={{
                     boxShadow: "none",
                     width: "85%",
@@ -307,7 +337,7 @@ const CalculateInfoForm = ({
                     borderRadius: 0,
                   }}
                   onChange={onChangeCalInfo}
-                  value={reqLspParam}
+                  defaultValue={ reqLspParam }
                 ></Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -369,7 +399,6 @@ const CalculateInfoForm = ({
               <td>
                 <Input
                   id="vslCd"
-                  readOnly
                   style={{
                     boxShadow: "none",
                     width: "85%",
@@ -525,6 +554,8 @@ const CalculateInfoForm = ({
                           });
                           setTransOrderNoParam(data.trans_order_no);
                           setParams({ ...params, transOrderNo: data.trans_order_no });
+                          setChkDstConfYnFlag(data.dst_conf_yn);
+                          setChkClearAmtFlag(data?.clear_amt);
                         }}
                       ></Input>
                     </td>
@@ -536,7 +567,12 @@ const CalculateInfoForm = ({
                     <td>{data.vsl_cd}</td>
                     <td>{data.vsl_nm}</td>
                     <td>{data.dst_conf_yn}</td>
-                    <td>{data.acctg_yn}</td>
+                    <td>{ 
+                        (data?.acctg_yn == null) ? 
+                         "N" :
+                        (data?.acctg_yn)
+                      }
+                      </td>
                     <td>{data.clear_curr}</td>
                     <td>
                       { 
@@ -550,7 +586,7 @@ const CalculateInfoForm = ({
                     <td>
                       { 
                         (data?.clear_amt == null) ? 
-                        (data?.clear_amt):
+                        (0):
                         (data?.clear_amt
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -559,7 +595,7 @@ const CalculateInfoForm = ({
                     <td>
                       {
                         (data?.acctg_amt == null) ? 
-                        (data?.acctg_amt):
+                        (0):
                         (data?.acctg_amt
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
