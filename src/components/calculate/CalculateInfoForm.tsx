@@ -37,8 +37,9 @@ const CalculateInfoForm = ({
   const [chkCalcFlag, setChkCalcFlag] = useState(false);
   const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
+  const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
 
-  console.log(chkClearAmtFlag);
+  console.log(chkAcctgYnFlag);
   
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
@@ -89,8 +90,13 @@ const CalculateInfoForm = ({
     { value: "Y", text: "Yes" },
   ];
 
+  const onChangeReqLspParam = (e: ChangeEvent<HTMLInputElement>) => {
+    setReqLspParam(e.target.value);
+    setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
+  };
+
   const onChangeCalInfo = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
+    setReqVslCdParam(e.target.value);
     setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
   };
 
@@ -336,8 +342,8 @@ const CalculateInfoForm = ({
                     display: "inline-block",
                     borderRadius: 0,
                   }}
-                  onChange={onChangeCalInfo}
-                  defaultValue={ reqLspParam }
+                  onChange={onChangeReqLspParam}
+                  value={ reqLspParam }
                 ></Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -406,6 +412,7 @@ const CalculateInfoForm = ({
                     borderRadius: 0,
                   }}
                   onChange={onChangeCalInfo}
+                  ariaReadOnly={false}
                   value={reqVslCdParam}
                 />
                 <HiSearch
@@ -556,6 +563,7 @@ const CalculateInfoForm = ({
                           setParams({ ...params, transOrderNo: data.trans_order_no });
                           setChkDstConfYnFlag(data.dst_conf_yn);
                           setChkClearAmtFlag(data?.clear_amt);
+                          setChkAcctgYnFlag(data.acctg_yn);
                         }}
                       ></Input>
                     </td>

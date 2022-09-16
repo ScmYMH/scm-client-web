@@ -148,18 +148,6 @@ const CalculateVslCdModal = ({
             >
               <Table hover border={1}>
                 <tbody style={{ textAlign: "center" }}>
-                  <tr className="table-secondary">
-                    <th>선박코드</th>
-                    <th>선박명</th>
-                    <th>선박재화중량</th>
-                    <th>선적가능량</th>
-                  </tr>
-                  <tr onClick={() => onClickVslCdParmas("", "")}>
-                    <td>공백 입력</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
                   {vslCodeData.data?.map((data, index) => (
                     <tr
                       key={index}
