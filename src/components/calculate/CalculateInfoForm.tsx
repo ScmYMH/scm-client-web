@@ -38,9 +38,14 @@ const CalculateInfoForm = ({
   const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
   const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
+  const [chkBoxFlag, setChkBoxFlag] = useState(false);
+  const [transOrderNoParam, setTransOrderNoParam] = useState("");
+  const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
-  console.log("chkAcctgYnFlag", chkAcctgYnFlag);
+  const [checkedList, setCheckedList] = useState<any>([]);
   
+  console.log(checkedList);
+
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
@@ -51,7 +56,6 @@ const CalculateInfoForm = ({
     cdVmeaning: "",
   });
   
-  const [transOrderNoParam, setTransOrderNoParam] = useState("");
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -122,7 +126,6 @@ const CalculateInfoForm = ({
     }
   };
 
-  console.log(chkDstConfYnFlag, chkAcctgYnFlag);
 
   const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -177,8 +180,6 @@ const CalculateInfoForm = ({
     dstConfYn: "N",
   });
 
-  const [chkCancleFlag, setChkCancleFlag] = useState(false);
-  
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -191,8 +192,6 @@ const CalculateInfoForm = ({
     }
   };
 
-  const [checkedList, setCheckedList] = useState<any>([]);
-
   const onCheckedElement = (checked, item) => {
     setIsChecked(checked);
     if (checked) {
@@ -201,7 +200,6 @@ const CalculateInfoForm = ({
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
-
   
   useEffect(() => {
     onSubmitCalculateInfo(calSelectParams);
