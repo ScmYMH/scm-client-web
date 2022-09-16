@@ -17,6 +17,7 @@ import {
 } from "modules/tariff/actions";
 import TariffExcelModal from "./TariffExcelModal";
 import styles from "./tariff.module.css";
+import { optionCSS } from "react-select/dist/declarations/src/components/Option";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
@@ -856,20 +857,24 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             marginTop: 20,
           }}
         >
-          <Table bordered className={styles.tariff_table}>
+          <Table
+            bordered
+            className={styles.tariff_table}
+            style={{ whiteSpace: "nowrap" }}
+          >
             <thead style={{ textAlign: "center", verticalAlign: "middle" }}>
               <tr className="table-secondary">
-                <th rowSpan={2} style={{ width: "1%" }}></th>
-                <th rowSpan={2} style={{ borderSpacing: "8px" }}>
+                <th rowSpan={2} style={{ width: "300" }}></th>
+                <th rowSpan={2} style={{}}>
                   출발지코드
                 </th>
-                <th rowSpan={2} style={{ borderSpacing: "8px" }}>
+                <th rowSpan={2} style={{}}>
                   출발지명
                 </th>
-                <th rowSpan={2} style={{ borderSpacing: "8px" }}>
+                <th rowSpan={2} style={{ width: "300" }}>
                   도착지코드
                 </th>
-                <th rowSpan={2} style={{ borderSpacing: "8px" }}>
+                <th rowSpan={2} style={{}}>
                   도착지명
                 </th>
                 <th rowSpan={2} style={{ width: 90 }}>
@@ -893,7 +898,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 <th rowSpan={2} style={{ width: 70 }}>
                   품종명
                 </th>
-                <th rowSpan={2} style={{ width: 60 }}>
+                <th rowSpan={2} style={{ width: 80 }}>
                   단가
                 </th>
                 <th rowSpan={2} style={{ width: 70 }}>
@@ -927,7 +932,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                     return true;
                 })
                 .map((trffInfo, index) => (
-                  <tr key={trffInfo.seqNo} style={{}}>
+                  <tr key={trffInfo.seqNo} style={{ whiteSpace: "nowrap" }}>
                     <th scope="row" style={{ textAlign: "center" }}>
                       <Input
                         type="checkbox"
@@ -1126,13 +1131,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                           ))}
                       </select>
                     </td>
-                    <td style={{ textAlign: "center", width: 60 }}>
+                    <td style={{ textAlign: "center", width: 80 }}>
                       <Input
                         id="unitPrice"
                         name="unitPrice"
                         value={trffInfo.unitPrice}
                         type="text"
-                        style={{ boxShadow: "none", width: 60, height: 30 }}
+                        style={{ boxShadow: "none", width: 80, height: 30 }}
                         onChange={(e) =>
                           onChangeTrffCondHValue(e, trffInfo.seqNo)
                         }
@@ -1163,7 +1168,10 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         id="incoCd"
                         name="incoCd"
                         value={trffInfo.incoCd}
-                        style={{ width: 60, border: "none" }}
+                        style={{
+                          width: 450,
+                          border: "none",
+                        }}
                         onChange={(e) =>
                           onChangeTrffCondHValue(e, trffInfo.seqNo)
                         }
@@ -1173,7 +1181,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                           ?.filter((data) => data.cd_tp === "INCO_CD")
                           .map((option) => (
                             <option key={option.cd_v} value={option.cd_v}>
-                              {option.cd_v}
+                              {option.cd_v + "-" + option.cd_v_meaning}
                             </option>
                           ))}
                       </select>
@@ -1358,13 +1366,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         ))}
                     </select>
                   </td>
-                  <td style={{ textAlign: "center", width: 60 }}>
+                  <td style={{ textAlign: "center", width: 80 }}>
                     <Input
                       id="unitPrice"
                       name="unitPrice"
                       value={trffInfo.unitPrice}
                       type="text"
-                      style={{ boxShadow: "none", width: 60, height: 30 }}
+                      style={{ boxShadow: "none", width: 80, height: 30 }}
                       onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     ></Input>
                   </td>
@@ -1386,12 +1394,12 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         ))}
                     </select>
                   </td>
-                  <td style={{ width: 70 }}>
+                  <td style={{ width: 100 }}>
                     <select
                       id="incoCd"
                       name="incoCd"
                       value={trffInfo.incoCd}
-                      style={{ width: 60, border: "none" }}
+                      style={{ width: 450, border: "none" }}
                       onChange={(e) => onChangeAddRowValue(e, trffInfo.seqNo)}
                     >
                       <option key={""} value={""}></option>
@@ -1399,7 +1407,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         ?.filter((data) => data.cd_tp === "INCO_CD")
                         .map((option) => (
                           <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v}
+                            {option.cd_v + "-" + option.cd_v_meaning}
                           </option>
                         ))}
                     </select>

@@ -71,12 +71,6 @@ const SearchManagerBody = ({
     delYn: "",
   });
 
-  const options = [
-    { value: "", text: "ALL" },
-    { value: "N", text: "N" },
-    { value: "Y", text: "Y" },
-  ];
-
   const onSubmitMemberInfo = () => {
     dispatch(getContractMemberAsync.request(member));
   };
@@ -88,10 +82,12 @@ const SearchManagerBody = ({
 
   useEffect(() => {
     if (isCurrent) {
+      setMember({ ...member, userNm: preActorNm });
       dispatch(
         getContractMemberAsync.request({ ...member, userNm: preActorNm })
       );
     } else {
+      setMember({ ...member, userNm: aftActorNm });
       dispatch(
         getContractMemberAsync.request({ ...member, userNm: aftActorNm })
       );
@@ -103,7 +99,7 @@ const SearchManagerBody = ({
       <div className="row" style={{ marginTop: 10, marginBottom: 50 }}>
         <div
           style={{
-            width: "790px",
+            width: " 600px",
             display: "table",
             tableLayout: "fixed",
           }}
@@ -134,6 +130,7 @@ const SearchManagerBody = ({
                     id="userNm"
                     name="userNm"
                     type="text"
+                    value={member.userNm}
                     onChange={(e) =>
                       setMember({ ...member, userNm: e.target.value })
                     }
@@ -161,37 +158,6 @@ const SearchManagerBody = ({
                       setMember({ ...member, loginId: e.target.value })
                     }
                   ></Input>
-                </td>
-                <th
-                  style={{
-                    textAlign: "center",
-                    backgroundColor: "#ced6e0",
-                    margin: 1,
-                  }}
-                >
-                  삭제여부
-                </th>
-                <td>
-                  <div>
-                    <Input
-                      style={{
-                        boxShadow: "none",
-                        borderRadius: 0,
-                      }}
-                      id="delYn"
-                      name="delYn"
-                      type="select"
-                      onChange={(e) =>
-                        setMember({ ...member, delYn: e.target.value })
-                      }
-                    >
-                      {options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))}
-                    </Input>
-                  </div>
                 </td>
               </tbody>
             </tr>
@@ -226,47 +192,51 @@ const SearchManagerBody = ({
         </thead>
         {contractMemberListData && (
           <tbody>
-            {contractMemberListData.map((contractmemberInfo, index) => (
-              <tr key={index} aria-rowcount={index}>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.loginId}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.userNm}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.email}
-                </td>
-                <td style={{ textAlign: "right", paddingRight: 20 }}>
-                  {contractmemberInfo.employeeNumber}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.deptNm}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.insDate}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.updDate}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {contractmemberInfo.delYn}
-                </td>
-                <td>
-                  <Button
-                    onClick={() =>
-                      onSelect(
-                        contractmemberInfo.userId,
-                        contractmemberInfo.userNm
-                      )
-                    }
-                    style={{ backgroundColor: "grey" }}
-                  >
-                    선택
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {contractMemberListData.map(
+              (contractmemberInfo, index) =>
+                contractmemberInfo.delYn === "N" && (
+                  <tr key={index} aria-rowcount={index}>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.loginId}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.userNm}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.email}
+                    </td>
+                    <td style={{ textAlign: "right", paddingRight: 20 }}>
+                      {contractmemberInfo.employeeNumber}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.deptNm}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.insDate}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.updDate}
+                    </td>
+
+                    <td style={{ textAlign: "center" }}>
+                      {contractmemberInfo.delYn}
+                    </td>
+                    <td>
+                      <Button
+                        onClick={() =>
+                          onSelect(
+                            contractmemberInfo.userId,
+                            contractmemberInfo.userNm
+                          )
+                        }
+                        style={{ backgroundColor: "grey" }}
+                      >
+                        선택
+                      </Button>
+                    </td>
+                  </tr>
+                )
+            )}
           </tbody>
         )}
       </Table>

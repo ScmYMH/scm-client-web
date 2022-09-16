@@ -392,7 +392,7 @@ const ChangeManagerForm = () => {
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th style={{ width: 50 }}></th>
-                <th style={{ width: 200 }}>계약 ID</th>
+                <th style={{ width: 150 }}>계약 ID</th>
                 <th>계약명</th>
                 <th>계약상태</th>
                 <th style={{ width: 150 }}>계약 시작</th>
@@ -421,17 +421,16 @@ const ChangeManagerForm = () => {
                     style={{
                       textAlign: "right",
                       paddingRight: 20,
-                      width: 200,
+                      width: 180,
                     }}
                   >
                     {commonInfo.cntrtId}
                   </td>
                   <td style={{ paddingLeft: 20 }}>{commonInfo.cntrtNm}</td>
-                  <td style={{ paddingLeft: 20 }}>{commonInfo.cntrtScd}</td>
+                  <td style={{ textAlign: "center" }}>{commonInfo.cntrtScd}</td>
                   <td
                     style={{
-                      textAlign: "right",
-                      paddingRight: 20,
+                      textAlign: "center",
                       width: 150,
                     }}
                   >
@@ -443,8 +442,7 @@ const ChangeManagerForm = () => {
                   </td>
                   <td
                     style={{
-                      textAlign: "right",
-                      paddingRight: 20,
+                      textAlign: "center",
                       width: 150,
                     }}
                   >
@@ -500,23 +498,23 @@ const ChangeManagerForm = () => {
           <Table
             bordered
             className={styles.chgmng_table}
-            style={{ height: 100 }}
+            style={{ height: 100, whiteSpace: "nowrap" }}
           >
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th style={{ width: 50 }}></th>
-                <th style={{ width: 200 }}>계약 ID</th>
-                <th style={{ width: 300 }}>계약명</th>
+                <th style={{ width: 180 }}>계약 ID</th>
+                <th>계약명</th>
                 <th style={{ width: 100 }}>현담당자</th>
                 <th style={{ width: 100 }}>인수담당자</th>
-                <th style={{ width: 150 }}>변경발효일자</th>
-                <th style={{ width: 120 }}>변경확정여부</th>
+                <th style={{ width: 130 }}>변경발효일자</th>
+                <th style={{ width: 110 }}>변경확정여부</th>
                 <th>변경사유</th>
               </tr>
             </thead>
             <tbody>
               {cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
-                <tr key={index}>
+                <tr key={index} style={{ whiteSpace: "nowrap" }}>
                   <th scope="row" style={{ textAlign: "center", width: 50 }}>
                     <Input
                       type="checkbox"
@@ -542,24 +540,21 @@ const ChangeManagerForm = () => {
                     style={{
                       textAlign: "right",
                       paddingRight: 20,
-                      width: 200,
+                      width: 180,
                     }}
                   >
                     {cntrtChangeInfo.cntrtId}
                   </td>
-                  <td style={{ paddingLeft: 20, width: 300 }}>
-                    {cntrtChangeInfo.cntrtNm}
-                  </td>
-                  <td style={{ paddingLeft: 20, width: 100 }}>
+                  <td style={{ paddingLeft: 20 }}>{cntrtChangeInfo.cntrtNm}</td>
+                  <td style={{ textAlign: "center", width: 100 }}>
                     {cntrtChangeInfo.preActorNm}
                   </td>
-                  <td style={{ paddingLeft: 20, width: 100 }}>
+                  <td style={{ textAlign: "center", width: 100 }}>
                     {cntrtChangeInfo.aftActorNm}
                   </td>
                   <td
                     style={{
-                      textAlign: "right",
-                      paddingRight: 20,
+                      textAlign: "center",
                       width: 150,
                     }}
                   >
@@ -569,7 +564,7 @@ const ChangeManagerForm = () => {
                       "-" +
                       cntrtChangeInfo.validDate.slice(6)}
                   </td>
-                  <td style={{ paddingLeft: 20, width: 120 }}>
+                  <td style={{ textAlign: "center", width: 110 }}>
                     {cntrtChangeInfo.cmptYn}
                   </td>
                   <td style={{ paddingLeft: 20 }}>
