@@ -36,6 +36,7 @@ interface CalculateDetailModalProps {
   detailParamas: any;
   setChkCancleFlag: any;
   chkCancleFlag: boolean;
+  chkClearAmtFlag: any;
 }
 
 const CalculateDetailModal = ({
@@ -45,6 +46,7 @@ const CalculateDetailModal = ({
   detailParamas,
   setChkCancleFlag,
   chkCancleFlag,
+  chkClearAmtFlag,
 }: CalculateDetailModalProps) => {
   const [params, setParams] = useState({
     transOrderNo: detailParamas.data?.trans_order_no,
@@ -99,10 +101,14 @@ const CalculateDetailModal = ({
 
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateFrtStatusRequestAsync.request(params));
-    alert("담당자 확정이 완료되었습니다.");
-    setChkCancleFlag(!chkCancleFlag);
-    closeModal(true);
+    if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+      alert("운임 정산을 먼저 해주세요.");
+    }else{
+      dispatch(updateFrtStatusRequestAsync.request(params));
+      alert("담당자 확정이 완료되었습니다.");
+      setChkCancleFlag(!chkCancleFlag);
+      closeModal(true);
+    }
   };
 
   return (

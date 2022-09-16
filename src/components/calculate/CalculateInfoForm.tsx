@@ -39,7 +39,7 @@ const CalculateInfoForm = ({
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
   const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
 
-  console.log(chkAcctgYnFlag);
+  console.log("chkAcctgYnFlag", chkAcctgYnFlag);
   
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
@@ -69,7 +69,6 @@ const CalculateInfoForm = ({
   });
 
   const [reqLspParam, setReqLspParam] = useState("");
-  console.log(reqLspParam);
   const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
     setReqLspParam(cd_v_meaning);
     setCalSelectParams({ ...calSelectParams, lspId: cd_v });
@@ -103,8 +102,10 @@ const CalculateInfoForm = ({
   const checkAccountConn = () => {
     if(chkDstConfYnFlag == "N"){
       alert("담당자 확정을 먼저 해주세요.");
-    }else if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+    } else if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
       alert("운임 정산을 해주세요.");
+    }else if (chkAcctgYnFlag=='Y') {
+      alert("이미 전표 발행이 완료 되었습니다.");
     }else{
       if (isChecked === true) {
         const dialog = confirm("상신하시겠습니까?");
@@ -121,20 +122,23 @@ const CalculateInfoForm = ({
     }
   };
 
-  const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmitCalculateInfo(calSelectParams);
-  };
+  console.log(chkDstConfYnFlag, chkAcctgYnFlag);
 
   const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(chkDstConfYnFlag == "Y"){
+    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+      alert("이미 운임 정산이 완료 되었습니다.");
+    } else {
       dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
       alert("운임 정산 완료.");
       setChkCalcFlag(!chkCalcFlag);
-    }else{
-      alert("담당자 확정을 먼저 해주세요.");
     }
+  };
+
+
+  const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmitCalculateInfo(calSelectParams);
   };
 
   const dateToString = (date) => {
@@ -174,12 +178,17 @@ const CalculateInfoForm = ({
   });
 
   const [chkCancleFlag, setChkCancleFlag] = useState(false);
-
+  
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateFrtStatusRequestAsync.request(params));
-    alert("담당자 확정이 취소되었습니다.");
-    setChkCancleFlag(!chkCancleFlag);
+
+    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+      alert("이미 담당자 확정이 완료 되었습니다.");
+    }{
+      dispatch(updateFrtStatusRequestAsync.request(params));
+      alert("담당자 확정이 취소되었습니다.");
+      setChkCancleFlag(!chkCancleFlag);
+    }
   };
 
   const [checkedList, setCheckedList] = useState<any>([]);
@@ -515,6 +524,7 @@ const CalculateInfoForm = ({
               }}
               setChkCancleFlag = {setChkCancleFlag}
               chkCancleFlag={chkCancleFlag}
+              chkClearAmtFlag={chkClearAmtFlag}
             />
           )}
         </div>
