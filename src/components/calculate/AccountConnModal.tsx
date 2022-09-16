@@ -70,8 +70,6 @@ const AccountConnModal = ({
     alert("결제 성공 > 전표번호가 발행 되었습니다.");
   };
 
-  console.log("newAccountIdParams", newAccountIdParams);
-  console.log("detailParamas", detailParamas);
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -198,11 +196,31 @@ const AccountConnModal = ({
             <Table border={1} id="tableResult">
               <tbody style={{ textAlign: "center" }}>
                 <tr className="tableResultTr">
-                  <th>번호</th>
-                  <th>물류실행사명</th>
-                  <th>정산량</th>
-                  <th>지불통화</th>
-                  <th>지불연결금액</th>
+                  <th style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>번호</th>
+                  <th style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>물류실행사명</th>
+                  <th style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>정산량</th>
+                  <th style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>지불통화</th>
+                  <th style={{
+                      textAlign: "center",
+                      backgroundColor: "#ced6e0",
+                      margin: 1,
+                    }}>지불연결금액</th>
                 </tr>
                 <>
                   <tr className="tableResultTr">

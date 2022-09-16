@@ -534,7 +534,7 @@ const CalculateInfoForm = ({
         >
           <Table bordered style={{ marginTop: 10 }}>
             <tbody style={{ textAlign: "center" }}>
-              <tr className="table-secondary">
+              <tr id="tableForm" className="table-secondary">
                 <th>CHK</th>
                 <th>권역</th>
                 <th>물류실행사ID</th>
@@ -554,7 +554,7 @@ const CalculateInfoForm = ({
               <>
                 {calculateInfoData.data?.map((data, index) => (
                   <tr key={index} aria-rowcount={index}>
-                    <td>
+                    <td id="tableFormTd" >
                       <Input
                         type="checkbox"
                         id="calInfoId"
