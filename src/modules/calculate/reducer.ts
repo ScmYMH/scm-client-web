@@ -9,8 +9,17 @@ import {
 	VSLCODE_SELECT_SUCCESS,
 	CALCULAT_DETAIL_SELECT_REQUEST,
 	CALCULAT_DETAIL_SELECT_SUCCESS,
-	CALCULAT_DETAIL_SELECT_ERROR} from './actions';
-import { CalculateDetailInfoAction, CalculateDetailInfoState, CalculateInfoAction, CalculateInfoState, VslCdAction, VslCdState } from './types';
+	CALCULAT_DETAIL_SELECT_ERROR,
+	FRTSTATUS_UPDATE_ERROR,
+	FRTSTATUS_UPDATE_SUCCESS,
+	FRTSTATUS_UPDATE_REQUEST,
+	ACCOUNT_UPDATE_ERROR,
+	ACCOUNT_UPDATE_SUCCESS,
+	ACCOUNT_UPDATE_REQUEST,
+	CALCULATE_INSERT_REQUEST,
+	CALCULATE_INSERT_SUCCESS,
+	CALCULATE_INSERT_ERROR} from './actions';
+import { CalculateDetailInfoAction, CalculateDetailInfoState, CalculateInfoAction, CalculateInfoState, InsertCalculateInfoAction, InsertCalculateInfoState, UpdateAccountAction, UpdateAccountState, UpdateFrtStatusAction, UpdateFrtStatusState, VslCdAction, VslCdState } from './types';
 
 const initialState: CalculateInfoState = {
 	calculateInfo: asyncState.initial(),
@@ -31,6 +40,24 @@ const calculateInfo = createReducer<CalculateInfoState, CalculateInfoAction>(ini
 	}),
 });
 
+const insertCalInitialState: InsertCalculateInfoState = {
+	insertCalculateInfo: asyncState.initial(),
+};
+
+const insertCalculateInfo = createReducer<InsertCalculateInfoState, InsertCalculateInfoAction>(insertCalInitialState, {
+	[CALCULATE_INSERT_REQUEST]: (state) => ({
+		...state,
+		insertCalculateInfo: asyncState.load(),
+	}),
+	[CALCULATE_INSERT_SUCCESS]: (state, action) => ({
+		...state,
+		insertCalculateInfo: asyncState.success(action.payload),
+	}),
+	[CALCULATE_INSERT_ERROR]: (state, action) => ({
+		...state,
+		insertCalculateInfo: asyncState.error(action.payload),
+	}),
+});
 
 const calDetailInfoInitialState: CalculateDetailInfoState = {
 	calculateDetailInfo: asyncState.initial(),
@@ -51,6 +78,44 @@ const calculateDetailInfo = createReducer<CalculateDetailInfoState, CalculateDet
 	}),
 });
 
+
+const updateFrtStatusInitialState: UpdateFrtStatusState = {
+	updateFrtStatus: asyncState.initial(),
+};
+
+const updateFrtStatus = createReducer<UpdateFrtStatusState, UpdateFrtStatusAction>(updateFrtStatusInitialState, {
+	[FRTSTATUS_UPDATE_REQUEST]: (state) => ({
+		...state,
+		updateFrtStatus: asyncState.load(),
+	}),
+	[FRTSTATUS_UPDATE_SUCCESS]: (state, action) => ({
+		...state,
+		updateFrtStatus: asyncState.success(action.payload),
+	}),
+	[FRTSTATUS_UPDATE_ERROR]: (state, action) => ({
+		...state,
+		updateFrtStatus: asyncState.error(action.payload),
+	}),
+});
+
+const accountInitialState: UpdateAccountState = {
+	updAccountInfo: asyncState.initial(),
+};
+
+const updAccountInfo = createReducer<UpdateAccountState, UpdateAccountAction>(accountInitialState, {
+	[ACCOUNT_UPDATE_REQUEST]: (state) => ({
+		...state,
+		updAccountInfo: asyncState.load(),
+	}),
+	[ACCOUNT_UPDATE_SUCCESS]: (state, action) => ({
+		...state,
+		updAccountInfo: asyncState.success(action.payload),
+	}),
+	[ACCOUNT_UPDATE_ERROR]: (state, action) => ({
+		...state,
+		updAccountInfo: asyncState.error(action.payload),
+	}),
+});
 const vslInitialState: VslCdState = {
 	vslCdInfo: asyncState.initial(),
 };
@@ -71,4 +136,4 @@ const vslCdInfo = createReducer<VslCdState, VslCdAction>(vslInitialState, {
 });
 
 
-export {calculateInfo, vslCdInfo, calculateDetailInfo};
+export {insertCalculateInfo, calculateInfo, vslCdInfo, calculateDetailInfo, updAccountInfo, updateFrtStatus};

@@ -1,5 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import axios from "axios";
+import { insertCalculateRequestAsync, updateFrtStatusRequestAsync } from "modules/calculate/actions";
+import { check } from "prettier";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { HiSearch } from "react-icons/hi";
+import { useDispatch } from "react-redux";
 import { Button, Container, Form, Input, Table } from "reactstrap";
 import AccountConnModal from "./AccountConnModal";
 
@@ -29,17 +33,25 @@ const CalculateInfoForm = ({
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
-  const [coaChkFlag, setCoaChkFlag] = useState(false);
+  
+  const [chkCalcFlag, setChkCalcFlag] = useState(false);
+  const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
+  const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
+  const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
+
+  console.log("chkAcctgYnFlag", chkAcctgYnFlag);
+  
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
     lspId: "",
     vslCd: "",
-    closeNoYn: "",
+    dstConfYn: "",
     transOrderNo: "",
     cdVmeaning: "",
   });
-  const [transOrderNo, setTransOrderNo] = useState("");
+  
+  const [transOrderNoParam, setTransOrderNoParam] = useState("");
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -51,11 +63,12 @@ const CalculateInfoForm = ({
       cdvMeaning: "",
       ins_person_id: "",
       user_nm: "",
+      vsl_load_posbl_wt: "",
+      inv_inner_no: "",
     },
   });
 
   const [reqLspParam, setReqLspParam] = useState("");
-
   const onClickLspParmas = (cd_v: string, cd_v_meaning: string) => {
     setReqLspParam(cd_v_meaning);
     setCalSelectParams({ ...calSelectParams, lspId: cd_v });
@@ -76,20 +89,53 @@ const CalculateInfoForm = ({
     { value: "Y", text: "Yes" },
   ];
 
+  const onChangeReqLspParam = (e: ChangeEvent<HTMLInputElement>) => {
+    setReqLspParam(e.target.value);
+    setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
+  };
+
   const onChangeCalInfo = (e: ChangeEvent<HTMLInputElement>) => {
+    setReqVslCdParam(e.target.value);
     setCalSelectParams({ ...calSelectParams, [e.target.id]: e.target.value });
   };
 
   const checkAccountConn = () => {
-    const dialog = confirm("상신하시겠습니까?");
+    if(chkDstConfYnFlag == "N"){
+      alert("담당자 확정을 먼저 해주세요.");
+    } else if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+      alert("운임 정산을 해주세요.");
+    }else if (chkAcctgYnFlag=='Y') {
+      alert("이미 전표 발행이 완료 되었습니다.");
+    }else{
+      if (isChecked === true) {
+        const dialog = confirm("상신하시겠습니까?");
 
-    if (dialog) {
-      console.log("Data Saved");
-      setActConOpenModal((actConOpenModal) => !actConOpenModal);
-    } else {
-      console.log("Data Not Saved");
+        if (dialog) {
+          console.log("Data Saved");
+          setActConOpenModal((actConOpenModal) => !actConOpenModal);
+        } else {
+          console.log("Data Not Saved");
+        }
+      } else {
+        alert("상신할 아이템을 선택해주세요.");
+      }
     }
   };
+
+  console.log(chkDstConfYnFlag, chkAcctgYnFlag);
+
+  const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+      alert("이미 운임 정산이 완료 되었습니다.");
+    } else {
+      dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
+      alert("운임 정산 완료.");
+      setChkCalcFlag(!chkCalcFlag);
+    }
+  };
+
+
   const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitCalculateInfo(calSelectParams);
@@ -116,7 +162,6 @@ const CalculateInfoForm = ({
 
   const checkOnlyOne = (checkThis) => {
     const checkboxes = document.getElementsByName("calInfoId") as any | null;
-
     for (let i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i] !== checkThis) {
         checkboxes[i].checked = false;
@@ -124,14 +169,43 @@ const CalculateInfoForm = ({
     }
   };
 
-  const checkCoaOnlyOne = (e) => {
-    // const checkboxes = document.getElementsByName("coaChkId") as any | null;
-    // for (let i = 0; i < checkboxes.length; i++) {
-    //   if (checkboxes[i] !== checkThis) {
-    //     checkboxes[i].checked = false;
-    //   }
-    // }
+  const dispatch = useDispatch();
+
+  const [params, setParams] = useState({
+    transOrderNo: "",
+    frtStatus: "10",
+    dstConfYn: "N",
+  });
+
+  const [chkCancleFlag, setChkCancleFlag] = useState(false);
+  
+  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+      alert("이미 담당자 확정이 완료 되었습니다.");
+    }{
+      dispatch(updateFrtStatusRequestAsync.request(params));
+      alert("담당자 확정이 취소되었습니다.");
+      setChkCancleFlag(!chkCancleFlag);
+    }
   };
+
+  const [checkedList, setCheckedList] = useState<any>([]);
+
+  const onCheckedElement = (checked, item) => {
+    setIsChecked(checked);
+    if (checked) {
+      setCheckedList([...checkedList, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    }
+  };
+
+  
+  useEffect(() => {
+    onSubmitCalculateInfo(calSelectParams);
+  }, [chkCalcFlag, chkCancleFlag]);
 
   return (
     <div
@@ -140,7 +214,6 @@ const CalculateInfoForm = ({
         marginRight: 30,
         marginBottom: 15,
         marginLeft: 30,
-        height: 800,
       }}
     >
       <div
@@ -159,9 +232,15 @@ const CalculateInfoForm = ({
             조회
           </Button>
         </Form>
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          확정 취소
-        </Button>
+        <Form
+          style={{ margin: 3 }}
+          onSubmit={onSubmitInsertCalculateInfo}
+          className="InsertCalculateInfoForm"
+        >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            운임 정산
+          </Button>
+        </Form>
         <Button
           outline
           style={{ margin: 3 }}
@@ -177,11 +256,18 @@ const CalculateInfoForm = ({
             closeModal={() =>
               setActConOpenModal((actConOpenModal) => !actConOpenModal)
             }
+            detailParamas={detailParamas}
           ></AccountConnModal>
         )}
-        <Button outline style={{ margin: 3 }} className="btn" size="sm">
-          운임 정산
-        </Button>
+        <Form
+          style={{ margin: 3 }}
+          onSubmit={onSubmitUpdFrtStatus}
+          className="UpdFrtStatus"
+        >
+          <Button outline style={{ margin: 3 }} className="btn" size="sm">
+            확정 취소
+          </Button>
+        </Form>
       </div>
       <div>
         <div style={{ margin: 4 }}>◎ 조회 조건</div>
@@ -195,7 +281,7 @@ const CalculateInfoForm = ({
                   margin: 1,
                 }}
               >
-                출하일
+                조회기간
               </th>
               <td>
                 <div style={{ display: "inline-block" }}>
@@ -259,15 +345,14 @@ const CalculateInfoForm = ({
               <td>
                 <Input
                   id="lspId"
-                  readOnly
                   style={{
                     boxShadow: "none",
                     width: "85%",
                     display: "inline-block",
                     borderRadius: 0,
                   }}
-                  onChange={onChangeCalInfo}
-                  value={reqLspParam}
+                  onChange={onChangeReqLspParam}
+                  value={ reqLspParam }
                 ></Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -300,7 +385,7 @@ const CalculateInfoForm = ({
               <td>
                 <div>
                   <Input
-                    id="closeNoYn"
+                    id="dstConfYn"
                     style={{
                       marginRight: "30px",
                       boxShadow: "none",
@@ -329,7 +414,6 @@ const CalculateInfoForm = ({
               <td>
                 <Input
                   id="vslCd"
-                  readOnly
                   style={{
                     boxShadow: "none",
                     width: "85%",
@@ -337,6 +421,7 @@ const CalculateInfoForm = ({
                     borderRadius: 0,
                   }}
                   onChange={onChangeCalInfo}
+                  ariaReadOnly={false}
                   value={reqVslCdParam}
                 />
                 <HiSearch
@@ -423,7 +508,7 @@ const CalculateInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              onSubmitCalculateDetailInfo(transOrderNo);
+              onSubmitCalculateDetailInfo(transOrderNoParam);
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -434,9 +519,12 @@ const CalculateInfoForm = ({
               detailParamas={detailParamas}
               calculateDetailCodeData={calculateDetailCodeData?.data}
               isOpen={detailOpenModal}
-              closeModal={() =>
-                setDetailOpenModal((detailOpenModal) => !detailOpenModal)
-              }
+              closeModal={() => {
+                setDetailOpenModal((detailOpenModal) => !detailOpenModal);
+              }}
+              setChkCancleFlag = {setChkCancleFlag}
+              chkCancleFlag={chkCancleFlag}
+              chkClearAmtFlag={chkClearAmtFlag}
             />
           )}
         </div>
@@ -475,13 +563,17 @@ const CalculateInfoForm = ({
                         name="calInfoId"
                         value={data}
                         onChange={(e) => {
+                          onCheckedElement(e.target.checked, data);
                           checkOnlyOne(e.target);
-                          setIsChecked(true);
                           setDetailParamas({
                             ...detailParamas,
                             data: data,
                           });
-                          setTransOrderNo(data.trans_order_no);
+                          setTransOrderNoParam(data.trans_order_no);
+                          setParams({ ...params, transOrderNo: data.trans_order_no });
+                          setChkDstConfYnFlag(data.dst_conf_yn);
+                          setChkClearAmtFlag(data?.clear_amt);
+                          setChkAcctgYnFlag(data.acctg_yn);
                         }}
                       ></Input>
                     </td>
@@ -492,29 +584,42 @@ const CalculateInfoForm = ({
                     <td>{data.trans_order_no}</td>
                     <td>{data.vsl_cd}</td>
                     <td>{data.vsl_nm}</td>
-                    <td>{data.close_no_yn}</td>
-                    <td>{data.acctg_yn}</td>
+                    <td>{data.dst_conf_yn}</td>
+                    <td>{ 
+                        (data?.acctg_yn == null) ? 
+                         "N" :
+                        (data?.acctg_yn)
+                      }
+                      </td>
                     <td>{data.clear_curr}</td>
                     <td>
-                      {data.tot_gross_wt
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      { 
+                        (data?.clear_qty == null) ? 
+                        (data?.clear_qty):
+                        (data?.clear_qty
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                     <td>
-                      {coaChkFlag
-                        ? data.clear_amt
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        : 0}
+                      { 
+                        (data?.clear_amt == null) ? 
+                        (0):
+                        (data?.clear_amt
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
                     <td>
-                      {coaChkFlag
-                        ? data.acctg_amt
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                        : 0}
+                      {
+                        (data?.acctg_amt == null) ? 
+                        (0):
+                        (data?.acctg_amt
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                      }
                     </td>
-                    <td>EX-직번-220810(날찌)-SEQ(6자리)</td>
+                    <td>{data.close_no}</td>
                   </tr>
                 ))}
               </>

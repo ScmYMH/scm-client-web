@@ -40,23 +40,24 @@ interface ContractCoaUpdateModalProps {
   closeModal: any;
   isOpen: boolean;
   updParams: any;
-  tariffData: any;
+  tariffInfoConditon: any;
+  onSubmitTariffInfo: (params: any) => void;
 }
 
 const ContractCoaUpdateModal = ({
   isOpen,
   closeModal,
   updParams,
-  tariffData,
+  tariffInfoConditon,
+  onSubmitTariffInfo,
 }: ContractCoaUpdateModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
+  const [cntrtSaveChkFlag, setCntrtSaveChkFlag] = useState(false);
 
-  const nowUserId = localStorage.getItem("userId");
-  const nowUserNm = localStorage.getItem("userNm");
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -73,9 +74,12 @@ const ContractCoaUpdateModal = ({
     (state: RootState) => state.updateContractInfo.updateContractInfo
   );
 
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
+
   const [contractInfoParams, setContractInfoParamas] = useState({
     cntrtId: updParams.data.cntrt_id,
-    cntrtCurrCd: "USD",
+    cntrtCurrCd: updParams.data.cntrt_curr_cd,
     cntrtNm: updParams.data.cntrt_nm,
     cntrtScd: "60",
     cntrtStartDate: updParams.data.cntrt_start_date,
@@ -90,6 +94,10 @@ const ContractCoaUpdateModal = ({
 
   const [openTariffModal, setOpenTariffModal] = useState(false);
   const [openNewTariffModal, setOpenNewTariffModal] = useState(false);
+
+  const tariffData: any = useSelector(
+    (state: RootState) => state.tariffInfo.tariffInfo
+  );
 
   const [tariffParams, setTariffParams] = useState<TariffParam>({
     cntrtId: "", // 계약 ID
@@ -136,9 +144,16 @@ const ContractCoaUpdateModal = ({
   };
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(baseCodeAsync.request(""));
   }, []);
+
+  useEffect(() => {
+    onSubmitTariffInfo(tariffInfoConditon);
+  }, [openTariffModal]);
+
+  console.log("openTariffModalopenTariffModal", openTariffModal);
 
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,8 +162,10 @@ const ContractCoaUpdateModal = ({
     } else {
       dispatch(updateContractCodeAsync.request(contractInfoParams));
       alert("수정이 완료되었습니다.");
+      setCntrtSaveChkFlag(true);
     }
   };
+
   function leftPad(value) {
     if (value >= 10) {
       return value;
@@ -253,11 +270,13 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(10, 12).map((option) => (
-                          <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TYP_GCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -317,11 +336,13 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(12, 22).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -337,7 +358,17 @@ const ContractCoaUpdateModal = ({
                     계약 ID
                   </th>
                   <td>
-                    <span>{updParams?.data.cntrt_id}</span>
+                    <Input
+                      type="text"
+                      id="cntrtId"
+                      name="cntrtId"
+                      value={updParams?.data.cntrt_id}
+                      disabled
+                      style={{
+                        boxShadow: "none",
+                        borderRadius: 0,
+                      }}
+                    />
                   </td>
                   <th
                     style={{
@@ -416,15 +447,17 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(0, 2).map((option) => (
-                          <option
-                            key={option.cd_v}
-                            value={option.cd_v}
-                            selected={option.cd_v_meaning}
-                          >
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_SCD")
+                          .map((option) => (
+                            <option
+                              key={option.cd_v}
+                              value={option.cd_v}
+                              selected={option.cd_v_meaning}
+                            >
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -513,11 +546,14 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(24, 38).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
-                            {option.cd_v} [{option.cd_v_meaning}]
-                          </option>
-                        ))}
+                        <option selected>{updParams.data.cntrt_curr_cd}</option>
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CURR_CD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v} [{option.cd_v_meaning}]
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -552,19 +588,18 @@ const ContractCoaUpdateModal = ({
                 </tr>
               </tbody>
             </Table>
-
-            <Form
-              className="ContractInfoForm"
-              onSubmit={onSubmitInsertContractInfo}
-              style={{ margin: 0, padding: 0, float: "right" }}
+            <div
+              style={{
+                margin: "10px",
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
             >
-              <div
-                style={{
-                  margin: "10px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
+              <Form
+                className="ContractInfoForm"
+                onSubmit={onSubmitInsertContractInfo}
+                style={{ margin: 0, padding: 0, float: "right" }}
               >
                 <Button
                   outline
@@ -574,96 +609,75 @@ const ContractCoaUpdateModal = ({
                 >
                   수정
                 </Button>
-              </div>
-            </Form>
+              </Form>
+            </div>
           </Container>
 
-          <Container>
-            <Table striped hover bordered>
-              <thead style={{ textAlign: "center" }}>
-                <tr className="table-secondary">
-                  <th></th>
-                  <th>타리프 ID</th>
-                  <th>타리프설명</th>
-                  <th>사업유형</th>
-                  <th>서비스유형</th>
-                  <th>상세서비스유형</th>
-                  <th>등록일</th>
-                </tr>
-              </thead>
-              <tbody>
-                <>
-                  {tariffData?.map((data, index) => (
-                    <tr
-                      key={index}
-                      aria-rowcount={index}
-                      onMouseDown={(e) => {
-                        setTariffParams({
-                          ...tariffParams,
-                          cntrtId: contractInfoParams.cntrtId, // 계약 ID
-                          trffId: data.trff_id, // 타리프 ID
-                          cntrtStatDate: contractInfoParams.cntrtStartDate,
-                          cntrtEndDate: contractInfoParams.cntrtEndDate,
-                          cntrtCurrCd: contractInfoParams.cntrtCurrCd,
-                        });
-                      }}
-                      onClick={onClickTariffModal}
-                    >
-                      <th scope="row">
-                        <Input type="checkbox" />
-                      </th>
-                      <td style={{ padding: 30 }}>{data.trff_nm}</td>
-                      <td style={{ padding: 30 }}>{data.trff_desc}</td>
-                      <td style={{ padding: 30 }}>{data.biz_nm}</td>
-                      <td style={{ padding: 30 }}>{data.svc_nm}</td>
-                      <td style={{ padding: 30 }}>
-                        {data.detl_svc_tcd} - {data.svc_nm}
-                      </td>
-                      <td style={{ padding: 30 }}>{data.ins_date}</td>
-                      {openTariffModal && (
-                        <TariffLoader
-                          isOpen={openTariffModal}
-                          closeModal={() =>
-                            setOpenTariffModal(
-                              (openTariffModal) => !openTariffModal
-                            )
-                          }
-                        />
-                      )}
-                    </tr>
-                  ))}
-                </>
-              </tbody>
-            </Table>
-            {/* <Table bordered>
-              <thead style={{ margin: 4 }}>타리프 정보</thead>
-              <tbody>
-                <tr>
-                  <th>일련번호</th>
-                  <th>타리프 ID</th>
-                  <th>타리프 설명</th>
-                  <th>서비스유형명</th>
-                  <th>Data Count</th>
-                  <th>LCC 갯수</th>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </Table>
+          <Container id="tariffList">
+            <div
+              style={{
+                maxHeight: "600px",
+                overflowY: "auto",
+              }}
+            >
+              <Table striped hover bordered>
+                <thead style={{ textAlign: "center" }}>
+                  <tr className="table-secondary">
+                    <th></th>
+                    <th>타리프 ID</th>
+                    <th>타리프설명</th>
+                    <th>사업유형</th>
+                    <th>서비스유형</th>
+                    <th>상세서비스유형</th>
+                    <th>등록일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <>
+                    {tariffData.data?.map((data, index) => (
+                      <tr
+                        key={index}
+                        aria-rowcount={index}
+                        onMouseDown={(e) => {
+                          setTariffParams({
+                            ...tariffParams,
+                            cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                            trffId: data.trff_id, // 타리프 ID
+                            cntrtStatDate: contractInfoParams.cntrtStartDate,
+                            cntrtEndDate: contractInfoParams.cntrtEndDate,
+                            cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+                          });
+                        }}
+                        onClick={onClickTariffModal}
+                      >
+                        <th scope="row">
+                          <Input type="checkbox" />
+                        </th>
+                        <td style={{ padding: 10 }}>{data.trff_nm}</td>
+                        <td style={{ padding: 10 }}>{data.trff_desc}</td>
+                        <td style={{ padding: 10 }}>{data.biz_nm}</td>
+                        <td style={{ padding: 10 }}>{data.svc_nm}</td>
+                        <td style={{ padding: 10 }}>
+                          {data.detl_svc_tcd} - {data.svc_nm}
+                        </td>
+                        <td style={{ padding: 10 }}>{data.ins_date}</td>
+                        {openTariffModal && (
+                          <TariffLoader
+                            isOpen={openTariffModal}
+                            closeModal={() => {
+                              setOpenTariffModal(
+                                (openTariffModal) => !openTariffModal
+                              );
+                              onSubmitTariffInfo(tariffInfoConditon);
+                            }}
+                          />
+                        )}
+                      </tr>
+                    ))}
+                  </>
+                </tbody>
+              </Table>
+            </div>
             <div
               style={{
                 margin: "10px",
@@ -672,15 +686,42 @@ const ContractCoaUpdateModal = ({
                 alignItems: "center",
               }}
             >
-              <Button
-                outline
-                className="btn"
-                size="sm"
-                style={{ margin: 0, padding: 0, width: 50 }}
-              >
-                추가
-              </Button>
-            </div> */}
+              {cntrtSaveChkFlag ? (
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                  onClick={onClickNewTariffModal}
+                >
+                  추가
+                </Button>
+              ) : (
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                  onClick={() => {
+                    alert("계약 수정을 저장해주세요.");
+                  }}
+                >
+                  추가
+                </Button>
+              )}
+
+              {openNewTariffModal && (
+                <TariffLoader
+                  isOpen={openNewTariffModal}
+                  closeModal={() => {
+                    setOpenNewTariffModal(
+                      (openNewTariffModal) => !openNewTariffModal
+                    );
+                    onSubmitTariffInfo(tariffInfoConditon);
+                  }}
+                />
+              )}
+            </div>
           </Container>
         </ModalBody>
       </Modal>

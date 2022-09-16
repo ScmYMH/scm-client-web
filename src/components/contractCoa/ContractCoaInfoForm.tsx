@@ -149,7 +149,6 @@ const ContractCoaInfoForm = ({
       }
     }
   };
-
   return (
     <>
       <div
@@ -158,7 +157,6 @@ const ContractCoaInfoForm = ({
           marginRight: 30,
           marginBottom: 15,
           marginLeft: 30,
-          height: 800,
         }}
       >
         <div
@@ -199,7 +197,7 @@ const ContractCoaInfoForm = ({
                   (cntrtRegisterModal) => !cntrtRegisterModal
                 )
               }
-              tariffInfoConditon={tariffInfoConditon}
+              onSubmitTariffInfo={onSubmitTariffInfo}
             />
           )}
           <Button
@@ -230,7 +228,8 @@ const ContractCoaInfoForm = ({
                 setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
               }}
               updParams={updParams}
-              tariffData={tariffData.data}
+              onSubmitTariffInfo={onSubmitTariffInfo}
+              tariffInfoConditon={tariffInfoConditon}
             />
           )}
           <Button
@@ -254,7 +253,8 @@ const ContractCoaInfoForm = ({
                 setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal)
               }
               updParams={updParams}
-              tariffData={tariffData.data}
+              onSubmitTariffInfo={onSubmitTariffInfo}
+              tariffInfoConditon={tariffInfoConditon}
             />
           )}
           <Button
@@ -500,11 +500,11 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            maxHeight: "40%",
+            maxHeight: "300px",
             overflowY: "auto",
           }}
         >
-          <Table striped hover bordered>
+          <Table hover bordered>
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th style={{ paddingBottom: 25 }} rowSpan={2}></th>
@@ -557,7 +557,7 @@ const ContractCoaInfoForm = ({
                       />
                     </th>
                     <td
-                      style={{ padding: 30 }}
+                      style={{ padding: 10 }}
                       onMouseDown={(e) => {
                         setTariffInfoConditon({
                           ...tariffInfoConditon,
@@ -577,7 +577,7 @@ const ContractCoaInfoForm = ({
                       {data.cntrt_nm}
                     </td>
                     <td
-                      style={{ padding: 30 }}
+                      style={{ padding: 10 }}
                       onMouseDown={(e) => {
                         setTariffInfoConditon({
                           ...tariffInfoConditon,
@@ -597,7 +597,7 @@ const ContractCoaInfoForm = ({
                       {data.cd_v_meaning}
                     </td>
                     <td
-                      style={{ padding: 30 }}
+                      style={{ padding: 10 }}
                       onMouseDown={(e) => {
                         setTariffInfoConditon({
                           ...tariffInfoConditon,
@@ -616,9 +616,9 @@ const ContractCoaInfoForm = ({
                     >
                       {data.cntrt_start_date}
                     </td>
-                    <td style={{ padding: 30 }}>{data.cntrt_end_date}</td>
-                    <td style={{ padding: 30 }}>{data.user_nm}</td>
-                    <td style={{ padding: 30 }}>{data.cntrt_id}</td>
+                    <td style={{ padding: 10 }}>{data.cntrt_end_date}</td>
+                    <td style={{ padding: 10 }}>{data.user_nm}</td>
+                    <td style={{ padding: 10 }}>{data.cntrt_id}</td>
                   </tr>
                 ))}
               </>
@@ -639,12 +639,11 @@ const ContractCoaInfoForm = ({
         </div>
         <div
           style={{
-            position: "relative",
-            maxHeight: "200px",
+            maxHeight: "300px",
             overflowY: "auto",
           }}
         >
-          <Table striped hover bordered>
+          <Table hover bordered>
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
                 <th></th>
@@ -674,14 +673,14 @@ const ContractCoaInfoForm = ({
                     <th scope="row">
                       <Input type="checkbox" />
                     </th>
-                    <td style={{ padding: 30 }}>{data.trff_nm}</td>
-                    <td style={{ padding: 30 }}>{data.trff_desc}</td>
-                    <td style={{ padding: 30 }}>{data.biz_nm}</td>
-                    <td style={{ padding: 30 }}>{data.svc_nm}</td>
-                    <td style={{ padding: 30 }}>
+                    <td style={{ padding: 10 }}>{data.trff_nm}</td>
+                    <td style={{ padding: 10 }}>{data.trff_desc}</td>
+                    <td style={{ padding: 10 }}>{data.biz_nm}</td>
+                    <td style={{ padding: 10 }}>{data.svc_nm}</td>
+                    <td style={{ padding: 10 }}>
                       {data.detl_svc_tcd}-{data.detl_svc_nm}
                     </td>
-                    <td style={{ padding: 30 }}>{data.ins_date}</td>
+                    <td style={{ padding: 10 }}>{data.ins_date}</td>
                     {openTariffModal && (
                       <TariffLoader
                         isOpen={openTariffModal}

@@ -32,30 +32,23 @@ import styles from "./coa.module.css";
 interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
-  tariffInfoConditon: any;
+  onSubmitTariffInfo: (params: any) => void;
 }
 
 const ContractCoaRegisterModal = ({
   isOpen,
   closeModal,
-  tariffInfoConditon,
+  onSubmitTariffInfo,
 }: ContractCoaRegisterModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
-
+  const [cntrtSaveChkFlag, setCntrtSaveChkFlag] = useState(false);
   const tariffData = useSelector(
     (state: RootState) => state.tariffInfo.tariffInfo
   );
-
-  // const {
-  //   data: tariffCondHListData,
-  //   loading: tariffCondHListLoading,
-  //   error: tariffCondHListError,
-  // } = useSelector((state: RootState) => state.tariff.tariffCondHList);
-  // const tariffCondHListData  = useSelector((state: RootState) => state.tariff.tariffCondHList);
 
   const nowUserId = localStorage.getItem("userId");
   const nowUserNm = localStorage.getItem("userNm");
@@ -106,6 +99,7 @@ const ContractCoaRegisterModal = ({
   const baseCodeData = useSelector(
     (state: RootState) => state.baseCode.baseCode
   );
+
   const [contractInfoParams, setContractInfoParamas] = useState({
     cntrtId: "",
     cntrtCurrCd: "USD",
@@ -119,6 +113,13 @@ const ContractCoaRegisterModal = ({
     updPersonId: nowUserId,
     cntrtTypGcd: "1090",
   });
+
+  const [regiTariffInfoConditon, setRegiTariffInfoConditon] = useState({
+    cntrtId: contractInfoParams?.cntrtId.toString(),
+    svcNm: "",
+    detlSvcNm: "",
+  });
+
   const dispatch = useDispatch();
 
   const getContractId = async () => {
@@ -148,8 +149,17 @@ const ContractCoaRegisterModal = ({
     } else {
       dispatch(insertContractCodeAsync.request(contractInfoParams));
       alert("등록이 완료되었습니다.");
+      setCntrtSaveChkFlag(true);
     }
   };
+  useEffect(() => {
+    setRegiTariffInfoConditon({
+      ...regiTariffInfoConditon,
+      cntrtId: contractInfoParams?.cntrtId.toString(),
+    });
+    onSubmitTariffInfo(regiTariffInfoConditon);
+  }, [openNewTariffModal]);
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -259,12 +269,12 @@ const ContractCoaRegisterModal = ({
                         }}
                         id="cntrtNm"
                         name="cntrtNm"
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setContractInfoParamas({
                             ...contractInfoParams,
                             [e.target.id]: e.target.value,
-                          })
-                        }
+                          });
+                        }}
                       />
                     </div>
                   </td>
@@ -317,7 +327,21 @@ const ContractCoaRegisterModal = ({
                     계약 ID
                   </th>
                   <td>
-                    <span>{contractInfoParams?.cntrtId.toString()}</span>
+                    <div>
+                      <Input
+                        type="text"
+                        id="cntrtId"
+                        name="cntrtId"
+                        value={contractInfoParams?.cntrtId.toString()}
+                        disabled
+                        onChange={(e) =>
+                          setRegiTariffInfoConditon({
+                            ...regiTariffInfoConditon,
+                            [e.target.id]: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
                   </td>
                   <th
                     style={{
@@ -567,6 +591,7 @@ const ContractCoaRegisterModal = ({
               <thead style={{ margin: 4 }}>◎ 타리프 정보</thead>
               <tbody style={{ textAlign: "center" }}>
                 <tr className="table-secondary">
+                  <th></th>
                   <th>타리프 ID</th>
                   <th>타리프 설명</th>
                   <th>사업유형</th>
@@ -574,16 +599,48 @@ const ContractCoaRegisterModal = ({
                   <th>상세서비스유형명</th>
                   <th>등록일</th>
                 </tr>
-                {/* {tariffData.data?.map((data, index) => (
-                  <tr key={index} aria-rowcount={index}>
-                    <td>{data.trff_nm}</td>
-                    <td>{data.trff_desc}</td>
-                    <td>{data.biz_nm}</td>
-                    <td>{data.svc_nm}</td>
-                    <td>{data.detl_svc_nm}</td>
-                    <td>{data.ins_date}</td>
-                  </tr>
-                ))} */}
+                <>
+                  {tariffData.data?.map((data, index) => (
+                    <tr
+                      key={index}
+                      aria-rowcount={index}
+                      onMouseDown={(e) => {
+                        setTariffParams({
+                          ...tariffParams,
+                          cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                          trffId: data.trff_id, // 타리프 ID
+                          cntrtStatDate: contractInfoParams.cntrtStartDate,
+                          cntrtEndDate: contractInfoParams.cntrtEndDate,
+                          cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+                        });
+                      }}
+                      onClick={onClickTariffModal}
+                    >
+                      <th scope="row">
+                        <Input type="checkbox" />
+                      </th>
+                      <td style={{ padding: 10 }}>{data.trff_nm}</td>
+                      <td style={{ padding: 10 }}>{data.trff_desc}</td>
+                      <td style={{ padding: 10 }}>{data.biz_nm}</td>
+                      <td style={{ padding: 10 }}>{data.svc_nm}</td>
+                      <td style={{ padding: 10 }}>
+                        {data.detl_svc_tcd} - {data.svc_nm}
+                      </td>
+                      <td style={{ padding: 10 }}>{data.ins_date}</td>
+                      {openNewTariffModal && (
+                        <TariffLoader
+                          isOpen={openNewTariffModal}
+                          closeModal={() => {
+                            setOpenNewTariffModal(
+                              (openNewTariffModal) => !openNewTariffModal
+                            );
+                            onSubmitTariffInfo(regiTariffInfoConditon);
+                          }}
+                        />
+                      )}
+                    </tr>
+                  ))}
+                </>
               </tbody>
             </Table>
             <div
@@ -594,23 +651,43 @@ const ContractCoaRegisterModal = ({
                 alignItems: "center",
               }}
             >
-              <Button
-                outline
-                className="btn"
-                size="sm"
-                style={{ margin: 0, padding: 0, width: 50 }}
-                onClick={onClickTariffModal}
-              >
-                추가
-              </Button>
+              {cntrtSaveChkFlag ? (
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                  onClick={onClickTariffModal}
+                >
+                  추가
+                </Button>
+              ) : (
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 50 }}
+                  onClick={() => {
+                    alert("계약 등록을 저장해주세요.");
+                  }}
+                >
+                  추가
+                </Button>
+              )}
+
               {openNewTariffModal && (
                 <TariffLoader
                   isOpen={openNewTariffModal}
-                  closeModal={() =>
+                  closeModal={() => {
                     setOpenNewTariffModal(
                       (openNewTariffModal) => !openNewTariffModal
-                    )
-                  }
+                    );
+                    console.log(
+                      "regiTariffInfoConditon",
+                      regiTariffInfoConditon
+                    );
+                    onSubmitTariffInfo(regiTariffInfoConditon);
+                  }}
                 />
               )}
             </div>

@@ -27,12 +27,16 @@ import { ModalTitle } from "react-bootstrap";
 import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import styles from "./coa.module.css";
+import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
 
 interface CalculateDetailModalProps {
   closeModal: any;
   isOpen: boolean;
   calculateDetailCodeData: any;
   detailParamas: any;
+  setChkCancleFlag: any;
+  chkCancleFlag: boolean;
+  chkClearAmtFlag: any;
 }
 
 const CalculateDetailModal = ({
@@ -40,7 +44,16 @@ const CalculateDetailModal = ({
   closeModal,
   calculateDetailCodeData,
   detailParamas,
+  setChkCancleFlag,
+  chkCancleFlag,
+  chkClearAmtFlag,
 }: CalculateDetailModalProps) => {
+  const [params, setParams] = useState({
+    transOrderNo: detailParamas.data?.trans_order_no,
+    frtStatus: "20",
+    dstConfYn: "Y",
+  });
+
   const dateToString = (date) => {
     return (
       date.getFullYear() +
@@ -83,6 +96,21 @@ const CalculateDetailModal = ({
     });
     return ans.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  const dispatch = useDispatch();
+
+  const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+      alert("운임 정산을 먼저 해주세요.");
+    }else{
+      dispatch(updateFrtStatusRequestAsync.request(params));
+      alert("담당자 확정이 완료되었습니다.");
+      setChkCancleFlag(!chkCancleFlag);
+      closeModal(true);
+    }
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -93,7 +121,7 @@ const CalculateDetailModal = ({
         </Container>
         <ModalBody>
           <Container>
-            <table>
+            <table className="detailTable">
               <tr>
                 <td>지시번호</td>
                 <td>
@@ -108,9 +136,14 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={detailParamas.data?.clear_qty
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    value={
+                      (detailParamas.data?.clear_qty == null) ? 
+                      (detailParamas.data?.clear_qty):
+                      (detailParamas.data?.clear_qty
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
+                    
                   ></Input>
                 </td>
               </tr>
@@ -125,7 +158,17 @@ const CalculateDetailModal = ({
                 </td>
                 <td>기준선적량</td>
                 <td>
-                  <Input type="text" disabled value="2500000"></Input>
+                  <Input
+                    type="text"
+                    disabled
+                    value={
+                      (detailParamas.data?.vsl_load_posbl_wt == null) ? 
+                      (detailParamas.data?.vsl_load_posbl_wt):
+                      (detailParamas.data?.vsl_load_posbl_wt
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                    }
+                  ></Input>
                 </td>
               </tr>
               <tr>
@@ -137,9 +180,9 @@ const CalculateDetailModal = ({
                     value={detailParamas.data?.cd_v_meaning}
                   ></Input>
                 </td>
-                <td>기타할증</td>
+                <td>선적일자</td>
                 <td>
-                  <Input type="text" disabled value={"0"}></Input>
+                  <Input type="text" disabled value={dateToString(to_date(detailParamas.data?.bl_date))}></Input>
                 </td>
               </tr>
               <tr>
@@ -148,7 +191,7 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={clearAmtTotalSum()}
+                    value={clearAmtTotalSum() == 'NaN' ? 0 : clearAmtTotalSum()}
                   ></Input>
                 </td>
                 <td>총 운임</td>
@@ -156,7 +199,7 @@ const CalculateDetailModal = ({
                   <Input
                     type="text"
                     disabled
-                    value={clearAmtTotalSum()}
+                    value={clearAmtTotalSum() == 'NaN' ? 0 : clearAmtTotalSum()}
                   ></Input>
                 </td>
               </tr>
@@ -171,14 +214,20 @@ const CalculateDetailModal = ({
                 alignItems: "center",
               }}
             >
-              <Button
-                outline
-                className="btn"
-                size="sm"
-                style={{ margin: 0, padding: 0, width: 80 }}
+              <Form
+                style={{ margin: 3 }}
+                onSubmit={onSubmitUpdFrtStatus}
+                className="UpdFrtStatusForm"
               >
-                담당자확정
-              </Button>
+                <Button
+                  outline
+                  className="btn"
+                  size="sm"
+                  style={{ margin: 0, padding: 0, width: 80 }}
+                >
+                  담당자확정
+                </Button>
+              </Form>
             </div>
             <div
               style={{
@@ -214,28 +263,45 @@ const CalculateDetailModal = ({
                         <td>{data.ref_doc_no}</td>
                         <td>{data.item_cd}</td>
                         <td>
-                          {data.clear_qty
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          {
+                            (data?.clear_qty == null) ? 
+                            (data?.clear_qty):
+                            (data?.clear_qty
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                          }
                         </td>
                         <td>{data.tot_gross_wt_unit_cd}</td>
                         <td>
-                          {data.unit_price
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          {
+                            (data?.unit_price == null) ? 
+                            (data?.unit_price):
+                            (data?.unit_price
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                          }
+                          
                         </td>
                         <td>{data.clear_curr}</td>
                         <td>
-                          {data.clear_amt
+                        {
+                          (data?.clear_amt == null) ? 
+                          (data?.clear_amt):
+                          (data?.clear_amt
                             .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        }
                         </td>
                         <td>{data.local_exr}</td>
                         <td>{data.local_curr_cd}</td>
                         <td>
-                          {data.local_supp_amt
+                        {
+                          (data?.local_supp_amt == null) ? 
+                          (data?.local_supp_amt):
+                          (data?.local_supp_amt
                             .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+                        }
                         </td>
                       </tr>
                     </>
@@ -250,10 +316,10 @@ const CalculateDetailModal = ({
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{clearAmtTotalSum()}</td>
+                    <td>{clearAmtTotalSum() == 'NaN' ? null : clearAmtTotalSum()}</td>
                     <td></td>
                     <td></td>
-                    <td>{clearLocalSuppAmtTotalSum()}</td>
+                    <td>{clearLocalSuppAmtTotalSum() == 'NaN' ? null : clearLocalSuppAmtTotalSum()}</td>
                   </tr>
                 </tfoot>
               </Table>

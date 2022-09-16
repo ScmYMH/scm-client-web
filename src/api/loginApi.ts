@@ -15,4 +15,5 @@ export interface LoginInfo {
   loginPw: string;
   token: string;
   userId: string;
+  employeeNumber: string;
 }

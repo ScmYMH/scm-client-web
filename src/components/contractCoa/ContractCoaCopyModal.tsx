@@ -41,21 +41,25 @@ interface ContractCoaCopyModalProps {
   closeModal: any;
   isOpen: boolean;
   updParams: any;
-  tariffData: any;
+  tariffInfoConditon: any;
+  onSubmitTariffInfo: (params: any) => void;
 }
 
 const ContractCoaCopyModal = ({
   isOpen,
   closeModal,
   updParams,
-  tariffData,
+  tariffInfoConditon,
+  onSubmitTariffInfo,
 }: ContractCoaCopyModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [openModal, setOpenModal] = useState(false);
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
-
+  const tariffData: any = useSelector(
+    (state: RootState) => state.tariffInfo.tariffInfo
+  );
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -541,6 +545,7 @@ const ContractCoaCopyModal = ({
                           borderRadius: 0,
                         }}
                       >
+                        <option selected>{updParams.data.cntrt_curr_cd}</option>
                         {baseCodeData.data?.slice(24, 38).map((option) => (
                           <option key={option.value} value={option.cd_v}>
                             {option.cd_v} [{option.cd_v_meaning}]
@@ -571,66 +576,8 @@ const ContractCoaCopyModal = ({
                 </tr>
               </tbody>
             </Table>
-          </Container>
 
-          <Container>
-            <Table bordered>
-              <thead style={{ textAlign: "center" }}>
-                <tr className="table-secondary">
-                  <th></th>
-                  <th>타리프 ID</th>
-                  <th>타리프설명</th>
-                  <th>사업유형</th>
-                  <th>서비스유형</th>
-                  <th>상세서비스유형</th>
-                  <th>등록일</th>
-                </tr>
-              </thead>
-              <tbody>
-                <>
-                  {tariffData?.map((data, index) => (
-                    <tr
-                      key={index}
-                      aria-rowcount={index}
-                      onMouseDown={(e) => {
-                        setTariffParams({
-                          ...tariffParams,
-                          cntrtId: contractInfoParams.cntrtId, // 계약 ID
-                          trffId: data.trff_id, // 타리프 ID
-                          cntrtStatDate: contractInfoParams.cntrtStartDate,
-                          cntrtEndDate: contractInfoParams.cntrtEndDate,
-                          cntrtCurrCd: contractInfoParams.cntrtCurrCd,
-                        });
-                      }}
-                      onClick={onClickTariffModal}
-                    >
-                      <th scope="row">
-                        <Input type="checkbox" />
-                      </th>
-                      <td style={{ padding: 30 }}>{data.trff_nm}</td>
-                      <td style={{ padding: 30 }}>{data.trff_desc}</td>
-                      <td style={{ padding: 30 }}>{data.biz_nm}</td>
-                      <td style={{ padding: 30 }}>{data.svc_nm}</td>
-                      <td style={{ padding: 30 }}>
-                        {data.detl_svc_tcd} - {data.svc_nm}
-                      </td>
-                      <td style={{ padding: 30 }}>{data.ins_date}</td>
-                      {openTariffModal && (
-                        <TariffLoader
-                          isOpen={openTariffModal}
-                          closeModal={() =>
-                            setOpenTariffModal(
-                              (openTariffModal) => !openTariffModal
-                            )
-                          }
-                        />
-                      )}
-                    </tr>
-                  ))}
-                </>
-              </tbody>
-            </Table>
-            <Form
+            {/* <Form
               className="ContractInfoForm"
               onSubmit={onSubmitInsertContractInfo}
               style={{ margin: 0, padding: 0 }}
@@ -652,7 +599,97 @@ const ContractCoaCopyModal = ({
                   저장
                 </Button>
               </div>
-            </Form>
+            </Form> */}
+          </Container>
+
+          <Container>
+            <div
+              style={{
+                maxHeight: "600px",
+                overflowY: "auto",
+              }}
+            >
+                <Table bordered>
+                  <thead style={{ textAlign: "center" }}>
+                    <tr className="table-secondary">
+                      <th></th>
+                      <th>타리프 ID</th>
+                      <th>타리프설명</th>
+                      <th>사업유형</th>
+                      <th>서비스유형</th>
+                      <th>상세서비스유형</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <>
+                      {tariffData.data?.map((data, index) => (
+                        <tr
+                          key={index}
+                          aria-rowcount={index}
+                          onMouseDown={(e) => {
+                            setTariffParams({
+                              ...tariffParams,
+                              cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                              trffId: data.trff_id, // 타리프 ID
+                              cntrtStatDate: contractInfoParams.cntrtStartDate,
+                              cntrtEndDate: contractInfoParams.cntrtEndDate,
+                              cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+                            });
+                          }}
+                          onClick={onClickTariffModal}
+                        >
+                          <th scope="row">
+                            <Input type="checkbox" />
+                          </th>
+                          <td style={{ padding: 10 }}>{data.trff_nm}</td>
+                          <td style={{ padding: 10 }}>{data.trff_desc}</td>
+                          <td style={{ padding: 10 }}>{data.biz_nm}</td>
+                          <td style={{ padding: 10 }}>{data.svc_nm}</td>
+                          <td style={{ padding: 10 }}>
+                            {data.detl_svc_tcd} - {data.svc_nm}
+                          </td>
+                          <td style={{ padding: 10 }}>{data.ins_date}</td>
+                          {openTariffModal && (
+                            <TariffLoader
+                              isOpen={openTariffModal}
+                              closeModal={() =>
+                                setOpenTariffModal(
+                                  (openTariffModal) => !openTariffModal
+                                )
+                              }
+                            />
+                          )}
+                        </tr>
+                      ))}
+                    </>
+                  </tbody>
+                </Table>
+                <Form
+                className="ContractInfoForm"
+                onSubmit={onSubmitInsertContractInfo}
+                style={{ margin: 0, padding: 0 }}
+                >
+                <div
+                  style={{
+                    margin: "10px",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    outline
+                    className="btn"
+                    size="sm"
+                    style={{ margin: 0, padding: 0, width: 50 }}
+                  >
+                    저장
+                  </Button>
+                </div>
+              </Form>
+            </div>
           </Container>
         </ModalBody>
       </Modal>
