@@ -67,7 +67,7 @@ const AccountConnModal = ({
 
   const onSubmitAccountInfo = (e: FormEvent<HTMLFormElement>) => {
     dispatch(updateAccountRequestAsync.request(newAccountIdParams));
-    alert("결제 성공 > 전표번호가 발행 되었습니다.");
+    alert("결재 성공 > 전표번호가 발행 되었습니다.");
   };
 
   return (
@@ -174,7 +174,7 @@ const AccountConnModal = ({
                       margin: 1,
                     }}
                   >
-                    결제의견
+                    결재의견
                   </th>
                   <td colSpan={2}>
                     <Input
@@ -296,7 +296,7 @@ const AccountConnModal = ({
                 className="CalculateInfoForm"
               >
                 <Button outline style={{ margin: 3 }} className="btn" size="sm">
-                  결제요청
+                  결재요청
                 </Button>
               </Form>
             </div>

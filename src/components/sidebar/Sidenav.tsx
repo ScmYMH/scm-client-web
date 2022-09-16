@@ -95,7 +95,7 @@ const Sidenav = () => {
                 icon={<FiAlignJustify />}
                 active={true}
               >
-                <Link to="/calculate">정산</Link>
+                <Link to="/calculate">국제해송비정산</Link>
               </MenuItem>
             </Menu>
           </SidebarContent>
