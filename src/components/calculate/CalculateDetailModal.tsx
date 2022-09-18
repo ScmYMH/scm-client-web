@@ -112,8 +112,6 @@ const CalculateDetailModal = ({
       closeModal(true);
     }
   };
-
-   
   //엑셀 구현
   const excelFileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
