@@ -97,6 +97,15 @@ const Sidenav = () => {
               >
                 <Link to="/calculate">국제해송비정산</Link>
               </MenuItem>
+            <hr></hr>
+            <span style={{ marginLeft: 20, marginTop: 30 }}>선적 정보</span>
+            <MenuItem
+                style={{ marginTop: 20 }}
+                icon={<FiAlignJustify />}
+                active={true}
+              >
+                <Link to="/shipmentInfo">구글 맵 선적 정보</Link>
+              </MenuItem>
             </Menu>
           </SidebarContent>
         </ProSidebar>

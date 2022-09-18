@@ -11,6 +11,7 @@ import LoginLoader from "components/login/LoginLoader";
 import HeaderPict from "components/header/HeaderPict";
 import Sidenav from "components/sidebar/Sidenav";
 import CalculateInfoLoader from "components/calculate/CalculateInfoLoader";
+import ShipMentInfoLoader from "components/shipmentInfo/ShipMentInfoLoader";
 
 interface ContentProps {
   sidebarIsOpen: any;
@@ -73,6 +74,18 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
             <Row style={{ marginLeft: 5 }}>
               <HeaderPict />
               <CalculateInfoLoader></CalculateInfoLoader>
+            </Row>
+          </div>
+        }
+      ></Route>
+      <Route
+        path="/shipmentInfo"
+        element={
+          <div style={{ display: "inline-flex" }}>
+            <Sidenav />
+            <Row style={{ marginLeft: 5 }}>
+              <HeaderPict />
+              <ShipMentInfoLoader></ShipMentInfoLoader>
             </Row>
           </div>
         }

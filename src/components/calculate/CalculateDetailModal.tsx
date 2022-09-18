@@ -28,6 +28,8 @@ import { HiSearch } from "react-icons/hi";
 import SearchUser from "components/ContractMember/SearchUser";
 import styles from "./coa.module.css";
 import { updateFrtStatusRequestAsync } from "modules/calculate/actions";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 interface CalculateDetailModalProps {
   closeModal: any;
@@ -111,6 +113,63 @@ const CalculateDetailModal = ({
     }
   };
 
+   
+  //엑셀 구현
+  const excelFileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const excelFileExtension = ".xlsx";
+  const excelFileName = "국제해송비정산상세";
+
+  const excelDownload = (excelData: any) => {
+    const ws = XLSX.utils.aoa_to_sheet([
+      [
+        "제철소코드",
+        "목적지명",
+        "선적일자",
+        "주문번호",
+        "제품명",
+        "실선적량",
+        "총중량단위",
+        "단가",
+        "정산통화",
+        "정산금액",
+        "환율",
+        "Local통화",
+        "Local금액",
+      ],
+    ]);
+    excelData.map((exportData: any) => {
+      XLSX.utils.sheet_add_aoa(
+        ws,
+        [
+          [
+            exportData.fac_cd,
+            exportData.arr_node_nm,
+            exportData.bl_date,
+            exportData.ref_doc_no,
+            exportData.item_cd,
+            exportData.clear_qty,
+            exportData.tot_gross_wt_unit_cd,
+            exportData.unit_price,
+            exportData.clear_curr,
+            exportData.clear_amt,
+            exportData.local_exr,
+            exportData.local_curr_cd,
+            exportData.local_supp_amt,
+          ],
+        ],
+        { origin: -1 }
+      );
+      ws["!cols"] = [{ wpx: 200 }, { wpx: 200 }];
+      return false;
+    });
+    
+    const wb: any = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelButter = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const excelFile = new Blob([excelButter], { type: excelFileType });
+    FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
+  };
+  
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -228,6 +287,16 @@ const CalculateDetailModal = ({
                   담당자확정
                 </Button>
               </Form>
+              <Button
+                type="submit"
+                className="btn"
+                onClick={() => excelDownload(calculateDetailCodeData)}
+                size="sm"
+                outline
+                style={{ margin: 0, padding: 0, width: 80 }}
+                >
+                엑셀 Export
+              </Button>
             </div>
             <div
               style={{
