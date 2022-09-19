@@ -15,12 +15,16 @@ const HeaderPict = () => {
       }}
     >
       <BsPersonCircle
-        style={{ marginTop: 20, marginRight: 5, fontSize: 20 }}
+        style={{ marginTop: 40, marginRight: 5, fontSize: 20 }}
       ></BsPersonCircle>
-      <span style={{ marginTop: 20, marginRight: 20 }}>
+      <span style={{ marginTop: 40, marginRight: 20 }}>
         {nowUserNm}님, 안녕하세요
       </span>
-      <img src="../../images/withPosco.png" width={"200px"}></img>
+      <img
+        src="../../images/green_tomorrow.png"
+        width={"300px"}
+        height={"100px"}
+      ></img>
     </header>
   );
 };

@@ -67,7 +67,6 @@ const TariffExcelModal = ({
         cond_nm: data.조건명,
       };
     });
-    console.log("jsonData >>>> ", excelData);
 
     dispatch(postTariffExcelImportAsync.request(excelData));
 
