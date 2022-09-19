@@ -41,7 +41,6 @@ const AccountConnModal = ({
   detailParamas,
 }: AccountConnModalProps) => {
   const expNo = localStorage.getItem("employeeNumber");
-  console.log(detailParamas.data.clear_amt);
   const [newAccountIdParams, setNewAccountIdParams] = useState({
     closeNo: "",
     acctgAmt: detailParamas.data.clear_amt,
@@ -51,7 +50,7 @@ const AccountConnModal = ({
 
   const getNewAccountId = async () => {
     await axios
-      .get(`http://localhost:9990/calculate/newAccountId?expNo=${expNo}`)
+      .get(`http://3.37.155.50:8000/calculate/newAccountId?expNo=${expNo}`)
       .then((res) =>
         setNewAccountIdParams({
           ...newAccountIdParams,
