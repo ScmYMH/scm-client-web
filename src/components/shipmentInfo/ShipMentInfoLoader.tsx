@@ -29,7 +29,7 @@ const ShipMentInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ minHeight: "600px", width:"600px" }}>
+      <Card style={{ minHeight: "600px", width:"1200px" }}>
         <ShipMentInfoForm />
       </Card>
     </>

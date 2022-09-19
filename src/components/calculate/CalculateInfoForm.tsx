@@ -605,25 +605,27 @@ const CalculateInfoForm = ({
             overflowY: "auto",
           }}
         >
-          <Table bordered style={{ marginTop: 10 }}>
-            <tbody style={{ textAlign: "center" }}>
-              <tr id="tableForm" className="table-secondary">
-                <th>CHK</th>
-                <th>권역</th>
-                <th>물류실행사ID</th>
-                <th>물류 실행사명</th>
-                <th>선적일자</th>
-                <th>지시번호</th>
-                <th>선박코드</th>
-                <th>선박명</th>
-                <th>확정여부</th>
-                <th>회계연결여부</th>
-                <th>통화</th>
-                <th>정산중량</th>
-                <th>정산금액</th>
-                <th>회계연결금액</th>
-                <th>AP 전표번호</th>
-              </tr>
+          <Table bordered style={{ marginTop: 10 }} id="table-sample">
+            <thead style={{ textAlign: "center" }}>
+                <tr id="tableForm" className="table-secondary">
+                  <th>CHK</th>
+                  <th>권역</th>
+                  <th>물류실행사ID</th>
+                  <th>물류 실행사명</th>
+                  <th>선적일자</th>
+                  <th>지시번호</th>
+                  <th>선박코드</th>
+                  <th>선박명</th>
+                  <th>확정여부</th>
+                  <th>회계연결여부</th>
+                  <th>통화</th>
+                  <th>정산중량</th>
+                  <th>정산금액</th>
+                  <th>회계연결금액</th>
+                  <th>AP 전표번호</th>
+                </tr>
+              </thead>
+              <tbody style={{ textAlign: "center" }}>
               <>
                 {calculateInfoData.data?.map((data, index) => (
                   <tr key={index} aria-rowcount={index}>
