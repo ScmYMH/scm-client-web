@@ -304,7 +304,7 @@ const CalculateDetailModal = ({
                 overflowY: "auto",
               }}
             >
-              <Table bordered>
+              <Table bordered id="CalTableDetail">
                 <tbody style={{ textAlign: "center" }}>
                   <tr className="table-secondary">
                     <th>번호</th>

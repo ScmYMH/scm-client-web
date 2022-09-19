@@ -41,6 +41,12 @@ const AccountConnModal = ({
   detailParamas,
 }: AccountConnModalProps) => {
   const expNo = localStorage.getItem("employeeNumber");
+  const [openModal, setOpenModal] = useState(false);
+  const [addMember, setAddMember] = useState<any>([]);
+  const [preActorId, setPreActorId] = useState("");
+
+  const nowUserId = localStorage.getItem("userId");
+  const nowUserNm = localStorage.getItem("userNm");
   const [newAccountIdParams, setNewAccountIdParams] = useState({
     closeNo: "",
     acctgAmt: detailParamas.data.clear_amt,
@@ -69,6 +75,10 @@ const AccountConnModal = ({
     alert("결재 성공 > 전표번호가 발행 되었습니다.");
   };
 
+  const onClickUser = (userId: string) => {
+    setPreActorId(userId);
+  };
+  console.log(addMember, addMember.length)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -139,23 +149,38 @@ const AccountConnModal = ({
                     수신자
                   </th>
                   <td colSpan={2}>
-                    <div style={{ display: "flex", marginBottom: "20px" }}>
-                      <div>
-                        <Input
-                          id="userNm"
-                          readOnly
-                          style={{
-                            justifyContent: "flex-start",
-                            boxShadow: "none",
-                            borderRadius: 0,
-                            marginLeft: 0,
-                            padding: 0,
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <HiSearch style={{ cursor: "pointer" }}></HiSearch>
-                      </div>
+                    <div>
+                      <Input
+                        id="crePersonId"
+                        name="crePersonId"
+                        defaultValue={nowUserNm || ""}
+                        value={addMember[addMember.length -1]?.userNm}
+                        readOnly
+                        style={{
+                          boxShadow: "none",
+                          width: "90%",
+                          display: "inline-block",
+
+                          borderRadius: 0,
+                        }}
+                      />
+                      <HiSearch
+                        style={{ marginLeft: 10, cursor: "pointer" }}
+                        onClick={() => {
+                          setOpenModal((openModal) => !openModal);
+                        }}
+                      ></HiSearch>
+                      {openModal && (
+                        <SearchUser
+                          onClickUser={onClickUser}
+                          isOpen={openModal}
+                          closeModal={() =>
+                            setOpenModal((openModal) => !openModal)
+                          }
+                          addMember={addMember}
+                          setAddMember={setAddMember}
+                        ></SearchUser>
+                      )}
                     </div>
                     <Input
                       type="textarea"
