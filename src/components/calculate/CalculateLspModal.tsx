@@ -51,7 +51,7 @@ const CalculateLspModal = ({
         </Container>
         <ModalBody>
           <Container style={{ marginBottom: 30 }}>
-            <table className="detailTable">
+            {/* <table className="detailTable">
               <tr>
                 <td>검색조건</td>
                 <td>
@@ -66,7 +66,7 @@ const CalculateLspModal = ({
                   ></Input>
                 </td>
               </tr>
-            </table>
+            </table> */}
           </Container>
           <Container>
             <div
