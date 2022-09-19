@@ -19,7 +19,8 @@ export async function postContractMemberList(params: any[]) {
 
   const response = await axios.post<Array<ContractMemberInfo>>(
     `http://3.37.155.50:8000/contract/manager/`,
-    JSON.parse(paramsData)
+    JSON.parse(paramsData),
+    { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
   );
   return response.data;
 }

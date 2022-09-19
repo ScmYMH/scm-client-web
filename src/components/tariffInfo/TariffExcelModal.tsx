@@ -46,7 +46,30 @@ const TariffExcelModal = ({
   }, [valiCheck.data]);
 
   const onSubmitExcelData = () => {
-    dispatch(postTariffExcelImportAsync.request(jsonData));
+    const excelData = jsonData.map((data) => {
+      return {
+        dep_cd: data.출발지코드,
+        dep_nm: data.출발지명,
+        arr_cd: data.도착지코드,
+        arr_nm: data.도착지명,
+        lcc_cd: data.물류비계정,
+        sub_lcc_cd: data.세부물류비,
+        lcc_cd_desc: data.세부물류비설명,
+        trff_stat_date: data.유효기간시작,
+        trff_end_date: data.유효기간종료,
+        cntrt_curr_cd: data.계약통화,
+        pay_curr_cd: data.지불통화,
+        prod_gcd: data.품종명,
+        unit_price: data.단가,
+        cal_unit_cd: data.계산단위,
+        inco_cd: data.인도조건,
+        cond_id: data.조건ID,
+        cond_nm: data.조건명,
+      };
+    });
+    console.log("jsonData >>>> ", excelData);
+
+    dispatch(postTariffExcelImportAsync.request(excelData));
 
     if (valiCheck.loading == true) {
       validationCheck();
@@ -60,7 +83,6 @@ const TariffExcelModal = ({
       alert("성공적으로 등록되었습니다");
     }
   }
-  console.log("jsonData >>>> ", jsonData);
 
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="m">

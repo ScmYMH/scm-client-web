@@ -650,7 +650,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   onClick={onClickExcelImport}
                   outline
                 >
-                  Add
+                  엑셀 Import
                 </Button>
                 {openExcelModal && (
                   <TariffExcelModal
