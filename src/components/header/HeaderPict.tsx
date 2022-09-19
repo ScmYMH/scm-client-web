@@ -20,7 +20,12 @@ const HeaderPict = () => {
       <span style={{ marginTop: 20, marginRight: 20 }}>
         {nowUserNm}님, 안녕하세요
       </span>
-      <img src="../../images/withPosco.png" width={"200px"}></img>
+      <img
+        src="../../images/withPosco.png"
+        style={{ marginTop: "10px" }}
+        width={"200px"}
+        height={"40px"}
+      ></img>
     </header>
   );
 };

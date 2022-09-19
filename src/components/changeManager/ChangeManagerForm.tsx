@@ -173,6 +173,7 @@ const ChangeManagerForm = () => {
     dispatch(putCntrtChgInfoAsync.request(checkList));
 
     setCheckList({ ...checkList, seqNoArray: [] });
+    alert("담당자 변경 확정되었습니다.");
   };
 
   const onClickCancel = () => {
