@@ -59,7 +59,7 @@ const ContractCoaInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card>
+      <Card style={{ minHeight: "900px" }}>
         <ContractCoaInfoForm
           onSubmitContractCoaInfo={onSubmitContractCoaInfo}
           onSubmitTariffInfo={onSubmitTariffInfo}

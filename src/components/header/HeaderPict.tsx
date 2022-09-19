@@ -21,9 +21,10 @@ const HeaderPict = () => {
         {nowUserNm}님, 안녕하세요
       </span>
       <img
-        src="../../images/green_tomorrow.png"
-        width={"300px"}
-        height={"100px"}
+        src="../../images/withPosco.png"
+        style={{ marginTop: "10px" }}
+        width={"200px"}
+        height={"40px"}
       ></img>
     </header>
   );
