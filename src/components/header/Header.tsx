@@ -1,13 +1,33 @@
-import React from 'react';
+import React from "react";
+
+import "./Header.css";
 
 const Header = () => {
-	return (
-		<div>
-			<header>
-				<h2>계약담당자 관리</h2>
-			</header>
-		</div>
-	);
+  return (
+    <div>
+      <header>
+        <div
+          style={{
+            marginTop: 0,
+            marginRight: 0,
+            marginBottom: 0,
+            marginLeft: 0,
+          }}
+        >
+          <div
+            style={{
+              margin: "0",
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <h5>계약 등록</h5>
+          </div>
+        </div>
+      </header>
+    </div>
+  );
 };
 
 export default Header;

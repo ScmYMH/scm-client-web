@@ -7,4 +7,6 @@ export type ContractMemberAction = ActionType<typeof actions>;
 
 export type ContractMemberState = {
 	contractMemberList: AsyncState<Array<ContractMemberInfo>, Error>;
+	contractMemberPostList: AsyncState<Array<ContractMemberInfo>, Error>;
+	contractMemberDelete: AsyncState<String, Error>;
 };

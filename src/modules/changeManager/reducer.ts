@@ -1,6 +1,7 @@
 import { asyncState } from 'lib/reducerUtils';
 import { createReducer } from 'typesafe-actions';
 import {
+	CLEAR_CNTRT_CHG_INFO_LIST_SUCCESS,
 	DELETE_CNTRT_CHG_INFO,
 	DELETE_CNTRT_CHG_INFO_CANCEL_SUCCESS,
 	DELETE_CNTRT_CHG_INFO_ERROR,
@@ -37,6 +38,10 @@ const changeManager = createReducer<ChangeManagerState, ChangeManagerAction>(ini
 	[GET_CONTRACT__LIST_ERROR]: (state, action) => ({
 		...state,
 		commonInfoList: asyncState.error(action.payload),
+	}),
+	[CLEAR_CNTRT_CHG_INFO_LIST_SUCCESS]: (state, action) => ({
+		...state,
+		cntrtChangeInfoList: asyncState.success([]),
 	}),
 	[POST_CNTRT_CHG_INFO]: (state) => ({
 		...state,

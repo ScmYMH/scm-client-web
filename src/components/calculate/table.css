@@ -1,0 +1,54 @@
+#accountSelectTable {
+  width: 100%;
+  border: 1px solid #444444;
+}
+#accountSelectTable tr {
+  border: 1px solid #444444;
+}
+#accountSelectTable td {
+  border: 1px solid #444444;
+}
+#tableResult {
+  border: 1px solid #444444;
+}
+
+#tableResult td {
+  border: 1px solid #444444;
+}
+
+#tableResult tr {
+  border: 1px solid #444444;
+}
+
+.detailTable {
+  text-align: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #444444;
+}
+.detailTable tr {
+  border: 1px solid #444444;
+}
+.detailTable td {
+  border: 1px solid #444444;
+}
+
+.vslTable {
+  text-align: center;
+  align-items: center;
+  border: 0.1px solid #444444;
+}
+.vslTable td {
+  text-align: center;
+  align-items: center;
+}
+
+#tableForm th{
+  white-space: nowrap;
+  text-align: center;
+}
+
+#tableFormTd{
+  white-space: nowrap;
+  text-align: center;
+}
