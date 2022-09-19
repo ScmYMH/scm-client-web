@@ -25,7 +25,7 @@ export async function getTariffHeaderAxios(params: any) {
   // );
   // return response.data;
   return customAxios(
-    `http://3.37.155.50:8000/tariff/header/${params.cntrtId}/${params.trffId}`,
+    `http://localhost:8000/tariff/header/${params.cntrtId}/${params.trffId}`,
     "get",
     null
   );
@@ -37,7 +37,7 @@ export async function postTariffHeaderAxios(params: any) {
   //   params
   // );
   // return response.data;
-  return customAxios("http://3.37.155.50:8000/tariff/header", "post", params);
+  return customAxios("http://localhost:8000/tariff/header", "post", params);
 }
 
 export async function getTariffCondHAxios(params: any) {
@@ -46,7 +46,7 @@ export async function getTariffCondHAxios(params: any) {
   // );
   // return response.data;
   return customAxios(
-    `http://3.37.155.50:8000/tariff/${params.cntrtId}/${params.trffId}`,
+    `http://localhost:8000/tariff/${params.cntrtId}/${params.trffId}`,
     "get",
     null
   );
@@ -58,7 +58,7 @@ export async function postTariffCondHAxios(params: any) {
   //   params
   // );
   // return response.data;
-  return customAxios(`http://3.37.155.50:8000/tariff`, "post", params);
+  return customAxios(`http://localhost:8000/tariff`, "post", params);
 }
 
 export async function delTariffCondHAxios(seqNoParam: string) {
@@ -67,7 +67,7 @@ export async function delTariffCondHAxios(seqNoParam: string) {
   // );
   // return response.data;
   return customAxios(
-    `http://3.37.155.50:8000/tariff/${seqNoParam}`,
+    `http://localhost:8000/tariff/${seqNoParam}`,
     "delete",
     null
   );
@@ -78,7 +78,7 @@ export async function getDestInfoAxios() {
   //   `http://3.37.155.50:8000/tariff/searchNode`
   // );
   // return response.data;
-  return customAxios(`http://3.37.155.50:8000/tariff/searchNode`, "get", null);
+  return customAxios(`http://localhost:8000/tariff/searchNode`, "get", null);
 }
 
 export async function getLccInfoAxios(params: any) {
@@ -87,7 +87,7 @@ export async function getLccInfoAxios(params: any) {
   // );
   // return response.data;
   return customAxios(
-    `http://3.37.155.50:8000/tariff/searchLcc?lccCd=${params.lccCd}&subLccCd=${params.subLccCd}&lccCdNm=${params.lccCdNm}`,
+    `http://localhost:8000/tariff/searchLcc?lccCd=${params.lccCd}&subLccCd=${params.subLccCd}&lccCdNm=${params.lccCdNm}`,
     "get",
     null
   );
@@ -98,7 +98,7 @@ export async function getCodeDefAxios(params: any) {
   //   `http://3.37.155.50:8000/coa/code`
   // );
   // return response.data;
-  return customAxios(`http://3.37.155.50:8000/coa/code`, "get", null);
+  return customAxios(`http://localhost:8000/coa/code`, "get", null);
 }
 
 export async function getAllTariffInfoAxios(cntrtId: string) {

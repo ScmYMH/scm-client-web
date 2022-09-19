@@ -3,14 +3,14 @@ import axios from "axios";
 export async function getCalculateInfo(calSelectParams: any) {
   // Generic 을 통해 응답 데이터의 타입을 설정 할 수 있습니다.
   const response = await axios.get<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
+    `http://localhost:8000/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
   );
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
 export async function getCalculateDetailInfo(transOrderNo: any) {
   const response = await axios.get<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/detail?transOrderNo=${transOrderNo}`
+    `http://localhost:8000/calculate/detail?transOrderNo=${transOrderNo}`
   );
   return response.data;
 }
@@ -18,22 +18,21 @@ export async function getCalculateDetailInfo(transOrderNo: any) {
 // 운임 정산
 export async function insertCalculateInfo(transOrderNo: any) {
   const response = await axios.post<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate?transOrderNo=${transOrderNo}`
+    `http://localhost:8000/calculate?transOrderNo=${transOrderNo}`
   );
   return response.data;
 }
 
-
 export async function getVslCodeInfo(params: any) {
   const response = await axios.get<VslCdInfo>(
-    `http://3.37.155.50:8000/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
+    `http://localhost:8000/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
   );
   return response.data;
 }
 
 export async function updateFrtStatus(params: any) {
   const response = await axios.put<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/frtstatus`,
+    `http://localhost:8000/calculate/frtstatus`,
     params
   );
   return response.data;
@@ -42,7 +41,7 @@ export async function updateFrtStatus(params: any) {
 export async function updateAccountInfo(params: any) {
   console.log(params);
   const response = await axios.put<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/actConnInfo`,
+    `http://localhost:8000/calculate/actConnInfo`,
     params
   );
   return response.data;
