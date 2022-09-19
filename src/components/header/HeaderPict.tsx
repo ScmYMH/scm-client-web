@@ -22,7 +22,6 @@ const HeaderPict = () => {
       </span>
       <img
         src="../../images/green_tomorrow.png"
-        style={{ marginTop: "10px" }}
         width={"300px"}
         height={"100px"}
       ></img>
