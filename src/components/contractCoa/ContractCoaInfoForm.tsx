@@ -131,7 +131,6 @@ const ContractCoaInfoForm = ({
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      nowUserId == updParams.data.ins_person_id ||
       nowUserNm == updParams.data.user_nm
     ) {
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
@@ -208,7 +207,7 @@ const ContractCoaInfoForm = ({
             onClick={() => {
               if (isChecked === true) {
                 if (
-                  nowUserId == updParams.data.ins_person_id ||
+                  // nowUserId == updParams.data.ins_person_id ||
                   nowUserNm == updParams.data.user_nm
                 ) {
                   setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
