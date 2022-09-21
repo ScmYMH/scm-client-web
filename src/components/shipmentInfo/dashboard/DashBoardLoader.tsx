@@ -1,5 +1,5 @@
-import ShipMentInfoForm from "components/shipmentInfo/ShipMentInfoForm";
 import { Card, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
+import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
 import DashBoardHorizontalAccountChart from "./DashBoardHorizontalAccountChart";
 import DashBoardHorizontalManagerChart from "./DashBoardHorizontalManagerChart";
@@ -13,10 +13,12 @@ const DashBoardLoader = () => {
       <Card style={{ marginTop: "1em" }}>
         <Row style={{ marginBottom: "1em"}}>
           <Col sm="6">
+            <Card>
              <ShipMentInfoForm />
+             </Card>
           </Col>
           <Col sm="6">
-            <div style={{marginTop:"2em"}}>
+            <div style={{height:"300", width: "300", marginLeft: "6em", marginTop:"0.5em"}}>
             <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"

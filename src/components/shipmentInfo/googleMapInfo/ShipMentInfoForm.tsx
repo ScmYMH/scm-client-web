@@ -6,8 +6,8 @@ const ShipMentInfoForm = () => {
     return (
     <>
       <div >
-        {/* <GoogleMapForm /> */}
-        <GoogleMapMarkerCluster />
+        <GoogleMapForm />
+        {/* <GoogleMapMarkerCluster /> */}
       </div>
     </>
     )

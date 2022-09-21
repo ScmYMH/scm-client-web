@@ -1,4 +1,5 @@
 import { Card } from "reactstrap";
+import GoogleMapForm from "./GoogleMapForm";
 import ShipMentInfoForm from "./ShipMentInfoForm";
 
 const ShipMentInfoLoader = () => {
@@ -30,7 +31,7 @@ const ShipMentInfoLoader = () => {
         </header>
       </div>
       <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
-        <ShipMentInfoForm />
+        <GoogleMapForm />
       </Card>
       {/* <DashBoardLoader /> */}
     </>
