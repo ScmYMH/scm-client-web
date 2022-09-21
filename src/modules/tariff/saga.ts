@@ -9,9 +9,11 @@ import {
   postContractCopyAxios,
   postTariffCondHAxios,
   postTariffHeaderAxios,
+  putTariffHeaderAxios,
 } from "api/tariffAxios";
 import { RootState } from "modules";
 import { call, put, select, takeLatest } from "redux-saga/effects";
+import { callbackify } from "util";
 import {
   deleteTariffCondHAsync,
   DELETE_TARIFF_COND_H,
@@ -33,6 +35,8 @@ import {
   POST_CONTRACT_COPY,
   POST_TARIFF_COND_H,
   POST_TARIFF_HEADER,
+  putTariffHeaderAsync,
+  PUT_TARIFF_HEADER,
   resetTariffCondHAsync,
   resetTariffHeaderAsync,
   RESET_TARIFF_COND_H,
@@ -98,6 +102,22 @@ function* postTariffHeaderSaga(
   } catch (e: any) {
     console.log("postTariffInfoSaga error");
     yield put(postTariffHeaderAsync.failure(e));
+  }
+}
+
+function* putTariffHeaderSaga(
+  action: ReturnType<typeof putTariffHeaderAsync.request>
+) {
+  try {
+    const tariffHeader: TariffHeader = yield call(
+      putTariffHeaderAxios,
+      action.payload
+    );
+    yield put(postTariffHeaderAsync.success(tariffHeader));
+    alert("수정되었습니다");
+  } catch (e: any) {
+    console.log("putTariffHeaderSaga error");
+    yield put(putTariffHeaderAsync.failure(e));
   }
 }
 
@@ -234,6 +254,7 @@ export function* tariffSaga() {
   yield takeLatest(SAVE_TARIFF_PARAM, saveTariffHeaderParamSaga);
   yield takeLatest(GET_TARIFF_HEADER, getTariffHeaderSaga);
   yield takeLatest(POST_TARIFF_HEADER, postTariffHeaderSaga);
+  yield takeLatest(PUT_TARIFF_HEADER, putTariffHeaderSaga);
   yield takeLatest(GET_TARIFF_COND_H, getTariffCondHSaga);
   yield takeLatest(RESET_TARIFF_HEADER, resetTariffHeaderSaga);
   yield takeLatest(RESET_TARIFF_COND_H, resetTariffCondHSaga);

@@ -18,6 +18,7 @@ import {
 import TariffExcelModal from "./TariffExcelModal";
 import styles from "./tariff.module.css";
 import { optionCSS } from "react-select/dist/declarations/src/components/Option";
+import { putValCheckAsync } from "modules/importExcel/action";
 
 const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     tariffCondHListData
   );
   const LccCdLov = [
-    { value: "", text: "" },
+    { value: "default", text: "선택" },
     { value: "10A1", text: "10A1" },
     { value: "10D1", text: "10D1" },
   ];
@@ -554,10 +555,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
   useEffect(() => {
     setTrffCondHList(tariffCondHListData);
   }, [tariffCondHListData]);
-
-  useEffect(() => {
-    dispatch(resetTariffCondHAsync.request());
-  }, [tariffHeaderData]);
 
   return (
     <>

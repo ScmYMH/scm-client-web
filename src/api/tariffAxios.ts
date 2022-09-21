@@ -40,6 +40,10 @@ export async function postTariffHeaderAxios(params: any) {
   return customAxios("http://3.37.155.50:8000/tariff/header", "post", params);
 }
 
+export async function putTariffHeaderAxios(params: any) {
+  return customAxios("http://localhost:9092/tariff/header", "put", params);
+}
+
 export async function getTariffCondHAxios(params: any) {
   // const response = await axios.get<Array<TariffCondH>>(
   //   `http://3.37.155.50:8000/tariff/${params.cntrtId}/${params.trffId}`
@@ -119,5 +123,5 @@ export async function postContractCopyAxios(params: any) {
   //   params
   // );
   // return response.data;
-  return customAxios(`http://3.37.155.50:8000/tariff/copy`, "post", params);
+  return customAxios(`http://localhost:9092/tariff/copy`, "post", params);
 }

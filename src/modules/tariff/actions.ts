@@ -34,6 +34,10 @@ export const POST_TARIFF_HEADER = "tariff/POST_TARIFF_HEADER";
 export const POST_TARIFF_HEADER_SUCCESS = "tariff/POST_TARIFF_HEADER_SUCCESS";
 export const POST_TARIFF_HEADER_ERROR = "tariff/POST_TARIFF_HEADER_ERROR";
 
+export const PUT_TARIFF_HEADER = "tariff/PUT_TARIFF_HEADER";
+export const PUT_TARIFF_HEADER_SUCCESS = "tariff/PUT_TARIFF_HEADER_SUCCESS";
+export const PUT_TARIFF_HEADER_ERROR = "tariff/PUT_TARIFF_HEADER_ERROR";
+
 export const GET_TARIFF_COND_H = "tariff/GET_TARIFF_COND_H";
 export const GET_TARIFF_COND_H_SUCCESS = "tariff/GET_TARIFF_COND_H_SUCCESS";
 export const GET_TARIFF_COND_H_ERROR = "tariff/GET_TARIFF_COND_H_ERROR";
@@ -95,6 +99,12 @@ export const postTariffHeaderAsync = createAsyncAction(
   POST_TARIFF_HEADER,
   POST_TARIFF_HEADER_SUCCESS,
   POST_TARIFF_HEADER_ERROR
+)<TariffHeader, TariffHeader, AxiosError>();
+
+export const putTariffHeaderAsync = createAsyncAction(
+  PUT_TARIFF_HEADER,
+  PUT_TARIFF_HEADER_SUCCESS,
+  PUT_TARIFF_HEADER_ERROR
 )<TariffHeader, TariffHeader, AxiosError>();
 
 export const getTariffCondHAsync = createAsyncAction(

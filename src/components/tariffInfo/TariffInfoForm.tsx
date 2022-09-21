@@ -3,6 +3,7 @@ import {
   getCodeDefAsync,
   getTariffHeaderAsync,
   postTariffHeaderAsync,
+  putTariffHeaderAsync,
 } from "modules/tariff/actions";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,13 +36,14 @@ const TariffInfoForm = ({
   } = useSelector((state: RootState) => state.tariff.tariffParam);
 
   const [params, setParams] = useState<any>(tariffHeaderData);
+  const [isModify, setIsModify] = useState<boolean>(false);
 
   const onClickHeaderSave = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (isSave) {
       alert("이미 저장되어 있는 타리프 헤더정보입니다.");
-    } else {
+    } else if (isSave === false && isModify === false) {
       if (params.bizTcd === "") {
         alert("사업지역을 선택해주세요");
       } else if (params.arApCcd === "") {
@@ -61,7 +63,18 @@ const TariffInfoForm = ({
         setParams(data);
         dispatch(postTariffHeaderAsync.request(data));
         isSaveTrue();
+        setIsModify(true);
       }
+    } else if (isSave === false && isModify === true) {
+      // 헤더정보 수정되게
+      const data = {
+        ...params,
+        trffNm:
+          "ALL_" + params.bizTcd + "_" + params.svcTcd + "_" + params.arApCcd,
+      };
+      setParams(data);
+      dispatch(putTariffHeaderAsync.request(data));
+      isSaveTrue();
     }
   };
 
@@ -69,10 +82,16 @@ const TariffInfoForm = ({
     dispatch(getCodeDefAsync.request(""));
     setParams(tariffHeaderData);
     if (tariffParamData?.trffId !== 0) {
+      // 이미 있는 정보
       isSaveTrue();
+      setIsModify(true);
+    } else {
+      // 새로 등록
+      setIsModify(false);
     }
   }, []);
 
+  console.log("============ params : ===========", params);
   useEffect(() => {
     setParams(tariffHeaderData);
   }, [tariffHeaderData]);
@@ -143,7 +162,9 @@ const TariffInfoForm = ({
                   value={params?.bizTcd}
                   key={params?.bizTcd}
                 >
-                  <option key={""} value={""}></option>
+                  <option key="default" value="default">
+                    선택
+                  </option>
                   {codeDefList
                     ?.filter((data) => data.cd_tp === "BIZ_TCD")
                     .map((option) => (
@@ -179,7 +200,9 @@ const TariffInfoForm = ({
                   value={params?.arApCcd}
                   type="select"
                 >
-                  <option key={""} value={""}></option>
+                  <option key="default" value="default">
+                    선택
+                  </option>
                   {codeDefList
                     ?.filter((data) => data.cd_tp === "AR_AP_CCD")
                     .map((option) => (
@@ -241,7 +264,9 @@ const TariffInfoForm = ({
                   value={params?.svcTcd}
                   type="select"
                 >
-                  <option key={""} value={""}></option>
+                  <option key="default" value="default">
+                    선택
+                  </option>
                   {codeDefList
                     ?.filter((data) => data.cd_tp === "SVC_TCD")
                     .map((option) => (
@@ -280,7 +305,9 @@ const TariffInfoForm = ({
                   value={params?.detlSvcTcd}
                   type="select"
                 >
-                  <option key={""} value={""}></option>
+                  <option key="default" value="default">
+                    선택
+                  </option>
                   {codeDefList
                     ?.filter((data) => data.cd_tp === "DETL_SVC_TCD")
                     .map((option) => (
