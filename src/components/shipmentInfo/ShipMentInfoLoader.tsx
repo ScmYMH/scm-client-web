@@ -11,7 +11,7 @@ const ShipMentInfoLoader = () => {
               marginTop: 0,
               marginRight: 0,
               marginBottom: 0,
-              marginLeft: 0,
+              marginLeft: "2em",
             }}
           >
             <div
@@ -29,7 +29,7 @@ const ShipMentInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ minHeight: "600px", width:"1200px" }}>
+      <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
         <ShipMentInfoForm />
       </Card>
       {/* <DashBoardLoader /> */}
