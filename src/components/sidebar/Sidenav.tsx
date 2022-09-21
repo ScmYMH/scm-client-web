@@ -62,6 +62,17 @@ const Sidenav = () => {
             style={{ backgroundColor: "white", color: "#333333" }}
           >
             <Menu style={{ fontWeight: "bold", marginTop: 30 }}>
+              <span style={{ marginLeft: 20, marginTop: 20 }}>Home</span>
+              <MenuItem
+                style={{
+                  marginTop: 20,
+                }}
+                active={true}
+                icon={<FiAlignJustify />}
+              >
+                <Link to="/dashboard">DashBoard</Link>
+              </MenuItem>
+              <hr></hr>
               <span style={{ marginLeft: 20, marginTop: 20 }}>계약 관리</span>
               <MenuItem
                 style={{
