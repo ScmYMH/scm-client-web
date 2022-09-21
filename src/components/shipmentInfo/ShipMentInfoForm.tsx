@@ -1,12 +1,14 @@
 import { Card } from "reactstrap";
 import GoogleMapForm from "./GoogleMapForm";
+import GoogleMapMarkerCluster from "./GoogleMapMarkerCluster";
 
 const ShipMentInfoForm = () => {
     return (
     <>
     <div>
-        <div style={{width:700, height:600}}>
-          <GoogleMapForm />
+        <div >
+          {/* <GoogleMapForm /> */}
+          <GoogleMapMarkerCluster />
         </div>
       </div>
     </>
