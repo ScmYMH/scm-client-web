@@ -18,12 +18,14 @@ const DashBoardLoader = () => {
             </Card>
           </Col>
           <Col sm="6">
+            <div style={{marginTop:"5em"}}>
             <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
               <DashBoardTable></DashBoardTable>
             </Card>
-            <Card>
+            <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
               <DashBoardTableDetail></DashBoardTableDetail>
             </Card>
+            </div>
           </Col>
         </Row>
         <Row
