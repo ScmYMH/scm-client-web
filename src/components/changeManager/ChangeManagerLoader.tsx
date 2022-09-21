@@ -12,7 +12,7 @@ const ChangeManagerLoader = () => {
               marginTop: 0,
               marginRight: 0,
               marginBottom: 0,
-              marginLeft: 0,
+              marginLeft: "2em",
             }}
           >
             <div
@@ -30,7 +30,7 @@ const ChangeManagerLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ minHeight: "900px" }}>
+      <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
         <ChangeManagerForm></ChangeManagerForm>
       </Card>
     </>
