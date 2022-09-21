@@ -50,7 +50,7 @@ const DashBoardLoader = () => {
                 tag="h5"
                 style={{ margin:"1em", color: "#3C5087" }}
               >
-                TEST1
+                <b>Graph 1</b>
               </CardTitle>
               <DashBoardVerticalChart></DashBoardVerticalChart>
             </Card>
@@ -61,7 +61,7 @@ const DashBoardLoader = () => {
                 tag="h5"
                 style={{ margin:"1em", color: "#3C5087"  }}
               >
-                TEST2
+                <b>Graph 2</b>
               </CardTitle>
               <DashBoardHorizontalAccountChart></DashBoardHorizontalAccountChart>
             </Card>
