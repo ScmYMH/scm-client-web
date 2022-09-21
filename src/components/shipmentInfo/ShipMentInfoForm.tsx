@@ -5,7 +5,7 @@ const ShipMentInfoForm = () => {
     return (
     <>
     <div>
-        <div style={{width:700, height:600}}>
+        <div style={{width:700, height:600, marginRight:"em"}}>
           <GoogleMapForm />
         </div>
       </div>
