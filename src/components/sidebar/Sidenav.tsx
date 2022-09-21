@@ -62,7 +62,7 @@ const Sidenav = () => {
             style={{ backgroundColor: "white", color: "#333333" }}
           >
             <Menu style={{ fontWeight: "bold", marginTop: 30 }}>
-              <span style={{ marginLeft: 20, marginTop: 20 }}>Home</span>
+              {/* <span style={{ marginLeft: 20, marginTop: 20 }}>Home</span>
               <MenuItem
                 style={{
                   marginTop: 20,
@@ -72,7 +72,7 @@ const Sidenav = () => {
               >
                 <Link to="/dashboard">DashBoard</Link>
               </MenuItem>
-              <hr></hr>
+              <hr></hr> */}
               <span style={{ marginLeft: 20, marginTop: 20 }}>계약 관리</span>
               <MenuItem
                 style={{
@@ -81,7 +81,7 @@ const Sidenav = () => {
                 active={true}
                 icon={<FiAlignJustify />}
               >
-                <Link to="/coa">운송 계약 등록</Link>
+                <Link to="/coa">운송 계약 관리</Link>
               </MenuItem>
               <hr></hr>
               <span style={{ marginLeft: 20, marginTop: 30 }}>계약 담당자</span>

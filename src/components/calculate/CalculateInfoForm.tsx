@@ -134,7 +134,9 @@ const CalculateInfoForm = ({
 
   const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+    if(chkDstConfYnFlag == "N"){
+      alert("담당자 확정을 먼저 해주세요.");
+    } else if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
       alert("이미 운임 정산이 완료 되었습니다.");
     } else {
       dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
