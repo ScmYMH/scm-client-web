@@ -57,7 +57,7 @@ const ContractCoaUpdateModal = ({
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
   const [cntrtSaveChkFlag, setCntrtSaveChkFlag] = useState(false);
-
+  console.log("updParams: ", updParams)
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -190,7 +190,7 @@ const ContractCoaUpdateModal = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
-
+  console.log("updParams?.cntrt_tcd: ", updParams.data?.cntrt_tcd)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -336,10 +336,12 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
+                        <option>{updParams.data?.cntrt_tcd_name}</option>
+                        <option>----</option>
                         {baseCodeData.data
                           ?.filter((data) => data.cd_tp === "CNTRT_TCD")
                           .map((option) => (
-                            <option key={option.cd_v} value={option.cd_v}>
+                            <option key={option.cd_v} value={option.cd_v} defaultValue={updParams.data?.cntrt_tcd}>
                               {option.cd_v_meaning}
                             </option>
                           ))}
