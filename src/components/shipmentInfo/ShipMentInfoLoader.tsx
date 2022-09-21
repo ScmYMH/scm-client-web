@@ -32,6 +32,7 @@ const ShipMentInfoLoader = () => {
       <Card style={{ minHeight: "600px", width:"1200px" }}>
         <ShipMentInfoForm />
       </Card>
+      {/* <DashBoardLoader /> */}
     </>
     )
 }

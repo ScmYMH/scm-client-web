@@ -12,7 +12,7 @@ import HeaderPict from "components/header/HeaderPict";
 import Sidenav from "components/sidebar/Sidenav";
 import CalculateInfoLoader from "components/calculate/CalculateInfoLoader";
 import ShipMentInfoLoader from "components/shipmentInfo/ShipMentInfoLoader";
-import DashBoardLoader from "components/dashboard/DashBoardLoader";
+import DashBoardLoader from "components/shipmentInfo/dashboard/DashBoardLoader";
 
 interface ContentProps {
   sidebarIsOpen: any;
@@ -29,7 +29,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
   >
     <Routes>
       <Route path="/" element={<LoginLoader></LoginLoader>}></Route>
-      <Route
+      {/* <Route
         path="/dashboard"
         element={
           <div style={{ display: "inline-flex" }}>
@@ -40,7 +40,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
             </Row>
           </div>
         }
-      ></Route>
+      ></Route> */}
       <Route
         path="/coa"
         element={
@@ -97,7 +97,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
             <Sidenav />
             <Row style={{ marginLeft: 5 }}>
               <HeaderPict />
-              <ShipMentInfoLoader></ShipMentInfoLoader>
+              <DashBoardLoader></DashBoardLoader>
             </Row>
           </div>
         }
