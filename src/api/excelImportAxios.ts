@@ -3,10 +3,26 @@ import axios from "axios";
 export async function postExcelImport(params: any[]) {
   let postData: any = [];
   postData = params;
+
   const paramsData = `{
     "data":
       ${JSON.stringify(postData)}
   }`;
+
+  // const paramsData = `{
+  //   "data": [{
+  //     "data1": {
+  //       ${JSON.stringify(postData)}
+  //     },
+  //     "data2":{
+  //       ${JSON.stringify(tarr)}
+  //     }
+  //   }]
+
+  // }`;
+
+  console.log("보내는 파람값 >>>>>>>>> ", paramsData);
+
   const response = await axios.post<Array<ExcelImportData>>(
     `http://localhost:9999/excel`,
     JSON.parse(paramsData)

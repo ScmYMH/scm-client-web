@@ -53,6 +53,8 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     { value: "10D1", text: "10D1" },
   ];
 
+  console.log("타리프 정보 >>>>>>>>>>>>>>>>>>>>> ", tariffParamData);
+
   const [isAdd, setIsAdd] = useState<any>([]);
 
   const [whatNode, setWhatNode] = useState("");
@@ -655,6 +657,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 {openExcelModal && (
                   <TariffExcelModal
                     isOpen={openExcelModal}
+                    tariffParamData={tariffParamData}
                     closeModal={() =>
                       setOpenExcelModal((openExcelModal) => !openExcelModal)
                     }

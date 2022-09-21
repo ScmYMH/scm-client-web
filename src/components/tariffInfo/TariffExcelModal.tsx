@@ -8,10 +8,14 @@ import * as XLSX from "xlsx";
 const TariffExcelModal = ({
   isOpen,
   closeModal,
+  tariffParamData,
 }: {
   isOpen: boolean;
   closeModal: any;
+  tariffParamData: any;
 }) => {
+  console.log("excel Import 를 위한 타리프 정보 >>>> ", tariffParamData);
+
   // let jsonData;
   const [jsonData, setJsonData] = useState<any>();
   const [excelData, setExcelData] = useState<any>([]);
@@ -46,6 +50,8 @@ const TariffExcelModal = ({
   }, [valiCheck.data]);
 
   const onSubmitExcelData = () => {
+    const tariffInfo = {};
+
     const excelData = jsonData.map((data) => {
       return {
         dep_cd: data.출발지코드,
@@ -65,6 +71,8 @@ const TariffExcelModal = ({
         inco_cd: data.인도조건,
         cond_id: data.조건ID,
         cond_nm: data.조건명,
+        cntrt_id: tariffParamData.cntrtId,
+        trff_id: tariffParamData.trffId,
       };
     });
 
