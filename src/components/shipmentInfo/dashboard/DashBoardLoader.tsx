@@ -18,11 +18,23 @@ const DashBoardLoader = () => {
             </Card>
           </Col>
           <Col sm="6">
-            <div style={{marginTop:"5em"}}>
+            <div style={{marginTop:"2em"}}>
             <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+              <CardTitle
+                  tag="h5"
+                  style={{ margin:"1em", color: "#3C5087" }}
+                >
+                  <b>권역별</b> 물류비 정산 진행 현황
+                </CardTitle>
               <DashBoardTable></DashBoardTable>
             </Card>
             <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+              <CardTitle
+                  tag="h5"
+                  style={{ margin:"1em", color: "#3C5087" }}
+                >
+                  <b>유럽</b> 물류비 미정산 건 진행현황
+                </CardTitle>
               <DashBoardTableDetail></DashBoardTableDetail>
             </Card>
             </div>
@@ -36,9 +48,9 @@ const DashBoardLoader = () => {
             <Card style={{ }}>
               <CardTitle
                 tag="h5"
-                style={{ marginBottom: "20px", color: "	#3C5087" }}
+                style={{ margin:"1em", color: "#3C5087" }}
               >
-                권역별 물류비 정산 진행 현황
+                TEST1
               </CardTitle>
               <DashBoardVerticalChart></DashBoardVerticalChart>
             </Card>
@@ -47,9 +59,9 @@ const DashBoardLoader = () => {
             <Card style={{  }}>
               <CardTitle
                 tag="h5"
-                style={{ marginBottom: "20px", color: "	#3C5087" }}
+                style={{ margin:"1em", color: "#3C5087"  }}
               >
-                <b>유럽</b> 물류비 미정산 건 진행현황
+                TEST2
               </CardTitle>
               <DashBoardHorizontalAccountChart></DashBoardHorizontalAccountChart>
             </Card>
