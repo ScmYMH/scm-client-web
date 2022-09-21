@@ -5,11 +5,9 @@ import GoogleMapMarkerCluster from "./GoogleMapMarkerCluster";
 const ShipMentInfoForm = () => {
     return (
     <>
-    <div>
-        <div >
-          {/* <GoogleMapForm /> */}
-          <GoogleMapMarkerCluster />
-        </div>
+      <div >
+        {/* <GoogleMapForm /> */}
+        <GoogleMapMarkerCluster />
       </div>
     </>
     )
