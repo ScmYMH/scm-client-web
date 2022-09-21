@@ -14,7 +14,6 @@ const GoogleMapForm = () => {
             onChange={''}
             onChildClick={''}
         >
-
         </GoogleMapReact>
     )
 }

@@ -81,7 +81,7 @@ const Sidenav = () => {
                 active={true}
                 icon={<FiAlignJustify />}
               >
-                <Link to="/coa">운송 계약 등록</Link>
+                <Link to="/coa">운송 계약 관리</Link>
               </MenuItem>
               <hr></hr>
               <span style={{ marginLeft: 20, marginTop: 30 }}>계약 담당자</span>
