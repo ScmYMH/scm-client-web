@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, ChangeEvent } from "react";
+import React, { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { Button, Input, Form, Table } from "reactstrap";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
@@ -149,6 +149,11 @@ const ContractCoaInfoForm = ({
       }
     }
   };
+
+  useEffect(() => {
+    onSubmitTariffInfo(tariffInfoConditon);
+  }, [openTariffModal]);
+
   return (
     <>
       <div
@@ -646,7 +651,6 @@ const ContractCoaInfoForm = ({
           <Table hover bordered>
             <thead style={{ textAlign: "center" }}>
               <tr className="table-secondary">
-                <th></th>
                 <th>타리프 ID</th>
                 <th>타리프설명</th>
                 <th>사업유형</th>
@@ -670,9 +674,9 @@ const ContractCoaInfoForm = ({
                     }}
                     onClick={onClickTariffModal}
                   >
-                    <th scope="row">
+                    {/* <th scope="row">
                       <Input type="checkbox" />
-                    </th>
+                    </th> */}
                     <td style={{ padding: 10 }}>{data.trff_nm}</td>
                     <td style={{ padding: 10 }}>{data.trff_desc}</td>
                     <td style={{ padding: 10 }}>{data.biz_nm}</td>
