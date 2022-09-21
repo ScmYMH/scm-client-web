@@ -45,7 +45,7 @@ const ContractCoaInfoForm = ({
     insDate: "",
     cdvMeaning: "",
   });
-
+  console.log("contractInfodata : ", contractInfodata)
   const [updParams, setUpdParmas] = useState({
     data: {
       cntrtId: "",
@@ -54,6 +54,7 @@ const ContractCoaInfoForm = ({
       cdvMeaning: "",
       ins_person_id: "",
       user_nm: "",
+      cntrt_tcd: "",
     },
   });
 

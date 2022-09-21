@@ -342,6 +342,8 @@ const ContractCoaCopyModal = ({
                           })
                         }
                       >
+                        <option>{updParams.data?.cntrt_tcd_name}</option>
+                        <option>---</option>
                         {baseCodeData.data?.slice(12, 22).map((option) => (
                           <option key={option.value} value={option.cd_v}>
                             {option.cd_v_meaning}
