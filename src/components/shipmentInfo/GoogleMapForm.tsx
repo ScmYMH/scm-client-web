@@ -8,7 +8,7 @@ const GoogleMapForm = () => {
             bootstrapURLKeys={{key: 'AIzaSyC54rGP0q3aIP_wiWu9U8GJ8trQUbr7cqk'}}
             defaultCenter={cordinates}
             center={cordinates}
-            defaultZoom={3}
+            defaultZoom={14}
             margin = {[50, 50, 50, 50]}
             options={''}
             onChange={''}
