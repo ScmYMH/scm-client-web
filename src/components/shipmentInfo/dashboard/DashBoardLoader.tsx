@@ -13,9 +13,7 @@ const DashBoardLoader = () => {
       <Card style={{ marginTop: "1em" }}>
         <Row style={{ marginBottom: "1em"}}>
           <Col sm="6">
-            <Card style={{ }}>
              <ShipMentInfoForm />
-            </Card>
           </Col>
           <Col sm="6">
             <div style={{marginTop:"2em"}}>
