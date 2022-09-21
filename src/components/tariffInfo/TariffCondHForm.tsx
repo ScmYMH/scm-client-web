@@ -655,6 +655,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 {openExcelModal && (
                   <TariffExcelModal
                     isOpen={openExcelModal}
+                    tariffParamData={tariffParamData}
                     closeModal={() =>
                       setOpenExcelModal((openExcelModal) => !openExcelModal)
                     }

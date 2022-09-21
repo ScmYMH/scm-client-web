@@ -8,9 +8,11 @@ import * as XLSX from "xlsx";
 const TariffExcelModal = ({
   isOpen,
   closeModal,
+  tariffParamData,
 }: {
   isOpen: boolean;
   closeModal: any;
+  tariffParamData: any;
 }) => {
   // let jsonData;
   const [jsonData, setJsonData] = useState<any>();
@@ -65,6 +67,8 @@ const TariffExcelModal = ({
         inco_cd: data.인도조건,
         cond_id: data.조건ID,
         cond_nm: data.조건명,
+        cntrt_id: tariffParamData.cntrtId,
+        trff_id: tariffParamData.trffId,
       };
     });
 
