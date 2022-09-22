@@ -18,7 +18,7 @@ const DashBoardLoader = () => {
              </Card>
           </Col>
           <Col sm="6">
-            <div style={{height:"300", width: "300", marginLeft: "6em", marginTop:"0.5em"}}>
+            <div style={{height:"400", width: "300", marginLeft: "6em", marginTop:"0.5em"}}>
             <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"
@@ -45,7 +45,7 @@ const DashBoardLoader = () => {
           }}
         >
           <Col sm="6">
-            <Card style={{ }}>
+            <Card style={{ height:"300", width: "300" }}>
               <CardTitle
                 tag="h5"
                 style={{ margin:"1em", color: "#3C5087" }}
@@ -56,7 +56,7 @@ const DashBoardLoader = () => {
             </Card>
           </Col>
           <Col sm="6">
-            <Card style={{  }}>
+            <Card style={{ height:"300", width: "300" }}>
               <CardTitle
                 tag="h5"
                 style={{ margin:"1em", color: "#3C5087"  }}
