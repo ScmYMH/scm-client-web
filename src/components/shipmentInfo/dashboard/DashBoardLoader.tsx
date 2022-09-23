@@ -1,5 +1,5 @@
-import ShipMentInfoForm from "components/shipmentInfo/ShipMentInfoForm";
 import { Card, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
+import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
 import DashBoardHorizontalAccountChart from "./DashBoardHorizontalAccountChart";
 import DashBoardHorizontalManagerChart from "./DashBoardHorizontalManagerChart";
@@ -25,10 +25,19 @@ const DashBoardLoader = () => {
       <Card style={{ marginTop: "1em" }}>
         <Row style={{ marginBottom: "1em" }}>
           <Col sm="6">
-            <ShipMentInfoForm />
+            <Card>
+              <ShipMentInfoForm />
+            </Card>
           </Col>
           <Col sm="6">
-            <div style={{ marginTop: "2em" }}>
+            <div
+              style={{
+                height: "400",
+                width: "300",
+                marginLeft: "6em",
+                marginTop: "0.5em",
+              }}
+            >
               <Card style={{ marginLeft: "1em", marginBottom: "1em" }}>
                 <CardTitle tag="h5" style={{ margin: "1em", color: "#3C5087" }}>
                   <b>권역별</b> 물류비 정산 진행 현황
@@ -46,7 +55,7 @@ const DashBoardLoader = () => {
         </Row>
         <Row style={{}}>
           <Col sm="6">
-            <Card style={{}}>
+            <Card style={{ height: "300", width: "300" }}>
               <CardTitle tag="h5" style={{ margin: "1em", color: "#3C5087" }}>
                 <b>Graph 1</b>
               </CardTitle>
@@ -54,7 +63,7 @@ const DashBoardLoader = () => {
             </Card>
           </Col>
           <Col sm="6">
-            <Card style={{}}>
+            <Card style={{ height: "300", width: "300" }}>
               <CardTitle tag="h5" style={{ margin: "1em", color: "#3C5087" }}>
                 <b>Graph 2</b>
               </CardTitle>

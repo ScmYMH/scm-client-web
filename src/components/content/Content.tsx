@@ -11,7 +11,6 @@ import LoginLoader from "components/login/LoginLoader";
 import HeaderPict from "components/header/HeaderPict";
 import Sidenav from "components/sidebar/Sidenav";
 import CalculateInfoLoader from "components/calculate/CalculateInfoLoader";
-import ShipMentInfoLoader from "components/shipmentInfo/ShipMentInfoLoader";
 import DashBoardLoader from "components/shipmentInfo/dashboard/DashBoardLoader";
 
 interface ContentProps {
