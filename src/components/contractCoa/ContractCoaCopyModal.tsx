@@ -170,7 +170,8 @@ const ContractCoaCopyModal = ({
           cntrtId: contractInfoParams.cntrtId,
           allTariffInfoList: allTariffInfo,
         })
-      ); // 타리프 등록 ( cntrt_trff_info, cntrt_trff_cond_h, cntrt_trff_cond_val_d )
+      ); 
+      
       alert("등록이 완료되었습니다.");
     }
   };

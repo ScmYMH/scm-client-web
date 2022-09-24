@@ -40,8 +40,14 @@ const CalculateInfoForm = ({
   const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
   const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
-  const [chkBoxFlag, setChkBoxFlag] = useState(false);
+
   const [transOrderNoParam, setTransOrderNoParam] = useState("");
+
+  const [dtParams, setDtParams] = useState({
+    transOrderNo : "",
+    blDate : "",
+  });
+
   const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
   const [checkedList, setCheckedList] = useState<any>([]);
@@ -55,7 +61,6 @@ const CalculateInfoForm = ({
     transOrderNo: "",
     cdVmeaning: "",
   });
-  
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -137,7 +142,7 @@ const CalculateInfoForm = ({
     if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
       alert("이미 운임 정산이 완료 되었습니다.");
     } else {
-      dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
+      dispatch(insertCalculateRequestAsync.request(params));
       alert("운임 정산 완료.");
       setChkCalcFlag(!chkCalcFlag);
     }
@@ -179,11 +184,16 @@ const CalculateInfoForm = ({
 
   const dispatch = useDispatch();
 
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<any>({
     transOrderNo: "",
     frtStatus: "10",
     dstConfYn: "N",
+    blDate : "",
+    facCd: "",
+    invInnerNo:""
   });
+
+  console.log("paramasparamasparamas", params);
 
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -269,6 +279,14 @@ const CalculateInfoForm = ({
     onSubmitCalculateInfo(calSelectParams);
   }, [chkCalcFlag, chkCancleFlag]);
 
+  function facCdChange(fac_cd){
+    if(fac_cd=="포항"){
+      return "P"
+    }else if(fac_cd=="광양"){
+      return "K"
+    }
+  }
+  console.log(calculateInfoData.data)
   return (
     <div
       style={{
@@ -570,7 +588,7 @@ const CalculateInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              onSubmitCalculateDetailInfo(transOrderNoParam);
+              onSubmitCalculateDetailInfo(params);
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -609,6 +627,7 @@ const CalculateInfoForm = ({
             <thead style={{ textAlign: "center" }}>
                 <tr id="tableForm" className="table-secondary">
                   <th>CHK</th>
+                  <th>제철소코드</th>
                   <th>권역</th>
                   <th>물류실행사ID</th>
                   <th>물류 실행사명</th>
@@ -643,13 +662,15 @@ const CalculateInfoForm = ({
                             data: data,
                           });
                           setTransOrderNoParam(data.trans_order_no);
-                          setParams({ ...params, transOrderNo: data.trans_order_no });
+                          setParams({ ...params, invInnerNo:data.inv_inner_no, transOrderNo: data.trans_order_no, blDate: data.bl_date , facCd: facCdChange(data.fac_cd) });
                           setChkDstConfYnFlag(data.dst_conf_yn);
                           setChkClearAmtFlag(data?.clear_amt);
                           setChkAcctgYnFlag(data.acctg_yn);
+
                         }}
                       ></Input>
                     </td>
+                    <td>{data.fac_cd}</td>
                     <td>{data.nation_nm}</td>
                     <td>{data.lsp_id}</td>
                     <td>{data.cd_v_meaning}</td>

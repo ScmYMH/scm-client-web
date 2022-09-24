@@ -3,37 +3,44 @@ import axios from "axios";
 export async function getCalculateInfo(calSelectParams: any) {
   // Generic 을 통해 응답 데이터의 타입을 설정 할 수 있습니다.
   const response = await axios.get<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
+    `http://172.30.98.139:8081/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
   );
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
-export async function getCalculateDetailInfo(transOrderNo: any) {
+export async function getCalculateDetailInfo(params: any) {
+  console.log(params)
+  console.log(`http://localhost:8081/calculate/detail?transOrderNo=${params.transOrderNo}&blDate=${params.blDate}`)
   const response = await axios.get<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/detail?transOrderNo=${transOrderNo}`
+    `http://172.30.98.139:8081/calculate/detail?transOrderNo=${params.transOrderNo}&blDate=${params.blDate}`
   );
+
+  console.log("getCalculateDetailInfo", response.data)
+
   return response.data;
 }
 
 // 운임 정산
-export async function insertCalculateInfo(transOrderNo: any) {
+export async function insertCalculateInfo(params: any) {
+  console.log(params);
   const response = await axios.post<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate?transOrderNo=${transOrderNo}`
+    `http://172.30.98.139:8081/calculate?transOrderNo=${params.transOrderNo}&facCd=${params.facCd}&blDate=${params.blDate}&invInnerNo=${params.invInnerNo}`
   );
+  console.log(response.data);
   return response.data;
 }
 
 
 export async function getVslCodeInfo(params: any) {
   const response = await axios.get<VslCdInfo>(
-    `http://3.37.155.50:8000/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
+    `http://172.30.98.139:8081/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`
   );
   return response.data;
 }
 
 export async function updateFrtStatus(params: any) {
   const response = await axios.put<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/frtstatus`,
+    `http://172.30.98.139:8081/calculate/frtstatus`,
     params
   );
   return response.data;
@@ -42,7 +49,7 @@ export async function updateFrtStatus(params: any) {
 export async function updateAccountInfo(params: any) {
   console.log(params);
   const response = await axios.put<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/actConnInfo`,
+    `http://172.30.98.139:8081/calculate/actConnInfo`,
     params
   );
   return response.data;

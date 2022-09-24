@@ -31,8 +31,8 @@ const CalculateInfoLoader = () => {
     (state: RootState) => state.vslCdInfo.vslCdInfo
   );
 
-  const onSubmitCalculateDetailInfo = (transOrderNo: any) => {
-    dispatch(calculateDetailRequestAsync.request(transOrderNo));
+  const onSubmitCalculateDetailInfo = (parmas: any) => {
+    dispatch(calculateDetailRequestAsync.request(parmas));
   };
 
   const onSubmitCalculateInfo = (calSelectParams: any) => {
