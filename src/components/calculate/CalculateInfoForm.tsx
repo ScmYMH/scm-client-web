@@ -41,13 +41,14 @@ const CalculateInfoForm = ({
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
   const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
 
+  const [chkAccountFlag, setChkAccountFlag] = useState(false);
+
   const [transOrderNoParam, setTransOrderNoParam] = useState("");
 
   const [dtParams, setDtParams] = useState({
     transOrderNo : "",
     blDate : "",
   });
-
   const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
   const [checkedList, setCheckedList] = useState<any>([]);
@@ -277,7 +278,7 @@ const CalculateInfoForm = ({
   
   useEffect(() => {
     onSubmitCalculateInfo(calSelectParams);
-  }, [chkCalcFlag, chkCancleFlag]);
+  }, [chkCalcFlag, chkCancleFlag, chkAccountFlag]);
 
   function facCdChange(fac_cd){
     if(fac_cd=="포항"){
@@ -332,6 +333,8 @@ const CalculateInfoForm = ({
         </Button>
         {actConOpenModal && (
           <AccountConnModal
+            chkAccountFlag={chkAccountFlag}
+            setChkAccountFlag= {setChkAccountFlag}
             isOpen={actConOpenModal}
             closeModal={() =>
               setActConOpenModal((actConOpenModal) => !actConOpenModal)

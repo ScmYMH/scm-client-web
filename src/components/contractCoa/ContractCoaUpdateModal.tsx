@@ -42,6 +42,8 @@ interface ContractCoaUpdateModalProps {
   updParams: any;
   tariffInfoConditon: any;
   onSubmitTariffInfo: (params: any) => void;
+  regiChkFlag:any;
+  setRegiChkFlag:any;
 }
 
 const ContractCoaUpdateModal = ({
@@ -50,6 +52,8 @@ const ContractCoaUpdateModal = ({
   updParams,
   tariffInfoConditon,
   onSubmitTariffInfo,
+  regiChkFlag,
+  setRegiChkFlag,
 }: ContractCoaUpdateModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -161,6 +165,7 @@ const ContractCoaUpdateModal = ({
       dispatch(updateContractCodeAsync.request(contractInfoParams));
       alert("수정이 완료되었습니다.");
       setCntrtSaveChkFlag(true);
+      setRegiChkFlag(!regiChkFlag);
     }
   };
 

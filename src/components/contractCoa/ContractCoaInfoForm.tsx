@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, ChangeEvent } from "react";
+import React, { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { Button, Input, Form, Table } from "reactstrap";
 import ContractCoaRegisterModal from "./ContractCoaRegisterModal";
 import ContractChangeInfoModal from "./ContractChangeInfoModal";
@@ -134,6 +134,7 @@ const ContractCoaInfoForm = ({
     ) {
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
+      setRegiChkFlag(!regiChkFlag);
     } else {
       alert("계약 담당자만 삭제 할 수 있습니다.");
     }
@@ -148,6 +149,11 @@ const ContractCoaInfoForm = ({
       }
     }
   };
+  const [regiChkFlag, setRegiChkFlag]=useState(false);
+  useEffect(()=>{
+    onSubmitContractCoaInfo(params);
+  },[regiChkFlag])
+
   return (
     <>
       <div
@@ -190,6 +196,8 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtRegisterModal && (
             <ContractCoaRegisterModal
+              regiChkFlag={regiChkFlag} 
+              setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtRegisterModal}
               closeModal={() =>
                 setCntrtRegisterOpenModal(
@@ -222,6 +230,8 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtUpdModal && (
             <ContractCoaUpdateModal
+              regiChkFlag={regiChkFlag} 
+              setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtUpdModal}
               closeModal={() => {
                 setCntrtUpdModal((cntrtUpdModal) => !cntrtUpdModal);
@@ -247,6 +257,8 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtCopyModal && (
             <ContractCoaCopyModal
+              regiChkFlag={regiChkFlag} 
+              setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtCopyModal}
               closeModal={() =>
                 setCntrtCopyModal((cntrtCopyModal) => !cntrtCopyModal)
