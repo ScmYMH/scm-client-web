@@ -1,6 +1,7 @@
 import { Card } from "reactstrap";
 import GoogleMapForm from "./GoogleMapForm";
 import ShipMentInfoForm from "./ShipMentInfoForm";
+import ShipTable from "./ShipTable";
 
 const ShipMentInfoLoader = () => {
     return (

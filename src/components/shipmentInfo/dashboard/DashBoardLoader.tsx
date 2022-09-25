@@ -1,5 +1,6 @@
 import { Card, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
 import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
+import ShipTable from "../googleMapInfo/ShipTable";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
 import DashBoardHorizontalAccountChart from "./DashBoardHorizontalAccountChart";
 import DashBoardHorizontalManagerChart from "./DashBoardHorizontalManagerChart";
@@ -40,6 +41,11 @@ const DashBoardLoader = () => {
             </div>
           </Col>
         </Row>
+        <Row>
+          <Card>
+            <ShipTable />
+          </Card>
+        </Row>
         <Row
           style={{
           }}
@@ -68,6 +74,7 @@ const DashBoardLoader = () => {
           </Col>
         </Row>
       </Card>
+      
     </>
   );
 };

@@ -28,6 +28,7 @@ const path =
     ],
     [
         {lat: 34.9328653, lng: 127.7361051},
+        {lat:10.540809150988894, lng:66.7790039909897},
         {lat: 43.26607222386634	, lng: -2.9354527783290774}
     ],
     [
@@ -105,7 +106,7 @@ const options5 = {
     zIndex: 1
 };
 const options6 = {
-    strokeColor: '#4b6584',
+    strokeColor: '#ff9f1a',
     strokeOpacity: 0.8,
     strokeWeight: 2,
     fillOpacity: 0.35,
@@ -117,12 +118,6 @@ const options6 = {
     zIndex: 1
 };
 const GoogleMapForm = () => {
-    
-  const calculateInfoData = useSelector(
-    (state: RootState) => state.calculateInfo.calculateInfo
-  );
-
-  console.log(calculateInfoData)
 
     const onLoad = polyline => {
         console.log('polyline: ', polyline)

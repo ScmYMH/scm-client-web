@@ -137,7 +137,6 @@ const CalculateInfoForm = ({
     }
   };
 
-
   const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
@@ -194,7 +193,6 @@ const CalculateInfoForm = ({
     invInnerNo:""
   });
 
-  console.log("paramasparamasparamas", params);
 
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
