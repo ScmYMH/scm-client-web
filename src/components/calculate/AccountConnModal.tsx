@@ -60,7 +60,7 @@ const AccountConnModal = ({
 
   const getNewAccountId = async () => {
     await axios
-      .get(`http://172.30.1.11:8081/calculate/newAccountId?expNo=${expNo}`)
+      .get(`http://3.37.155.50:8000/calculate/newAccountId?expNo=${expNo}`)
       .then((res) =>
         setNewAccountIdParams({
           ...newAccountIdParams,
