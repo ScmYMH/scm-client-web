@@ -137,7 +137,6 @@ const CalculateInfoForm = ({
     }
   };
 
-
   const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
@@ -194,7 +193,6 @@ const CalculateInfoForm = ({
     invInnerNo:""
   });
 
-  console.log("paramasparamasparamas", params);
 
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -626,7 +624,7 @@ const CalculateInfoForm = ({
             overflowY: "auto",
           }}
         >
-          <Table bordered style={{ marginTop: 10 }} id="table-sample">
+          <Table bordered style={{ marginTop: 10, width:"500px" }} id="table-sample">
             <thead style={{ textAlign: "center" }}>
                 <tr id="tableForm" className="table-secondary">
                   <th>CHK</th>
@@ -674,13 +672,13 @@ const CalculateInfoForm = ({
                       ></Input>
                     </td>
                     <td>{data.fac_cd}</td>
-                    <td>{data.nation_nm}</td>
-                    <td>{data.lsp_id}</td>
-                    <td>{data.cd_v_meaning}</td>
+                    <td id="nationNm">{data.nation_nm}</td>
+                    <td >{data.lsp_id}</td>
+                    <td id="lspNm">{data.cd_v_meaning}</td>
                     <td>{dateToString(to_date(data.bl_date))}</td>
                     <td>{data.trans_order_no}</td>
                     <td>{data.vsl_cd}</td>
-                    <td>{data.vsl_nm}</td>
+                    <td id="vslNm">{data.vsl_nm}</td>
                     <td>{data.dst_conf_yn}</td>
                     <td>{ 
                         (data?.acctg_yn == null) ? 
@@ -716,7 +714,7 @@ const CalculateInfoForm = ({
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
                       }
                     </td>
-                    <td>{data.close_no}</td>
+                    <td id="lastTd">{data.close_no}</td>
                   </tr>
                 ))}
               </>
