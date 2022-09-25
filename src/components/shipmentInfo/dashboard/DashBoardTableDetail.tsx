@@ -63,7 +63,7 @@ const DashBoardTableDetail = ({ nationArr }: { nationArr: any }) => {
   }, [nationArr]);
 
   return (
-    <Table style={{width:"25em"}}>
+    <Table>
       <thead>
         <tr>
           <th></th>

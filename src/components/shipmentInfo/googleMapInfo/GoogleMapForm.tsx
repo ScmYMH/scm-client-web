@@ -111,7 +111,7 @@ const options6 = {
   radius: 30000,
   zIndex: 1,
 };
-const GoogleMapForm = () => {
+export const GoogleMapForm = () => {
   const onLoad = (polyline) => {
     // console.log('polyline: ', polyline)
   };

@@ -1,12 +1,12 @@
 import { Card } from "reactstrap";
-import GoogleMapForm from "./GoogleMapForm";
+import { GoogleMapForm } from "./GoogleMapForm";
 import ShipMentInfoForm from "./ShipMentInfoForm";
 import ShipTable from "./ShipTable";
 
 const ShipMentInfoLoader = () => {
-    return (
+  return (
     <>
-    <div>
+      <div>
         <header>
           <div
             style={{
@@ -31,13 +31,12 @@ const ShipMentInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ marginLeft:"2em", minHeight: "30em", width:"60em" }}>
+      <Card style={{ marginLeft: "2em", minHeight: "30em", width: "60em" }}>
         <GoogleMapForm />
       </Card>
       {/* <DashBoardLoader /> */}
     </>
-    )
-}
-
+  );
+};
 
 export default ShipMentInfoLoader;

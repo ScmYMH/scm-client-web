@@ -3,7 +3,7 @@ import { getCalculateInfoAsync } from "modules/dashboard/actions";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
-import GoogleMapForm from "../googleMapInfo/GoogleMapForm";
+import { GoogleMapForm } from "../googleMapInfo/GoogleMapForm";
 import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
 import ShipTable from "../googleMapInfo/ShipTable";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
@@ -86,13 +86,13 @@ const DashBoardLoader = () => {
       </div>
       <Card style={{ marginTop: "1rem" }}>
         <Row style={{ marginBottom: "1rem" }}>
-          <Col sm="7">
+          <Col sm="8">
             {/* <ShipMentInfoForm /> */}
             <div style={{ marginTop: "0.5rem" }}>
               <GoogleMapForm />
             </div>
           </Col>
-          <Col sm="5">
+          <Col sm="4">
             {calculateInfoLoading ? (
               <img
                 src="../../images/loading.gif"
@@ -141,7 +141,7 @@ const DashBoardLoader = () => {
             )}
           </Col>
         </Row>
-        <Row>
+        <Row style={{ marginBottom: "1rem" }}>
           <Card style={{ width: "90%" }}>
             <ShipTable />
           </Card>
