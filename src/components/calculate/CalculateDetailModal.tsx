@@ -168,6 +168,8 @@ const CalculateDetailModal = ({
     FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
   };
   
+  console.log(detailParamas.data);
+  console.log(detailParamas.data?.vsl_load_posbl_wt);
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">

@@ -5,25 +5,20 @@ export async function getCalculateInfo(calSelectParams: any) {
   const response = await axios.get<CalculateInfo>(
     `http://172.30.1.11:8081/calculate/search?startDate=${calSelectParams.startDate}&endDate=${calSelectParams.endDate}&lspId=${calSelectParams.lspId}&dstConfYn=${calSelectParams.dstConfYn}&vslCd=${calSelectParams.vslCd}&transOrderNo=${calSelectParams.transOrderNo}&cdVmeaning=${calSelectParams.cdVmeaning}`
   );
-  console.log("response.dataresponse.data", response.data)
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
 export async function getCalculateDetailInfo(params: any) {
-  console.log(params)
   console.log(`http://localhost:8081/calculate/detail?transOrderNo=${params.transOrderNo}&blDate=${params.blDate}`)
   const response = await axios.get<CalculateInfo>(
     `http://172.30.1.11:8081/calculate/detail?transOrderNo=${params.transOrderNo}&blDate=${params.blDate}`
   );
-
-  console.log("getCalculateDetailInfo", response.data)
 
   return response.data;
 }
 
 // 운임 정산
 export async function insertCalculateInfo(params: any) {
-  console.log(params);
   const response = await axios.post<CalculateInfo>(
     `http://172.30.1.11:8081/calculate?transOrderNo=${params.transOrderNo}&facCd=${params.facCd}&blDate=${params.blDate}&invInnerNo=${params.invInnerNo}`
   );
