@@ -43,8 +43,15 @@ const CalculateInfoForm = ({
   const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
   const [chkAcctgYnFlag, setChkAcctgYnFlag] = useState("N");
-  const [chkBoxFlag, setChkBoxFlag] = useState(false);
+
+  const [chkAccountFlag, setChkAccountFlag] = useState(false);
+
   const [transOrderNoParam, setTransOrderNoParam] = useState("");
+
+  const [dtParams, setDtParams] = useState({
+    transOrderNo: "",
+    blDate: "",
+  });
   const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
   const [checkedList, setCheckedList] = useState<any>([]);
@@ -138,7 +145,7 @@ const CalculateInfoForm = ({
     if (chkClearAmtFlag != null && chkClearAmtFlag != 0) {
       alert("이미 운임 정산이 완료 되었습니다.");
     } else {
-      dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
+      dispatch(insertCalculateRequestAsync.request(params));
       alert("운임 정산 완료.");
       setChkCalcFlag(!chkCalcFlag);
     }
@@ -179,10 +186,13 @@ const CalculateInfoForm = ({
 
   const dispatch = useDispatch();
 
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<any>({
     transOrderNo: "",
     frtStatus: "10",
     dstConfYn: "N",
+    blDate: "",
+    facCd: "",
+    invInnerNo: "",
   });
 
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
@@ -266,8 +276,16 @@ const CalculateInfoForm = ({
 
   useEffect(() => {
     onSubmitCalculateInfo(calSelectParams);
-  }, [chkCalcFlag, chkCancleFlag]);
+  }, [chkCalcFlag, chkCancleFlag, chkAccountFlag]);
 
+  function facCdChange(fac_cd) {
+    if (fac_cd == "포항") {
+      return "P";
+    } else if (fac_cd == "광양") {
+      return "K";
+    }
+  }
+  console.log(calculateInfoData.data);
   return (
     <div
       style={{
@@ -313,6 +331,8 @@ const CalculateInfoForm = ({
         </Button>
         {actConOpenModal && (
           <AccountConnModal
+            chkAccountFlag={chkAccountFlag}
+            setChkAccountFlag={setChkAccountFlag}
             isOpen={actConOpenModal}
             closeModal={() =>
               setActConOpenModal((actConOpenModal) => !actConOpenModal)
@@ -571,7 +591,7 @@ const CalculateInfoForm = ({
             className="btn"
             size="sm"
             onClick={() => {
-              onSubmitCalculateDetailInfo(transOrderNoParam);
+              onSubmitCalculateDetailInfo(params);
               setDetailOpenModal((detailOpenModal) => !detailOpenModal);
             }}
           >
@@ -606,10 +626,15 @@ const CalculateInfoForm = ({
             overflowY: "auto",
           }}
         >
-          <Table bordered style={{ marginTop: 10 }} id="table-sample">
+          <Table
+            bordered
+            style={{ marginTop: 10, width: "500px" }}
+            id="table-sample"
+          >
             <thead style={{ textAlign: "center" }}>
               <tr id="tableForm" className="table-secondary">
                 <th>CHK</th>
+                <th>제철소코드</th>
                 <th>권역</th>
                 <th>물류실행사ID</th>
                 <th>물류 실행사명</th>
@@ -646,7 +671,10 @@ const CalculateInfoForm = ({
                           setTransOrderNoParam(data.trans_order_no);
                           setParams({
                             ...params,
+                            invInnerNo: data.inv_inner_no,
                             transOrderNo: data.trans_order_no,
+                            blDate: data.bl_date,
+                            facCd: facCdChange(data.fac_cd),
                           });
                           setChkDstConfYnFlag(data.dst_conf_yn);
                           setChkClearAmtFlag(data?.clear_amt);
@@ -654,13 +682,14 @@ const CalculateInfoForm = ({
                         }}
                       ></Input>
                     </td>
-                    <td>{data.nation_nm}</td>
+                    <td>{data.fac_cd}</td>
+                    <td id="nationNm">{data.nation_nm}</td>
                     <td>{data.lsp_id}</td>
-                    <td>{data.cd_v_meaning}</td>
+                    <td id="lspNm">{data.cd_v_meaning}</td>
                     <td>{dateToString(to_date(data.bl_date))}</td>
                     <td>{data.trans_order_no}</td>
                     <td>{data.vsl_cd}</td>
-                    <td>{data.vsl_nm}</td>
+                    <td id="vslNm">{data.vsl_nm}</td>
                     <td>{data.dst_conf_yn}</td>
                     <td>{data?.acctg_yn == null ? "N" : data?.acctg_yn}</td>
                     <td>{data.clear_curr}</td>
@@ -685,7 +714,7 @@ const CalculateInfoForm = ({
                             .toString()
                             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </td>
-                    <td>{data.close_no}</td>
+                    <td id="lastTd">{data.close_no}</td>
                   </tr>
                 ))}
               </>

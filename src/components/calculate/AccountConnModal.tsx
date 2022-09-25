@@ -33,12 +33,16 @@ interface AccountConnModalProps {
   closeModal: any;
   isOpen: boolean;
   detailParamas: any;
+  chkAccountFlag: any;
+  setChkAccountFlag: any;
 }
 
 const AccountConnModal = ({
   isOpen,
   closeModal,
   detailParamas,
+  setChkAccountFlag,
+  chkAccountFlag
 }: AccountConnModalProps) => {
   const expNo = localStorage.getItem("employeeNumber");
   const [openModal, setOpenModal] = useState(false);
@@ -71,14 +75,16 @@ const AccountConnModal = ({
   }, []);
 
   const onSubmitAccountInfo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     dispatch(updateAccountRequestAsync.request(newAccountIdParams));
     alert("결재 성공 > 전표번호가 발행 되었습니다.");
+    setChkAccountFlag(!chkAccountFlag);
   };
 
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
   };
-  console.log(addMember, addMember.length)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">

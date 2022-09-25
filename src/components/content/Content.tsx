@@ -28,18 +28,6 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
   >
     <Routes>
       <Route path="/" element={<LoginLoader></LoginLoader>}></Route>
-      {/* <Route
-        path="/dashboard"
-        element={
-          <div style={{ display: "inline-flex" }}>
-            <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
-              <HeaderPict />
-              <DashBoardLoader></DashBoardLoader>
-            </Row>
-          </div>
-        }
-      ></Route> */}
       <Route
         path="/coa"
         element={

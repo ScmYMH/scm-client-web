@@ -19,8 +19,6 @@ function App() {
     <>
       <BrowserRouter>
         <div className="App wrapper">
-          {/* <Sidenav /> */}
-
           <Content
             toggleSidebar={toggleSidebar}
             sidebarIsOpen={sidebarIsOpen}

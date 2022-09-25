@@ -7,24 +7,57 @@ const HeaderPict = () => {
   return (
     <header
       style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "right",
+        paddingRight: "4em",
+        marginBottom: "3em",
       }}
     >
-      <BsPersonCircle
-        style={{ marginTop: "2em", marginRight: "0.6em", fontSize: "1.2em" }}
-      ></BsPersonCircle>
-      <span
-        style={{ marginTop: "1.8em", marginRight: "1em", fontSize: "1.2em" }}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "end",
+          flexDirection: "row",
+          backgroundColor: "#ffffff",
+          // boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+          transition: "0.3s",
+          borderRadius: "5px",
+        }}
       >
-        <b>{nowUserNm}</b>님, 안녕하세요
-      </span>
-      <img
-        src="../../images/green_tomorrow.png"
-        width={"300em"}
-        height={"90em"}
-      ></img>
+        <div
+          style={{
+            marginBottom: "1em",
+            marginRight: "1.5em",
+          }}
+        >
+          <BsPersonCircle
+            style={{ marginRight: "0.5em", fontSize: 20 }}
+          ></BsPersonCircle>
+          <span style={{ marginRight: "0.5em" }}>
+            {nowUserNm}님, 안녕하세요
+          </span>
+        </div>
+        <div
+          style={{
+            marginRight: "0.5em",
+            marginTop: "0.5em",
+            marginBottom: "1em",
+          }}
+        >
+          <img
+            src="../../images/company_slog.png"
+            width={"180em"}
+            height={"70em"}
+          ></img>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "end",
+          flexDirection: "column",
+        }}
+      ></div>
     </header>
   );
 };

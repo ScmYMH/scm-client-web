@@ -2,9 +2,10 @@ import { RootState } from "modules";
 import { getCalculateInfoAsync } from "modules/dashboard/actions";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, CardBody, CardTitle, Col, Row } from "reactstrap";
+import { Card, CardBody, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
 import GoogleMapForm from "../googleMapInfo/GoogleMapForm";
 import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
+import ShipTable from "../googleMapInfo/ShipTable";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
 import DashBoardDoughnutChart2 from "./DashBoardDoughnutChart2";
 import DashBoardDoughnutChart3 from "./DashBoardDoughnutChart3";
@@ -71,6 +72,18 @@ const DashBoardLoader = () => {
 
   return (
     <>
+      <div
+        style={{
+          margin: "0",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <h5 style={{ fontWeight: "bold", color: "#003366" }}>
+          ● 구글 맵 선적 정보
+        </h5>
+      </div>
       <Card style={{ marginTop: "1rem" }}>
         <Row style={{ marginBottom: "1rem" }}>
           <Col sm="7">
@@ -127,6 +140,11 @@ const DashBoardLoader = () => {
               </div>
             )}
           </Col>
+        </Row>
+        <Row>
+          <Card style={{ width: "90%" }}>
+            <ShipTable />
+          </Card>
         </Row>
         <Row style={{ marginBottom: "1rem" }}>
           <Col sm="6">

@@ -42,6 +42,8 @@ interface ContractCoaUpdateModalProps {
   updParams: any;
   tariffInfoConditon: any;
   onSubmitTariffInfo: (params: any) => void;
+  regiChkFlag:any;
+  setRegiChkFlag:any;
 }
 
 const ContractCoaUpdateModal = ({
@@ -50,6 +52,8 @@ const ContractCoaUpdateModal = ({
   updParams,
   tariffInfoConditon,
   onSubmitTariffInfo,
+  regiChkFlag,
+  setRegiChkFlag,
 }: ContractCoaUpdateModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -57,7 +61,7 @@ const ContractCoaUpdateModal = ({
   const [preActorId, setPreActorId] = useState("");
   const [addMember, setAddMember] = useState<any>([]);
   const [cntrtSaveChkFlag, setCntrtSaveChkFlag] = useState(false);
-  console.log("updParams: ", updParams)
+
   const onClickUser = (userId: string) => {
     setPreActorId(userId);
     setContractInfoParamas({
@@ -153,8 +157,6 @@ const ContractCoaUpdateModal = ({
     onSubmitTariffInfo(tariffInfoConditon);
   }, [openTariffModal]);
 
-  console.log("openTariffModalopenTariffModal", openTariffModal);
-
   const onSubmitInsertContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contractInfoParams.cntrtEditComment == "") {
@@ -163,6 +165,7 @@ const ContractCoaUpdateModal = ({
       dispatch(updateContractCodeAsync.request(contractInfoParams));
       alert("수정이 완료되었습니다.");
       setCntrtSaveChkFlag(true);
+      setRegiChkFlag(!regiChkFlag);
     }
   };
 
@@ -190,7 +193,6 @@ const ContractCoaUpdateModal = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
-  console.log("updParams?.cntrt_tcd: ", updParams.data?.cntrt_tcd)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">

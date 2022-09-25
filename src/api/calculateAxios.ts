@@ -8,18 +8,20 @@ export async function getCalculateInfo(calSelectParams: any) {
   return response.data; // 데이터 값을 바로 반환하도록 처리합니다.
 }
 
-export async function getCalculateDetailInfo(transOrderNo: any) {
+export async function getCalculateDetailInfo(params: any) {
   const response = await axios.get<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate/detail?transOrderNo=${transOrderNo}`
+    `http://3.37.155.50:8000/calculate/detail?transOrderNo=${params.transOrderNo}&blDate=${params.blDate}`
   );
+
   return response.data;
 }
 
 // 운임 정산
-export async function insertCalculateInfo(transOrderNo: any) {
+export async function insertCalculateInfo(params: any) {
   const response = await axios.post<CalculateInfo>(
-    `http://3.37.155.50:8000/calculate?transOrderNo=${transOrderNo}`
+    `http://3.37.155.50:8000/calculate?transOrderNo=${params.transOrderNo}&facCd=${params.facCd}&blDate=${params.blDate}&invInnerNo=${params.invInnerNo}`
   );
+  console.log(response.data);
   return response.data;
 }
 

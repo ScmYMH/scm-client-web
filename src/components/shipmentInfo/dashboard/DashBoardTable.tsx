@@ -12,7 +12,7 @@ const DashBoardTable = ({
   const [selectedId, setSelectedId] = useState<number>(-1);
 
   return (
-    <Table>
+    <Table style={{ width: "25em" }}>
       <thead>
         <tr>
           <th></th>

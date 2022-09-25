@@ -33,12 +33,16 @@ interface ContractCoaRegisterModalProps {
   closeModal: any;
   isOpen: boolean;
   onSubmitTariffInfo: (params: any) => void;
+  regiChkFlag:any;
+  setRegiChkFlag:any;
 }
 
 const ContractCoaRegisterModal = ({
   isOpen,
   closeModal,
   onSubmitTariffInfo,
+  regiChkFlag,
+  setRegiChkFlag,
 }: ContractCoaRegisterModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -150,6 +154,7 @@ const ContractCoaRegisterModal = ({
       dispatch(insertContractCodeAsync.request(contractInfoParams));
       alert("등록이 완료되었습니다.");
       setCntrtSaveChkFlag(true);
+      setRegiChkFlag(!regiChkFlag);
     }
   };
   useEffect(() => {

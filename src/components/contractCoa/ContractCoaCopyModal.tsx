@@ -43,6 +43,8 @@ interface ContractCoaCopyModalProps {
   updParams: any;
   tariffInfoConditon: any;
   onSubmitTariffInfo: (params: any) => void;
+  regiChkFlag:any;
+  setRegiChkFlag:any;
 }
 
 const ContractCoaCopyModal = ({
@@ -51,6 +53,8 @@ const ContractCoaCopyModal = ({
   updParams,
   tariffInfoConditon,
   onSubmitTariffInfo,
+  regiChkFlag,
+  setRegiChkFlag,
 }: ContractCoaCopyModalProps) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -163,6 +167,8 @@ const ContractCoaCopyModal = ({
     e.preventDefault();
 
     dispatch(insertContractCodeAsync.request(contractInfoParams)); // 계약 등록
+    alert("등록이 완료되었습니다.");
+    setRegiChkFlag(!regiChkFlag);
 
     if (allTariffInfo !== null) {
       dispatch(
@@ -172,8 +178,7 @@ const ContractCoaCopyModal = ({
           cntrtEndDate: contractInfoParams.cntrtEndDate,
           allTariffInfoList: allTariffInfo,
         })
-      ); // 타리프 등록 ( cntrt_trff_info, cntrt_trff_cond_h, cntrt_trff_cond_val_d )
-      alert("등록이 완료되었습니다.");
+      ); 
     }
   };
 
