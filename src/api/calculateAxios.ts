@@ -23,7 +23,6 @@ export async function insertCalculateInfo(transOrderNo: any) {
   return response.data;
 }
 
-
 export async function getVslCodeInfo(params: any) {
   const response = await axios.get<VslCdInfo>(
     `http://3.37.155.50:8000/calculate/vslcode?vslCd=${params.vslCd}&vslNm=${params.vslNm}`

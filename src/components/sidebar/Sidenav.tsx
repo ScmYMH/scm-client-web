@@ -84,7 +84,9 @@ const Sidenav = () => {
                 <Link to="/coa">운송 계약 관리</Link>
               </MenuItem>
               <hr></hr>
-              <span style={{ marginLeft: 20, marginTop: 30 }}>계약 담당자</span>
+              <span style={{ marginLeft: 20, marginTop: 30 }}>
+                계약 담당자 관리
+              </span>
               <MenuItem
                 icon={<FiAlignJustify />}
                 style={{
@@ -99,7 +101,9 @@ const Sidenav = () => {
                 <Link to="/changeManager">계약 담당자 변경</Link>
               </MenuItem>
               <hr></hr>
-              <span style={{ marginLeft: 20, marginTop: 30 }}>정산 관리</span>
+              <span style={{ marginLeft: 20, marginTop: 30 }}>
+                물류비 정산 관리
+              </span>
 
               <MenuItem
                 style={{ marginTop: 20 }}

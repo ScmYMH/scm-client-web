@@ -7,23 +7,23 @@ const HeaderPict = () => {
   return (
     <header
       style={{
-        paddingLeft: "32px",
-        paddingRight: "32px",
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "right",
       }}
     >
       <BsPersonCircle
-        style={{ marginTop: 40, marginRight: 5, fontSize: 20 }}
+        style={{ marginTop: "2em", marginRight: "0.6em", fontSize: "1.2em" }}
       ></BsPersonCircle>
-      <span style={{ marginTop: 40, marginRight: 20 }}>
-        {nowUserNm}님, 안녕하세요
+      <span
+        style={{ marginTop: "1.8em", marginRight: "1em", fontSize: "1.2em" }}
+      >
+        <b>{nowUserNm}</b>님, 안녕하세요
       </span>
       <img
         src="../../images/green_tomorrow.png"
-        width={"300px"}
-        height={"100px"}
+        width={"300em"}
+        height={"90em"}
       ></img>
     </header>
   );

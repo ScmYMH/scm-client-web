@@ -217,367 +217,379 @@ const ChangeManagerForm = () => {
   }, [cntrtChangeInfoListData]);
 
   return (
-    <>
-      <div style={{ margin: 30 }}>
-        <Table bordered className={styles.chgmng_table}>
-          <tbody style={{ textAlign: "left" }}>
-            <tr>
-              <th
+    <div style={{ margin: "2rem" }}>
+      <Table bordered className={styles.chgmng_table}>
+        <tbody style={{ textAlign: "left" }}>
+          <tr>
+            <th
+              style={{
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                width: "10rem",
+                verticalAlign: "middle",
+              }}
+            >
+              현 담당자
+            </th>
+            <td style={{ width: "33rem" }}>
+              <Input
                 style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
+                  boxShadow: "none",
+                  borderRadius: 0,
+                  width: "15rem",
+                  display: "inline-block",
                 }}
-              >
-                현 담당자
-              </th>
-              <td>
-                {" "}
-                <input
-                  type="text"
-                  value={preActorNm}
-                  onChange={(e) => setPreActorNm(e.target.value)}
-                  style={{ marginRight: 20 }}
-                ></input>
-                <HiSearch
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setOpenPreModal((openPreModal) => !openPreModal);
-                    setIsCurrent(true);
-                  }}
-                ></HiSearch>
-                {openPreModal && (
-                  <SearchManagerModal
-                    onClickMember={onClickMember}
-                    isOpen={openPreModal}
-                    closeModal={() =>
-                      setOpenPreModal((openPreModal) => !openPreModal)
-                    }
-                    preActorNm={preActorNm}
-                    aftActorNm={aftActorNm}
-                    isCurrent={isCurrent}
-                  />
-                )}
-              </td>
-              <th
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
+                value={preActorNm}
+                type={"text"}
+                onChange={(e) => setPreActorNm(e.target.value)}
+              ></Input>
+              <HiSearch
+                style={{ cursor: "pointer", marginLeft: "1rem" }}
+                onClick={() => {
+                  setOpenPreModal((openPreModal) => !openPreModal);
+                  setIsCurrent(true);
                 }}
-              >
-                인수 담당자
-              </th>
-              <td>
-                <input
-                  type="text"
-                  value={aftActorNm}
-                  onChange={(e) => setAftActorNm(e.target.value)}
-                  style={{ marginRight: 20 }}
-                ></input>
-                <HiSearch
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setOpenAftModal((openAftModal) => !openAftModal);
-                    setIsCurrent(false);
-                  }}
-                ></HiSearch>
-                {openAftModal && (
-                  <SearchManagerModal
-                    onClickMember={onClickMember}
-                    isOpen={openAftModal}
-                    closeModal={() =>
-                      setOpenAftModal((openAftModal) => !openAftModal)
-                    }
-                    preActorNm={preActorNm}
-                    aftActorNm={aftActorNm}
-                    isCurrent={isCurrent}
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                변경 발효 일자
-              </th>
-              <td colSpan={3}>
-                {" "}
-                <Input
-                  id="validDate"
-                  name="validDate"
-                  type="date"
-                  selected={date}
-                  min={toStringByFormatting(new Date())}
-                  dateFormat="yyyy-MM-dd"
-                  style={{
-                    boxShadow: "none",
-                    height: 30,
-                    width: 200,
-                    borderRadius: 0,
-                  }}
-                  onChange={(e) => {
-                    onChangeValidDate(e.target.value.replaceAll("-", ""));
-                  }}
-                ></Input>
-              </td>
-            </tr>
-            <tr>
-              <th
-                rowSpan={2}
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#ced6e0",
-                  margin: 1,
-                }}
-              >
-                변경 사유
-              </th>
-              <td colSpan={3} rowSpan={2}>
-                <Input
-                  id="reasonDesc"
-                  name="textarea"
-                  type="textarea"
-                  style={{ width: 1000, borderRadius: 0 }}
-                  value={mngChgInfo.reasonDesc}
-                  onChange={(e) =>
-                    setMngChgInfo({
-                      ...mngChgInfo,
-                      reasonDesc: e.target.value,
-                    })
+              ></HiSearch>
+
+              {openPreModal && (
+                <SearchManagerModal
+                  onClickMember={onClickMember}
+                  isOpen={openPreModal}
+                  closeModal={() =>
+                    setOpenPreModal((openPreModal) => !openPreModal)
                   }
+                  preActorNm={preActorNm}
+                  aftActorNm={aftActorNm}
+                  isCurrent={isCurrent}
                 />
-              </td>
+              )}
+            </td>
+            <th
+              style={{
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                width: "10rem",
+                verticalAlign: "middle",
+              }}
+            >
+              인수 담당자
+            </th>
+            <td style={{ width: "33rem" }}>
+              <Input
+                style={{
+                  boxShadow: "none",
+                  borderRadius: 0,
+                  width: "15rem",
+                  display: "inline-block",
+                }}
+                value={aftActorNm}
+                type={"text"}
+                onChange={(e) => setAftActorNm(e.target.value)}
+              ></Input>
+              <HiSearch
+                style={{ cursor: "pointer", marginLeft: "1rem" }}
+                onClick={() => {
+                  setOpenAftModal((openAftModal) => !openAftModal);
+                  setIsCurrent(false);
+                }}
+              ></HiSearch>
+              {openAftModal && (
+                <SearchManagerModal
+                  onClickMember={onClickMember}
+                  isOpen={openAftModal}
+                  closeModal={() =>
+                    setOpenAftModal((openAftModal) => !openAftModal)
+                  }
+                  preActorNm={preActorNm}
+                  aftActorNm={aftActorNm}
+                  isCurrent={isCurrent}
+                />
+              )}
+            </td>
+          </tr>
+          <tr>
+            <th
+              style={{
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                width: "10rem",
+                verticalAlign: "middle",
+              }}
+            >
+              변경 발효 일자
+            </th>
+            <td colSpan={3}>
+              {" "}
+              <Input
+                id="validDate"
+                name="validDate"
+                type="date"
+                selected={date}
+                min={toStringByFormatting(new Date())}
+                dateFormat="yyyy-MM-dd"
+                style={{
+                  boxShadow: "none",
+                  height: "2.5rem",
+                  width: "15rem",
+                  borderRadius: 0,
+                }}
+                onChange={(e) => {
+                  onChangeValidDate(e.target.value.replaceAll("-", ""));
+                }}
+              ></Input>
+            </td>
+          </tr>
+          <tr>
+            <th
+              rowSpan={2}
+              style={{
+                textAlign: "center",
+                backgroundColor: "#ced6e0",
+                margin: "1rem",
+                width: "10rem",
+                verticalAlign: "middle",
+              }}
+            >
+              변경 사유
+            </th>
+            <td colSpan={3} rowSpan={2}>
+              <Input
+                id="reasonDesc"
+                name="textarea"
+                type="textarea"
+                style={{ width: "62rem", borderRadius: 0 }}
+                value={mngChgInfo.reasonDesc}
+                onChange={(e) =>
+                  setMngChgInfo({
+                    ...mngChgInfo,
+                    reasonDesc: e.target.value,
+                  })
+                }
+              />
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+
+      <div
+        style={{
+          margin: "0.9rem",
+          marginTop: "3rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ fontWeight: "bold", color: "#003366" }}>
+          ◎ 대상계약리스트
+        </div>
+        <Button
+          size="sm"
+          outline
+          onClick={(e) => {
+            onClickApply(e);
+          }}
+        >
+          적용
+        </Button>
+      </div>
+      <div
+        style={{
+          maxHeight: "13rem",
+          overflowY: "auto",
+        }}
+      >
+        <Table
+          bordered
+          className={styles.chgmng_table}
+          style={{ height: "3rem" }}
+        >
+          <thead style={{ textAlign: "center" }}>
+            <tr className="table-secondary">
+              <th style={{ width: "1rem" }}></th>
+              <th style={{ width: "15rem" }}>계약 ID</th>
+              <th>계약명</th>
+              <th style={{ width: "8rem" }}>계약상태</th>
+              <th style={{ width: "8rem" }}>계약 시작</th>
+              <th style={{ width: "8rem" }}>계약 종료</th>
             </tr>
+          </thead>
+          <tbody>
+            {commonInfoListData?.map((commonInfo, index) => (
+              <tr key={index}>
+                <th scope="row" style={{ textAlign: "center", width: "1rem" }}>
+                  <Input
+                    type="checkbox"
+                    onChange={(e) =>
+                      onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)
+                    }
+                    checked={
+                      mngChgInfo.cntrtId.find((id) => id == commonInfo.cntrtId)
+                        ? true
+                        : false
+                    }
+                  />
+                </th>
+                <td
+                  style={{
+                    textAlign: "right",
+                    paddingRight: "1rem",
+                    width: "15rem",
+                  }}
+                >
+                  {commonInfo.cntrtId}
+                </td>
+                <td style={{ paddingLeft: "1rem" }}>{commonInfo.cntrtNm}</td>
+                <td style={{ textAlign: "center", width: "12rem" }}>
+                  {commonInfo.cntrtScd}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    width: "12rem",
+                  }}
+                >
+                  {commonInfo.cntrtStartDate.slice(0, 4) +
+                    "-" +
+                    commonInfo.cntrtStartDate.slice(4, 6) +
+                    "-" +
+                    commonInfo.cntrtStartDate.slice(6)}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    width: "12rem",
+                  }}
+                >
+                  {commonInfo.cntrtEndDate.slice(0, 4) +
+                    "-" +
+                    commonInfo.cntrtEndDate.slice(4, 6) +
+                    "-" +
+                    commonInfo.cntrtEndDate.slice(6)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
+      </div>
 
-        <div
-          style={{
-            margin: "10px",
-            marginTop: "30px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ fontWeight: "bold", color: "#003366" }}>
-            ◎ 대상계약리스트
-          </div>
+      <div
+        style={{
+          margin: "0.9rem",
+          marginTop: "3rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ fontWeight: "bold", color: "#003366" }}>
+          ◎ 재할당 계약
+        </div>
+        <div>
           <Button
             size="sm"
+            onClick={onClickConfrim}
+            style={{ marginLeft: "1rem" }}
             outline
-            onClick={(e) => {
-              onClickApply(e);
-            }}
           >
-            적용
+            확정
+          </Button>
+          <Button
+            size="sm"
+            onClick={onClickCancel}
+            style={{ marginLeft: "1rem" }}
+            outline
+          >
+            취소
           </Button>
         </div>
-        <div
-          style={{
-            maxHeight: "210px",
-            overflowY: "auto",
-          }}
-        >
-          <Table
-            bordered
-            className={styles.chgmng_table}
-            style={{ height: 80 }}
-          >
-            <thead style={{ textAlign: "center" }}>
-              <tr className="table-secondary">
-                <th style={{ width: 50 }}></th>
-                <th style={{ width: 150 }}>계약 ID</th>
-                <th>계약명</th>
-                <th>계약상태</th>
-                <th style={{ width: 150 }}>계약 시작</th>
-                <th style={{ width: 150 }}>계약 종료</th>
-              </tr>
-            </thead>
-            <tbody>
-              {commonInfoListData?.map((commonInfo, index) => (
-                <tr key={index}>
-                  <th scope="row" style={{ textAlign: "center", width: 50 }}>
-                    <Input
-                      type="checkbox"
-                      onChange={(e) =>
-                        onChangeCommonInfoCheckBox(e, commonInfo.cntrtId)
-                      }
-                      checked={
-                        mngChgInfo.cntrtId.find(
-                          (id) => id == commonInfo.cntrtId
-                        )
-                          ? true
-                          : false
-                      }
-                    />
-                  </th>
-                  <td
-                    style={{
-                      textAlign: "right",
-                      paddingRight: 20,
-                      width: 180,
-                    }}
-                  >
-                    {commonInfo.cntrtId}
-                  </td>
-                  <td style={{ paddingLeft: 20 }}>{commonInfo.cntrtNm}</td>
-                  <td style={{ textAlign: "center" }}>{commonInfo.cntrtScd}</td>
-                  <td
-                    style={{
-                      textAlign: "center",
-                      width: 150,
-                    }}
-                  >
-                    {commonInfo.cntrtStartDate.slice(0, 4) +
-                      "-" +
-                      commonInfo.cntrtStartDate.slice(4, 6) +
-                      "-" +
-                      commonInfo.cntrtStartDate.slice(6)}
-                  </td>
-                  <td
-                    style={{
-                      textAlign: "center",
-                      width: 150,
-                    }}
-                  >
-                    {commonInfo.cntrtEndDate.slice(0, 4) +
-                      "-" +
-                      commonInfo.cntrtEndDate.slice(4, 6) +
-                      "-" +
-                      commonInfo.cntrtEndDate.slice(6)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-
-        <div
-          style={{
-            margin: "10px",
-            marginTop: "30px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ fontWeight: "bold", color: "#003366" }}>
-            ◎ 재할당 계약
-          </div>
-          <div>
-            <Button
-              size="sm"
-              onClick={onClickConfrim}
-              style={{ margin: "10px" }}
-              outline
-            >
-              확정
-            </Button>
-            <Button
-              size="sm"
-              onClick={onClickCancel}
-              style={{ margin: "10px" }}
-              outline
-            >
-              취소
-            </Button>
-          </div>
-        </div>
-        <div
-          style={{
-            maxHeight: "210px",
-            overflowY: "auto",
-          }}
-        >
-          <Table
-            bordered
-            className={styles.chgmng_table}
-            style={{ height: 100, whiteSpace: "nowrap" }}
-          >
-            <thead style={{ textAlign: "center" }}>
-              <tr className="table-secondary">
-                <th style={{ width: 50 }}></th>
-                <th style={{ width: 180 }}>계약 ID</th>
-                <th>계약명</th>
-                <th style={{ width: 100 }}>현담당자</th>
-                <th style={{ width: 100 }}>인수담당자</th>
-                <th style={{ width: 130 }}>변경발효일자</th>
-                <th style={{ width: 110 }}>변경확정여부</th>
-                <th>변경사유</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
-                <tr key={index} style={{ whiteSpace: "nowrap" }}>
-                  <th scope="row" style={{ textAlign: "center", width: 50 }}>
-                    <Input
-                      type="checkbox"
-                      // onChange={(e) =>
-                      // 	onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
-                      // }
-                      onChange={(e) =>
-                        onChangeCntrtChagneInfoCheckBox(
-                          e,
-                          cntrtChangeInfo.seqNo
-                        )
-                      }
-                      checked={
-                        checkList.seqNoArray.find(
-                          (id) => id == cntrtChangeInfo.seqNo
-                        )
-                          ? true
-                          : false
-                      }
-                    />
-                  </th>
-                  <td
-                    style={{
-                      textAlign: "right",
-                      paddingRight: 20,
-                      width: 180,
-                    }}
-                  >
-                    {cntrtChangeInfo.cntrtId}
-                  </td>
-                  <td style={{ paddingLeft: 20 }}>{cntrtChangeInfo.cntrtNm}</td>
-                  <td style={{ textAlign: "center", width: 100 }}>
-                    {cntrtChangeInfo.preActorNm}
-                  </td>
-                  <td style={{ textAlign: "center", width: 100 }}>
-                    {cntrtChangeInfo.aftActorNm}
-                  </td>
-                  <td
-                    style={{
-                      textAlign: "center",
-                      width: 150,
-                    }}
-                  >
-                    {cntrtChangeInfo.validDate.slice(0, 4) +
-                      "-" +
-                      cntrtChangeInfo.validDate.slice(4, 6) +
-                      "-" +
-                      cntrtChangeInfo.validDate.slice(6)}
-                  </td>
-                  <td style={{ textAlign: "center", width: 110 }}>
-                    {cntrtChangeInfo.cmptYn}
-                  </td>
-                  <td style={{ paddingLeft: 20 }}>
-                    {cntrtChangeInfo.reasonDesc}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
       </div>
-    </>
+      <div
+        style={{
+          maxHeight: "13rem",
+          overflowY: "auto",
+        }}
+      >
+        <Table
+          bordered
+          className={styles.chgmng_table}
+          style={{ height: "3rem", whiteSpace: "nowrap" }}
+        >
+          <thead style={{ textAlign: "center" }}>
+            <tr className="table-secondary">
+              <th style={{ width: "1rem" }}></th>
+              <th style={{ width: "15rem" }}>계약 ID</th>
+              <th style={{ width: "20rem" }}>계약명</th>
+              <th style={{ width: "7rem" }}>현담당자</th>
+              <th style={{ width: "7rem" }}>인수담당자</th>
+              <th style={{ width: "12rem" }}>변경발효일자</th>
+              <th style={{ width: "5rem" }}>변경확정여부</th>
+              <th>변경사유</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cntrtChangeInfoListData?.map((cntrtChangeInfo, index) => (
+              <tr key={index} style={{ whiteSpace: "nowrap" }}>
+                <th scope="row" style={{ textAlign: "center", width: "1rem" }}>
+                  <Input
+                    type="checkbox"
+                    // onChange={(e) =>
+                    // 	onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
+                    // }
+                    onChange={(e) =>
+                      onChangeCntrtChagneInfoCheckBox(e, cntrtChangeInfo.seqNo)
+                    }
+                    checked={
+                      checkList.seqNoArray.find(
+                        (id) => id == cntrtChangeInfo.seqNo
+                      )
+                        ? true
+                        : false
+                    }
+                  />
+                </th>
+                <td
+                  style={{
+                    textAlign: "right",
+                    paddingRight: "1rem",
+                    width: "15rem",
+                  }}
+                >
+                  {cntrtChangeInfo.cntrtId}
+                </td>
+                <td style={{ paddingLeft: "1rem", width: "20rem" }}>
+                  {cntrtChangeInfo.cntrtNm}
+                </td>
+                <td style={{ textAlign: "center", width: "7rem" }}>
+                  {cntrtChangeInfo.preActorNm}
+                </td>
+                <td style={{ textAlign: "center", width: "7rem" }}>
+                  {cntrtChangeInfo.aftActorNm}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    width: "12rem",
+                  }}
+                >
+                  {cntrtChangeInfo.validDate.slice(0, 4) +
+                    "-" +
+                    cntrtChangeInfo.validDate.slice(4, 6) +
+                    "-" +
+                    cntrtChangeInfo.validDate.slice(6)}
+                </td>
+                <td style={{ textAlign: "center", width: "5rem" }}>
+                  {cntrtChangeInfo.cmptYn}
+                </td>
+                <td style={{ paddingLeft: "1rem" }}>
+                  {cntrtChangeInfo.reasonDesc}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
   );
 };
 

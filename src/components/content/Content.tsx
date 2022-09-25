@@ -45,7 +45,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
         element={
           <div style={{ display: "inline-flex" }}>
             <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
+            <Row style={{ marginLeft: "0.5rem", marginRight: "2rem" }}>
               <HeaderPict />
               <ContractCoaInfoLoader></ContractCoaInfoLoader>
             </Row>
@@ -58,7 +58,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
         element={
           <div style={{ display: "inline-flex" }}>
             <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
+            <Row style={{ marginLeft: "0.5rem", marginRight: "2rem" }}>
               <HeaderPict />
               <CommonInfoList></CommonInfoList>
             </Row>
@@ -70,7 +70,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
         element={
           <div style={{ display: "inline-flex" }}>
             <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
+            <Row style={{ marginLeft: "0.5rem", marginRight: "2rem" }}>
               <HeaderPict />
               <ChangeManagerLoader></ChangeManagerLoader>
             </Row>
@@ -82,7 +82,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
         element={
           <div style={{ display: "inline-flex" }}>
             <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
+            <Row style={{ marginLeft: "0.5rem", marginRight: "2rem" }}>
               <HeaderPict />
               <CalculateInfoLoader></CalculateInfoLoader>
             </Row>
@@ -94,7 +94,7 @@ const Content = ({ sidebarIsOpen, toggleSidebar }: ContentProps) => (
         element={
           <div style={{ display: "inline-flex" }}>
             <Sidenav />
-            <Row style={{ marginLeft: 5 }}>
+            <Row style={{ marginLeft: "0.5rem", marginRight: "2rem" }}>
               <HeaderPict />
               <DashBoardLoader></DashBoardLoader>
             </Row>

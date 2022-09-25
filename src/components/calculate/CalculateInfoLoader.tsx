@@ -1,18 +1,20 @@
 import { RootState } from "modules";
-import { calculateDetailRequestAsync, calculateRequestAsync, vslCdRequestAsync } from "modules/calculate/actions";
+import {
+  calculateDetailRequestAsync,
+  calculateRequestAsync,
+  vslCdRequestAsync,
+} from "modules/calculate/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "reactstrap";
 import CalculateInfoForm from "./CalculateInfoForm";
-import {
-  baseCodeAsync
-} from "modules/contractCoa/action";
+import { baseCodeAsync } from "modules/contractCoa/action";
 import { useEffect, useState } from "react";
 
 const CalculateInfoLoader = () => {
   const [params, setParams] = useState({
-    vslCd : "",
-    vslNm: ""
-  })
+    vslCd: "",
+    vslNm: "",
+  });
   const dispatch = useDispatch();
 
   const calculateInfoData = useSelector(
@@ -56,7 +58,7 @@ const CalculateInfoLoader = () => {
               marginTop: 0,
               marginRight: 0,
               marginBottom: 0,
-              marginLeft: "2em",
+              marginLeft: "2rem",
             }}
           >
             <div
@@ -74,8 +76,15 @@ const CalculateInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
-        <CalculateInfoForm calculateDetailCodeData={calculateDetailCodeData} onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo} baseCodeData={baseCodeData} vslCodeData={vslCodeData} onSubmitCalculateInfo={onSubmitCalculateInfo} calculateInfoData={calculateInfoData}/>
+      <Card style={{ margin: "1rem", height: "85vh" }}>
+        <CalculateInfoForm
+          calculateDetailCodeData={calculateDetailCodeData}
+          onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo}
+          baseCodeData={baseCodeData}
+          vslCodeData={vslCodeData}
+          onSubmitCalculateInfo={onSubmitCalculateInfo}
+          calculateInfoData={calculateInfoData}
+        />
       </Card>
     </>
   );

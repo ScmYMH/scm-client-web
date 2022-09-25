@@ -33,6 +33,8 @@ const ContractCoaInfoForm = ({
 }: onSubmitContractInfoProps) => {
   const dispatch = useDispatch();
 
+  const [selectedId, setSelectedId] = useState<number>(-1);
+
   const [date, setDate] = useState(new Date());
   const [cntrtRegisterModal, setCntrtRegisterOpenModal] = useState(false);
   const [cntrtUpdModal, setCntrtUpdModal] = useState(false);
@@ -45,7 +47,7 @@ const ContractCoaInfoForm = ({
     insDate: "",
     cdvMeaning: "",
   });
-  console.log("contractInfodata : ", contractInfodata)
+  console.log("contractInfodata : ", contractInfodata);
   const [updParams, setUpdParmas] = useState({
     data: {
       cntrtId: "",
@@ -130,9 +132,7 @@ const ContractCoaInfoForm = ({
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      nowUserNm == updParams.data.user_nm
-    ) {
+    if (nowUserNm == updParams.data.user_nm) {
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
     } else {
@@ -535,7 +535,18 @@ const ContractCoaInfoForm = ({
             <tbody>
               <>
                 {contractInfodata?.map((data, index) => (
-                  <tr key={index} aria-rowcount={index}>
+                  <tr
+                    key={index}
+                    aria-rowcount={index}
+                    onClick={(e) => {
+                      setSelectedId(index);
+                    }}
+                    style={{
+                      backgroundColor: `${
+                        selectedId === index ? "#dcdcdc" : "white"
+                      }`,
+                    }}
+                  >
                     <th scope="row" style={{ textAlign: "center", width: 50 }}>
                       <Input
                         type="checkbox"

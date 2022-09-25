@@ -3,14 +3,12 @@ import GoogleMapForm from "./GoogleMapForm";
 import GoogleMapMarkerCluster from "./GoogleMapMarkerCluster";
 
 const ShipMentInfoForm = () => {
-    return (
+  return (
     <>
-      <div >
-        <GoogleMapForm />
-        {/* <GoogleMapMarkerCluster /> */}
-      </div>
+      <GoogleMapForm />
+      {/* <GoogleMapMarkerCluster /> */}
     </>
-    )
-}
+  );
+};
 
 export default ShipMentInfoForm;

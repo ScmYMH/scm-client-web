@@ -129,7 +129,7 @@ const SearchManagerBody = ({
                     }}
                     id="userNm"
                     name="userNm"
-                    type="text"
+                    type="search"
                     value={member.userNm}
                     onChange={(e) =>
                       setMember({ ...member, userNm: e.target.value })
@@ -153,7 +153,7 @@ const SearchManagerBody = ({
                     }}
                     id="loginId"
                     name="loginId"
-                    type="text"
+                    type="search"
                     onChange={(e) =>
                       setMember({ ...member, loginId: e.target.value })
                     }

@@ -1,5 +1,8 @@
 import axios from "axios";
-import { insertCalculateRequestAsync, updateFrtStatusRequestAsync } from "modules/calculate/actions";
+import {
+  insertCalculateRequestAsync,
+  updateFrtStatusRequestAsync,
+} from "modules/calculate/actions";
 import { check } from "prettier";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { HiSearch } from "react-icons/hi";
@@ -35,7 +38,7 @@ const CalculateInfoForm = ({
   const [lspOpenModal, setLspOpenModal] = useState(false);
   const [vslOpenModal, setVslOpenModal] = useState(false);
   const [actConOpenModal, setActConOpenModal] = useState(false);
-  
+
   const [chkCalcFlag, setChkCalcFlag] = useState(false);
   const [chkDstConfYnFlag, setChkDstConfYnFlag] = useState("");
   const [chkClearAmtFlag, setChkClearAmtFlag] = useState(0);
@@ -45,7 +48,7 @@ const CalculateInfoForm = ({
   const [chkCancleFlag, setChkCancleFlag] = useState(false);
 
   const [checkedList, setCheckedList] = useState<any>([]);
-  
+
   const [calSelectParams, setCalSelectParams] = useState({
     startDate: "",
     endDate: "",
@@ -55,7 +58,6 @@ const CalculateInfoForm = ({
     transOrderNo: "",
     cdVmeaning: "",
   });
-  
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -109,13 +111,13 @@ const CalculateInfoForm = ({
   };
 
   const checkAccountConn = () => {
-    if(chkDstConfYnFlag == "N"){
+    if (chkDstConfYnFlag == "N") {
       alert("담당자 확정을 먼저 해주세요.");
-    } else if ((chkClearAmtFlag == null) || (chkClearAmtFlag == 0)){
+    } else if (chkClearAmtFlag == null || chkClearAmtFlag == 0) {
       alert("운임 정산을 해주세요.");
-    }else if (chkAcctgYnFlag=='Y') {
+    } else if (chkAcctgYnFlag == "Y") {
       alert("이미 전표 발행이 완료 되었습니다.");
-    }else{
+    } else {
       if (isChecked === true) {
         const dialog = confirm("상신하시겠습니까?");
 
@@ -131,10 +133,9 @@ const CalculateInfoForm = ({
     }
   };
 
-
-  const onSubmitInsertCalculateInfo= (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitInsertCalculateInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+    if (chkClearAmtFlag != null && chkClearAmtFlag != 0) {
       alert("이미 운임 정산이 완료 되었습니다.");
     } else {
       dispatch(insertCalculateRequestAsync.request(transOrderNoParam));
@@ -142,7 +143,6 @@ const CalculateInfoForm = ({
       setChkCalcFlag(!chkCalcFlag);
     }
   };
-
 
   const onSubmitCalculateInfoList = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -188,10 +188,9 @@ const CalculateInfoForm = ({
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if ((chkClearAmtFlag != null) && (chkClearAmtFlag != 0)) {
+    if (chkClearAmtFlag != null && chkClearAmtFlag != 0) {
       alert("이미 담당자 확정이 완료 되었습니다.");
-    }
-    else {
+    } else {
       dispatch(updateFrtStatusRequestAsync.request(params));
       alert("담당자 확정이 취소되었습니다.");
       setChkCancleFlag(!chkCancleFlag);
@@ -206,7 +205,7 @@ const CalculateInfoForm = ({
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
-  
+
   //엑셀 구현
   const excelFileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -245,7 +244,7 @@ const CalculateInfoForm = ({
             exportData.vsl_cd,
             exportData.vsl_nm,
             exportData.dst_conf_yn,
-            exportData.acctg_yn ,
+            exportData.acctg_yn,
             exportData.clear_curr,
             exportData.clear_qty,
             exportData.clear_amt,
@@ -264,7 +263,7 @@ const CalculateInfoForm = ({
     const excelFile = new Blob([excelButter], { type: excelFileType });
     FileSaver.saveAs(excelFile, excelFileName + excelFileExtension);
   };
-  
+
   useEffect(() => {
     onSubmitCalculateInfo(calSelectParams);
   }, [chkCalcFlag, chkCancleFlag]);
@@ -332,7 +331,9 @@ const CalculateInfoForm = ({
         </Form>
       </div>
       <div>
-        <div style={{ margin: 4 }}>◎ 조회 조건</div>
+        <div style={{ margin: "1em", fontWeight: "bold", color: "#003366" }}>
+          ◎ 조회 조건
+        </div>
         <Table bordered className={styles.calculate_select_table}>
           <tbody>
             <tr>
@@ -414,7 +415,7 @@ const CalculateInfoForm = ({
                     borderRadius: 0,
                   }}
                   onChange={onChangeReqLspParam}
-                  value={ reqLspParam }
+                  value={reqLspParam}
                 ></Input>
                 <HiSearch
                   style={{ marginLeft: 10, cursor: "pointer" }}
@@ -584,7 +585,7 @@ const CalculateInfoForm = ({
               closeModal={() => {
                 setDetailOpenModal((detailOpenModal) => !detailOpenModal);
               }}
-              setChkCancleFlag = {setChkCancleFlag}
+              setChkCancleFlag={setChkCancleFlag}
               chkCancleFlag={chkCancleFlag}
               chkClearAmtFlag={chkClearAmtFlag}
             />
@@ -607,29 +608,29 @@ const CalculateInfoForm = ({
         >
           <Table bordered style={{ marginTop: 10 }} id="table-sample">
             <thead style={{ textAlign: "center" }}>
-                <tr id="tableForm" className="table-secondary">
-                  <th>CHK</th>
-                  <th>권역</th>
-                  <th>물류실행사ID</th>
-                  <th>물류 실행사명</th>
-                  <th>선적일자</th>
-                  <th>지시번호</th>
-                  <th>선박코드</th>
-                  <th>선박명</th>
-                  <th>확정여부</th>
-                  <th>회계연결여부</th>
-                  <th>통화</th>
-                  <th>정산중량</th>
-                  <th>정산금액</th>
-                  <th>회계연결금액</th>
-                  <th>AP 전표번호</th>
-                </tr>
-              </thead>
-              <tbody style={{ textAlign: "center" }}>
+              <tr id="tableForm" className="table-secondary">
+                <th>CHK</th>
+                <th>권역</th>
+                <th>물류실행사ID</th>
+                <th>물류 실행사명</th>
+                <th>선적일자</th>
+                <th>지시번호</th>
+                <th>선박코드</th>
+                <th>선박명</th>
+                <th>확정여부</th>
+                <th>회계연결여부</th>
+                <th>통화</th>
+                <th>정산중량</th>
+                <th>정산금액</th>
+                <th>회계연결금액</th>
+                <th>AP 전표번호</th>
+              </tr>
+            </thead>
+            <tbody style={{ textAlign: "center" }}>
               <>
                 {calculateInfoData.data?.map((data, index) => (
                   <tr key={index} aria-rowcount={index}>
-                    <td id="tableFormTd" >
+                    <td id="tableFormTd">
                       <Input
                         type="checkbox"
                         id="calInfoId"
@@ -643,7 +644,10 @@ const CalculateInfoForm = ({
                             data: data,
                           });
                           setTransOrderNoParam(data.trans_order_no);
-                          setParams({ ...params, transOrderNo: data.trans_order_no });
+                          setParams({
+                            ...params,
+                            transOrderNo: data.trans_order_no,
+                          });
                           setChkDstConfYnFlag(data.dst_conf_yn);
                           setChkClearAmtFlag(data?.clear_amt);
                           setChkAcctgYnFlag(data.acctg_yn);
@@ -658,39 +662,28 @@ const CalculateInfoForm = ({
                     <td>{data.vsl_cd}</td>
                     <td>{data.vsl_nm}</td>
                     <td>{data.dst_conf_yn}</td>
-                    <td>{ 
-                        (data?.acctg_yn == null) ? 
-                         "N" :
-                        (data?.acctg_yn)
-                      }
-                      </td>
+                    <td>{data?.acctg_yn == null ? "N" : data?.acctg_yn}</td>
                     <td>{data.clear_curr}</td>
                     <td>
-                      { 
-                        (data?.clear_qty == null) ? 
-                        (data?.clear_qty):
-                        (data?.clear_qty
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                      }
+                      {data?.clear_qty == null
+                        ? data?.clear_qty
+                        : data?.clear_qty
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </td>
                     <td>
-                      { 
-                        (data?.clear_amt == null) ? 
-                        (0):
-                        (data?.clear_amt
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                      }
+                      {data?.clear_amt == null
+                        ? 0
+                        : data?.clear_amt
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </td>
                     <td>
-                      {
-                        (data?.acctg_amt == null) ? 
-                        (0):
-                        (data?.acctg_amt
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-                      }
+                      {data?.acctg_amt == null
+                        ? 0
+                        : data?.acctg_amt
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </td>
                     <td>{data.close_no}</td>
                   </tr>

@@ -4,23 +4,23 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DashBoardDoughnutChart = ({ nationArr }: { nationArr: any }) => {
+const DashBoardDoughnutChart3 = ({ nationArr }: { nationArr: any }) => {
   const [num, setNum] = useState<any>([]);
   useEffect(() => {
-    const tempNumClearAmtY = nationArr.filter(
+    const tempNumAcctgY = nationArr.filter(
       (nation) =>
         (nation.close_no_yn === "N" || nation.close_no_yn == null) &&
-        nation.clear_amt !== null
+        nation.acctg_yn === "Y"
     ).length;
 
-    const tempNumClearAmtN = nationArr.filter(
+    const tempNumAcctgN = nationArr.filter(
       (nation) =>
         (nation.close_no_yn === "N" || nation.close_no_yn == null) &&
-        (nation.clear_amt === null || nation.clear_amt == 0)
+        (nation.acctg_yn === "N" || nation.acctg_yn == null)
     ).length;
     const newNum: any = [];
-    newNum.push(tempNumClearAmtY);
-    newNum.push(tempNumClearAmtN);
+    newNum.push(tempNumAcctgY);
+    newNum.push(tempNumAcctgN);
     setNum(newNum);
   }, [nationArr]);
 
@@ -66,4 +66,4 @@ const DashBoardDoughnutChart = ({ nationArr }: { nationArr: any }) => {
   return <Doughnut options={options} data={data} />;
 };
 
-export default DashBoardDoughnutChart;
+export default DashBoardDoughnutChart3;
