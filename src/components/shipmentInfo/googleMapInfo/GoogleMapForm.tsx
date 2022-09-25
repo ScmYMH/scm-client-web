@@ -4,11 +4,6 @@ import { Polyline, GoogleMap, LoadScript } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import { RootState } from 'modules';
 
-
-const center = {
-    lat: 34.9328653,
-    lng: 127.7361051
-};
 const path = 
 [
     [
@@ -120,12 +115,17 @@ const options6 = {
 const GoogleMapForm = () => {
 
     const onLoad = polyline => {
-        console.log('polyline: ', polyline)
+        // console.log('polyline: ', polyline)
     };
     
+    const center = {
+        lat: 34.9328653,
+        lng: 127.7361051
+    };
     const mapContainerStyle = {
+        marginTop:"1em",
         height: "35em",
-        width: "50em"
+        width: "63em"
       };
 
     const lineClickHandle = (e: google.maps.MapMouseEvent) => {
@@ -139,7 +139,7 @@ const GoogleMapForm = () => {
             <GoogleMap
             id="marker-example"
             mapContainerStyle={mapContainerStyle}
-            zoom={2}
+            zoom={3}
             center={center}
             >
             <Polyline

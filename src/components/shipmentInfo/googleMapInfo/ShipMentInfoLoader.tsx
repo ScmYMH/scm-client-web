@@ -31,7 +31,7 @@ const ShipMentInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
+      <Card style={{ marginLeft:"2em", minHeight: "30em", width:"60em" }}>
         <GoogleMapForm />
       </Card>
       {/* <DashBoardLoader /> */}

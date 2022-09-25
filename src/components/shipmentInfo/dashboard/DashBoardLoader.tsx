@@ -1,4 +1,5 @@
 import { Card, CardSubtitle, CardTitle, Col, Row } from "reactstrap";
+import GoogleMapForm from "../googleMapInfo/GoogleMapForm";
 import ShipMentInfoForm from "../googleMapInfo/ShipMentInfoForm";
 import ShipTable from "../googleMapInfo/ShipTable";
 import DashBoardDoughnutChart from "./DashBoardDoughnutChart";
@@ -11,16 +12,28 @@ import DashBoardVerticalChart from "./DashBoardVerticalChart";
 const DashBoardLoader = () => {
   return (
     <>
+      <div
+        style={{
+          margin: "0",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <h5 style={{ fontWeight: "bold", color: "#003366" }}>
+          ● 구글 맵 선적 정보
+        </h5>
+      </div>
       <Card style={{ marginTop: "1em" }}>
         <Row style={{ marginBottom: "1em"}}>
-          <Col sm="6">
-            <Card>
-             <ShipMentInfoForm />
+          <Col sm="8">
+            <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+             <GoogleMapForm />
              </Card>
           </Col>
-          <Col sm="6">
-            <div style={{height:"400", width: "300", marginLeft: "6em", marginTop:"0.5em"}}>
-            <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+          <Col sm="4">
+            <div style={{marginTop:"3em"}}>
+            <Card style={{ width: "30em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"
                   style={{ margin:"1em", color: "#3C5087" }}
@@ -29,7 +42,7 @@ const DashBoardLoader = () => {
                 </CardTitle>
               <DashBoardTable></DashBoardTable>
             </Card>
-            <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+            <Card style={{ width: "30em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"
                   style={{ margin:"1em", color: "#3C5087" }}
@@ -42,7 +55,7 @@ const DashBoardLoader = () => {
           </Col>
         </Row>
         <Row>
-          <Card>
+          <Card  style={{ width: "100%"}}>
             <ShipTable />
           </Card>
         </Row>
@@ -50,7 +63,7 @@ const DashBoardLoader = () => {
           style={{
           }}
         >
-          <Col sm="6">
+          {/* <Col sm="6">
             <Card style={{ height:"300", width: "300" }}>
               <CardTitle
                 tag="h5"
@@ -71,7 +84,7 @@ const DashBoardLoader = () => {
               </CardTitle>
               <DashBoardHorizontalAccountChart></DashBoardHorizontalAccountChart>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </Card>
       

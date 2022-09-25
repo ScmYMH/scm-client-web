@@ -51,7 +51,7 @@ const ShipTable = () => {
             maxHeight: "200px",
             overflowY: "auto"
           }} >
-      <Table bordered style={{ marginTop: 10, width:"100%"}} id="table-sample">
+      <Table bordered style={{ width:"100%"}} id="table-sample">
             <thead style={{ textAlign: "center" }}>
                 <tr id="tableForm" className="table-secondary">
                   <th>제철소코드</th>
