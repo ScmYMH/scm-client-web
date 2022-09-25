@@ -907,12 +907,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                 <th rowSpan={2} style={{ width: 70 }}>
                   인도조건
                 </th>
-                <th rowSpan={2} style={{}}>
-                  조건ID
-                </th>
-                <th rowSpan={2} style={{}}>
-                  조건명
-                </th>
               </tr>
               <tr className="table-secondary">
                 <th>시작</th>
@@ -1186,8 +1180,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                           ))}
                       </select>
                     </td>
-                    <td style={{}}>{trffInfo.condId}</td>
-                    <td style={{}}>{trffInfo.condNm}</td>
                   </tr>
                 ))}
               {isAdd?.map((trffInfo, index) => (
@@ -1412,8 +1404,6 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                         ))}
                     </select>
                   </td>
-                  <td style={{}}>{trffInfo.condId}</td>
-                  <td style={{}}>{trffInfo.condNm}</td>
                 </tr>
               ))}
             </tbody>
