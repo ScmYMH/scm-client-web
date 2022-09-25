@@ -2,7 +2,7 @@ import { Table } from "reactstrap";
 
 const DashBoardTable = () => {
   return (
-    <Table >
+    <Table style={{width:"25em"}} >
       <thead>
         <tr>
           <th></th>

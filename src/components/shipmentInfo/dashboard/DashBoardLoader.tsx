@@ -27,13 +27,13 @@ const DashBoardLoader = () => {
       <Card style={{ marginTop: "1em" }}>
         <Row style={{ marginBottom: "1em"}}>
           <Col sm="8">
-            <Card style={{ marginLeft: "1em", marginBottom: "1em"}}>
+            <Card style={{ marginLeft: "0.5em", marginBottom: "1.5em"}}>
              <GoogleMapForm />
              </Card>
           </Col>
           <Col sm="4">
             <div style={{marginTop:"3em"}}>
-            <Card style={{ width: "30em", marginBottom: "1em"}}>
+            <Card style={{ width: "25em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"
                   style={{ margin:"1em", color: "#3C5087" }}
@@ -42,7 +42,7 @@ const DashBoardLoader = () => {
                 </CardTitle>
               <DashBoardTable></DashBoardTable>
             </Card>
-            <Card style={{ width: "30em", marginBottom: "1em"}}>
+            <Card style={{ width: "25em", marginBottom: "1em"}}>
               <CardTitle
                   tag="h5"
                   style={{ margin:"1em", color: "#3C5087" }}
@@ -55,7 +55,7 @@ const DashBoardLoader = () => {
           </Col>
         </Row>
         <Row>
-          <Card  style={{ width: "100%"}}>
+          <Card style={{ width: "90%"}}>
             <ShipTable />
           </Card>
         </Row>
