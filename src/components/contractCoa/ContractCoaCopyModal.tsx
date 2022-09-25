@@ -174,6 +174,8 @@ const ContractCoaCopyModal = ({
       dispatch(
         postContractCopyAsync.request({
           cntrtId: contractInfoParams.cntrtId,
+          cntrtStatDate: contractInfoParams.cntrtStartDate,
+          cntrtEndDate: contractInfoParams.cntrtEndDate,
           allTariffInfoList: allTariffInfo,
         })
       ); 
@@ -616,68 +618,68 @@ const ContractCoaCopyModal = ({
                 overflowY: "auto",
               }}
             >
-                <Table bordered>
-                  <thead style={{ textAlign: "center" }}>
-                    <tr className="table-secondary">
-                      <th></th>
-                      <th>타리프 ID</th>
-                      <th>타리프설명</th>
-                      <th>사업유형</th>
-                      <th>서비스유형</th>
-                      <th>상세서비스유형</th>
-                      <th>등록일</th>
-                    </tr>
-                  </thead>
+              <Table bordered>
+                <thead style={{ textAlign: "center" }}>
+                  <tr className="table-secondary">
+                    <th></th>
+                    <th>타리프 ID</th>
+                    <th>타리프설명</th>
+                    <th>사업유형</th>
+                    <th>서비스유형</th>
+                    <th>상세서비스유형</th>
+                    <th>등록일</th>
+                  </tr>
+                </thead>
 
-                  <tbody>
-                    <>
-                      {tariffData.data?.map((data, index) => (
-                        <tr
-                          key={index}
-                          aria-rowcount={index}
-                          onMouseDown={(e) => {
-                            setTariffParams({
-                              ...tariffParams,
-                              cntrtId: contractInfoParams.cntrtId, // 계약 ID
-                              trffId: data.trff_id, // 타리프 ID
-                              cntrtStatDate: contractInfoParams.cntrtStartDate,
-                              cntrtEndDate: contractInfoParams.cntrtEndDate,
-                              cntrtCurrCd: contractInfoParams.cntrtCurrCd,
-                            });
-                          }}
-                          onClick={onClickTariffModal}
-                        >
-                          <th scope="row">
-                            <Input type="checkbox" />
-                          </th>
-                          <td style={{ padding: 10 }}>{data.trff_nm}</td>
-                          <td style={{ padding: 10 }}>{data.trff_desc}</td>
-                          <td style={{ padding: 10 }}>{data.biz_nm}</td>
-                          <td style={{ padding: 10 }}>{data.svc_nm}</td>
-                          <td style={{ padding: 10 }}>
-                            {data.detl_svc_tcd} - {data.svc_nm}
-                          </td>
-                          <td style={{ padding: 10 }}>{data.ins_date}</td>
-                          {openTariffModal && (
-                            <TariffLoader
-                              isOpen={openTariffModal}
-                              closeModal={() =>
-                                setOpenTariffModal(
-                                  (openTariffModal) => !openTariffModal
-                                )
-                              }
-                            />
-                          )}
-                        </tr>
-                      ))}
-                    </>
-                  </tbody>
-                </Table>
-                <Form
+                <tbody>
+                  <>
+                    {tariffData.data?.map((data, index) => (
+                      <tr
+                        key={index}
+                        aria-rowcount={index}
+                        onMouseDown={(e) => {
+                          setTariffParams({
+                            ...tariffParams,
+                            cntrtId: contractInfoParams.cntrtId, // 계약 ID
+                            trffId: data.trff_id, // 타리프 ID
+                            cntrtStatDate: contractInfoParams.cntrtStartDate,
+                            cntrtEndDate: contractInfoParams.cntrtEndDate,
+                            cntrtCurrCd: contractInfoParams.cntrtCurrCd,
+                          });
+                        }}
+                        onClick={onClickTariffModal}
+                      >
+                        <th scope="row">
+                          <Input type="checkbox" />
+                        </th>
+                        <td style={{ padding: 10 }}>{data.trff_nm}</td>
+                        <td style={{ padding: 10 }}>{data.trff_desc}</td>
+                        <td style={{ padding: 10 }}>{data.biz_nm}</td>
+                        <td style={{ padding: 10 }}>{data.svc_nm}</td>
+                        <td style={{ padding: 10 }}>
+                          {data.detl_svc_tcd} - {data.svc_nm}
+                        </td>
+                        <td style={{ padding: 10 }}>{data.ins_date}</td>
+                        {openTariffModal && (
+                          <TariffLoader
+                            isOpen={openTariffModal}
+                            closeModal={() =>
+                              setOpenTariffModal(
+                                (openTariffModal) => !openTariffModal
+                              )
+                            }
+                          />
+                        )}
+                      </tr>
+                    ))}
+                  </>
+                </tbody>
+              </Table>
+              <Form
                 className="ContractInfoForm"
                 onSubmit={onSubmitInsertContractInfo}
                 style={{ margin: 0, padding: 0 }}
-                >
+              >
                 <div
                   style={{
                     margin: "10px",

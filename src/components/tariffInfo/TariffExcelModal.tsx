@@ -1,5 +1,9 @@
 import { RootState } from "modules";
-import { postTariffExcelImportAsync } from "modules/importExcel/action";
+import {
+  postTariffExcelImportAsync,
+  putValCheckAsync,
+} from "modules/importExcel/action";
+import { getTariffCondHAsync } from "modules/tariff/actions";
 import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
@@ -86,9 +90,16 @@ const TariffExcelModal = ({
   function validationCheck() {
     if (Object(valiCheck).data === 1) {
       alert("실패: 중복된 데이터가 있습니다");
-    } else {
+    } else if (Object(valiCheck).data === 2) {
       alert("성공적으로 등록되었습니다");
-    }
+      dispatch(
+        getTariffCondHAsync.request({
+          cntrtId: tariffParamData?.cntrtId,
+          trffId: tariffParamData?.trffId,
+        })
+      );
+      dispatch(putValCheckAsync.request(3));
+    } // Object(valiCheck).data === 3 => 조회 성공 -> 새롭게 import
   }
 
   return (

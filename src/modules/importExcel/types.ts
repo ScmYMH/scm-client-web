@@ -6,5 +6,5 @@ import { ExcelImportData } from "api/excelImportAxios";
 export type ExcelImportDataAction = ActionType<typeof actions>;
 
 export type ExcelImportState = {
-  excelImportInfo: AsyncState<Array<ExcelImportData>, Error>;
+  excelImportInfo: AsyncState<number, Error>;
 };

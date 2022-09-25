@@ -81,6 +81,8 @@ export interface AllTariffInfo {
 
 export interface ContractCopyParam {
   cntrtId: string;
+  cntrtStatDate: string;
+  cntrtEndDate: string;
   allTariffInfoList: Array<AllTariffInfo>;
 }
 
