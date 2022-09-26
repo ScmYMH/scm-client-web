@@ -24,7 +24,7 @@ export async function postExcelImport(params: any[]) {
   console.log("보내는 파람값 >>>>>>>>> ", paramsData);
 
   const response = await axios.post<Array<ExcelImportData>>(
-    `http://localhost:9999/excel`,
+    `http://3.37.155.50:8000/excel`,
     JSON.parse(paramsData)
   );
   return response.data;
