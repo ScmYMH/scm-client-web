@@ -285,7 +285,6 @@ const CalculateInfoForm = ({
       return "K";
     }
   }
-  console.log(calculateInfoData.data);
   return (
     <div
       style={{
