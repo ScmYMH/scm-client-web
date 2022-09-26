@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,50 +20,62 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "권역별 계약 진행 현황",
-    },
-  },
-};
+const DashBoardVerticalChart = ({ tableData }: { tableData: any }) => {
+  const [nationNm, setNationNm] = useState<any>([]);
+  const [closeNoN, setCloseNoN] = useState<any>([]);
+  const [closeNoY, setCloseNoY] = useState<any>([]);
 
-const labels = [
-  "동남아",
-  "중국",
-  "유럽",
-  "아프리카",
-  "중남미",
-  "대양주",
-  "일본",
-  "중동",
-  "미국",
-  "서남아",
-  "기타",
-];
+  useEffect(() => {
+    const tempNm: any = [];
+    const tempNumN: any = [];
+    const tempNumY: any = [];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Termination",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 10 })),
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Validity",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 10 })),
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+    tableData?.map((nationArray) => {
+      console.log("nationArray : ", nationArray);
+      tempNm.push(nationArray[0].nation_nm);
+      const numCloseNoN = nationArray.filter(
+        (nation) => nation.close_no_yn === "N" || nation.close_no_yn == null
+      ).length;
+      tempNumN.push(numCloseNoN);
+      tempNumY.push(nationArray.length - numCloseNoN);
+    });
+    setNationNm(tempNm);
+    setCloseNoN(tempNumN);
+    setCloseNoY(tempNumY);
+  }, [tableData]);
 
-const DashBoardVerticalChart = () => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      // title: {
+      //   display: true,
+      //   text: "물류비 정산 진행 현황",
+      // },
+    },
+  };
+
+  const labels = nationNm;
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "미완료",
+        // data: labels.map(() => faker.datatype.number({ min: 0, max: 10 })),
+        data: closeNoN,
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "완료",
+        // data: labels.map(() => faker.datatype.number({ min: 0, max: 10 })),
+        data: closeNoY,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
   return <Bar options={options} data={data} />;
 };
 

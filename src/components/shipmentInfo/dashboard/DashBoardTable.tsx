@@ -1,18 +1,59 @@
+import { useState } from "react";
 import { Table } from "reactstrap";
 
-const DashBoardTable = () => {
+const DashBoardTable = ({
+  tableData,
+  onClickTableRow,
+}: {
+  tableData: any;
+  onClickTableRow: (nationArray: any) => void;
+}) => {
+  console.log("=========== tableData : ", tableData);
+  const [selectedId, setSelectedId] = useState<number>(-1);
+
   return (
-    <Table style={{width:"25em"}} >
+    <Table>
       <thead>
         <tr>
           <th></th>
-          <th>총 대상건수</th>
-          <th>정산완료</th>
-          <th>미완료</th>
+          <th style={{ textAlign: "center" }}>총 대상건수</th>
+          <th style={{ textAlign: "center" }}>정산완료</th>
+          <th style={{ textAlign: "center" }}>미완료</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        {tableData?.map((nationArray, index) => {
+          console.log("nationArray : ", nationArray);
+          const numCloseNoN = nationArray.filter(
+            (nation) => nation.close_no_yn === "N" || nation.close_no_yn == null
+          ).length;
+          return (
+            <tr
+              key={index}
+              onClick={(e) => {
+                onClickTableRow(nationArray);
+                setSelectedId(index);
+              }}
+              style={{
+                backgroundColor: `${
+                  selectedId === index ? "#e6f0ff" : "white"
+                }`,
+              }}
+            >
+              <th scope="row" style={{ textAlign: "center" }}>
+                {nationArray[0].nation_nm}
+              </th>
+              <td style={{ textAlign: "center" }}>{nationArray.length}</td>
+              <td style={{ textAlign: "center" }}>
+                {nationArray.length - numCloseNoN}
+              </td>
+              <td style={{ textAlign: "center", color: "red" }}>
+                {numCloseNoN}
+              </td>
+            </tr>
+          );
+        })}
+        {/* <tr>
           <th scope="row">유럽</th>
           <td>20</td>
           <td>10</td>
@@ -29,7 +70,7 @@ const DashBoardTable = () => {
           <td>50</td>
           <td>13</td>
           <td style={{ color: "red" }}>37</td>
-        </tr>
+        </tr> */}
       </tbody>
     </Table>
   );

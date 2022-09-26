@@ -101,7 +101,7 @@ const CommonInfoList = () => {
               marginTop: 0,
               marginRight: 0,
               marginBottom: 0,
-              marginLeft: "2em",
+              marginLeft: "2rem",
             }}
           >
             <div
@@ -119,7 +119,7 @@ const CommonInfoList = () => {
           </div>
         </header>
       </div>
-      <Card style={{ marginLeft:"2em", minHeight: "900px", width:"1300px" }}>
+      <Card style={{ margin: "1rem", height: "85vh" }}>
         <MenuBar
           onSubmitMemberInfo={onSubmitMemberInfo}
           addRow={() => setIsAdd([...addMember, {}])}

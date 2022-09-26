@@ -41,7 +41,7 @@ export async function postTariffHeaderAxios(params: any) {
 }
 
 export async function putTariffHeaderAxios(params: any) {
-  return customAxios("http://localhost:9092/tariff/header", "put", params);
+  return customAxios("http://3.37.155.50:8000/tariff/header", "put", params);
 }
 
 export async function getTariffCondHAxios(params: any) {
@@ -123,5 +123,5 @@ export async function postContractCopyAxios(params: any) {
   //   params
   // );
   // return response.data;
-  return customAxios(`http://localhost:9092/tariff/copy`, "post", params);
+  return customAxios(`http://3.37.155.50:8000/tariff/copy`, "post", params);
 }

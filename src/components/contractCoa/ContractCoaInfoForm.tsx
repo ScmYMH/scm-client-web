@@ -33,6 +33,8 @@ const ContractCoaInfoForm = ({
 }: onSubmitContractInfoProps) => {
   const dispatch = useDispatch();
 
+  const [selectedId, setSelectedId] = useState<number>(-1);
+
   const [date, setDate] = useState(new Date());
   const [cntrtRegisterModal, setCntrtRegisterOpenModal] = useState(false);
   const [cntrtUpdModal, setCntrtUpdModal] = useState(false);
@@ -129,9 +131,7 @@ const ContractCoaInfoForm = ({
 
   const onSubmitDeleteContractInfo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      nowUserNm == updParams.data.user_nm
-    ) {
+    if (nowUserNm == updParams.data.user_nm) {
       onSubmitDelContractCoaInfo(tariffInfoConditon.cntrtId);
       alert("삭제되었습니다.");
       setRegiChkFlag(!regiChkFlag);
@@ -149,11 +149,11 @@ const ContractCoaInfoForm = ({
       }
     }
   };
-  const [regiChkFlag, setRegiChkFlag]=useState(false);
-  useEffect(()=>{
+  const [regiChkFlag, setRegiChkFlag] = useState(false);
+  useEffect(() => {
     onSubmitContractCoaInfo(params);
-  },[regiChkFlag])
-  
+  }, [regiChkFlag]);
+
   useEffect(() => {
     onSubmitTariffInfo(tariffInfoConditon);
   }, [openTariffModal]);
@@ -200,7 +200,7 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtRegisterModal && (
             <ContractCoaRegisterModal
-              regiChkFlag={regiChkFlag} 
+              regiChkFlag={regiChkFlag}
               setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtRegisterModal}
               closeModal={() =>
@@ -234,7 +234,7 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtUpdModal && (
             <ContractCoaUpdateModal
-              regiChkFlag={regiChkFlag} 
+              regiChkFlag={regiChkFlag}
               setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtUpdModal}
               closeModal={() => {
@@ -261,7 +261,7 @@ const ContractCoaInfoForm = ({
           </Button>
           {cntrtCopyModal && (
             <ContractCoaCopyModal
-              regiChkFlag={regiChkFlag} 
+              regiChkFlag={regiChkFlag}
               setRegiChkFlag={setRegiChkFlag}
               isOpen={cntrtCopyModal}
               closeModal={() =>
@@ -545,7 +545,18 @@ const ContractCoaInfoForm = ({
             <tbody>
               <>
                 {contractInfodata?.map((data, index) => (
-                  <tr key={index} aria-rowcount={index}>
+                  <tr
+                    key={index}
+                    aria-rowcount={index}
+                    onClick={(e) => {
+                      setSelectedId(index);
+                    }}
+                    style={{
+                      backgroundColor: `${
+                        selectedId === index ? "#dcdcdc" : "white"
+                      }`,
+                    }}
+                  >
                     <th scope="row" style={{ textAlign: "center", width: 50 }}>
                       <Input
                         type="checkbox"
