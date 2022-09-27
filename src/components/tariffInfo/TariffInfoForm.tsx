@@ -162,7 +162,7 @@ const TariffInfoForm = ({
                   value={params?.bizTcd}
                   key={params?.bizTcd}
                 >
-                  <option key="default" value="default">
+                  <option key="default" value="">
                     선택
                   </option>
                   {codeDefList
@@ -200,7 +200,7 @@ const TariffInfoForm = ({
                   value={params?.arApCcd}
                   type="select"
                 >
-                  <option key="default" value="default">
+                  <option key="default" value="">
                     선택
                   </option>
                   {codeDefList
@@ -264,7 +264,7 @@ const TariffInfoForm = ({
                   value={params?.svcTcd}
                   type="select"
                 >
-                  <option key="default" value="default">
+                  <option key="default" value="">
                     선택
                   </option>
                   {codeDefList
@@ -305,7 +305,7 @@ const TariffInfoForm = ({
                   value={params?.detlSvcTcd}
                   type="select"
                 >
-                  <option key="default" value="default">
+                  <option key="default" value="">
                     선택
                   </option>
                   {codeDefList

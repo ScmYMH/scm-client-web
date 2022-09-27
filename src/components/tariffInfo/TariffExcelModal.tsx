@@ -90,6 +90,7 @@ const TariffExcelModal = ({
   function validationCheck() {
     if (Object(valiCheck).data === 1) {
       alert("실패: 중복된 데이터가 있습니다");
+      dispatch(putValCheckAsync.request(3));
     } else if (Object(valiCheck).data === 2) {
       alert("성공적으로 등록되었습니다");
       dispatch(

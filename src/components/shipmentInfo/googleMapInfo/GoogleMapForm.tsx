@@ -123,7 +123,7 @@ export const GoogleMapForm = () => {
   const mapContainerStyle = {
     marginTop: "1em",
     height: "35em",
-    width: "63em",
+    width: "80vw",
   };
 
   const lineClickHandle = (e: google.maps.MapMouseEvent) => {

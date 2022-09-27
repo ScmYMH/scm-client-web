@@ -84,36 +84,67 @@ const DashBoardLoader = () => {
           ● 구글 맵 선적 정보
         </h5>
       </div>
-      <Card style={{ marginTop: "1rem" }}>
-        <Row style={{ marginBottom: "1rem" }}>
+      <Card style={{ margin: "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "2rem",
+            marginLeft: "1rem",
+          }}
+        >
+          <div
+            style={{ fontWeight: "bold", color: "#003366", fontSize: "1.1rem" }}
+          >
+            ◎ 선박 해상 경로에 따른 단가 관리
+          </div>
+        </div>
+        <Row style={{ marginBottom: "2rem" }}>
           <Col sm="8">
             {/* <ShipMentInfoForm /> */}
             <div style={{ marginTop: "0.5rem" }}>
               <GoogleMapForm />
             </div>
           </Col>
-          <Col sm="4">
-            {calculateInfoLoading ? (
-              <img
-                src="../../images/loading.gif"
-                width={"60em"}
-                height={"90em"}
-                style={{
-                  display: "block",
-                  margin: "auto",
-                  verticalAlign: "middle",
-                  marginTop: "12rem",
-                }}
-              ></img>
-            ) : (
-              <div
-                style={{
-                  // height: "400",
-                  // width: "300",
-                  marginTop: "0.5rem",
-                }}
-              >
-                <Card style={{ marginBottom: "1rem" }}>
+        </Row>
+        {/* <Row style={{ marginBottom: "1rem" }}>
+          <Card style={{ width: "90%" }}>
+            <ShipTable />
+          </Card>
+        </Row> */}
+        <div
+          style={{
+            marginTop: "1rem",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginLeft: "1rem",
+            marginBottom: "1rem",
+          }}
+        >
+          <div
+            style={{ fontWeight: "bold", color: "#003366", fontSize: "1.1rem" }}
+          >
+            ◎ 물류비 정산 진행 현황
+          </div>
+        </div>
+        {calculateInfoLoading ? (
+          <img
+            src="../../images/loading.gif"
+            width={"60em"}
+            height={"80em"}
+            style={{
+              display: "block",
+              verticalAlign: "middle",
+              marginLeft: "1rem",
+            }}
+          ></img>
+        ) : (
+          <div>
+            <Row style={{ marginBottom: "1rem" }}>
+              <Col sm="6">
+                <Card>
                   <CardTitle
                     tag="h5"
                     style={{ margin: "1rem", color: "#3C5087" }}
@@ -125,8 +156,9 @@ const DashBoardLoader = () => {
                     onClickTableRow={onClickTableRow}
                   ></DashBoardTable>
                 </Card>
-
-                <Card style={{ marginBottom: "1rem" }}>
+              </Col>
+              <Col sm="6">
+                <Card>
                   <CardTitle
                     tag="h5"
                     style={{ margin: "1rem", color: "#3C5087" }}
@@ -137,84 +169,80 @@ const DashBoardLoader = () => {
                     nationArr={nationArr}
                   ></DashBoardTableDetail>
                 </Card>
-              </div>
-            )}
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: "1rem" }}>
-          <Card style={{ width: "90%" }}>
-            <ShipTable />
-          </Card>
-        </Row>
-        <Row style={{ marginBottom: "1rem" }}>
-          <Col sm="6">
-            <Card style={{ height: "28rem" }}>
-              <CardTitle tag="h5" style={{ margin: "1rem", color: "#3C5087" }}>
-                권역별 물류비 정산 진행 현황
-              </CardTitle>
-              <DashBoardVerticalChart
-                tableData={tableData}
-              ></DashBoardVerticalChart>
-            </Card>
-          </Col>
-          <Col sm="6">
-            <Row>
-              <Col sm="4">
-                <Card style={{ height: "28rem" }}>
-                  <CardTitle
-                    tag="h5"
-                    style={{
-                      margin: "1rem",
-                      color: "#3C5087",
-                      marginBottom: "2em",
-                    }}
-                  >
-                    <b>{nationArr[0]?.nation_nm}</b> 미정산 건 <b>운임정산</b>{" "}
-                    진행현황
-                  </CardTitle>
-                  <DashBoardDoughnutChart
-                    nationArr={nationArr}
-                  ></DashBoardDoughnutChart>
-                </Card>
-              </Col>
-              <Col sm="4">
-                <Card style={{ height: "28rem" }}>
-                  <CardTitle
-                    tag="h5"
-                    style={{
-                      margin: "1rem",
-                      color: "#3C5087",
-                      marginBottom: "2em",
-                    }}
-                  >
-                    <b>{nationArr[0]?.nation_nm}</b> 미정산 건 <b>담당자확정</b>{" "}
-                    진행현황
-                  </CardTitle>
-                  <DashBoardDoughnutChart2
-                    nationArr={nationArr}
-                  ></DashBoardDoughnutChart2>
-                </Card>
-              </Col>
-              <Col sm="4">
-                <Card style={{ height: "28rem" }}>
-                  <CardTitle
-                    tag="h5"
-                    style={{
-                      margin: "1rem",
-                      color: "#3C5087",
-                      marginBottom: "2em",
-                    }}
-                  >
-                    <b>{nationArr[0]?.nation_nm}</b> 미정산 건 <b>회계연결</b>{" "}
-                    진행현황
-                  </CardTitle>
-                  <DashBoardDoughnutChart3
-                    nationArr={nationArr}
-                  ></DashBoardDoughnutChart3>
-                </Card>
               </Col>
             </Row>
-            {/* <Row style={{ marginBottom: "1rem" }}>
+            <Row style={{ marginBottom: "1rem" }}>
+              <Col sm="6">
+                <Card style={{ height: "28rem" }}>
+                  <CardTitle
+                    tag="h5"
+                    style={{ margin: "1rem", color: "#3C5087" }}
+                  >
+                    권역별 물류비 정산 진행 현황
+                  </CardTitle>
+                  <DashBoardVerticalChart
+                    tableData={tableData}
+                  ></DashBoardVerticalChart>
+                </Card>
+              </Col>
+              <Col sm="6">
+                <Row>
+                  <Col sm="4">
+                    <Card style={{ height: "28rem" }}>
+                      <CardTitle
+                        tag="h5"
+                        style={{
+                          margin: "1rem",
+                          color: "#3C5087",
+                          marginBottom: "2em",
+                        }}
+                      >
+                        <b>{nationArr[0]?.nation_nm}</b> 미정산 건{" "}
+                        <b>운임정산</b> 진행현황
+                      </CardTitle>
+                      <DashBoardDoughnutChart
+                        nationArr={nationArr}
+                      ></DashBoardDoughnutChart>
+                    </Card>
+                  </Col>
+                  <Col sm="4">
+                    <Card style={{ height: "28rem" }}>
+                      <CardTitle
+                        tag="h5"
+                        style={{
+                          margin: "1rem",
+                          color: "#3C5087",
+                          marginBottom: "2em",
+                        }}
+                      >
+                        <b>{nationArr[0]?.nation_nm}</b> 미정산 건{" "}
+                        <b>담당자확정</b> 진행현황
+                      </CardTitle>
+                      <DashBoardDoughnutChart2
+                        nationArr={nationArr}
+                      ></DashBoardDoughnutChart2>
+                    </Card>
+                  </Col>
+                  <Col sm="4">
+                    <Card style={{ height: "28rem" }}>
+                      <CardTitle
+                        tag="h5"
+                        style={{
+                          margin: "1rem",
+                          color: "#3C5087",
+                          marginBottom: "2em",
+                        }}
+                      >
+                        <b>{nationArr[0]?.nation_nm}</b> 미정산 건{" "}
+                        <b>회계연결</b> 진행현황
+                      </CardTitle>
+                      <DashBoardDoughnutChart3
+                        nationArr={nationArr}
+                      ></DashBoardDoughnutChart3>
+                    </Card>
+                  </Col>
+                </Row>
+                {/* <Row style={{ marginBottom: "1rem" }}>
               <Col sm="6">
                 <Card style={{ height: "15rem" }}>
                   <CardTitle
@@ -238,8 +266,10 @@ const DashBoardLoader = () => {
                 </Card>
               </Col>
             </Row> */}
-          </Col>
-        </Row>
+              </Col>
+            </Row>
+          </div>
+        )}
       </Card>
     </>
   );

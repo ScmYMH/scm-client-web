@@ -49,9 +49,11 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
     tariffCondHListData
   );
   const LccCdLov = [
-    { value: "default", text: "선택" },
-    { value: "10A1", text: "10A1" },
-    { value: "10D1", text: "10D1" },
+    { value: "", text: "선택" },
+    { value: "100", text: "10A1(100) - 공로운송비(1차운송)(제품)" },
+    { value: "124", text: "10A1(124) - 공로운송비(고간이송)" },
+    { value: "105", text: "10D1(105) - 국제해송비(COA)(제품)" },
+    { value: "107", text: "10D1(107) - 국제해송비(SPOT)(제품)" },
   ];
 
   console.log("타리프 정보 >>>>>>>>>>>>>>>>>>>>> ", tariffParamData);
@@ -669,17 +671,17 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             <th
               colSpan={1}
               style={{
-                paddingLeft: 10,
-                paddingRight: 10,
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
                 textAlign: "center",
                 backgroundColor: "#ced6e0",
-                margin: 1,
+                margin: "1rem",
               }}
             >
               유효기간
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 5 }}>
+              <div style={{ padding: "0.3rem" }}>
                 <Input
                   id="validDateCond"
                   name="validDateCond"
@@ -688,7 +690,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   flxedHeight
                   style={{
                     boxShadow: "none",
-                    width: 230,
+                    width: "20rem",
                     display: "span",
                     borderRadius: 0,
                   }}
@@ -705,17 +707,17 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             <th
               colSpan={1}
               style={{
-                paddingLeft: 10,
-                paddingRight: 10,
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
                 textAlign: "center",
                 backgroundColor: "#ced6e0",
-                margin: 1,
+                margin: "1rem",
               }}
             >
               출발지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 5 }}>
+              <div style={{ padding: "0.3rem" }}>
                 <Input
                   type="text"
                   value={tariffCondParam.departNodeNm}
@@ -728,13 +730,13 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   }
                   style={{
                     boxShadow: "none",
-                    width: 230,
+                    width: "20rem",
                     display: "inline-block",
                     borderRadius: 0,
                   }}
                 ></Input>
                 <HiSearch
-                  style={{ marginLeft: 10, cursor: "pointer" }}
+                  style={{ marginLeft: "1rem", cursor: "pointer" }}
                   onClick={() => {
                     setOpenDepartModal((openDepartModal) => !openDepartModal);
                     setWhatNode("departCond");
@@ -759,17 +761,17 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             <th
               colSpan={1}
               style={{
-                paddingLeft: 10,
-                paddingRight: 10,
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
                 textAlign: "center",
                 backgroundColor: "#ced6e0",
-                margin: 1,
+                margin: "1rem",
               }}
             >
               물류비계정
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 5 }}>
+              <div style={{ padding: "0.3rem" }}>
                 <Input
                   onChange={(e) =>
                     setTariffCondParam({
@@ -780,7 +782,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   id="LccCd"
                   name="LccCd"
                   type="select"
-                  style={{ width: 230, boxShadow: "none", borderRadius: 0 }}
+                  style={{ width: "20rem", boxShadow: "none", borderRadius: 0 }}
                 >
                   {LccCdLov.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -793,17 +795,17 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
             <th
               colSpan={1}
               style={{
-                paddingLeft: 10,
-                paddingRight: 10,
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
                 textAlign: "center",
                 backgroundColor: "#ced6e0",
-                margin: 1,
+                margin: "1rem",
               }}
             >
               도착지
             </th>
             <td colSpan={2}>
-              <div style={{ padding: 5 }}>
+              <div style={{ padding: "0.3rem" }}>
                 <Input
                   type="text"
                   value={tariffCondParam.arrivalNodeNm}
@@ -816,14 +818,14 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
                   }
                   style={{
                     boxShadow: "none",
-                    width: 230,
+                    width: "20rem",
                     display: "inline-block",
 
                     borderRadius: 0,
                   }}
                 ></Input>
                 <HiSearch
-                  style={{ marginLeft: 10, cursor: "pointer" }}
+                  style={{ marginLeft: "1rem", cursor: "pointer" }}
                   onClick={() => {
                     setOpenArrivalModal(
                       (openArrivalModal) => !openArrivalModal
@@ -917,7 +919,7 @@ const TariffCondHForm = ({ isSave }: { isSave: boolean }) => {
               {trffCondHList
                 ?.filter((trffInfo) => {
                   if (
-                    trffInfo.lccCd.includes(tariffCond.lccCd) &&
+                    trffInfo.subLccCd.includes(tariffCond.lccCd) &&
                     trffInfo.depCd.includes(tariffCond.departNodeCd) &&
                     trffInfo.arrCd.includes(tariffCond.arrivalNodeCd) &&
                     trffInfo.trffStatDate <= tariffCond.validDate &&
