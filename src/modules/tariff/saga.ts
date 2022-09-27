@@ -185,6 +185,7 @@ function* deleteTariffCondHSaga(
       newParam
     );
     yield put(deleteTariffCondHAsync.success(tariffCondHList));
+    alert("삭제되었습니다");
   } catch (e: any) {
     yield put(deleteTariffCondHAsync.failure(e));
   }
