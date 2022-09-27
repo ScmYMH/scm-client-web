@@ -54,7 +54,11 @@ const CalculateDetailModal = ({
     transOrderNo: detailParamas.data?.trans_order_no,
     frtStatus: "20",
     dstConfYn: "Y",
+    invInnerNo: detailParamas.data?.inv_inner_no,
+    blDate: detailParamas.data?.bl_date,
   });
+
+  console.log("detail, ", params);
 
   const dateToString = (date) => {
     return (

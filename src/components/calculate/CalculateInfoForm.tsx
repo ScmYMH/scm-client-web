@@ -47,7 +47,7 @@ const CalculateInfoForm = ({
   const [chkAccountFlag, setChkAccountFlag] = useState(false);
 
   const [transOrderNoParam, setTransOrderNoParam] = useState("");
-
+  console.log(calculateInfoData)
   const [dtParams, setDtParams] = useState({
     transOrderNo: "",
     blDate: "",
@@ -194,17 +194,14 @@ const CalculateInfoForm = ({
     facCd: "",
     invInnerNo: "",
   });
-
+  console.log("params", params)
   const onSubmitUpdFrtStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (chkClearAmtFlag != null && chkClearAmtFlag != 0) {
-      alert("이미 담당자 확정이 완료 되었습니다.");
-    } else {
-      dispatch(updateFrtStatusRequestAsync.request(params));
-      alert("담당자 확정이 취소되었습니다.");
-      setChkCancleFlag(!chkCancleFlag);
-    }
+    dispatch(updateFrtStatusRequestAsync.request(params));
+    alert("담당자 확정이 취소되었습니다.");
+    setChkCancleFlag(!chkCancleFlag);
+  
   };
 
   const onCheckedElement = (checked, item) => {

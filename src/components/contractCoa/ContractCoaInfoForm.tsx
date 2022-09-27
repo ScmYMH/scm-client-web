@@ -32,7 +32,6 @@ const ContractCoaInfoForm = ({
   onSubmitDelContractCoaInfo,
 }: onSubmitContractInfoProps) => {
   const dispatch = useDispatch();
-
   const [selectedId, setSelectedId] = useState<number>(-1);
 
   const [date, setDate] = useState(new Date());

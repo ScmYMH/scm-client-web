@@ -33,6 +33,7 @@ export async function getVslCodeInfo(params: any) {
 }
 
 export async function updateFrtStatus(params: any) {
+  console.log("paramsparamsparams",params);
   const response = await axios.put<CalculateInfo>(
     `http://3.37.155.50:8000/calculate/frtstatus`,
     params

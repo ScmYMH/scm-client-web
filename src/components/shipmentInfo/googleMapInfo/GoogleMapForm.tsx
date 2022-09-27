@@ -95,7 +95,7 @@ const ea_line_options = {
 };
 
 const eu_line_options = {
-  strokeColor: "#44bd32",
+  strokeColor: "#1B1464",
   strokeOpacity: 0.8,
   strokeWeight: 4,
   fillOpacity: 0.35,
