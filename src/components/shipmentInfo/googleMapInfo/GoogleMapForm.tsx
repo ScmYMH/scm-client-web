@@ -34,11 +34,11 @@ const path = [
   ],
   // japan
   [
-    { lat: 34.9328653, lng: 127.7361051 },
+    { lat: 36.0197716	, lng: 129.3710823 },
     {lat: 35.7103001101156	, lng:	139.83069908824},
   ],
   [
-    { lat: 34.9328653, lng: 127.7361051 },
+    { lat: 36.0197716	, lng: 129.3710823 },
     { lat: 34.74766957581907	, lng: 137.38560186833453 }
   ],
   // LEIXOES
@@ -52,10 +52,9 @@ const path = [
     {lat: 43.26607222386634,	lng: -2.9354527783290774}
   ], 
   [
-    { lat: 34.9328653, lng: 127.7361051 },
+    { lat: 36.0197716	, lng: 129.3710823 },
     { lat: 31.8613866353963,	lng: -116.623083001353},
   ]
-
 ];
 
 const jp_line_options = {
@@ -147,6 +146,20 @@ const jp_options = {
   zIndex: 1
 }
 
+const k_options = {
+  strokeColor: '#fff200',
+  strokeOpacity: 0.8,
+  strokeWeight: 3,
+  fillColor: '#fff200',
+  fillOpacity: 0.35,
+  clickable: true,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 40000,
+  zIndex: 1
+}
+
 const cn_options = {
   strokeColor: '#2e86de',
   strokeOpacity: 0.8,
@@ -191,6 +204,7 @@ export const GoogleMapForm = () => {
   const [infoBoxFlag, setInfoBoxFlag] = useState<any>(false);
 
   const kp_center  : any = { lat: 34.9328653, lng: 127.7361051 };
+  const kp2_center  : any = { lat: 36.0197716	, lng: 129.3710823 };
   const jp_center_position : any = { lat: 34.74766957581907	, lng: 137.38560186833453 };
   const jp2_center_position : any = {lat: 35.7103001101156	, lng:	139.83069908824};
   const cn_center_postion : any = {lat: 36.088282991631374,	lng:	120.35315730520846};
@@ -235,7 +249,6 @@ export const GoogleMapForm = () => {
   };
   
   const lineClickHandle = (e: google.maps.MapMouseEvent) => {
-    console.log("show unit price!");
     setInfoBoxFlag(!infoBoxFlag);
   };
 
@@ -250,22 +263,33 @@ export const GoogleMapForm = () => {
   const circle_onUnmount = circle => {
     console.log('Circle onUnmount circle: ', circle)
   }
-  
   return (
     <LoadScript googleMapsApiKey="AIzaSyC54rGP0q3aIP_wiWu9U8GJ8trQUbr7cqk">
       <GoogleMap
         id="marker-example"
         mapContainerStyle={mapContainerStyle}
-        zoom={3}
-        center={init_center}
+        zoom={4}
+        center={kp_center}
+        options= {
+          {zoomControl:true, mapTypeControl: true, rotateControl:false}
+        }
+
       >
         {/* Korea */}
         <Circle
             onLoad={circle_onLoad}
             onUnmount={circle_onUnmount}
             center={kp_center}
-            options={jp_options}
+            options={k_options}
+            onClick={lineClickHandle}
           />
+        <Circle
+          onLoad={circle_onLoad}
+          onUnmount={circle_onUnmount}
+          center={kp2_center}
+          options={k_options}
+          onClick={lineClickHandle}
+        />
         {/* Japan */}
         <Circle
           onLoad={circle_onLoad}
@@ -279,38 +303,21 @@ export const GoogleMapForm = () => {
           options={jp_line_options}
           onClick={lineClickHandle}
         />
-        {infoBoxFlag ? (
-          <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={jp_center_position}
-        >
-          <div style={divStyle}>
-            <b>Osaka 단가</b>
-            <p>99.2 USD</p>
-          </div>
-        </InfoWindow>
-        ) : null}
         {/* ICHIKAWA */}
         <Circle
           onLoad={circle_onLoad}
           onUnmount={circle_onUnmount}
           center={jp2_center_position}
           options={jp_options}
+          onClick={lineClickHandle}
+
         />
         <Polyline
           onLoad={onLoad}
           path={path[6]}
           options={jp_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={jp2_center_position}
-        >
-          <div style={divStyle}>
-            <b>ICHIKAWA 단가</b>
-            <p>97.2 USD</p>
-          </div>
-        </InfoWindow>
         {/* QINGDAO */}
         <Circle
           onLoad={circle_onLoad}
@@ -322,16 +329,8 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[5]}
           options={cn_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={cn_center_postion}
-        >
-          <div style={divStyle}>
-            <b>QINGDAO 단가</b>
-            <p>88.7 USD</p>
-          </div>
-        </InfoWindow>
         {/* XINGANG */}
         <Circle
           onLoad={circle_onLoad}
@@ -343,38 +342,22 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[4]}
           options={cn_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={cn2_center_postion}
-        >
-          <div style={divStyle}>
-            <b>XINGANG 단가</b>
-            <p>76.7 USD</p>
-          </div>
-        </InfoWindow>
-
         {/* East Asia */}
         <Circle
           onLoad={circle_onLoad}
           onUnmount={circle_onUnmount}
           center={ea_center_postion}
           options={ea_options}
+          onClick={lineClickHandle}
         />
         <Polyline
           onLoad={onLoad}
           path={path[3]}
           options={ea_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={ea_center_postion}
-        >
-        <div style={divStyle}>
-          <b>CHENNAI 단가</b>
-          <p>196.7 USD</p>
-        </div>
-        </InfoWindow>
         <Circle
           onLoad={circle_onLoad}
           onUnmount={circle_onUnmount}
@@ -385,16 +368,8 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[2]}
           options={ea_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={ea2_center_postion}
-        >
-        <div style={divStyle}>
-          <b>JAKARTA 단가</b>
-          <p>120.7 USD</p>
-        </div>
-        </InfoWindow>
         <Circle
           onLoad={circle_onLoad}
           onUnmount={circle_onUnmount}
@@ -405,17 +380,8 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[1]}
           options={ea_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={ea3_center_postion}
-        >
-        <div style={divStyle}>
-          <b>MANILA 단가</b>
-          <p>110.7 USD</p>
-        </div>
-        </InfoWindow>
-
         {/* // SAGUNTO */}
         <Circle
           onLoad={circle_onLoad}
@@ -427,16 +393,9 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[0]}
           options={eu_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={eu_center_postion}
-        >
-          <div style={divStyle}>
-            <b>SAGUNTO 단가</b>
-            <p>110.7 USD</p>
-          </div>
-        </InfoWindow>
+        
         {/* LEIXOES */}
         <Circle
           onLoad={circle_onLoad}
@@ -448,16 +407,8 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[8]}
           options={eu_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={eu1_center_postion}
-        >
-        <div style={divStyle}>
-          <b>LEIXOES 단가</b>
-          <p>227.7 USD</p>
-        </div>
-        </InfoWindow>
         {/* BILBAO */}
         <Circle
           onLoad={circle_onLoad}
@@ -469,17 +420,8 @@ export const GoogleMapForm = () => {
           onLoad={onLoad}
           path={path[9]}
           options={eu_line_options}
+          onClick={lineClickHandle}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={eu2_center_postion}
-        >
-        <div style={divStyle}>
-          <b>BILBAO 단가</b>
-          <p>230.7 USD</p>
-        </div>
-        </InfoWindow>
-
         {/* ENSENADA */}
         <Circle
           onLoad={circle_onLoad}
@@ -489,18 +431,100 @@ export const GoogleMapForm = () => {
         />
         <Polyline
           onLoad={onLoad}
-          path={path[9]}
+          path={path[10]}
           options={u_line_options}
         />
-        <InfoWindow
-          onLoad={windowOnLoadonLoad}
-          position={u_center_postion}
-        >
-        <div style={divStyle}>
-          <b>ENSENADA 단가</b>
-          <p>520.7 USD</p>
-        </div>
-        </InfoWindow>
+        {infoBoxFlag ? (
+          <><InfoWindow
+            onLoad={windowOnLoadonLoad}
+            position={jp_center_position}
+          >
+            <div style={divStyle}>
+              <b>Osaka 단가</b>
+              <p>99.2 USD</p>
+            </div>
+          </InfoWindow><InfoWindow
+            onLoad={windowOnLoadonLoad}
+            position={jp2_center_position}
+          >
+              <div style={divStyle}>
+                <b>ICHIKAWA 단가</b>
+                <p>97.2 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={cn_center_postion}
+            >
+              <div style={divStyle}>
+                <b>QINGDAO 단가</b>
+                <p>88.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={cn2_center_postion}
+            >
+              <div style={divStyle}>
+                <b>XINGANG 단가</b>
+                <p>76.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={ea_center_postion}
+            >
+              <div style={divStyle}>
+                <b>CHENNAI 단가</b>
+                <p>196.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={ea2_center_postion}
+            >
+              <div style={divStyle}>
+                <b>JAKARTA 단가</b>
+                <p>120.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={ea3_center_postion}
+            >
+              <div style={divStyle}>
+                <b>MANILA 단가</b>
+                <p>110.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={eu_center_postion}
+            >
+              <div style={divStyle}>
+                <b>SAGUNTO 단가</b>
+                <p>110.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={eu1_center_postion}
+            >
+              <div style={divStyle}>
+                <b>LEIXOES 단가</b>
+                <p>227.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={eu2_center_postion}
+            >
+              <div style={divStyle}>
+                <b>BILBAO 단가</b>
+                <p>230.7 USD</p>
+              </div>
+            </InfoWindow><InfoWindow
+              onLoad={windowOnLoadonLoad}
+              position={u_center_postion}
+            >
+              <div style={divStyle}>
+                <b>ENSENADA 단가</b>
+                <p>520.7 USD</p>
+              </div>
+            </InfoWindow></>
+        )  : null}
       </GoogleMap>
     </LoadScript>
   );
