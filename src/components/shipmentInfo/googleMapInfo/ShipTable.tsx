@@ -19,7 +19,6 @@ const ShipTable = () => {
         cdVmeaning: "",
       });
 
-    console.log("calculateInfoData", calculateInfoData)
 
     const dateToString = (date) => {
         return (
@@ -47,39 +46,6 @@ const ShipTable = () => {
 
     return (
     <>
-      <div style={{
-            maxHeight: "200px",
-            overflowY: "auto"
-          }} >
-      <Table bordered style={{ width:"100%"}} id="table-sample">
-            <thead style={{ textAlign: "center" }}>
-                <tr id="tableForm" className="table-secondary">
-                  <th>제철소코드</th>
-                  <th>권역</th>
-                  <th>물류 실행사명</th>
-                  <th>선적일자</th>
-                  <th>지시번호</th>
-                  <th>선박코드</th>
-                  <th>선박명</th>
-                </tr>
-              </thead>
-              <tbody style={{ textAlign: "center" }}>
-              <>
-                {calculateInfoData.data?.map((data, index) => (
-                  <tr key={index} aria-rowcount={index}>
-                    <td>{data.fac_cd}</td>
-                    <td id="nationNm">{data.nation_nm}</td>
-                    <td id="lspNm">{data.cd_v_meaning}</td>
-                    <td>{dateToString(to_date(data.bl_date))}</td>
-                    <td>{data.trans_order_no}</td>
-                    <td>{data.vsl_cd}</td>
-                    <td id="vslNm">{data.vsl_nm}</td>
-                  </tr>
-                ))}
-              </>
-            </tbody>
-          </Table>
-      </div>
     </>
     )
 }

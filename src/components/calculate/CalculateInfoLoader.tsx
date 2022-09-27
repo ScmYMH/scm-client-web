@@ -76,7 +76,7 @@ const CalculateInfoLoader = () => {
           </div>
         </header>
       </div>
-      <Card style={{ marginLeft: "2em", minHeight: "50em", width: "80em" }}>
+      <Card style={{ margin: "1rem", height: "90vh", maxWidth:"80vw" }}>
         <CalculateInfoForm
           calculateDetailCodeData={calculateDetailCodeData}
           onSubmitCalculateDetailInfo={onSubmitCalculateDetailInfo}
