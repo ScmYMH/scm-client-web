@@ -55,7 +55,6 @@ const TariffExcelModal = ({
 
   const onSubmitExcelData = () => {
     const tariffInfo = {};
-
     const excelData = jsonData.map((data) => {
       return {
         dep_cd: data.출발지코드,
