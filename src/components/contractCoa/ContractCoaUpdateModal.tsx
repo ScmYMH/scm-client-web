@@ -338,7 +338,7 @@ const ContractCoaUpdateModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        <option>{updParams.data?.cntrt_tcd_name}</option>
+                        <option>공통단가-국제해송 COA</option>
                         <option>----</option>
                         {baseCodeData.data
                           ?.filter((data) => data.cd_tp === "CNTRT_TCD")

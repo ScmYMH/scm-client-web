@@ -206,6 +206,7 @@ const ContractCoaCopyModal = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
+  console.log(updParams)
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -285,11 +286,13 @@ const ContractCoaCopyModal = ({
                           borderRadius: 0,
                         }}
                       >
-                        {baseCodeData.data?.slice(10, 12).map((option) => (
-                          <option key={option.cd_v} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TYP_GCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -349,13 +352,15 @@ const ContractCoaCopyModal = ({
                           })
                         }
                       >
-                        <option>{updParams.data?.cntrt_tcd_name}</option>
-                        <option>---</option>
-                        {baseCodeData.data?.slice(12, 22).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
-                            {option.cd_v_meaning}
-                          </option>
-                        ))}
+                        <option>공통단가-국제해송 COA</option>
+                        <option>----</option>
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CNTRT_TCD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v_meaning}
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
@@ -555,11 +560,13 @@ const ContractCoaCopyModal = ({
                         }}
                       >
                         <option selected>{updParams.data.cntrt_curr_cd}</option>
-                        {baseCodeData.data?.slice(24, 38).map((option) => (
-                          <option key={option.value} value={option.cd_v}>
-                            {option.cd_v} [{option.cd_v_meaning}]
-                          </option>
-                        ))}
+                        {baseCodeData.data
+                          ?.filter((data) => data.cd_tp === "CURR_CD")
+                          .map((option) => (
+                            <option key={option.cd_v} value={option.cd_v}>
+                              {option.cd_v} [{option.cd_v_meaning}]
+                            </option>
+                          ))}
                       </Input>
                     </div>
                   </td>
