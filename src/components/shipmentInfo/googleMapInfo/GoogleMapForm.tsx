@@ -4,13 +4,12 @@ import { Polyline, GoogleMap, LoadScript, InfoWindow, InfoBox, Circle } from "@r
 import { useSelector } from "react-redux";
 import { RootState } from "modules";
 
+
 const path = [
+  // SAGUNTO
   [
     { lat: 34.9328653, lng: 127.7361051 },
-    { lat: 31.090396564020192, lng: 128.64815478753206 },
-    { lat: 21.04961147500605, lng: 154.03320910099987 },
-    { lat: 25.503442799160354, lng: -159.09579921666798 },
-    { lat: 34.07364171303651, lng: -118.23872946479459 },
+    {lat: 39.6806472697051,	lng: -0.28074160823030697},
   ],
   [
     { lat: 34.9328653, lng: 127.7361051 },
@@ -42,6 +41,21 @@ const path = [
     { lat: 34.9328653, lng: 127.7361051 },
     { lat: 34.74766957581907	, lng: 137.38560186833453 }
   ],
+  // LEIXOES
+  [
+    { lat: 34.9328653, lng: 127.7361051 },
+    {lat: 41.1830999025114,	lng: -8.702411896270204}
+  ],
+  // BILBAO
+  [
+    { lat: 34.9328653, lng: 127.7361051 },
+    {lat: 43.26607222386634,	lng: -2.9354527783290774}
+  ], 
+  [
+    { lat: 34.9328653, lng: 127.7361051 },
+    { lat: 31.8613866353963,	lng: -116.623083001353},
+  ]
+
 ];
 
 const jp_line_options = {
@@ -80,8 +94,9 @@ const ea_line_options = {
   radius: 30000,
   zIndex: 1,
 };
-const options4 = {
-  strokeColor: "#fed330",
+
+const eu_line_options = {
+  strokeColor: "#44bd32",
   strokeOpacity: 0.8,
   strokeWeight: 4,
   fillOpacity: 0.35,
@@ -92,8 +107,8 @@ const options4 = {
   radius: 30000,
   zIndex: 1,
 };
-const options5 = {
-  strokeColor: "#a55eea",
+const u_line_options = {
+  strokeColor: "#7158e2",
   strokeOpacity: 0.8,
   strokeWeight: 4,
   fillOpacity: 0.35,
@@ -104,38 +119,95 @@ const options5 = {
   radius: 30000,
   zIndex: 1,
 };
-const options6 = {
-  strokeColor: "#ff9f1a",
+
+const eu_options = {
+  strokeColor: '#44bd32',
   strokeOpacity: 0.8,
-  strokeWeight: 4,
+  strokeWeight: 3,
+  fillColor: '#44bd32',
   fillOpacity: 0.35,
-  clickable: true,
+  clickable: false,
   draggable: false,
   editable: false,
   visible: true,
-  radius: 30000,
-  zIndex: 1,
-};
+  radius: 40000,
+  zIndex: 1
+}
+const jp_options = {
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 3,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 40000,
+  zIndex: 1
+}
+
+const cn_options = {
+  strokeColor: '#2e86de',
+  strokeOpacity: 0.8,
+  strokeWeight: 3,
+  fillColor: '#2e86de',
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 40000,
+  zIndex: 1
+}
+const ea_options = {
+  strokeColor: '#ff9f43',
+  strokeOpacity: 0.8,
+  strokeWeight: 3,
+  fillColor: '#ff9f43',
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 40000,
+  zIndex: 1
+}
+
+const u_options = {
+  strokeColor: '#ff9f43',
+  strokeOpacity: 0.8,
+  strokeWeight: 3,
+  fillColor: '#ff9f43',
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 40000,
+  zIndex: 1
+}
 export const GoogleMapForm = () => {
   const [infoBoxFlag, setInfoBoxFlag] = useState<any>(false);
-  // INDMAAP01	CHENNAI	EA			
-  // IDNJKTP03	JAKARTA-G-CTN	EA		ID	N	20130315	170001	Admin	20160304	110825	20140428000004	-6.298582860801025	106.85948711929437
-  // PHLMNLP02	MANILA-CTN	EA		PL	N	20130315	170001	Admin	20160304	110825	20140428000004	14.616201266893077	120.99588896466769
-  // ESPSAGP01	SAGUNTO	E		SP	N	20130315	170001	Admin	20160304	110825	20140428000004	39.6806472697051	-0.28074160823030697
-  // PRTLEIP01	LEIXOES	E		PG	N	20130315	170001	Admin	20160304	110825	20140428000004	41.1830999025114	-8.702411896270204
-  // ESPBIOP01	BILBAO	E		SP	N	20130315	170001	Admin	20160304	110825	20140428000004	43.26607222386634	-2.9354527783290774
+
   const kp_center  : any = { lat: 34.9328653, lng: 127.7361051 };
   const jp_center_position : any = { lat: 34.74766957581907	, lng: 137.38560186833453 };
   const jp2_center_position : any = {lat: 35.7103001101156	, lng:	139.83069908824};
   const cn_center_postion : any = {lat: 36.088282991631374,	lng:	120.35315730520846};
   const cn2_center_postion : any = {lat: 38.99162556774881,	lng:	117.74821047515125};
   // CHENNAI
-  const ea_center_postion : any = {lat: 13.100326514288318,	lng:	80.25226140026038}
+  const ea_center_postion : any = {lat: 13.100326514288318,	lng:	80.25226140026038};
   // JAKARTA
-  const ea2_center_postion : any = {lat: -6.298582860801025,	lng:	106.85948711929437}
+  const ea2_center_postion : any = {lat: -6.298582860801025,	lng:	106.85948711929437};
   // MANILA
-  const ea3_center_postion : any = {lat: 14.616201266893077,	lng:120.99588896466769}
-
+  const ea3_center_postion : any = {lat: 14.616201266893077,	lng:120.99588896466769};
+  // SAGUNTO
+  const eu_center_postion : any = {lat: 39.6806472697051,	lng: -0.28074160823030697};
+  // LEIXOES
+  const eu1_center_postion : any = {lat: 41.1830999025114,	lng: -8.702411896270204};
+  // BILBAO
+  const eu2_center_postion : any = {lat: 43.26607222386634,	lng: -2.9354527783290774};
+  const u_center_postion : any = {lat: 31.8613866353963,	lng: -116.623083001353};
 
   const windowOnLoadonLoad = infoWindow => {
     console.log('infoWindow: ', infoWindow)
@@ -177,47 +249,6 @@ export const GoogleMapForm = () => {
   
   const circle_onUnmount = circle => {
     console.log('Circle onUnmount circle: ', circle)
-  }
-
-  const jp_options = {
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 3,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    visible: true,
-    radius: 40000,
-    zIndex: 1
-  }
-
-  const cn_options = {
-    strokeColor: '#2e86de',
-    strokeOpacity: 0.8,
-    strokeWeight: 3,
-    fillColor: '#2e86de',
-    fillOpacity: 0.35,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    visible: true,
-    radius: 40000,
-    zIndex: 1
-  }
-  const ea_options = {
-    strokeColor: '#ff9f43',
-    strokeOpacity: 0.8,
-    strokeWeight: 3,
-    fillColor: '#ff9f43',
-    fillOpacity: 0.35,
-    clickable: false,
-    draggable: false,
-    editable: false,
-    visible: true,
-    radius: 40000,
-    zIndex: 1
   }
   
   return (
@@ -364,7 +395,6 @@ export const GoogleMapForm = () => {
           <p>120.7 USD</p>
         </div>
         </InfoWindow>
-
         <Circle
           onLoad={circle_onLoad}
           onUnmount={circle_onUnmount}
@@ -386,36 +416,91 @@ export const GoogleMapForm = () => {
         </div>
         </InfoWindow>
 
-        {/* <Polyline
-          onLoad={onLoad}
-          path={path[1]}
-          options={options2}
-          onClick={lineClickHandle}
+        {/* // SAGUNTO */}
+        <Circle
+          onLoad={circle_onLoad}
+          onUnmount={circle_onUnmount}
+          center={eu_center_postion}
+          options={eu_options}
         />
         <Polyline
           onLoad={onLoad}
-          path={path[2]}
-          options={options3}
-          onClick={lineClickHandle}
+          path={path[0]}
+          options={eu_line_options}
+        />
+        <InfoWindow
+          onLoad={windowOnLoadonLoad}
+          position={eu_center_postion}
+        >
+          <div style={divStyle}>
+            <b>SAGUNTO 단가</b>
+            <p>110.7 USD</p>
+          </div>
+        </InfoWindow>
+        {/* LEIXOES */}
+        <Circle
+          onLoad={circle_onLoad}
+          onUnmount={circle_onUnmount}
+          center={eu1_center_postion}
+          options={eu_options}
         />
         <Polyline
           onLoad={onLoad}
-          path={path[3]}
-          options={options4}
-          onClick={lineClickHandle}
+          path={path[8]}
+          options={eu_line_options}
+        />
+        <InfoWindow
+          onLoad={windowOnLoadonLoad}
+          position={eu1_center_postion}
+        >
+        <div style={divStyle}>
+          <b>LEIXOES 단가</b>
+          <p>227.7 USD</p>
+        </div>
+        </InfoWindow>
+        {/* BILBAO */}
+        <Circle
+          onLoad={circle_onLoad}
+          onUnmount={circle_onUnmount}
+          center={eu2_center_postion}
+          options={eu_options}
         />
         <Polyline
           onLoad={onLoad}
-          path={path[4]}
-          options={options5}
-          onClick={lineClickHandle}
+          path={path[9]}
+          options={eu_line_options}
+        />
+        <InfoWindow
+          onLoad={windowOnLoadonLoad}
+          position={eu2_center_postion}
+        >
+        <div style={divStyle}>
+          <b>BILBAO 단가</b>
+          <p>230.7 USD</p>
+        </div>
+        </InfoWindow>
+
+        {/* ENSENADA */}
+        <Circle
+          onLoad={circle_onLoad}
+          onUnmount={circle_onUnmount}
+          center={u_center_postion}
+          options={u_options}
         />
         <Polyline
           onLoad={onLoad}
-          path={path[5]}
-          options={options6}
-          onClick={lineClickHandle}
-        /> */}
+          path={path[9]}
+          options={u_line_options}
+        />
+        <InfoWindow
+          onLoad={windowOnLoadonLoad}
+          position={u_center_postion}
+        >
+        <div style={divStyle}>
+          <b>ENSENADA 단가</b>
+          <p>520.7 USD</p>
+        </div>
+        </InfoWindow>
       </GoogleMap>
     </LoadScript>
   );
