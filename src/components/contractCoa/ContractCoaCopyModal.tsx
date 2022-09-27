@@ -43,8 +43,8 @@ interface ContractCoaCopyModalProps {
   updParams: any;
   tariffInfoConditon: any;
   onSubmitTariffInfo: (params: any) => void;
-  regiChkFlag:any;
-  setRegiChkFlag:any;
+  regiChkFlag: any;
+  setRegiChkFlag: any;
 }
 
 const ContractCoaCopyModal = ({
@@ -178,7 +178,7 @@ const ContractCoaCopyModal = ({
           cntrtEndDate: contractInfoParams.cntrtEndDate,
           allTariffInfoList: allTariffInfo,
         })
-      ); 
+      );
     }
   };
 
@@ -206,7 +206,7 @@ const ContractCoaCopyModal = ({
 
     return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate));
   }
-  console.log(updParams)
+  console.log(updParams);
   return (
     <>
       <Modal isOpen={isOpen} toggle={closeModal} size="xl">
@@ -628,7 +628,6 @@ const ContractCoaCopyModal = ({
               <Table bordered>
                 <thead style={{ textAlign: "center" }}>
                   <tr className="table-secondary">
-                    <th></th>
                     <th>타리프 ID</th>
                     <th>타리프설명</th>
                     <th>사업유형</th>
@@ -656,9 +655,6 @@ const ContractCoaCopyModal = ({
                         }}
                         onClick={onClickTariffModal}
                       >
-                        <th scope="row">
-                          <Input type="checkbox" />
-                        </th>
                         <td style={{ padding: 10 }}>{data.trff_nm}</td>
                         <td style={{ padding: 10 }}>{data.trff_desc}</td>
                         <td style={{ padding: 10 }}>{data.biz_nm}</td>
