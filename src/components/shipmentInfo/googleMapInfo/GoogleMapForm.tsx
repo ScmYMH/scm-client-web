@@ -237,7 +237,7 @@ export const GoogleMapForm = () => {
     console.log('polyline: ', polyline)
   };
 
-  const init_center = {
+  const init_center: any = {
     lat: 34.9328653,
     lng: 127.7361051,
   };
@@ -263,15 +263,22 @@ export const GoogleMapForm = () => {
   const circle_onUnmount = circle => {
     console.log('Circle onUnmount circle: ', circle)
   }
+  const options : any= {
+    zoomControlOptions: {
+      position: 'center',
+      // ...otherOptions
+    }
+  }
+
   return (
     <LoadScript googleMapsApiKey="AIzaSyC54rGP0q3aIP_wiWu9U8GJ8trQUbr7cqk">
       <GoogleMap
         id="marker-example"
         mapContainerStyle={mapContainerStyle}
         zoom={4}
-        center={kp_center}
+        center={init_center}
         options= {
-          {zoomControl:true, mapTypeControl: true, rotateControl:false}
+          options
         }
       >
         {/* Korea */}

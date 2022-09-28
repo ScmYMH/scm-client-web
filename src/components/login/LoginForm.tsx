@@ -58,9 +58,15 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
         <img
           src={"../../images/posco_ict_logi.png"}
           alt="Logo"
-          style={{ width: 200 }}
+          style={{ width: 200, marginBottom:"10px"}}
         ></img>
-        <div className="login" style={{ marginTop: 50 }}>
+        <br></br>
+        <img
+          src={"../../images/slog_black.png"}
+          alt="Logo"
+          style={{ width: 400 }}
+        ></img>
+        <div className="login" style={{ marginTop: 30 }}>
           <div>
             <Form onSubmit={onSubmit} className="LoginForm">
               {isFail ? (
@@ -91,7 +97,6 @@ const LoginForm = ({ onSubmitLoginId }: loginFormProps) => {
                   onChange={onChange}
                 ></Input>
               </div>
-
               <div
                 style={{
                   marginTop: "50px",

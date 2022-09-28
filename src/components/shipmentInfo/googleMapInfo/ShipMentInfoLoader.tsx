@@ -25,7 +25,7 @@ const ShipMentInfoLoader = () => {
               }}
             >
               <h5 style={{ fontWeight: "bold", color: "#003366" }}>
-                ● 국제 해송 선박 구글 맵 제공
+                ● 계약 단가 및 정산 관리 시각화
               </h5>
             </div>
           </div>

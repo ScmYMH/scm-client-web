@@ -62,17 +62,6 @@ const Sidenav = () => {
             style={{ backgroundColor: "white", color: "#333333" }}
           >
             <Menu style={{ fontWeight: "bold", marginTop: 30 }}>
-              {/* <span style={{ marginLeft: 20, marginTop: 20 }}>Home</span>
-              <MenuItem
-                style={{
-                  marginTop: 20,
-                }}
-                active={true}
-                icon={<FiAlignJustify />}
-              >
-                <Link to="/dashboard">DashBoard</Link>
-              </MenuItem>
-              <hr></hr> */}
               <span style={{ marginLeft: 20, marginTop: 20 }}>계약 관리</span>
               <MenuItem
                 style={{
@@ -83,15 +72,8 @@ const Sidenav = () => {
               >
                 <Link to="/coa">운송 계약 관리</Link>
               </MenuItem>
-              <hr></hr>
-              <span style={{ marginLeft: 20, marginTop: 30 }}>
-                계약 담당자 관리
-              </span>
               <MenuItem
                 icon={<FiAlignJustify />}
-                style={{
-                  marginTop: 20,
-                }}
                 active={true}
               >
                 <Link to="/contractMember">계약 담당자 등록</Link>
@@ -113,13 +95,13 @@ const Sidenav = () => {
                 <Link to="/calculate">국제해송비정산</Link>
               </MenuItem>
               <hr></hr>
-              <span style={{ marginLeft: 20, marginTop: 30 }}>선적 정보</span>
+              <span style={{ marginLeft: 20, marginTop: 30 }}>분석</span>
               <MenuItem
                 style={{ marginTop: 20 }}
                 icon={<FiAlignJustify />}
                 active={true}
               >
-                <Link to="/shipmentInfo">구글 맵 선적 정보</Link>
+                <Link to="/shipmentInfo">계약 및 정산 현황 시각화</Link>
               </MenuItem>
             </Menu>
           </SidebarContent>

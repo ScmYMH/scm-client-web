@@ -72,7 +72,7 @@ const ContractCoaCopyModal = ({
     });
   };
   const nowUserId = localStorage.getItem("userId");
-  const nowUserNm = localStorage.getItem("userNm");
+  const nowUserNm : any = localStorage.getItem("userNm");
   const baseCodeData = useSelector(
     (state: RootState) => state.baseCode.baseCode
   );
@@ -392,7 +392,7 @@ const ContractCoaCopyModal = ({
                       <Input
                         id="crePersonId"
                         name="crePersonId"
-                        defaultValue={updParams.data?.user_nm}
+                        defaultValue={nowUserNm || ""}
                         value={addMember[0]?.userNm}
                         onChange={(e) =>
                           setContractInfoParamas({

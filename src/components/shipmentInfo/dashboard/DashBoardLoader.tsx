@@ -81,7 +81,7 @@ const DashBoardLoader = () => {
         }}
       >
         <h5 style={{ fontWeight: "bold", color: "#003366" }}>
-          ● 구글 맵 선적 정보
+          ● 계약 단가 및 정산 관리 시각화
         </h5>
       </div>
       <Card style={{ margin: "1rem" }}>

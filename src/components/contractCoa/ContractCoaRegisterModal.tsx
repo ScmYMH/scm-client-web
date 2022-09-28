@@ -378,7 +378,8 @@ const ContractCoaRegisterModal = ({
 
                           borderRadius: 0,
                         }}
-                      />
+                      /> 
+                      
                       <HiSearch
                         style={{ marginLeft: 10, cursor: "pointer" }}
                         onClick={() => {
